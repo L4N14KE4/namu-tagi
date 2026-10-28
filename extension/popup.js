@@ -147,8 +147,9 @@ for (const input of document.querySelectorAll('.row input')) {
 
 // ---- 게임 시작 ----
 // 무작위 목표: words.js 목록(정식 이름, 역링크 수로 나눈 난이도)에서 뽑는다. 최근에 나온 단어는 피하고, 다 쓰면 그 난이도만 다시 돈다.
+// 난이도가 없으면(직접 출제에서 목표를 비움) 난이도부터 셋 중 하나를 고른다. 목록 전체에서 뽑으면 어려움(약 64%)으로 쏠린다.
 const pickGoal = async diff => {
-  const pool = diff ? LR_WORDS[diff] : [...LR_WORDS.easy, ...LR_WORDS.normal, ...LR_WORDS.hard];
+  const pool = LR_WORDS[diff || ['easy', 'normal', 'hard'][Math.floor(Math.random() * 3)]];
   let { used = [] } = await store.get('used');
   let left = pool.filter(w => !used.includes(w));
   if (!left.length) { left = pool; used = used.filter(w => !pool.includes(w)); }
