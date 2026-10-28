@@ -94,7 +94,9 @@
 
 ## 설치
 
-크롬 웹스토어 등록을 준비하고 있습니다. 그 전에는 직접 설치할 수 있습니다.
+[크롬 웹스토어](https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi)에서 설치할 수 있습니다(심사를 마치면 열립니다).
+
+직접 설치하려면 다음 순서를 따라 주세요.
 
 1. 이 저장소를 내려받아 압축을 풉니다.
 2. 크롬에서 `chrome://extensions`를 열고 오른쪽 위 **개발자 모드**를 켭니다.
@@ -113,6 +115,7 @@ node scripts/build-words.mjs    # 무작위 단어 목록(extension/words.js) �
 node scripts/build-hubs.mjs     # 허브 문서 목록(extension/hubs.js) 다시 만들기
 node scripts/check-daily.mjs    # 오늘의 문제가 겹치지 않는지 확인
 python3 e2e/popup-harness/build.py <빈 폴더>    # 팝업을 localhost에서 열어 보는 시험 페이지 만들기
+mkdir -p dist && git archive --format=zip -o dist/namu-tagi-v$(node -p "require('./extension/manifest.json').version").zip HEAD:extension    # 웹스토어에 올릴 zip 만들기(커밋된 extension 폴더만 담음)
 ```
 
 자세한 동작과 바꾼 이유는 [개발 노트](docs/DEVELOPMENT.md)에 있습니다.

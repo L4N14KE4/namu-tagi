@@ -924,8 +924,8 @@
   };
 
   // 공유하기: 닉네임을 받아 결과 문구를 복사한다. 링크는 같은 문제를 시작 문서에서 바로 여는 #ng-goal 형식.
-  // ponytail: 웹스토어 등록 전이라 설치 링크는 자리표시자다. 등록하면 STORE_URL의 EXTENSION_ID만 실제 ID로 바꾼다.
-  const STORE_URL = 'https://chromewebstore.google.com/detail/namutagi/EXTENSION_ID';
+  // 웹스토어 주소. 가운데 'namutagi'는 웹스토어가 무시하는 이름 자리이고 뒤의 확장 ID로 찾아간다.
+  const STORE_URL = 'https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi';
   // 도전장 링크에는 내 이름·단계·시간·경로를 담는다. 받은 사람은 진행 막대에서 내 기록을 보고, 끝나면 경로를 비교한다.
   const shareText = nick => {
     const steps = state.path.length - 1;
@@ -935,7 +935,7 @@
     return (daily ? `나무타기 ${dayLabel(state.day)}의 문제\n` : '') +
       `${nick}님이 ${state.start} 문서에서 ${state.goal} 문서로 ${took(state.finishedAt)} 만에 ${steps}단계로 이동했어요.\n` +
       (ruleItems(state.rules).length ? `조건: ${ruleItems(state.rules).join(', ')}\n` : '') +
-      `같은 문제에 도전해 보세요 👉 ${link}\n도전하려면 확장을 먼저 설치해야 해요.\n나무타기 확장 설치 👉 ${STORE_URL}`; // 확장이 없으면 링크는 그냥 나무위키 문서로 열린다
+      `같은 문제에 도전해 보세요 ⚔️ ${link}\n도전하려면 확장을 먼저 설치해야 해요.\n나무타기 확장 설치 👉 ${STORE_URL}`; // 확장이 없으면 링크는 그냥 나무위키 문서로 열린다
   };
   // 닉네임을 비워 두면 쓰는 자동 이름("명랑한 다람쥐"). 처음 한 번 만들어 저장해 두고, 직접 쓴 닉네임이 있으면 그것을 쓴다.
   const NICK_ADJ = ['명랑한', '용감한', '느긋한', '씩씩한', '부지런한', '엉뚱한', '수줍은', '듬직한', '재빠른', '졸린', '배고픈', '호기심 많은',
