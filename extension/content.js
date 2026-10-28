@@ -572,7 +572,7 @@
   // 도전장 상대를 이겼거나, 내 기록을 깼거나, 오늘의 문제를 풀었으면 폭죽. 여럿이어도 한 번.
   const celebrate = () => {
     paintBest();
-    if (vsWin() || state.best || state.mode === 'daily') burst();
+    if (state.vs ? vsWin() : (state.best || state.mode === 'daily')) burst(); // 도전장 판은 이겨야만 터진다
   };
 
   // ---- 로컬 기록 ----
@@ -779,24 +779,22 @@
         .bar .chip { font-size: 12px; padding: 1px 7px; border-radius: 9px; background: rgba(255,255,255,.2); white-space: nowrap; }
         .bar .chip.d-easy { background: #28b472; } .bar .chip.d-normal { background: #ec9f19; color: #1c1d1f; } .bar .chip.d-hard { background: #d64a58; } .bar .chip.d-wild { background: #8e5ce6; } /* 팝업의 난이도 버튼 색 */
         :host(:not([data-theme="dark"])) .bar .chip[class*=" d-"] { box-shadow: 0 0 0 1px #fff; } /* 밝은 막대(청록~초록)에서 쉬움 초록이 묻히지 않게 얇은 흰 테두리. 크기는 안 변한다. 다크 막대는 회색이라 필요 없다 */
-        .bar .vs { font-size: 12px; opacity: .9; white-space: nowrap; }
+        .bar .vs { display: inline-flex; align-items: center; gap: 8px; padding: 3px 11px; border-radius: 13px; background: rgba(255,255,255,.18); font-size: 13px; white-space: nowrap; }
+        .bar .vs b { font-variant-numeric: tabular-nums; }
         .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
         .compare h3 { font-size: 13px; margin: 0 0 4px; color: var(--muted); font-weight: 600; }
         .compare .rec { font-size: 14px; font-weight: 700; margin: 0 0 8px; }
+        .locked { position: relative; }
+        .locked ol { filter: blur(5px); user-select: none; pointer-events: none; }
+        .locked span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
         .compare ol { margin: 0; padding-left: 20px; font-size: 14px; }
-        /* 상대 경로는 처음엔 흐리게 가리고 눌러야 보인다(재도전할 때 힌트를 보고 싶지 않을 수 있다) */
-        .veil { position: relative; cursor: pointer; }
-        .veil ol { filter: blur(5px); user-select: none; transition: filter .15s; }
-        .veil::after { content: '눌러서 보기'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
-        .veil.on { cursor: default; }
-        .veil.on ol { filter: none; user-select: auto; }
-        .veil.on::after { content: none; }
         .verdict { font-weight: 700; margin: 4px 0 0; }
+        .verdict2 { margin: 2px 0 0; color: var(--muted); }
         .verdict.best { color: var(--primary); }
         .rchips { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 10px 0 2px; }
         .rchips i { flex-basis: 100%; font-style: normal; color: var(--muted); font-size: 14px; margin-bottom: 2px; }
         .rchips span { padding: 1px 9px; border-radius: 10px; background: var(--soft); border: 1px solid var(--border); font-size: 12.5px; line-height: 1.6; white-space: nowrap; }
-        .bar .time { font-variant-numeric: tabular-nums; min-width: 66px; }
+        .bar .time { font-variant-numeric: tabular-nums; min-width: 66px; text-align: center; }
         .bar .time.rem { min-width: 7.5em; text-align: center; } /* 남은 시간은 글자 수가 달라도 막대가 덜 흔들리게 폭을 잡는다 */
         .preview { display: flex; gap: 12px; align-items: stretch;
                    width: 0; min-width: 100%; box-sizing: border-box; background: var(--card); /* 폭 0 + 최소 100%: 막대 폭에 맞춘다(설명이 막대를 넓히지 않는다) */ color: var(--text); border: 1px solid var(--border);
@@ -952,7 +950,6 @@
   // 공유 문구용 걸린 시간: "1분 23.45초", 1분 안이면 "23.45초"
   const took = ms => { const cs = Math.floor(ms / 10), m = Math.floor(cs / 6000); return (m ? `${m}분 ` : '') + `${((cs % 6000) / 100).toFixed(2)}초`; };
   // 눌러서 볼 때까지 흐리게 가리는 덮개(상대 경로용)
-  const veil = child => { const on = () => box.classList.add('on'); const box = el('div', { className: 'veil', tabIndex: 0, title: '눌러서 보기', onclick: on, onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); on(); } } }, child); return box; };
   const button = (text, onclick, primary) => el('button', { className: 'btn' + (primary ? ' primary' : ''), textContent: text, onclick });
   const showCard = (title, body, actions, big) => {
     $('.title').textContent = title; $('.title').classList.toggle('big', !!big);
@@ -1058,7 +1055,10 @@
       state.rules.nr && '재방문 금지', state.rules.ms && `${state.rules.ms}단계 제한`, state.rules.tl && `${limitText(state.rules.tl)} 제한`].filter(Boolean);
     if ($('.chips').dataset.v !== chips.join()) { $('.chips').dataset.v = chips.join(); $('.chips').replaceChildren(...chips.map(t => el('span', { className: 'chip' + (state.diff && t === DIFF[state.diff] ? ' d-' + state.diff : ''), textContent: t }))); }
     $('.vs').hidden = !state.vs;
-    if (state.vs) $('.vs').textContent = `vs ${state.vs.by} ${state.vs.steps}단계 ${fmt(state.vs.ms)}`;
+    if (state.vs && $('.vs').dataset.v !== state.vs.by) { // 이름, 단계, 시간을 따로 떼어 간격으로 나눈다
+      $('.vs').dataset.v = state.vs.by;
+      $('.vs').replaceChildren(el('span', { textContent: `vs ${state.vs.by}` }), el('span', { textContent: `${state.vs.steps}단계` }), el('b', { textContent: fmt(state.vs.ms) }));
+    }
     $('.newq').hidden = !(playing && (state.mode === 'random' || (state.mode === 'custom' && state.rs)) && !state.vs); // 도전 중에는 문제를 못 바꾼다
     $('.retrybtn').hidden = !(playing || (state.status === 'starting' && state.start)); // 카운트다운 동안에도 보여 막대 폭이 시작 때 튀지 않게(눌러지지는 않는다). 무작위 시작이 아직 안 정해졌으면(start 없음) 숨긴다.
     if (state.status === 'invalid' && state.startedAt && state.finishedAt == null) { state.finishedAt = elapsed(); save(state); } // 진 판도 끝난 순간의 시간을 굳힌다(안 그러면 0으로 보인다)
@@ -1074,17 +1074,20 @@
       const v = state.vs;
       const sec = x => (Math.abs(x) / 1000).toFixed(2) + '초', dSteps = steps - (v ? v.steps : 0);
       const verdict = !v ? null : !done ? `${v.by}님은 ${v.steps}단계, ${fmt(v.ms)}에 도착했어요` :
-        state.finishedAt < v.ms ? `${v.by}님보다 ${sec(v.ms - state.finishedAt)} 빨라요! 이겼어요` :
+        state.finishedAt < v.ms ? `${v.by}님보다 ${sec(v.ms - state.finishedAt)} 빨라요` :
         state.finishedAt > v.ms ? `${v.by}님보다 ${sec(state.finishedAt - v.ms)} 느려요` :
-        dSteps < 0 ? `${v.by}님과 같은 시간인데 ${-dSteps}단계 적어요! 이겼어요` : dSteps > 0 ? `${v.by}님과 같은 시간인데 ${dSteps}단계 많아요` : `${v.by}님과 똑같아요`;
-      const verdict2 = v && done && dSteps && state.finishedAt !== v.ms ? `(단계는 ${Math.abs(dSteps)}단계 ${dSteps > 0 ? '많아요' : '적어요'})` : null;
+        dSteps < 0 ? `${v.by}님과 같은 시간인데 ${-dSteps}단계 적어요` : dSteps > 0 ? `${v.by}님과 같은 시간인데 ${dSteps}단계 많아요` : `${v.by}님과 똑같아요`;
+      const verdict2 = v && done && dSteps && state.finishedAt !== v.ms ? `단계는 ${Math.abs(dSteps)}단계 ${dSteps > 0 ? '많아요' : '적어요'}` : null;
       const rec = (n, s, ms) => [el('h3', { textContent: n }), el('p', { className: 'rec', textContent: `${s}단계, ${fmt(ms)}` })];
+      // 상대 경로는 이겼을 때만 보인다. 졌으면 흐리게 가리고, 실제 문서 이름은 화면에 아예 넣지 않는다(자리 글자만).
+      const oppPath = v => { const win = vsWin(), ol = el('ol', {}, ...v.path.map((d, i) => el('li', {}, ...dt(win ? v.times : v.times?.map(() => 0), i), win ? d : '■'.repeat(Math.max(2, d.length)))));
+        return win ? ol : el('div', { className: 'locked', textContent: '' }, ol, el('span', { textContent: '이기면 볼 수 있어요' })); };
       const pathView = v && v.path.length ? el('div', { className: 'compare' },
         el('div', {}, ...(done ? rec('내 경로', steps, state.finishedAt) : [el('h3', { textContent: '내 경로' })]), list),
-        el('div', {}, ...rec(`${v.by}님 경로`, v.steps, v.ms), veil(el('ol', {}, ...v.path.map((d, i) => el('li', {}, ...dt(v.times, i), d)))))) : el('div', {}, el('h3', { className: 'sec', textContent: '이동기록' }), list);
-      showCard(done ? '도착!' : '게임 종료',
+        el('div', {}, ...rec(`${v.by}님 경로`, v.steps, v.ms), oppPath(v))) : el('div', {}, el('h3', { className: 'sec', textContent: '이동기록' }), list);
+      showCard(done ? (vsWin() ? '승리!' : '도착!') : '게임 종료',
         [...(done ? [el('p', { className: 'result', textContent: `${steps}단계, ${fmt(state.finishedAt)}` })] : []),
-          ...(state.reason ? [el('p', { textContent: state.reason })] : []), ...(verdict ? [el('p', { className: 'verdict', textContent: verdict })] : []), ...(verdict2 ? [el('p', { textContent: verdict2 })] : []),
+          ...(state.reason ? [el('p', { textContent: state.reason })] : []), ...(verdict ? [el('p', { className: 'verdict', textContent: verdict })] : []), ...(verdict2 ? [el('p', { className: 'verdict2', textContent: verdict2 })] : []),
           ...(ruleItems(state.rules).length ? [ruleChips('조건', ruleItems(state.rules))] : []), pathView],
         [...(done ? [button('공유하기', openShare, true)] : []), ...(canRetry ? [button('다시하기', retry, !done)] : []), button('닫기', quit)], true);
       $('.card').classList.toggle('wide', !!(v && v.path.length)); // 두 경로를 나란히 보여 줄 때만 넓힌다

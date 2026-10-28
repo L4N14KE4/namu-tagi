@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "나무타기 (나무위키용 비공식 위키게임, 프로토타입)",
-  "version": "0.33.5",
+  "version": "0.33.9",
   "description": "나무위키에서 시작 문서부터 목표 문서까지 본문 링크만 눌러 도달하는 게임. 비공식 프로토타입.",
   "permissions": [
     "activeTab",
