@@ -54,7 +54,8 @@ git 저장소: GitHub `L4N14KE4/namu-game`(비공개), 브랜치 main. 2026-10-2
 | `vendor/` | canvas-confetti 1.9.4(ISC). 웹스토어는 원격 코드 금지라 파일로 담았다. `LICENSE-lucide.txt`는 아이콘 라이선스(Lucide ISC + Feather MIT): 환영 페이지 줄 아이콘과 진행 막대 ⓘ·경로 아이콘은 Lucide SVG를 인라인으로 넣었다(아이콘을 새로 쓰면 직접 그리지 말고 Lucide에서 가져온다) |
 | `../scripts/` | `build-words.mjs`, `build-hubs.mjs`, `suggest-candidates.mjs`(위키백과 조회수로 후보 제안), `suggest-candidates-wikidata.mjs`(Wikidata 링크된 언어판 수로 후보 제안; 둘 다 풀은 안 건드림)와 후보 목록·보고서. 나무위키를 요청 사이 1초씩 쉬며 조사한다 |
 | `../e2e/` | puppeteer 테스트와 `popup-harness/`(팝업 시험 도구) |
-| `../demo/` | 폭죽, 카운트다운, 아이콘 라이브러리 비교(`icons.html`) 후보 데모(확장 아님) |
+| `../demo/` | 폭죽, 카운트다운, 아이콘 라이브러리 비교(`icons.html`), 로고 후보(`logo.html`: 나무위키 로고를 재서 다시 그린 변형 8가지) 데모(확장 아님) |
+| `../design/` | 고른 로고(2번 목표 깃발)의 PSD·SVG·PNG. `logo-icon`은 초록 원 아이콘 1024px, `logo-mark`는 로고만 투명 배경, `wordmark-*`는 마크 + "나무타기" 글자(밝은/어두운 배경용 SVG·PNG, `wordmark.psd`는 글자·고리·마크 14레이어)로 제목에 쓴다. 글자 나·무는 나무위키 로고에서 가장자리를 재서 그대로 다시 그렸고(획 굵기 차이: ㄴ 28, 줄기 23.3, ㅁ 21, ㅋ 가운데 줄 18.6, 둥근 모서리 볼록 4.75·오목 4.2), 타·기는 같은 규칙으로 새로 짰다(고리 높이도 나무위키처럼 낮음·높음·중간). PSD는 부분마다 레이어(래스터). 사용자가 직접 다듬었다(`logo-mark.psd`는 깃발을 왼쪽으로 34px, `logo-icon.psd`는 오른쪽 14px·아래 6px 옮겨서 고리 지름의 약 15% 어긋나 있고 괜찮다고 봄). 아직 manifest `icons`에 안 넣었다. `wordmark.mjs`는 글자 모양·간격과 마크 위치의 원본(마크 PSD의 깃발 이동량이 안에 상수로 들어 있다. `node design/wordmark.mjs demo/logo.html <폴더>`. `wordmark-white.svg`는 팝업용 흰색 한 색). 아이콘과 팝업 제목은 0.34.0에서 확장에 넣었다 |
 
 `content.js` 구역 순서: 공통 도구 → 팝업 연결(onConnect: suggest/probe) → 게임 상태와 해시 파싱 → 설치 안내(introOnce) → 화면 정리(hideChrome) → 판정(verdict, inTemplateBox, inFoldBox, inNoticeBox, inFootnote) → 입력 가로채기 → 이동 확정(check) → 무작위 목표 → 목표 미리보기 → 폭죽 → 기록(record) → 카운트다운, ready/begin → HUD(mount/render) → 공유(shareText) → 도전장 수락(invite).
 

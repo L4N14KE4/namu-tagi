@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나무타기 로고 후보</title>
+<style>
+  /* 나무위키 로고(가지와 고리)를 변형한 확장 아이콘 후보 데모(확장 아님). 원본 그림을 재서 다시 그렸다: 가지는 22.5도 기운 격자, 고리 반지름 105, 구멍 40, 가지 굵기 68. 커서는 Lucide mouse-pointer-2. */
+  :root { --bg: #fff; --text: #212529; --muted: #6c757d; --border: #dadada; --soft: #f5f5f5; }
+  :root[data-theme="dark"] { --bg: #121314; --text: #e0e0e0; --muted: #9a9a9a; --border: #3e3e3e; --soft: #1c1d1f; }
+  html { background: var(--bg); }
+  body { margin: 0; padding: 32px 24px 64px; color: var(--text); font-family: Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+         font-size: 15px; line-height: 1.6; word-break: keep-all; }
+  main { max-width: 1100px; margin: 0 auto; }
+  h1 { margin: 0 0 6px; font-size: 26px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+  p { margin: 0 0 12px; }
+  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  button { font: inherit; padding: 6px 14px; border: 1px solid var(--border); border-radius: .3rem; background: var(--soft); color: var(--text); cursor: pointer; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-top: 12px; }
+  .card { padding: 16px 18px 18px; border: 1px solid var(--border); border-radius: 6px; }
+  .card h3 { margin: 0 0 12px; padding-bottom: 6px; font-size: 17px; border-bottom: 1px solid var(--border); }
+  .card h3 b { color: #0275d8; margin-right: 6px; }
+  :root[data-theme="dark"] .card h3 b { color: #ec9f19; }
+  .card p { margin: 12px 0 0; }
+  .big { display: flex; gap: 12px; align-items: center; }
+  .big svg { width: 128px; height: 128px; }
+  .big .logo { width: 150px; height: 128px; }
+  .sizes { display: flex; gap: 12px; margin-top: 12px; }
+  .bar { display: flex; gap: 10px; align-items: center; padding: 6px 10px; border-radius: 6px; }
+  .bar.l { background: #f1f3f4; } .bar.d { background: #35363a; }
+  .bar svg { display: block; }
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div>
+      <h1>나무타기 로고 후보</h1>
+      <p>왼쪽은 확장 아이콘(128px), 오른쪽은 로고만 둔 모양이에요.<br>아래 줄은 크롬 툴바 크기(32, 16px)를 밝은 곳과 어두운 곳에 놓은 거예요.</p>
+    </div>
+    <button id="theme">어둡게</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+<script>
+const R = 105, HOLE = 40, W = 68, A = -22.5;            // 원본에서 잰 값(936px 그림 기준)
+const G1 = '#0aa297', G2 = '#12ad69', BROWN = '#5f4d3e';
+const CURSOR = 'M4.037 4.688a.495.495 0 0 1 .651-.651l16 6.5a.5.5 0 0 1-.063.947l-6.124 1.58a2 2 0 0 0-1.438 1.435l-1.579 6.126a.5.5 0 0 1-.947.063z';
+
+// 가지 좌표는 기울기 전 격자(u 오른쪽, v 아래)로 적는다
+const NODES = { a: [58, 292], b: [262, 462], c: [574, 724], d: [-110, 636] };
+const IN = R - 12;                                        // 선은 고리 몸통 안에서 시작해 구멍에 안 비치게
+// 가지: [점들, 둥근 끝, 흐림]. 꺾이는 길은 점 여럿으로 적어 모서리가 비지 않게 한다
+const BASE = [[[[58, 292 + IN], [58, 636]]], [[[262, 462 + IN], [262, 790]], 1], [[[-110 + IN, 636], [262, 636]]], [[[262, 724], [574 - IN, 724]]]];
+
+const V = [
+  { name: '원본', desc: '비교용 원본이에요.' },
+  { name: '경로 강조', desc: '시작에서 목표까지 지나는 길만 진하게 하고 곁가지는 흐리게 했어요.', path: true },
+  { name: '목표 깃발', desc: '오른쪽 끝 고리(목표)에 가지와 같은 기울기로 깃발을 세웠어요.', flag: -22.5 },
+  { no: '2-가', name: '곧은 깃대', desc: '깃대를 똑바로 세우고 깃발을 조금 키웠어요.', flag: 0, flagScale: 1.2 },
+  { no: '2-나', name: '오른쪽으로 기운 깃대', desc: '깃대를 오른쪽으로 기울이고 깃발을 조금 키웠어요.', flag: 22.5, flagScale: 1.2 },
+  { name: '출발과 도착', desc: '출발 고리는 꽉 채우고 목표 고리는 가운데 점을 넣어 과녁처럼 했어요.', target: true },
+  { name: '화살표', desc: '목표 고리를 화살촉으로 바꿔 앞으로 나아가는 느낌을 줬어요.', arrow: true },
+  { name: '세운 나무', desc: '통째로 세워서 아래 출발에서 위 목표로 줄기를 타고 오르게 했어요.', angle: -78 },
+  { name: '이어진 길', desc: '네 고리를 한 줄로 이어 문서 네 개를 차례로 지나는 길로 바꿨어요.', chain: true },
+  { name: '클릭', desc: '목표 고리를 마우스 커서가 누르는 모양이에요.', cursor: true },
+];
+
+const rad = d => d * Math.PI / 180;
+function shapes(v) {
+  const ang = v.angle ?? A, c = Math.cos(rad(ang)), s = Math.sin(rad(ang));
+  const T = (u, w) => [u * c - w * s, u * s + w * c];
+  const out = [];                                         // {k:'seg'|'ring'|'poly'|'dot'|'disc'|'cursor', ...}
+  let segs = BASE;
+  if (v.chain) segs = [                                   // d → a → b → c 를 직각 가지로 잇는다
+    [[[-110 + IN, 636], [58, 636], [58, 292 + IN]]],
+    [[[58 + IN, 292], [262, 292], [262, 462 - IN]]],
+    [[[262, 462 + IN], [262, 724], [574 - IN, 724]]],
+  ];
+  if (v.path) segs = [
+    [[[58, 292 + IN], [58, 636]], 0, 1], [[[262, 462 + IN], [262, 636]], 0, 1], [[[262, 724], [262, 790]], 1, 1],
+    [[[-110 + IN, 636], [262, 636], [262, 724], [574 - IN, 724]]],
+  ];
+  for (const [pts, round, faint] of segs) out.push({ k: 'seg', p: pts.map(q => T(...q)), round, faint });
+  for (const id of 'abcd') {
+    const [u, w] = NODES[id];
+    if (v.arrow && id === 'c') {
+      out.push({ k: 'poly', p: [[u + 120, w], [u - 70, w - 120], [u - 20, w], [u - 70, w + 120]].map(q => T(...q)) });
+      continue;
+    }
+    out.push({ k: (v.target && id === 'd') ? 'disc' : 'ring', c: T(u, w), faint: v.path && (id === 'a' || id === 'b') });
+    if (v.target && id === 'c') out.push({ k: 'dot', c: T(u, w) });
+  }
+  if (v.flag !== undefined) {                             // flag: 깃대가 수직에서 오른쪽으로 기운 각도(그림 기준)
+    const [cx, cy] = T(...NODES.c), k = v.flagScale ?? 1;
+    const d = [Math.sin(rad(v.flag)), -Math.cos(rad(v.flag))], n = [-d[1], d[0]];
+    const at = (a, b = 0) => [cx + d[0] * a + n[0] * b, cy + d[1] * a + n[1] * b];
+    const top = R + 230 * k;
+    out.unshift({ k: 'seg', p: [at(IN), at(top)], round: 1, w: 44 });
+    out.push({ k: 'poly', p: [at(top + 22 * k), at(top - 55 * k, 175 * k), at(top - 132 * k)] });
+  }
+  if (v.cursor) out.push({ k: 'cursor', c: T(...NODES.c) });
+  return out;
+}
+
+function bbox(list) {
+  let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+  const add = (x, y, r) => { x0 = Math.min(x0, x - r); y0 = Math.min(y0, y - r); x1 = Math.max(x1, x + r); y1 = Math.max(y1, y + r); };
+  for (const e of list) {
+    if (e.k === 'seg') e.p.forEach(q => add(...q, (e.w ?? W) / 2));
+    else if (e.k === 'poly') e.p.forEach(q => add(...q, 0));
+    else if (e.k === 'cursor') add(e.c[0] + 150, e.c[1] + 150, 120);
+    else add(...e.c, R);
+  }
+  return [x0, y0, x1, y1];
+}
+
+let gid = 0;
+// mode: 'logo'(초록 고리, 갈색 가지, 투명 배경) | 'icon'(초록 원 위 흰 모양)
+// only(e, i): 그릴 요소만 고른다(PSD 레이어 뽑기용). 자리는 전체 모양 기준이라 레이어끼리 맞는다. 배경 원은 {k:'bg'}로 묻는다
+function svg(v, mode, px, only) {
+  const list = shapes(v), [x0, y0, x1, y1] = bbox(list), id = 'g' + gid++;
+  const icon = mode === 'icon';
+  const fg = icon ? '#fff' : `url(#${id})`, line = icon ? '#fff' : BROWN, bg = icon ? `url(#${id})` : 'none';
+  const op = icon ? .45 : .3;
+  let body = '';
+  for (const [i, e] of list.entries()) {
+    if (only && !only(e, i)) continue;
+    const o = e.faint ? ` opacity="${op}"` : '';
+    if (e.k === 'seg') body += `<polyline points="${e.p.map(q => q.join(',')).join(' ')}" fill="none" stroke="${line}" stroke-width="${e.w ?? W}" stroke-linecap="${e.round ? 'round' : 'butt'}" stroke-linejoin="miter"${o}/>`;
+    else if (e.k === 'ring') body += `<path fill-rule="evenodd" fill="${fg}"${o} d="M${e.c[0] - R} ${e.c[1]}a${R} ${R} 0 1 0 ${2 * R} 0a${R} ${R} 0 1 0 ${-2 * R} 0zM${e.c[0] - HOLE} ${e.c[1]}a${HOLE} ${HOLE} 0 1 0 ${2 * HOLE} 0a${HOLE} ${HOLE} 0 1 0 ${-2 * HOLE} 0z"/>`;
+    else if (e.k === 'disc') body += `<circle cx="${e.c[0]}" cy="${e.c[1]}" r="${R}" fill="${fg}"/>`;
+    else if (e.k === 'dot') body += `<circle cx="${e.c[0]}" cy="${e.c[1]}" r="${HOLE - 16}" fill="${fg}"/>`;
+    else if (e.k === 'poly') body += `<polygon points="${e.p.map(q => q.join(',')).join(' ')}" fill="${fg}" stroke="${fg}" stroke-width="16" stroke-linejoin="round"/>`;
+    else if (e.k === 'cursor') body += `<path d="${CURSOR}" transform="translate(${e.c[0] - 20} ${e.c[1] - 20}) scale(13)" fill="${icon ? '#fff' : BROWN}" stroke="${icon ? G2 : '#fff'}" stroke-width="2" stroke-linejoin="round"/>`;
+  }
+  const grad = `<defs><linearGradient id="${id}" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="${G1}"/><stop offset="1" stop-color="${G2}"/></linearGradient></defs>`;
+  if (!icon) {
+    const p = 20;
+    return `<svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="${x0 - p} ${y0 - p} ${x1 - x0 + 2 * p} ${y1 - y0 + 2 * p}">${grad}${body}</svg>`;
+  }
+  // 원 안에 넣기: 모양의 긴 변이 지름의 78%가 되게, 가운데 정렬
+  const D = 1000, k = D * .78 / Math.max(x1 - x0, y1 - y0);
+  const tx = D / 2 - k * (x0 + x1) / 2, ty = D / 2 - k * (y0 + y1) / 2;
+  const size = px ? ` width="${px}" height="${px}"` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${D} ${D}"${size}>${grad}${only && !only({ k: 'bg' }) ? '' : `<circle cx="500" cy="500" r="500" fill="${bg}"/>`}<g transform="translate(${tx} ${ty}) scale(${k})">${body}</g></svg>`;
+}
+
+document.getElementById('grid').innerHTML = V.map((v, i) => `
+  <div class="card">
+    <h3><b>${v.no ?? i - (i > 2 ? 2 : 0)}</b>${v.name}</h3>
+    <div class="big">${svg(v, 'icon')}${svg(v, 'logo')}</div>
+    <div class="sizes">
+      <div class="bar l">${svg(v, 'icon', 32)}${svg(v, 'icon', 16)}</div>
+      <div class="bar d">${svg(v, 'icon', 32)}${svg(v, 'icon', 16)}</div>
+    </div>
+    <p>${v.desc}</p>
+  </div>`).join('');
+
+document.getElementById('theme').onclick = e => {
+  const dark = document.documentElement.dataset.theme !== 'dark';
+  document.documentElement.dataset.theme = dark ? 'dark' : '';
+  e.target.textContent = dark ? '밝게' : '어둡게';
+};
+</script>
+</body>
+</html>
