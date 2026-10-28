@@ -69,7 +69,8 @@
 - `manifest.json` 권한은 activeTab(팝업을 연 탭의 주소)과 storage(설명창, 닉네임, 기록, 미리보기, 규칙)뿐.
 - `content.js` 판정·이동 감지·진행 막대·결과·팝업 연결(자동완성, 목표 확인) 전부.
 - `content.css` 게임 중인 탭에서 우회로 숨김.
-- `popup.html`, `popup.js` 출제·무작위·오늘의 문제·기록·설명.
+- `popup.html`, `popup.js` 출제·무작위·오늘의 문제·기록·설명. 머리글 제목은 글자 대신 `wordmark.svg`(마크 + "나무타기", 흰색 한 색)를 넣는다(0.34.0). 초록 막대와 어두운 막대 둘 다 흰색이라 한 파일을 같이 쓴다.
+- `icons/icon-16.png`, `icon-32.png`, `icon-48.png`, `icon-128.png` 확장 아이콘(툴바와 확장 관리 화면). 초록 원 위에 흰색 마크와 목표 깃발. 원본 PSD와 SVG는 저장소의 `design/`에 있고(`logo-icon.psd` 1024px를 줄여 만들었다), 가로 로고는 `design/wordmark.mjs`가 만든다(0.34.0).
 - `vendor/LICENSE-lucide.txt` 아이콘 라이선스. 환영 페이지의 줄 아이콘과 진행 막대의 ⓘ, 경로 아이콘은 Lucide(ISC, 일부는 Feather의 MIT)의 SVG를 수정 없이 인라인으로 넣었다(0.33.3). 파일을 따로 받거나 네트워크 요청을 하지 않는다. 환영 페이지의 나무 그림만 직접 그린 SVG다.
 - `vendor/confetti.min.js` canvas-confetti 1.9.4(ISC, 라이선스는 `vendor/LICENSE-canvas-confetti.txt`). 크롬 웹스토어는 외부 코드를 받아 쓰는 것을 막으므로 파일을 직접 담았다.
 - `scripts/suggest-candidates.mjs` 한국어 위키백과 월별 조회수 상위로 목표 후보를 제안한다(`node scripts/suggest-candidates.mjs`). 풀은 건드리지 않고 `scripts/wiki-candidates.tsv`(제목, 분야, 상위에 오른 달 수, 조회수 합, 주의)와 지금 풀과의 분야 분포만 만든다. 풀에 넣으려면 목록을 사람이 확인한 뒤 `candidates.txt`에 옮겨 `build-words.mjs`를 돌린다. 받은 응답은 `scripts/wiki-cache.json`에 남긴다.

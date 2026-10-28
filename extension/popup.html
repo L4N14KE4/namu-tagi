@@ -14,7 +14,7 @@
   body { width: 320px; margin: 0; word-break: keep-all; overflow-wrap: anywhere; background: var(--card); color: var(--text); font-size: 14px;
          font-family: "Pretendard JP", Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
   header { display: flex; align-items: center; gap: 8px; background: var(--bar); color: #fff; padding: 10px 12px; }
-  header b { font-size: 15px; margin-right: auto; }
+  header img { display: block; height: 26px; margin-right: auto; }   /* 흰색 한 색 로고(design/wordmark.mjs가 만든 wordmark.svg) */
   header button { all: unset; cursor: pointer; height: 22px; border-radius: 11px; border: 1.5px solid rgba(255,255,255,.8);
                   text-align: center; line-height: 20px; font-weight: 700; font-size: 12px; padding: 0 8px; }
   header #help { width: 22px; padding: 0; font-size: 13px; }
@@ -124,7 +124,7 @@
   .deadbox .btn { width: 100%; padding: 8px; }
   [hidden] { display: none !important; }
 </style>
-<header><b>나무타기</b><button id="showRecords" title="내 기록">기록</button><button id="help" title="설명 보기" aria-label="설명 보기">?</button></header>
+<header><img src="wordmark.svg" alt="나무타기"><button id="showRecords" title="내 기록">기록</button><button id="help" title="설명 보기" aria-label="설명 보기">?</button></header>
 
 <main id="intro" hidden>
   <div id="introBody"></div>

@@ -48,7 +48,8 @@ git 저장소: GitHub `L4N14KE4/namu-game`(비공개), 브랜치 main. 2026-10-2
 | `devtools.html`, `devtools.js` | 개발자 도구가 열려 있는 동안 1초마다 `inspectedWindow.eval('window.ngDevtools?.()', {useContentScriptContext})`로 게임 탭에 알린다(게임 중이면 진 판) |
 | `content.js` | 게임 전부(약 900줄). 판정, 이동 확정, 진행 막대(HUD, Shadow DOM), 카운트다운, 결과 카드, 공유, 기록 저장, 팝업 연결(자동완성·목표 확인) |
 | `content.css` | 게임 중 탭(`html[data-ng]`)의 우회로 숨김 |
-| `popup.html`, `popup.js` | 팝업: 오늘의 문제/직접 출제/무작위 탭, 규칙, 기록(규칙별 보기), 설명(?) |
+| `popup.html`, `popup.js` | 팝업: 오늘의 문제/직접 출제/무작위 탭, 규칙, 기록(규칙별 보기), 설명(?). 머리글 제목은 `wordmark.svg`(흰색 가로 로고) |
+| `icons/`, `wordmark.svg` | 0.34.0에서 넣은 확장 아이콘 PNG 4종(`design/logo-icon.psd`를 줄임)과 팝업 제목 로고(`design/wordmark-white.svg` 복사본). 로고를 고치면 `design/`에서 다시 만들어 두 곳에 복사 |
 | `intro.js` | 설명 글과 모양. 팝업 ?와 처음 설치 안내(나무위키 안 모달)가 같이 쓴다 |
 | `words.js`, `hubs.js` | 자동 생성 목록(무작위 4068개이고 그중 보통 889개가 오늘의 문제 풀, 허브 446개). 직접 고치지 않는다 |
 | `vendor/` | canvas-confetti 1.9.4(ISC). 웹스토어는 원격 코드 금지라 파일로 담았다. `LICENSE-lucide.txt`는 아이콘 라이선스(Lucide ISC + Feather MIT): 환영 페이지 줄 아이콘과 진행 막대 ⓘ·경로 아이콘은 Lucide SVG를 인라인으로 넣었다(아이콘을 새로 쓰면 직접 그리지 말고 Lucide에서 가져온다) |
