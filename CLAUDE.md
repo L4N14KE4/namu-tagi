@@ -44,7 +44,7 @@ git 저장소: GitHub `L4N14KE4/namu-game`(비공개), 브랜치 main. 2026-10-2
 | --- | --- |
 | `manifest.json` | 권한은 activeTab, storage 뿐. 콘텐츠 스크립트: words.js, hubs.js, intro.js, vendor/confetti.min.js, content.js, content.css. `devtools_page`: devtools.html |
 | `background.js` | 서비스 워커. `onInstalled`에서 reason이 `install`일 때만 `welcome.html`을 새 탭으로 연다(권한 추가 없음) |
-| `welcome.html`, `welcome.js` | 설치 환영 페이지(전체 화면, 부드러운 소개와 아이콘, 버튼 둘: 나무위키로 가기 / 닫기). 두 버튼이 `introSeen`을 저장해 나무위키 안 안내 창·팝업 첫 설명이 또 안 뜨게 한다. 탭 X로 닫으면 저장 안 돼 그 둘이 대신 뜬다(보험) |
+| `welcome.html`, `welcome.js` | 설치 환영 페이지(전체 화면, 나무위키 문서 모양(사과 문서에서 잰 값: 본문 15px, 제목 36px, 소제목 27px, 칸 5px 10px 등): 위 막대에 `wordmark.svg`, 제목 밑 "최근 버전: v…"(manifest 버전을 읽음), 목차 상자(details), 링크색 번호 소제목, 테두리 표, 점 목록, 각주 위 가로줄. 버튼 둘: 나무위키로 가기(넓게) / 닫기(작게)). 두 버튼이 `introSeen`을 저장해 나무위키 안 안내 창·팝업 첫 설명이 또 안 뜨게 한다. 탭 X로 닫으면 저장 안 돼 그 둘이 대신 뜬다(보험) |
 | `devtools.html`, `devtools.js` | 개발자 도구가 열려 있는 동안 1초마다 `inspectedWindow.eval('window.ngDevtools?.()', {useContentScriptContext})`로 게임 탭에 알린다(게임 중이면 진 판) |
 | `content.js` | 게임 전부(약 900줄). 판정, 이동 확정, 진행 막대(HUD, Shadow DOM), 카운트다운, 결과 카드, 공유, 기록 저장, 팝업 연결(자동완성·목표 확인) |
 | `content.css` | 게임 중 탭(`html[data-ng]`)의 우회로 숨김 |
@@ -52,7 +52,7 @@ git 저장소: GitHub `L4N14KE4/namu-game`(비공개), 브랜치 main. 2026-10-2
 | `icons/`, `wordmark.svg` | 0.34.0에서 넣은 확장 아이콘 PNG 4종(`design/logo-icon.psd`를 줄임)과 팝업 제목 로고(`design/wordmark-white.svg` 복사본). 로고를 고치면 `design/`에서 다시 만들어 두 곳에 복사 |
 | `intro.js` | 설명 글과 모양. 팝업 ?와 처음 설치 안내(나무위키 안 모달)가 같이 쓴다 |
 | `words.js`, `hubs.js` | 자동 생성 목록(무작위 4068개이고 그중 보통 889개가 오늘의 문제 풀, 허브 446개). 직접 고치지 않는다 |
-| `vendor/` | canvas-confetti 1.9.4(ISC). 웹스토어는 원격 코드 금지라 파일로 담았다. `LICENSE-lucide.txt`는 아이콘 라이선스(Lucide ISC + Feather MIT): 환영 페이지 줄 아이콘과 진행 막대 ⓘ·경로 아이콘은 Lucide SVG를 인라인으로 넣었다(아이콘을 새로 쓰면 직접 그리지 말고 Lucide에서 가져온다) |
+| `vendor/` | canvas-confetti 1.9.4(ISC). 웹스토어는 원격 코드 금지라 파일로 담았다. `LICENSE-lucide.txt`는 아이콘 라이선스(Lucide ISC + Feather MIT): 진행 막대 ⓘ·경로 아이콘은 Lucide SVG를 인라인으로 넣었다(환영 페이지 줄 아이콘은 0.34.1에서 뺐다. 아이콘을 새로 쓰면 직접 그리지 말고 Lucide에서 가져온다) |
 | `../scripts/` | `build-words.mjs`, `build-hubs.mjs`, `suggest-candidates.mjs`(위키백과 조회수로 후보 제안), `suggest-candidates-wikidata.mjs`(Wikidata 링크된 언어판 수로 후보 제안; 둘 다 풀은 안 건드림)와 후보 목록·보고서. 나무위키를 요청 사이 1초씩 쉬며 조사한다 |
 | `../e2e/` | puppeteer 테스트와 `popup-harness/`(팝업 시험 도구) |
 | `../demo/` | 폭죽, 카운트다운, 아이콘 라이브러리 비교(`icons.html`), 로고 후보(`logo.html`: 나무위키 로고를 재서 다시 그린 변형 8가지) 데모(확장 아님) |

@@ -5,81 +5,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>나무타기에 오신 걸 환영해요</title>
 <style>
-  /* 설치하면 background.js가 새 탭으로 여는 환영 페이지. 색은 나무위키와 같은 팔레트, 밝은 화면과 어두운 화면은 컴퓨터 설정을 따른다. */
-  :root { --bg: #fff; --text: #212529; --border: #dadada; --soft: #eef0f2; --soft-border: rgba(0,0,0,.3); --primary: #00a69c; }
-  @media (prefers-color-scheme: dark) { :root { --bg: #121314; --text: #e0e0e0; --border: #3e3e3e; --soft: #26282b; --soft-border: rgba(255,255,255,.34); } }
-  html { background: var(--bg); }
+  /* 설치하면 background.js가 새 탭으로 여는 환영 페이지. 나무위키 문서(2026-10, 사과 문서)에서 잰 값을 그대로 쓴다:
+     본문 15px/1.5, 제목 36px, 소제목 27px(밑줄, 번호는 링크색), 목차 상자(details, "목차"는 18.75px), 표 칸 5px 10px, 점 목록, 각주 위 가로줄.
+     색은 밝은 화면 / 어두운 화면 둘 다 실측. 어느 쪽인지는 컴퓨터 설정을 따른다. */
+  :root { --page: #f5f5f5; --bg: #fff; --text: #212529; --sub: rgba(33,37,41,.75); --box: #ccc; --rule: #ccc; --cell: #ddd; --fn: #777; --link: #0275d8;
+          --soft: #f5f5f5; --primary: #00a69c; --soft-border: rgba(0,0,0,.3); --bar: linear-gradient(to right, #00a69c, #00a69c, #28b472); }
+  @media (prefers-color-scheme: dark) { :root { --page: #000; --bg: #1c1d1f; --text: #e0e0e0; --sub: rgba(224,224,224,.75); --box: #444; --rule: #383b40; --cell: #383b40; --fn: #e0e0e0;
+          --link: #ec9f19; --soft: #26282b; --soft-border: rgba(255,255,255,.34); --bar: #2e3033; } }
+  html { background: var(--page); }
   body { margin: 0; color: var(--text); font-family: "Pretendard JP", Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
-         font-size: 16px; line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
-  main { max-width: 640px; margin: 0 auto; padding: 56px 24px 72px; }
-  .hero { text-align: center; }
-  .hero svg { width: 220px; height: auto; }
-  h1 { margin: 8px 0 10px; font-size: 30px; line-height: 1.3; }
-  .lead { margin: 0; font-size: 17px; }
-  h2 { margin: 44px 0 12px; padding-bottom: 6px; font-size: 20px; line-height: 1.4; border-bottom: 1px solid var(--border); }
-  .row { display: flex; gap: 14px; align-items: flex-start; margin: 16px 0; }
-  .row svg { flex: none; width: 26px; height: 26px; margin-top: 3px; color: var(--primary); } /* 줄 아이콘은 Lucide(ISC, vendor/LICENSE-lucide.txt)의 SVG를 그대로 쓴다. 색은 currentColor */
-  .row b { display: block; }
-  .row p { margin: 0; }
-  .actions { display: flex; justify-content: center; gap: 10px; margin-top: 44px; }
-  .btn { flex: 0 1 180px; font: inherit; font-weight: 600; padding: 12px 0; border: 1px solid var(--soft-border); border-radius: .3rem; background: var(--soft); color: var(--text); cursor: pointer; }
+         font-size: 15px; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }
+  header { box-sizing: border-box; height: 56px; padding: 8px 0; background: var(--bar); }
+  header div, article { box-sizing: border-box; width: min(897px, calc(100% - 32px)); margin-left: auto; margin-right: auto; }   /* 막대 안 로고와 문서 상자의 왼쪽 선이 어떤 폭에서도 같은 자리 */
+  header img { display: block; height: 40px; margin-left: -2.6px; }   /* 로고 그림 자체의 왼쪽 여백(40/2682 × 173.5px)만큼 당겨서 마크가 상자 선에 닿게 */
+  article { margin-top: 16px; margin-bottom: 40px; padding: 24px; background: var(--bg); border: 1px solid var(--box); border-radius: 6px; }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .title { margin: 0 0 24px; }
+  h1 { margin: 0; font-size: 36px; line-height: 36px; font-weight: 700; }
+  .sub { margin-top: 8px; font-size: 14.4px; line-height: 1.5; color: var(--sub); }
+  h2 { margin: 32.4px 0 21.6px; padding-bottom: 5px; font-size: 27px; line-height: 40.5px; font-weight: 700; border-bottom: 1px solid var(--rule); }
+  p { margin: 0 0 22.5px; }
+  .ref { font-size: 12px; line-height: 0; vertical-align: super; }
+  details.toc { display: inline-block; margin: 0 0 22.5px 5px; padding: 12px 20px 12px 0; border: 1px solid var(--rule); }
+  details.toc summary { position: relative; margin: 0 0 12px 14px; padding-right: 36px; font-size: 18.75px; cursor: pointer; list-style: none; }
+  details.toc summary::-webkit-details-marker { display: none; }
+  details.toc summary::before { content: "목차"; }
+  details.toc summary::after { content: ""; position: absolute; right: 6px; top: 10px; width: 7px; height: 7px; border: solid var(--text); border-width: 0 2px 2px 0; transform: rotate(-45deg); }   /* 접힘: 오른쪽 */
+  details.toc[open] summary::after { right: 4px; top: 7px; transform: rotate(45deg); }   /* 펼침: 아래(나무위키와 같음) */
+  details.toc div { padding-left: 20px; }
+  details.toc span { display: block; }
+  table { margin: 0 0 22.5px; width: 100%; border-collapse: collapse; }
+  th, td { padding: 5px 10px; text-align: left; vertical-align: top; border: 1px solid var(--cell); }
+  th { width: 1%; white-space: nowrap; background: var(--soft); }
+  ul { margin: 6px 0 22.5px 22.5px; padding: 0 0 0 8px; list-style: outside disc; }
+  li { margin: 6px 0; }
+  .actions { display: flex; align-items: center; gap: 10px; margin: 0; }
+  .btn { flex: none; font: inherit; font-size: 17px; font-weight: 600; padding: 12px 24px; border: 1px solid var(--soft-border); border-radius: .3rem; background: var(--soft); color: var(--text); cursor: pointer; }
   .btn:hover { filter: brightness(1.08); }
-  .btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
-  .note { margin: 28px 0 0; font-size: 13px; text-align: center; opacity: .65; }
+  .btn.primary { flex: 0 1 180px; padding-left: 0; padding-right: 0; background: var(--primary); border-color: var(--primary); color: #fff; }
+  .fns { margin: 22.5px 0 0; padding: 7.5px 0; border-top: 1px solid var(--fn); }
+  .fns span { display: block; margin-bottom: 7.5px; line-height: 1.75; }
+  .fns a { font-size: 15px; }
+  @media (max-width: 520px) { article { padding: 16px; } th { white-space: normal; } h1 { font-size: 30px; } }
 </style>
 </head>
 <body>
-<main>
-  <div class="hero">
-    <svg viewBox="0 0 220 150" role="img" aria-label="링크를 따라 나무 위로 올라가는 그림">
-      <line x1="16" y1="140" x2="204" y2="140" stroke="var(--border)" stroke-width="2" stroke-linecap="round"/>
-      <path d="M106 140V96" stroke="#a07850" stroke-width="12" stroke-linecap="round"/>
-      <circle cx="110" cy="60" r="38" fill="#00a69c"/>
-      <circle cx="82" cy="80" r="27" fill="#28b472"/>
-      <circle cx="140" cy="80" r="27" fill="#28b472"/>
-      <path d="M28 126L58 104L86 86L102 58L122 34" fill="none" stroke="#ec9f19" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round" stroke-linejoin="round"/>
-      <g fill="#fff" stroke="#ec9f19" stroke-width="2.5"><circle cx="28" cy="126" r="6"/><circle cx="58" cy="104" r="6"/><circle cx="86" cy="86" r="6"/><circle cx="102" cy="58" r="6"/></g>
-      <circle cx="122" cy="34" r="10" fill="#ec9f19"/>
-      <path d="M117.5 34.5l3.2 3.2 6-7" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <h1>나무타기에 오신 걸 환영해요</h1>
-    <p class="lead">링크를 하나씩 눌러 나무위키 문서 사이를 올라가는 게임이에요.<br>부담 없이 한 판 해 보세요.</p>
+<header><div><img src="wordmark.svg" alt="나무타기"></div></header>
+<article>
+  <div class="title">
+    <h1>나무타기</h1>
+    <div class="sub">최근 버전: <span id="ver"></span></div>
   </div>
 
-  <h2>이렇게 즐겨요</h2>
-  <div class="row">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
-    <div><b>오늘의 문제</b><p>하루에 하나, 모두에게 같은 문제가 나와요.<br>가볍게 시작하기 좋아요.</p></div>
-  </div>
-  <div class="row">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-    <div><b>본문 링크만 눌러요</b><p>시작 문서에서 목표 문서까지 본문 속 링크로만 이동해요.<br>적은 단계, 짧은 시간으로 도착하면 잘한 거예요.</p></div>
-  </div>
-  <div class="row">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></svg>
-    <div><b>규칙을 골라 봐요</b><p>뒤로가기 금지나 제한 시간처럼 규칙을 더하면<br>한층 어려워져요.</p></div>
-  </div>
-  <div class="row">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg>
-    <div><b>친구에게 도전장을 보내요</b><p>도착하면 내 기록과 경로가 담긴 링크를 복사해서 나눌 수 있어요.</p></div>
-  </div>
+  <p>나무타기에 오신 걸 환영해요.<br>링크를 하나씩 눌러 나무위키 문서 사이를 올라가는 게임이에요.<a class="ref" id="r1" href="#fn1">[1]</a><br>부담 없이 한 판 해 보세요.</p>
 
-  <h2>시작하기 전에</h2>
-  <div class="row">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
-    <div><b>이미 열어 둔 나무위키 탭은 새로고침해 주세요</b><p>새로고침하면 그때부터 나무타기가 함께해요.</p></div>
-  </div>
-  <div class="row">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></svg>
-    <div><b>툴바에 고정해 두세요</b><p>주소창 오른쪽 퍼즐 조각 아이콘에서 나무타기를 고정하면<br>언제든 바로 열 수 있어요.</p></div>
-  </div>
+  <details class="toc" id="toc" open>
+    <summary></summary>
+    <div>
+      <span><a href="#s1">1</a>. 이렇게 즐겨요</span>
+      <span><a href="#s2">2</a>. 시작하기 전에</span>
+    </div>
+  </details>
+
+  <h2><a id="s1" href="#toc">1.</a> 이렇게 즐겨요</h2>
+  <table>
+    <tr><th>오늘의 문제</th><td>하루에 하나, 모두에게 같은 문제가 나와요.<br>가볍게 시작하기 좋아요.</td></tr>
+    <tr><th>본문 링크만 눌러요</th><td>시작 문서에서 목표 문서까지 본문 속 링크로만 이동해요.<br>적은 단계, 짧은 시간으로 도착하면 잘한 거예요.</td></tr>
+    <tr><th>규칙을 골라 봐요</th><td>뒤로가기 금지나 제한 시간처럼 규칙을 더하면 한층 어려워져요.</td></tr>
+    <tr><th>친구에게 도전장을 보내요</th><td>도착하면 내 기록과 경로가 담긴 링크를 복사해서 나눌 수 있어요.</td></tr>
+  </table>
+
+  <h2><a id="s2" href="#toc">2.</a> 시작하기 전에</h2>
+  <ul>
+    <li>이미 열어 둔 나무위키 탭은 새로고침해 주세요.<br>새로고침하면 그때부터 나무타기가 동작해요.</li>
+    <li>툴바에 고정해 두세요.<br>주소창 오른쪽 퍼즐 조각 아이콘에서 나무타기를 고정하면 언제든 바로 열 수 있어요.</li>
+  </ul>
 
   <div class="actions">
     <button class="btn primary" id="go">나무위키로 가기</button>
     <button class="btn" id="close">닫기</button>
   </div>
-  <p class="note">나무타기는 나무위키 및 umanle S.R.L.과 관계없는 비공식 게임이에요.</p>
-</main>
+
+  <div class="fns">
+    <span id="fn1"><a href="#r1">[1]</a> 나무타기는 나무위키 및 umanle S.R.L.과 관계없는 비공식 게임이에요.</span>
+  </div>
+</article>
 <script src="welcome.js"></script>
 </body>
 </html>
