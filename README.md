@@ -32,7 +32,7 @@
 - 검색창, 랜덤 버튼, 편집 링크처럼 게임을 건너뛰는 길은 숨기거나 막기
 - 문제가 마음에 들지 않으면 새 문제로 바꾸기, 같은 문제를 처음부터 다시하기
 
-<p align="center"><img src="docs/screenshots/countdown.jpg" alt="시작 전 카운트다운 화면"></p>
+<p align="center"><img src="docs/screenshots/countdown.jpg" width="480" alt="시작 전 카운트다운 화면"></p>
 <p align="center"><img src="docs/screenshots/path.jpg" alt="지나온 경로와 문서마다 머문 시간을 펼친 화면"></p>
 
 **규칙 옵션**
@@ -42,8 +42,8 @@
 
 <table>
   <tr>
-    <td valign="top"><img src="docs/screenshots/popup-today.png" width="280" alt="팝업의 오늘의 문제 탭"></td>
-    <td valign="top"><img src="docs/screenshots/popup-custom.png" width="280" alt="팝업의 직접 출제 탭과 규칙 옵션"></td>
+    <td valign="top"><img src="docs/screenshots/popup-today.png" width="240" alt="팝업의 오늘의 문제 탭"></td>
+    <td valign="top"><img src="docs/screenshots/popup-custom.png" width="240" alt="팝업의 직접 출제 탭과 규칙 옵션"></td>
   </tr>
 </table>
 
@@ -68,7 +68,7 @@
 <table>
   <tr>
     <td valign="top"><img src="docs/screenshots/result.jpg" width="400" alt="목표에 도착했을 때의 결과 카드"></td>
-    <td valign="top"><img src="docs/screenshots/popup-records.png" width="280" alt="팝업의 기록 화면"></td>
+    <td valign="top"><img src="docs/screenshots/popup-records.png" width="240" alt="팝업의 기록 화면"></td>
   </tr>
 </table>
 
@@ -98,9 +98,9 @@
 
 직접 설치하려면 다음 순서를 따라 주세요.
 
-1. 이 저장소를 내려받아 압축을 풉니다.
+1. [Releases](../../releases)에서 최신 `namu-tagi-v*.zip`을 내려받아 압축을 풉니다.
 2. 크롬에서 `chrome://extensions`를 열고 오른쪽 위 **개발자 모드**를 켭니다.
-3. **압축해제된 확장 프로그램을 로드합니다**를 누르고 `extension` 폴더를 선택합니다.
+3. **압축해제된 확장 프로그램을 로드합니다**를 누르고 압축을 푼 폴더를 선택합니다.
 
 > [!TIP]
 > 설치하기 전에 열어 둔 나무위키 탭은 새로고침해야 나무타기가 동작합니다.
