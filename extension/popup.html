@@ -31,6 +31,8 @@
   .btn.primary, .btn.primary:hover:not(:disabled) { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 600; }
   .btn.primary:hover:not(:disabled) { filter: brightness(1.08); }
   .start { margin-top: 12px; width: 100%; padding: 9px; font-size: 14px; }
+  #intro .start.primary { position: sticky; bottom: 12px; box-shadow: 0 0 0 6px var(--card); } /* 전체 설명이 길어도 확인이 늘 보인다 */
+  #intro #introMore { margin-top: 8px; }
   .tabs { display: flex; border: 1px solid var(--border); border-radius: .3rem; overflow: hidden; margin-bottom: 12px; }
   .tabs button { flex: 1; font: inherit; font-size: 13px; padding: 7px 0; border: 0; background: var(--btn); color: var(--text); cursor: pointer; }
   .tabs button + button { border-left: 1px solid var(--border); }
@@ -129,6 +131,7 @@
 <main id="intro" hidden>
   <div id="introBody"></div>
   <button class="btn primary start" id="introDone">확인</button>
+  <button class="btn start" id="introMore">전체 설명 보기</button>
 </main>
 
 <main id="game" hidden>

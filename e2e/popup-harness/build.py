@@ -2,7 +2,7 @@
 # 팝업을 크롬 확장 밖에서(localhost) 열어 보는 시험용 페이지를 만든다.
 #   python3 e2e/popup-harness/build.py <빈 폴더>
 #   cd <빈 폴더> && python3 -m http.server 8765
-#   http://localhost:8765/popup-test.html?theme=dark        (dead=1을 붙이면 탭 연결 끊김 화면)
+#   http://localhost:8765/popup-test.html?theme=dark        (dead=1은 탭 연결 끊김 화면, intro=1은 처음 여는 팝업의 짧은 설명 화면)
 #   http://localhost:8765/welcome-test.html                 (설치하면 뜨는 환영 페이지)
 # 팝업 코드를 고칠 때마다 다시 만든다(popup.html과 스크립트를 복사해 오므로).
 import json, pathlib, shutil, sys

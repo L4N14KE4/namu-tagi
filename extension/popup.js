@@ -19,9 +19,13 @@ const show = view => {
   $('showRecords').classList.toggle('on', view === 'records');
   if (view === 'records') renderRecords();
 };
-$('help').onclick = () => show($('intro').hidden ? 'intro' : 'game');
+$('help').onclick = () => { if ($('intro').hidden) setIntro(true); show($('intro').hidden ? 'intro' : 'game'); };
 $('showRecords').onclick = () => show($('records').hidden ? 'records' : 'game');
-document.head.append(el('style', { textContent: LR_INTRO.css })); $('introBody').innerHTML = LR_INTRO.html; // 설명 글과 모양은 intro.js, 나무위키 안 첫 안내와 같다
+// 설명 글과 모양은 intro.js. 처음 연 팝업은 짧은 설명(확인이 스크롤 없이 보임)을, ? 는 전체 설명을 보여 준다.
+document.head.append(el('style', { textContent: LR_INTRO.css }));
+const setIntro = full => { $('introBody').innerHTML = full ? LR_INTRO.html : LR_INTRO.short; $('introMore').hidden = full; };
+setIntro(true);
+$('introMore').onclick = () => { setIntro(true); window.scrollTo(0, 0); };
 $('introDone').onclick = () => { store.set({ introSeen: true }); show('game'); };
 
 // 직접 출제와 무작위 탭. 마지막에 쓴 탭과 난이도를 기억한다.
@@ -307,5 +311,6 @@ store.get(['introSeen', 'popupMode', 'diff', 'rules'], ({ introSeen, popupMode, 
   const radio = document.querySelector(`input[name="diff"][value="${diff}"]`);
   if (radio) radio.checked = true;
   noteDiff();
+  if (!introSeen) setIntro(false);
   show(introSeen ? 'game' : 'intro');
 });

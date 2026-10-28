@@ -1,11 +1,10 @@
-// 설명(팝업의 ? 와 처음 설치했을 때 나무위키 안에 뜨는 안내)에 쓰는 글과 모양. 두 곳이 같은 것을 쓴다.
-// 나무위키 문서처럼 보이게 했다: 제목과 소제목 밑에 가는 줄, 소제목 앞 번호는 링크색, 점 목록, 테두리 있는 표.
+// 팝업의 설명 글과 모양. html은 전체 설명(? 버튼), short는 처음 연 팝업에서 먼저 보이는 짧은 설명이다(확인이 스크롤 없이 보이게).
+// 나무위키 문서처럼 보이게 했다: 소제목 밑에 가는 줄, 소제목 앞 번호는 링크색, 점 목록, 테두리 있는 표.
 // 색은 쓰는 쪽이 정해 둔 변수(--text --muted --border --soft --link)를 따른다.
 // 문장마다 줄을 바꾸고, 한글은 낱말 중간에서 끊지 않는다(word-break: keep-all).
 var LR_INTRO = {
   css: `
     .li { line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
-    .li h2 { margin: 0 0 8px; padding-bottom: 6px; font-size: 22px; line-height: 1.3; border-bottom: 1px solid var(--border); }
     .li h3 { margin: 18px 0 8px; padding-bottom: 4px; font-size: 17px; line-height: 1.4; border-bottom: 1px solid var(--border); }
     .li h3 .n { margin-right: 6px; color: var(--link, #0275d8); }
     .li p { margin: 0 0 6px; }
@@ -18,7 +17,6 @@ var LR_INTRO = {
   `,
   html: `
     <div class="li">
-      <h2>나무타기</h2>
       <p>시작 문서에서 목표 문서까지 <b>본문 링크만 눌러서</b> 가는 나무위키 게임이에요.<br>적은 단계, 짧은 시간으로 도착할수록 잘한 거예요.</p>
 
       <h3><span class="n">1.</span>하는 법</h3>
@@ -32,7 +30,7 @@ var LR_INTRO = {
 
       <h3><span class="n">2.</span>규칙 옵션</h3>
       <table>
-        <tr><th>뒤로가기 금지</th><td>뒤로가기나 앞으로가기를 쓰면 게임이 끝나요.</td></tr>
+        <tr><th>뒤로가기 금지</th><td>뒤로가기를 막아요.<br>누르면 원래 문서로 되돌려져요.</td></tr>
         <tr><th>틀 상자 링크 금지</th><td>접는 상자(틀) 안의 링크와 틀 문서는 누를 수 없어요.</td></tr>
         <tr><th>분류 링크 금지</th><td>분류 줄과 분류 문서로는 이동할 수 없어요.</td></tr>
         <tr><th>각주 링크 금지</th><td>각주 속 링크는 누를 수 없어요.</td></tr>
@@ -50,16 +48,33 @@ var LR_INTRO = {
         <li>새 탭으로 열기, 찾기(Ctrl+F), 나무위키 단축키 A,&nbsp;E,&nbsp;D</li>
       </ul>
 
-      <h3><span class="n">4.</span>단계 세는 법</h3>
+      <h3><span class="n">4.</span>이러면 져요</h3>
+      <ul>
+        <li>다른 탭이나 창으로 가면 경고가 떠요.<br>한 번 더 가면 실격이에요.</li>
+        <li>30초 넘게 게임 화면을 떠나 있으면 바로 져요.</li>
+        <li>개발자 도구를 열면 져요.</li>
+        <li>주소창에 직접 입력해서 다른 문서로 가면 져요.</li>
+      </ul>
+
+      <h3><span class="n">5.</span>단계 세는 법</h3>
       <ul>
         <li>뒤로가기와 앞으로가기도 1단계예요.</li>
         <li>목차와 각주 이동은 세지 않아요.</li>
         <li>분류 줄의 링크도 눌러서 이동할 수 있어요.</li>
         <li>새로고침은 그대로 이어져요.</li>
-        <li>주소창에 직접 입력하면 게임이 끝나요.</li>
       </ul>
 
       <p class="li-note">나무타기는 나무위키 및 umanle S.R.L.과 관계없는 비공식 게임이에요.</p>
+    </div>
+  `,
+  short: `
+    <div class="li">
+      <p>시작 문서에서 목표 문서까지 <b>본문 링크만 눌러서</b> 가는 나무위키 게임이에요.<br>적은 단계, 짧은 시간으로 도착할수록 잘한 거예요.</p>
+      <ul>
+        <li>오늘의 문제, 직접 출제, 무작위 중에서 골라 시작해요.</li>
+        <li>카운트다운이 끝나면 시간이 흘러요.</li>
+        <li>게임 중에 다른 탭이나 창으로 가거나 개발자 도구를 열면 질 수 있어요.</li>
+      </ul>
     </div>
   `,
 };
