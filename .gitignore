@@ -7,3 +7,6 @@ jogdlkcjfodcoiicdneelonihooakkkj/
 
 # 다시 받을 수 있는 조회 캐시
 scripts/*-cache.json
+
+# 개발 노트는 로컬에만 둔다(저장소에 올리지 않음)
+docs/DEVELOPMENT.md

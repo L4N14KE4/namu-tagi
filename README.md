@@ -118,8 +118,6 @@ python3 e2e/popup-harness/build.py <빈 폴더>    # 팝업을 localhost에서 �
 mkdir -p dist && git archive --format=zip -o dist/namu-tagi-v$(node -p "require('./extension/manifest.json').version").zip HEAD:extension    # 웹스토어에 올릴 zip 만들기(커밋된 extension 폴더만 담음)
 ```
 
-자세한 동작과 바꾼 이유는 [개발 노트](docs/DEVELOPMENT.md)에 있습니다.
-
 ## 개인정보
 
 - 기록, 닉네임, 규칙 설정은 브라우저 안(`chrome.storage.local`)에만 저장됩니다. 확장을 지우면 함께 지워집니다.
