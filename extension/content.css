@@ -1,0 +1,15 @@
+/* 게임 중인 탭(html[data-ng])에서만 우회로를 숨긴다. 클래스명은 해시라 href 기준. 역사 버튼의 주소는 /activity/. */
+html[data-ng] input[type="search"],
+html[data-ng] a[href^="/activity/"],
+html[data-ng] a[href^="/edit/"],
+html[data-ng] a[href^="/discuss/"],
+html[data-ng] a[href^="/RecentChanges"],
+html[data-ng] a[href^="/RecentDiscuss"],
+html[data-ng] a[href="/random"] {
+  display: none !important;
+}
+
+/* 게임 중 포커스가 화면 밖(브라우저 메뉴의 찾기 창, 주소창, 다른 창)에 있는 동안 본문을 숨긴다(content.js veilPage). 숨긴 글자는 찾기로 못 찾는다. */
+html[data-ng-blur] #app {
+  visibility: hidden !important;
+}

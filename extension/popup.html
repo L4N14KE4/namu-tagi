@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<style>
+  /* 나무위키 실측 색(2026-10, --espejo-* 변수). 막대·카드·일반 버튼은 나무위키 테마를 따르고, 주요 버튼은 두 테마 모두
+     나무위키 초록(#00a69c), 경고 문구는 나무위키 위험색(#d64a58)이다.
+     테마는 연결된 나무위키 탭의 설정을 따르고, 나무위키 탭이 아니면 시스템 설정을 따른다. */
+  :root { --bar: linear-gradient(to right, #00a69c, #00a69c, #28b472); --card: #fff; --text: #212529; --muted: #6c757d;
+          --border: #dadada; --btn: #fff; --btn-hover: #efefef; --primary: #00a69c; --link: #0275d8; --hl: #d4f0e3; --err: #d64a58; --soft: #f5f5f5; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bar: #2e3033; --card: #1c1d1f; --text: #e0e0e0;
+          --muted: #9a9a9a; --border: #3e3e3e; --btn: #000; --btn-hover: #1e1e1e; --hl: #325e4a; --soft: #26282b; --link: #ec9f19; } }
+  :root[data-theme="dark"] { --bar: #2e3033; --card: #1c1d1f; --text: #e0e0e0; --muted: #9a9a9a; --border: #3e3e3e;
+          --btn: #000; --btn-hover: #1e1e1e; --hl: #325e4a; --soft: #26282b; --link: #ec9f19; }
+  body { width: 320px; margin: 0; word-break: keep-all; overflow-wrap: anywhere; background: var(--card); color: var(--text); font-size: 14px;
+         font-family: "Pretendard JP", Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
+  header { display: flex; align-items: center; gap: 8px; background: var(--bar); color: #fff; padding: 10px 12px; }
+  header b { font-size: 15px; margin-right: auto; }
+  header button { all: unset; cursor: pointer; height: 22px; border-radius: 11px; border: 1.5px solid rgba(255,255,255,.8);
+                  text-align: center; line-height: 20px; font-weight: 700; font-size: 12px; padding: 0 8px; }
+  header #help { width: 22px; padding: 0; font-size: 13px; }
+  header button.on { background: rgba(255,255,255,.25); }
+  main { padding: 12px; }
+  label { display: block; margin: 8px 0 4px; font-weight: 600; }
+  .row { display: flex; gap: 6px; }
+  input:not([type="radio"]):not([type="checkbox"]) { flex: 1; min-width: 0; padding: 7px 8px; font: inherit; color: var(--text); background: var(--btn);
+          border: 1px solid var(--border); border-radius: .3rem; outline-color: var(--primary); }
+  .btn { font: inherit; font-size: 13px; padding: 6px 10px; color: var(--text); background: var(--btn); border: 1px solid var(--border);
+         border-radius: .3rem; cursor: pointer; }
+  .btn:hover:not(:disabled) { background: var(--btn-hover); }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .btn.primary, .btn.primary:hover:not(:disabled) { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 600; }
+  .btn.primary:hover:not(:disabled) { filter: brightness(1.08); }
+  .start { margin-top: 12px; width: 100%; padding: 9px; font-size: 14px; }
+  .tabs { display: flex; border: 1px solid var(--border); border-radius: .3rem; overflow: hidden; margin-bottom: 12px; }
+  .tabs button { flex: 1; font: inherit; font-size: 13px; padding: 7px 0; border: 0; background: var(--btn); color: var(--text); cursor: pointer; }
+  .tabs button + button { border-left: 1px solid var(--border); }
+  .tabs button.on { background: var(--primary); color: #fff; font-weight: 600; }
+  .seg { display: flex; gap: 6px; }
+  /* 난이도마다 고유색: 쉬움 초록(나무위키 브랜드 초록), 보통 주황(나무위키 다크 링크색), 어려움 나무위키 위험색 */
+  .seg label { display: flex; align-items: center; justify-content: center; line-height: 1.2; --c: var(--primary); --ct: #fff; flex: 1; margin: 0; font-weight: 500; text-align: center; padding: 8px 0; border: 1px solid var(--border);
+               border-radius: .3rem; cursor: pointer; transition: background .12s, border-color .12s; }
+  .seg label.easy { --c: #28b472; } .seg label.normal { --c: #ec9f19; --ct: #1c1d1f; } .seg label.hard { --c: #d64a58; } .seg label.wild { --c: #8e5ce6; }
+  .seg label:hover { border-color: var(--c); }
+  .seg input { display: none; }
+  .seg label:has(input:checked) { background: var(--c); border-color: var(--c); color: var(--ct); font-weight: 700; }
+  /* 팝업 창은 내용 높이만큼만 커지므로 목록을 띄우지 않고 흐름 안에 둔다(띄우면 창 밖으로 잘린다). */
+  .sug { margin: 2px 0 0; padding: 4px 0; list-style: none; background: var(--card); border: 1px solid var(--border); border-radius: 4px;
+         max-height: 240px; overflow: auto; }
+  .sug li { padding: 6px 10px; cursor: pointer; }
+  .sug li:hover, .sug li.on { background: var(--hl); }
+  .err { color: var(--err); font-size: 14px; margin: 6px 0 0; white-space: pre-line; }
+  .err:empty { display: none; }
+  .hint, .muted { color: var(--muted); font-size: 12px; white-space: pre-line; }
+  .desc, .hint { color: var(--text); font-size: 13px; line-height: 1.55; white-space: pre-line; }
+  .desc { margin: 0 0 12px; } #diffNote { margin: 12px 0 0; }
+  .hint { margin: 12px 0 0; }
+  .hint:empty { display: none; }
+  .pick h3 { font-size: 14px; margin: 14px 0 8px; white-space: pre-line; }
+  .pick .list { max-height: 260px; overflow: auto; }
+  .pick .list .btn { display: block; width: 100%; text-align: left; margin-bottom: 4px; }
+  .pick summary { cursor: pointer; color: var(--muted); margin: 6px 0; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .stat { background: var(--card); padding: 8px 4px; text-align: center; }
+  .stat b { display: block; font-size: 16px; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: 12px; color: var(--muted); }
+  .rulesel { display: block; width: 100%; box-sizing: border-box; margin-bottom: 12px; padding: 7px 8px; font: inherit; color: var(--text); background: var(--btn); border: 1px solid var(--border); border-radius: .3rem; }
+  #records label { margin-top: 0; }
+  #records h3 { margin: 18px 0 4px; padding-bottom: 4px; font-size: 15px; border-bottom: 1px solid var(--border); }
+  .best, .recent { list-style: none; margin: 0; padding: 0; }
+  .best > li, .recent > li { display: grid; gap: 1px 8px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .best > li { grid-template-columns: 3.4em minmax(0, 1fr); }
+  .recent > li { grid-template-columns: 2.4em minmax(0, 1fr) auto; }
+  .best b { font-weight: 700; }
+  .best .path { grid-column: 2 / -1; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+  .recent .sub { grid-column: 2 / -1; display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 12px; }
+  .linkbtn { padding: 0; border: 0; background: none; color: var(--link); font: inherit; font-size: 12px; cursor: pointer; }
+  .recent .sub .linkbtn { margin-left: auto; }
+  .trail { margin: 4px 0 2px; padding-left: 20px; font-size: 13px; }
+  .trail small { color: var(--muted); }
+  .trail .dt { float: right; margin-left: 10px; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .recent .trail { grid-column: 2 / -1; }
+  .daily .trail { margin-top: 6px; }
+  .empty { margin: 0; padding: 28px 0; text-align: center; color: var(--text); font-size: 15px; line-height: 1.6; white-space: pre-line; }
+  .recent .tag { font-weight: 700; }
+  .recent .win { color: var(--primary); }
+  .recent .lose { color: var(--err); }
+  .recent .what { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .recent .res { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .recent .res.fail { color: var(--muted); }
+  #records > .btn { margin-top: 16px; }
+  .daily { background: var(--soft); border-radius: .3rem; padding: 10px 12px; line-height: 1.6; }
+  .daily b { font-size: 15px; }
+  .daily .mine { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 2px; }
+  .streak { flex: none; padding: 1px 8px; border-radius: 10px; background: var(--primary); color: #fff; font-size: 12px; font-weight: 600; }
+  .rules { margin-top: 12px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .rules > summary { display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: var(--soft); font-weight: 700; cursor: pointer; list-style: none; }
+  .rules > summary::-webkit-details-marker { display: none; }
+  .rules > summary::before { content: ''; width: 6px; height: 6px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
+                              transform: rotate(-45deg); transition: transform .15s; }
+  .rules[open] > summary::before { transform: rotate(45deg); }
+  .rules .sum { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--muted); }
+  .rule { display: flex; align-items: center; gap: 12px; min-height: 22px; margin: 0; padding: 8px 12px; border-top: 1px solid var(--border); font-weight: 500; cursor: pointer; }
+  .rule .txt { flex: 1; min-width: 0; }
+  .hubs { padding: 8px 12px; border-top: 1px solid var(--border); font-size: 13px; }
+  .hubs > summary { display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--link); list-style: none; }
+  .hubs > summary::-webkit-details-marker { display: none; }
+  .hubs > summary::before { content: ''; width: 5px; height: 5px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
+  .hubs[open] > summary::before { transform: rotate(45deg); }
+  .hubnote { margin: 8px 0; }
+  .hubnames { margin: 0; max-height: 150px; overflow: auto; padding: 6px 8px; border: 1px solid var(--border); line-height: 1.6; overflow-wrap: anywhere; }
+  .rule .txt b { font-size: 13px; }
+  .switch { appearance: none; -webkit-appearance: none; flex: none; position: relative; width: 38px; height: 22px; margin: 0; border-radius: 11px;
+            background: var(--border); cursor: pointer; transition: background .15s; }
+  .switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform .15s; }
+  .switch:checked { background: var(--primary); }
+  .switch:checked::after { transform: translateX(16px); }
+  .mins { display: flex; align-items: center; gap: 6px; flex: none; }
+  .mins .unit { width: 2em; }
+  #tlm, #msn { flex: none; width: 2ch; padding: 3px 6px; text-align: right; font-size: 13px; }
+  /* 나무위키 탭과 연결이 끊겼을 때: 팝업 전체를 50% 검게 덮고 안내와 새로고침 버튼 */
+  .dead { position: fixed; inset: 0; z-index: 10; background: rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .deadbox { box-sizing: border-box; width: 100%; padding: 16px; text-align: center; background: var(--card); border: 1px solid var(--border); border-radius: 6px; }
+  .deadbox p { margin: 0 0 12px; line-height: 1.6; font-weight: 600; }
+  .deadbox .btn { width: 100%; padding: 8px; }
+  [hidden] { display: none !important; }
+</style>
+<header><b>나무타기</b><button id="showRecords" title="내 기록">기록</button><button id="help" title="설명 보기" aria-label="설명 보기">?</button></header>
+
+<main id="intro" hidden>
+  <div id="introBody"></div>
+  <button class="btn primary start" id="introDone">확인</button>
+</main>
+
+<main id="game" hidden>
+  <nav class="tabs"><button type="button" data-mode="daily">오늘의 문제</button><button type="button" data-mode="custom">직접 출제</button><button type="button" data-mode="random">무작위</button></nav>
+  <form id="f" autocomplete="off">
+    <label for="start">시작 문서</label>
+    <div class="row"><input id="start" name="start" placeholder="비우면 랜덤 문서"><button type="button" class="btn" data-fill="start">이 문서로</button></div>
+    <ul class="sug" hidden></ul>
+    <label for="goal">목표 문서</label>
+    <div class="row"><input id="goal" name="goal" placeholder="비우면 목록에서 뽑기"><button type="button" class="btn" data-fill="goal">이 문서로</button></div>
+    <ul class="sug" hidden></ul>
+    <p class="err" id="err"></p>
+    <button class="btn primary start" id="go">게임 시작</button>
+  </form>
+  <section id="randomPanel" hidden>
+    <p class="desc">난이도를 고르면 목표와 시작 문서가 정해져요.</p>
+    <div class="seg">
+      <label class="easy"><input type="radio" name="diff" value="easy">쉬움</label>
+      <label class="normal"><input type="radio" name="diff" value="normal" checked>보통</label>
+      <label class="hard"><input type="radio" name="diff" value="hard">어려움</label>
+      <label class="wild"><input type="radio" name="diff" value="wild">🎲 랜덤</label>
+    </div>
+    <p class="desc" id="diffNote"></p>
+    <p class="err" id="errRandom"></p>
+    <button class="btn primary start" id="goRandom">무작위 게임 시작</button>
+  </section>
+  <section id="dailyPanel" hidden>
+    <p class="desc">기본 규칙으로 고정이에요.<br>결과를 공유해 친구와 겨뤄 보세요.</p>
+    <div class="daily"><b id="dailyNo"></b><div id="dailyCombo"></div><div class="mine"><span id="dailyMine" class="muted"></span><span id="dailyStreak" class="streak" hidden></span></div>
+      <button type="button" class="linkbtn" id="dailyTrailBtn" hidden>이동내역 보기</button><ol class="trail" id="dailyTrail" hidden></ol></div>
+    <button class="btn primary start" id="goDaily">오늘의 문제 풀기</button>
+  </section>
+  <details class="rules" id="rules">
+    <summary>규칙 <span id="rulesNote" class="sum"></span></summary>
+    <label class="rule"><span class="txt"><b>뒤로가기 금지</b></span><input type="checkbox" class="switch" id="nb"></label>
+    <label class="rule"><span class="txt"><b>틀 상자 링크 금지</b></span><input type="checkbox" class="switch" id="nt"></label>
+    <label class="rule" title="분류 줄과 분류 문서로는 이동할 수 없어요"><span class="txt"><b>분류 링크 금지</b></span><input type="checkbox" class="switch" id="nc"></label>
+    <label class="rule" title="각주 목록 안의 링크는 누를 수 없어요"><span class="txt"><b>각주 링크 금지</b></span><input type="checkbox" class="switch" id="nf"></label>
+    <label class="rule" title="대한민국, 미국처럼 어디서나 닿는 문서는 지나갈 수 없어요"><span class="txt"><b>허브 문서 금지</b></span><input type="checkbox" class="switch" id="nh"></label>
+    <details class="hubs">
+      <summary id="hubSum">허브 문서 목록 보기</summary>
+      <p class="hubnote">허브 문서는 어디서나 링크되는 큰 문서예요.<br>허브 문서 금지를 켜면 이 문서로는 못 가요.<br>목표가 허브면 그 문서는 예외예요.</p>
+      <p class="hubnames" id="hubList"></p>
+    </details>
+    <label class="rule" title="한 번 지나간 문서에는 다시 갈 수 없어요"><span class="txt"><b>같은 문서 재방문 금지</b></span><input type="checkbox" class="switch" id="nr"></label>
+    <label class="rule"><span class="txt"><b>제한 시간</b></span>
+      <span class="mins"><input id="tlm" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="0" title="비우거나 0이면 제한 없음"><span class="unit">분</span></span></label>
+    <label class="rule"><span class="txt"><b>최대 단계</b></span>
+      <span class="mins"><input id="msn" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="0" title="비우거나 0이면 제한 없음"><span class="unit">단계</span></span></label>
+  </details>
+  <section class="pick" id="pick" hidden></section>
+  <p class="hint" id="hint"></p>
+</main>
+
+<main id="records" hidden></main>
+<div class="dead" id="dead" hidden><div class="deadbox"><p>나무위키 탭과 연결이 끊겼어요.<br>탭을 새로고침하고 팝업을 다시 열어 주세요.</p><button class="btn primary" id="reload">탭 새로고침</button></div></div>
+<script src="words.js"></script>
+<script src="hubs.js"></script>
+<script src="intro.js"></script>
+<script src="popup.js"></script>
+</html>

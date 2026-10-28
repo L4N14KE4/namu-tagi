@@ -1,0 +1,9 @@
+.DS_Store
+node_modules/
+
+# 다른 위키게임 확장(라이선스 표기 없음, 참고용)
+jogdlkcjfodcoiicdneelonihooakkkj/
+*.zip
+
+# 다시 받을 수 있는 조회 캐시
+scripts/*-cache.json

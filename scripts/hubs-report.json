@@ -1,0 +1,2850 @@
+[
+ {
+  "input": "대한민국",
+  "status": 200,
+  "canonical": "대한민국",
+  "backlinks": 119407
+ },
+ {
+  "input": "미국",
+  "status": 200,
+  "canonical": "미국",
+  "backlinks": 80155
+ },
+ {
+  "input": "일본",
+  "status": 200,
+  "canonical": "일본",
+  "backlinks": 80455
+ },
+ {
+  "input": "중국",
+  "status": 200,
+  "canonical": "중국",
+  "backlinks": 40251
+ },
+ {
+  "input": "영국",
+  "status": 200,
+  "canonical": "영국",
+  "backlinks": 36537
+ },
+ {
+  "input": "프랑스",
+  "status": 200,
+  "canonical": "프랑스",
+  "backlinks": 26917
+ },
+ {
+  "input": "독일",
+  "status": 200,
+  "canonical": "독일",
+  "backlinks": 23182
+ },
+ {
+  "input": "러시아",
+  "status": 200,
+  "canonical": "러시아",
+  "backlinks": 18452
+ },
+ {
+  "input": "이탈리아",
+  "status": 200,
+  "canonical": "이탈리아",
+  "backlinks": 17175
+ },
+ {
+  "input": "캐나다",
+  "status": 200,
+  "canonical": "캐나다",
+  "backlinks": 15023
+ },
+ {
+  "input": "호주",
+  "status": 200,
+  "canonical": "호주",
+  "backlinks": 12918
+ },
+ {
+  "input": "인도",
+  "status": 200,
+  "canonical": "인도",
+  "backlinks": 10181
+ },
+ {
+  "input": "브라질",
+  "status": 200,
+  "canonical": "브라질",
+  "backlinks": 10567
+ },
+ {
+  "input": "북한",
+  "status": 200,
+  "canonical": "북한",
+  "backlinks": 13407
+ },
+ {
+  "input": "대만",
+  "status": 200,
+  "canonical": "대만",
+  "backlinks": 13444
+ },
+ {
+  "input": "스페인",
+  "status": 200,
+  "canonical": "스페인",
+  "backlinks": 13597
+ },
+ {
+  "input": "서울특별시",
+  "status": 200,
+  "canonical": "서울특별시",
+  "backlinks": 45516
+ },
+ {
+  "input": "도쿄",
+  "status": 200,
+  "canonical": "도쿄도",
+  "backlinks": 12213
+ },
+ {
+  "input": "부산광역시",
+  "status": 200,
+  "canonical": "부산광역시",
+  "backlinks": 18805
+ },
+ {
+  "input": "경기도",
+  "status": 200,
+  "canonical": "경기도",
+  "backlinks": 32470
+ },
+ {
+  "input": "인천광역시",
+  "status": 200,
+  "canonical": "인천광역시",
+  "backlinks": 12008
+ },
+ {
+  "input": "대구광역시",
+  "status": 200,
+  "canonical": "대구광역시",
+  "backlinks": 12819
+ },
+ {
+  "input": "한국어",
+  "status": 200,
+  "canonical": "한국어",
+  "backlinks": 15430
+ },
+ {
+  "input": "영어",
+  "status": 200,
+  "canonical": "영어",
+  "backlinks": 28139
+ },
+ {
+  "input": "일본어",
+  "status": 200,
+  "canonical": "일본어",
+  "backlinks": 16909
+ },
+ {
+  "input": "중국어",
+  "status": 200,
+  "canonical": "중국어",
+  "backlinks": 11734
+ },
+ {
+  "input": "한국",
+  "status": 200,
+  "canonical": "대한민국",
+  "backlinks": 119407
+ },
+ {
+  "input": "유튜브",
+  "status": 200,
+  "canonical": "유튜브",
+  "backlinks": 19199
+ },
+ {
+  "input": "트위터",
+  "status": 200,
+  "canonical": "X(SNS)",
+  "backlinks": 8566
+ },
+ {
+  "input": "인스타그램",
+  "status": 200,
+  "canonical": "인스타그램",
+  "backlinks": 7912
+ },
+ {
+  "input": "페이스북",
+  "status": 200,
+  "canonical": "페이스북",
+  "backlinks": 4098
+ },
+ {
+  "input": "구글",
+  "status": 200,
+  "canonical": "구글",
+  "backlinks": 3368
+ },
+ {
+  "input": "삼성전자",
+  "status": 200,
+  "canonical": "삼성전자",
+  "backlinks": 5963
+ },
+ {
+  "input": "마이크로소프트",
+  "status": 200,
+  "canonical": "Microsoft",
+  "backlinks": 1033
+ },
+ {
+  "input": "인터넷",
+  "status": 200,
+  "canonical": "인터넷",
+  "backlinks": 3195
+ },
+ {
+  "input": "기독교",
+  "status": 200,
+  "canonical": "기독교",
+  "backlinks": 6440
+ },
+ {
+  "input": "불교",
+  "status": 200,
+  "canonical": "불교",
+  "backlinks": 7079
+ },
+ {
+  "input": "이슬람",
+  "status": 200,
+  "canonical": "이슬람",
+  "backlinks": 4526
+ },
+ {
+  "input": "천주교",
+  "status": 200,
+  "canonical": "가톨릭",
+  "backlinks": 12114
+ },
+ {
+  "input": "개신교",
+  "status": 200,
+  "canonical": "개신교",
+  "backlinks": 11522
+ },
+ {
+  "input": "대한민국의 역사",
+  "status": 200,
+  "canonical": "대한민국/역사",
+  "backlinks": 43
+ },
+ {
+  "input": "일본의 역사",
+  "status": 404
+ },
+ {
+  "input": "미국의 역사",
+  "status": 404
+ },
+ {
+  "input": "세계사",
+  "status": 200,
+  "canonical": "세계사",
+  "backlinks": 327
+ },
+ {
+  "input": "제2차 세계 대전",
+  "status": 200,
+  "canonical": "제2차 세계 대전",
+  "backlinks": 18713
+ },
+ {
+  "input": "2025년",
+  "status": 200,
+  "canonical": "2025년",
+  "backlinks": 31491
+ },
+ {
+  "input": "2024년",
+  "status": 200,
+  "canonical": "2024년",
+  "backlinks": 34366
+ },
+ {
+  "input": "2023년",
+  "status": 200,
+  "canonical": "2023년",
+  "backlinks": 33007
+ },
+ {
+  "input": "2022년",
+  "status": 200,
+  "canonical": "2022년",
+  "backlinks": 32867
+ },
+ {
+  "input": "2021년",
+  "status": 200,
+  "canonical": "2021년",
+  "backlinks": 31598
+ },
+ {
+  "input": "2020년",
+  "status": 200,
+  "canonical": "2020년",
+  "backlinks": 30933
+ },
+ {
+  "input": "2019년",
+  "status": 200,
+  "canonical": "2019년",
+  "backlinks": 30018
+ },
+ {
+  "input": "2018년",
+  "status": 200,
+  "canonical": "2018년",
+  "backlinks": 29431
+ },
+ {
+  "input": "2017년",
+  "status": 200,
+  "canonical": "2017년",
+  "backlinks": 27604
+ },
+ {
+  "input": "2016년",
+  "status": 200,
+  "canonical": "2016년",
+  "backlinks": 25756
+ },
+ {
+  "input": "2015년",
+  "status": 200,
+  "canonical": "2015년",
+  "backlinks": 23712
+ },
+ {
+  "input": "2014년",
+  "status": 200,
+  "canonical": "2014년",
+  "backlinks": 22804
+ },
+ {
+  "input": "2013년",
+  "status": 200,
+  "canonical": "2013년",
+  "backlinks": 20272
+ },
+ {
+  "input": "2012년",
+  "status": 200,
+  "canonical": "2012년",
+  "backlinks": 20295
+ },
+ {
+  "input": "2011년",
+  "status": 200,
+  "canonical": "2011년",
+  "backlinks": 18348
+ },
+ {
+  "input": "2010년",
+  "status": 200,
+  "canonical": "2010년",
+  "backlinks": 18492
+ },
+ {
+  "input": "2009년",
+  "status": 200,
+  "canonical": "2009년",
+  "backlinks": 16984
+ },
+ {
+  "input": "2008년",
+  "status": 200,
+  "canonical": "2008년",
+  "backlinks": 16741
+ },
+ {
+  "input": "2007년",
+  "status": 200,
+  "canonical": "2007년",
+  "backlinks": 16148
+ },
+ {
+  "input": "2006년",
+  "status": 200,
+  "canonical": "2006년",
+  "backlinks": 16492
+ },
+ {
+  "input": "2005년",
+  "status": 200,
+  "canonical": "2005년",
+  "backlinks": 16418
+ },
+ {
+  "input": "2000년",
+  "status": 200,
+  "canonical": "2000년",
+  "backlinks": 17184
+ },
+ {
+  "input": "1월",
+  "status": 200,
+  "canonical": "1월",
+  "backlinks": 4421
+ },
+ {
+  "input": "2월",
+  "status": 200,
+  "canonical": "2월",
+  "backlinks": 3991
+ },
+ {
+  "input": "3월",
+  "status": 200,
+  "canonical": "3월",
+  "backlinks": 4833
+ },
+ {
+  "input": "4월",
+  "status": 200,
+  "canonical": "4월",
+  "backlinks": 4469
+ },
+ {
+  "input": "5월",
+  "status": 200,
+  "canonical": "5월",
+  "backlinks": 4326
+ },
+ {
+  "input": "6월",
+  "status": 200,
+  "canonical": "6월",
+  "backlinks": 4220
+ },
+ {
+  "input": "7월",
+  "status": 200,
+  "canonical": "7월",
+  "backlinks": 4388
+ },
+ {
+  "input": "8월",
+  "status": 200,
+  "canonical": "8월",
+  "backlinks": 4131
+ },
+ {
+  "input": "9월",
+  "status": 200,
+  "canonical": "9월",
+  "backlinks": 4311
+ },
+ {
+  "input": "10월",
+  "status": 200,
+  "canonical": "10월",
+  "backlinks": 4496
+ },
+ {
+  "input": "11월",
+  "status": 200,
+  "canonical": "11월",
+  "backlinks": 4463
+ },
+ {
+  "input": "12월",
+  "status": 200,
+  "canonical": "12월",
+  "backlinks": 5157
+ },
+ {
+  "input": "월요일",
+  "status": 200,
+  "canonical": "월요일",
+  "backlinks": 1744
+ },
+ {
+  "input": "금요일",
+  "status": 200,
+  "canonical": "금요일",
+  "backlinks": 1925
+ },
+ {
+  "input": "일요일",
+  "status": 200,
+  "canonical": "일요일",
+  "backlinks": 2004
+ },
+ {
+  "input": "애니메이션",
+  "status": 200,
+  "canonical": "애니메이션",
+  "backlinks": 6591
+ },
+ {
+  "input": "만화",
+  "status": 200,
+  "canonical": "만화",
+  "backlinks": 3587
+ },
+ {
+  "input": "게임",
+  "status": 200,
+  "canonical": "게임",
+  "backlinks": 4496
+ },
+ {
+  "input": "영화",
+  "status": 200,
+  "canonical": "영화",
+  "backlinks": 4965
+ },
+ {
+  "input": "드라마",
+  "status": 200,
+  "canonical": "드라마",
+  "backlinks": 12384
+ },
+ {
+  "input": "대한민국의 드라마",
+  "status": 404
+ },
+ {
+  "input": "한국 영화",
+  "status": 200,
+  "canonical": "한국 영화",
+  "backlinks": 1404
+ },
+ {
+  "input": "일본 애니메이션",
+  "status": 200,
+  "canonical": "일본 애니메이션",
+  "backlinks": 1483
+ },
+ {
+  "input": "미국 드라마",
+  "status": 200,
+  "canonical": "미국 드라마",
+  "backlinks": 1215
+ },
+ {
+  "input": "음악",
+  "status": 200,
+  "canonical": "음악",
+  "backlinks": 2080
+ },
+ {
+  "input": "대한민국의 대중음악",
+  "status": 404
+ },
+ {
+  "input": "K-POP",
+  "status": 200,
+  "canonical": "K-POP",
+  "backlinks": 2873
+ },
+ {
+  "input": "대한민국의 방송",
+  "status": 404
+ },
+ {
+  "input": "남자",
+  "status": 200,
+  "canonical": "남성",
+  "backlinks": 9870
+ },
+ {
+  "input": "여자",
+  "status": 200,
+  "canonical": "여성",
+  "backlinks": 9575
+ },
+ {
+  "input": "인간",
+  "status": 200,
+  "canonical": "사람",
+  "backlinks": 2791
+ },
+ {
+  "input": "사람",
+  "status": 200,
+  "canonical": "사람",
+  "backlinks": 2791
+ },
+ {
+  "input": "지구",
+  "status": 200,
+  "canonical": "지구",
+  "backlinks": 4188
+ },
+ {
+  "input": "태양",
+  "status": 200,
+  "canonical": "태양",
+  "backlinks": 1952
+ },
+ {
+  "input": "물",
+  "status": 200,
+  "canonical": "물",
+  "backlinks": 2642
+ },
+ {
+  "input": "식물",
+  "status": 200,
+  "canonical": "식물",
+  "backlinks": 2034
+ },
+ {
+  "input": "동물",
+  "status": 200,
+  "canonical": "동물",
+  "backlinks": 9680
+ },
+ {
+  "input": "포유류",
+  "status": 200,
+  "canonical": "포유류",
+  "backlinks": 1838
+ },
+ {
+  "input": "한국인",
+  "status": 200,
+  "canonical": "한국인",
+  "backlinks": 4900
+ },
+ {
+  "input": "일본인",
+  "status": 200,
+  "canonical": "일본인",
+  "backlinks": 4227
+ },
+ {
+  "input": "미국인",
+  "status": 200,
+  "canonical": "미국인",
+  "backlinks": 2731
+ },
+ {
+  "input": "한자",
+  "status": 200,
+  "canonical": "한자",
+  "backlinks": 13149
+ },
+ {
+  "input": "알파벳",
+  "status": 200,
+  "canonical": "알파벳",
+  "backlinks": 398
+ },
+ {
+  "input": "대한민국의 행정구역",
+  "status": 404
+ },
+ {
+  "input": "민주주의",
+  "status": 200,
+  "canonical": "민주주의",
+  "backlinks": 2308
+ },
+ {
+  "input": "공산주의",
+  "status": 200,
+  "canonical": "공산주의",
+  "backlinks": 3345
+ },
+ {
+  "input": "자본주의",
+  "status": 200,
+  "canonical": "자본주의",
+  "backlinks": 1840
+ },
+ {
+  "input": "정치",
+  "status": 200,
+  "canonical": "정치",
+  "backlinks": 1747
+ },
+ {
+  "input": "경제",
+  "status": 200,
+  "canonical": "경제",
+  "backlinks": 1027
+ },
+ {
+  "input": "과학",
+  "status": 200,
+  "canonical": "과학",
+  "backlinks": 1382
+ },
+ {
+  "input": "수학",
+  "status": 200,
+  "canonical": "수학",
+  "backlinks": 2007
+ },
+ {
+  "input": "물리학",
+  "status": 200,
+  "canonical": "물리학",
+  "backlinks": 1377
+ },
+ {
+  "input": "화학",
+  "status": 200,
+  "canonical": "화학",
+  "backlinks": 1024
+ },
+ {
+  "input": "생물학",
+  "status": 200,
+  "canonical": "생물학",
+  "backlinks": 735
+ },
+ {
+  "input": "역사",
+  "status": 200,
+  "canonical": "역사",
+  "backlinks": 1879
+ },
+ {
+  "input": "지리",
+  "status": 200,
+  "canonical": "지리학",
+  "backlinks": 278
+ },
+ {
+  "input": "문화",
+  "status": 200,
+  "canonical": "문화",
+  "backlinks": 1008
+ },
+ {
+  "input": "예술",
+  "status": 200,
+  "canonical": "예술",
+  "backlinks": 702
+ },
+ {
+  "input": "스포츠",
+  "status": 200,
+  "canonical": "스포츠",
+  "backlinks": 2066
+ },
+ {
+  "input": "축구",
+  "status": 200,
+  "canonical": "축구",
+  "backlinks": 5166
+ },
+ {
+  "input": "야구",
+  "status": 200,
+  "canonical": "야구",
+  "backlinks": 4002
+ },
+ {
+  "input": "농구",
+  "status": 200,
+  "canonical": "농구",
+  "backlinks": 2720
+ },
+ {
+  "input": "올림픽",
+  "status": 200,
+  "canonical": "올림픽",
+  "backlinks": 2504
+ },
+ {
+  "input": "FIFA 월드컵",
+  "status": 200,
+  "canonical": "FIFA 월드컵",
+  "backlinks": 2822
+ },
+ {
+  "input": "대한민국 국가대표팀",
+  "status": 404
+ },
+ {
+  "input": "대한민국 축구 국가대표팀",
+  "status": 200,
+  "canonical": "대한민국 축구 국가대표팀",
+  "backlinks": 3565
+ },
+ {
+  "input": "멕시코",
+  "status": 200,
+  "canonical": "멕시코",
+  "backlinks": 7908
+ },
+ {
+  "input": "이집트",
+  "status": 200,
+  "canonical": "이집트",
+  "backlinks": 5251
+ },
+ {
+  "input": "튀르키예",
+  "status": 200,
+  "canonical": "튀르키예",
+  "backlinks": 8099
+ },
+ {
+  "input": "그리스",
+  "status": 200,
+  "canonical": "그리스",
+  "backlinks": 5219
+ },
+ {
+  "input": "네덜란드",
+  "status": 200,
+  "canonical": "네덜란드",
+  "backlinks": 9650
+ },
+ {
+  "input": "스위스",
+  "status": 200,
+  "canonical": "스위스",
+  "backlinks": 6840
+ },
+ {
+  "input": "스웨덴",
+  "status": 200,
+  "canonical": "스웨덴",
+  "backlinks": 7751
+ },
+ {
+  "input": "노르웨이",
+  "status": 200,
+  "canonical": "노르웨이",
+  "backlinks": 5040
+ },
+ {
+  "input": "핀란드",
+  "status": 200,
+  "canonical": "핀란드",
+  "backlinks": 5012
+ },
+ {
+  "input": "덴마크",
+  "status": 200,
+  "canonical": "덴마크",
+  "backlinks": 5367
+ },
+ {
+  "input": "폴란드",
+  "status": 200,
+  "canonical": "폴란드",
+  "backlinks": 7100
+ },
+ {
+  "input": "우크라이나",
+  "status": 200,
+  "canonical": "우크라이나",
+  "backlinks": 6080
+ },
+ {
+  "input": "베트남",
+  "status": 200,
+  "canonical": "베트남",
+  "backlinks": 7123
+ },
+ {
+  "input": "태국",
+  "status": 200,
+  "canonical": "태국",
+  "backlinks": 7109
+ },
+ {
+  "input": "인도네시아",
+  "status": 200,
+  "canonical": "인도네시아",
+  "backlinks": 6099
+ },
+ {
+  "input": "필리핀",
+  "status": 200,
+  "canonical": "필리핀",
+  "backlinks": 5881
+ },
+ {
+  "input": "싱가포르",
+  "status": 200,
+  "canonical": "싱가포르",
+  "backlinks": 6084
+ },
+ {
+  "input": "이란",
+  "status": 200,
+  "canonical": "이란",
+  "backlinks": 5266
+ },
+ {
+  "input": "이스라엘",
+  "status": 200,
+  "canonical": "이스라엘",
+  "backlinks": 5822
+ },
+ {
+  "input": "아르헨티나",
+  "status": 200,
+  "canonical": "아르헨티나",
+  "backlinks": 6420
+ },
+ {
+  "input": "뉴질랜드",
+  "status": 200,
+  "canonical": "뉴질랜드",
+  "backlinks": 5177
+ },
+ {
+  "input": "포르투갈",
+  "status": 200,
+  "canonical": "포르투갈",
+  "backlinks": 5833
+ },
+ {
+  "input": "오스트리아",
+  "status": 200,
+  "canonical": "오스트리아",
+  "backlinks": 6040
+ },
+ {
+  "input": "벨기에",
+  "status": 200,
+  "canonical": "벨기에",
+  "backlinks": 6111
+ },
+ {
+  "input": "홍콩",
+  "status": 200,
+  "canonical": "홍콩",
+  "backlinks": 8337
+ },
+ {
+  "input": "대전광역시",
+  "status": 200,
+  "canonical": "대전광역시",
+  "backlinks": 7979
+ },
+ {
+  "input": "광주광역시",
+  "status": 200,
+  "canonical": "광주광역시",
+  "backlinks": 5408
+ },
+ {
+  "input": "울산광역시",
+  "status": 200,
+  "canonical": "울산광역시",
+  "backlinks": 6444
+ },
+ {
+  "input": "강원특별자치도",
+  "status": 200,
+  "canonical": "강원특별자치도",
+  "backlinks": 12106
+ },
+ {
+  "input": "수원시",
+  "status": 200,
+  "canonical": "수원시",
+  "backlinks": 5183
+ },
+ {
+  "input": "홋카이도",
+  "status": 200,
+  "canonical": "홋카이도",
+  "backlinks": 5763
+ },
+ {
+  "input": "뉴욕",
+  "status": 200,
+  "canonical": "뉴욕시",
+  "backlinks": 5560
+ },
+ {
+  "input": "로스앤젤레스",
+  "status": 200,
+  "canonical": "로스앤젤레스",
+  "backlinks": 6864
+ },
+ {
+  "input": "런던",
+  "status": 200,
+  "canonical": "런던",
+  "backlinks": 9304
+ },
+ {
+  "input": "고양이",
+  "status": 200,
+  "canonical": "고양이",
+  "backlinks": 5258
+ },
+ {
+  "input": "신라",
+  "status": 200,
+  "canonical": "신라",
+  "backlinks": 5637
+ },
+ {
+  "input": "고려",
+  "status": 200,
+  "canonical": "고려",
+  "backlinks": 6165
+ },
+ {
+  "input": "조선",
+  "status": 200,
+  "canonical": "조선",
+  "backlinks": 10972
+ },
+ {
+  "input": "일제강점기",
+  "status": 200,
+  "canonical": "일제강점기",
+  "backlinks": 7832
+ },
+ {
+  "input": "6.25 전쟁",
+  "status": 200,
+  "canonical": "6.25 전쟁",
+  "backlinks": 10506
+ },
+ {
+  "input": "제1차 세계 대전",
+  "status": 200,
+  "canonical": "제1차 세계 대전",
+  "backlinks": 9427
+ },
+ {
+  "input": "소련",
+  "status": 200,
+  "canonical": "소련",
+  "backlinks": 14098
+ },
+ {
+  "input": "코로나19",
+  "status": 200,
+  "canonical": "코로나바이러스감염증-19",
+  "backlinks": 12946
+ },
+ {
+  "input": "메이저 리그 베이스볼",
+  "status": 200,
+  "canonical": "메이저 리그 베이스볼",
+  "backlinks": 6505
+ },
+ {
+  "input": "KBO 리그",
+  "status": 200,
+  "canonical": "KBO 리그",
+  "backlinks": 7654
+ },
+ {
+  "input": "포켓몬스터",
+  "status": 200,
+  "canonical": "포켓몬스터",
+  "backlinks": 6826
+ },
+ {
+  "input": "리그 오브 레전드",
+  "status": 200,
+  "canonical": "리그 오브 레전드",
+  "backlinks": 11743
+ },
+ {
+  "input": "스타크래프트",
+  "status": 200,
+  "canonical": "스타크래프트",
+  "backlinks": 5686
+ },
+ {
+  "input": "오버워치",
+  "status": 200,
+  "canonical": "오버워치",
+  "backlinks": 6107
+ },
+ {
+  "input": "원피스(만화)",
+  "status": 200,
+  "canonical": "원피스(만화)",
+  "backlinks": 6040
+ },
+ {
+  "input": "군인",
+  "status": 200,
+  "canonical": "군인",
+  "backlinks": 5278
+ },
+ {
+  "input": "넷플릭스",
+  "status": 200,
+  "canonical": "넷플릭스",
+  "backlinks": 8060
+ },
+ {
+  "input": "나무위키",
+  "status": 200,
+  "canonical": "나무위키",
+  "backlinks": 11427
+ },
+ {
+  "input": "아일랜드",
+  "status": 200,
+  "canonical": "아일랜드",
+  "backlinks": 5575
+ },
+ {
+  "input": "잉글랜드",
+  "status": 200,
+  "canonical": "잉글랜드",
+  "backlinks": 11692
+ },
+ {
+  "input": "충청북도",
+  "status": 200,
+  "canonical": "충청북도",
+  "backlinks": 8356
+ },
+ {
+  "input": "충청남도",
+  "status": 200,
+  "canonical": "충청남도",
+  "backlinks": 11039
+ },
+ {
+  "input": "전라남도",
+  "status": 200,
+  "canonical": "전라남도",
+  "backlinks": 7125
+ },
+ {
+  "input": "경상북도",
+  "status": 200,
+  "canonical": "경상북도",
+  "backlinks": 16360
+ },
+ {
+  "input": "경상남도",
+  "status": 200,
+  "canonical": "경상남도",
+  "backlinks": 16118
+ },
+ {
+  "input": "창원시",
+  "status": 200,
+  "canonical": "창원시",
+  "backlinks": 5159
+ },
+ {
+  "input": "강남구",
+  "status": 200,
+  "canonical": "강남구",
+  "backlinks": 5712
+ },
+ {
+  "input": "캘리포니아주",
+  "status": 200,
+  "canonical": "캘리포니아",
+  "backlinks": 8927
+ },
+ {
+  "input": "마이크로소프트 윈도우",
+  "status": 200,
+  "canonical": "Microsoft Windows",
+  "backlinks": 8256
+ },
+ {
+  "input": "iOS",
+  "status": 200,
+  "canonical": "iOS",
+  "backlinks": 5802
+ },
+ {
+  "input": "메이플스토리",
+  "status": 200,
+  "canonical": "메이플스토리",
+  "backlinks": 6589
+ },
+ {
+  "input": "UEFA 챔피언스 리그",
+  "status": 200,
+  "canonical": "UEFA 챔피언스 리그",
+  "backlinks": 6052
+ },
+ {
+  "input": "맨체스터 유나이티드 FC",
+  "status": 200,
+  "canonical": "맨체스터 유나이티드 FC",
+  "backlinks": 5472
+ },
+ {
+  "input": "가수",
+  "status": 200,
+  "canonical": "가수",
+  "backlinks": 9993
+ },
+ {
+  "input": "배우",
+  "status": 200,
+  "canonical": "배우",
+  "backlinks": 22738
+ },
+ {
+  "input": "유튜버",
+  "status": 200,
+  "canonical": "유튜브 크리에이터",
+  "backlinks": 5109
+ },
+ {
+  "input": "프로게이머",
+  "status": 200,
+  "canonical": "프로게이머",
+  "backlinks": 5249
+ },
+ {
+  "input": "빌보드 핫 100",
+  "status": 200,
+  "canonical": "빌보드 핫 100",
+  "backlinks": 5007
+ },
+ {
+  "input": "유럽",
+  "status": 200,
+  "canonical": "유럽",
+  "backlinks": 10782
+ },
+ {
+  "input": "뉴욕주",
+  "status": 200,
+  "canonical": "뉴욕주",
+  "backlinks": 6177
+ },
+ {
+  "input": "청나라",
+  "status": 200,
+  "canonical": "청나라",
+  "backlinks": 5327
+ },
+ {
+  "input": "도널드 트럼프",
+  "status": 200,
+  "canonical": "도널드 트럼프",
+  "backlinks": 5133
+ },
+ {
+  "input": "이재명",
+  "status": 200,
+  "canonical": "이재명",
+  "backlinks": 5656
+ },
+ {
+  "input": "윤석열",
+  "status": 200,
+  "canonical": "윤석열",
+  "backlinks": 5688
+ },
+ {
+  "input": "문재인",
+  "status": 200,
+  "canonical": "문재인",
+  "backlinks": 5422
+ },
+ {
+  "input": "독일어",
+  "status": 200,
+  "canonical": "독일어",
+  "backlinks": 7900
+ },
+ {
+  "input": "프랑스어",
+  "status": 200,
+  "canonical": "프랑스어",
+  "backlinks": 9761
+ },
+ {
+  "input": "스페인어",
+  "status": 200,
+  "canonical": "스페인어",
+  "backlinks": 7198
+ },
+ {
+  "input": "러시아어",
+  "status": 200,
+  "canonical": "러시아어",
+  "backlinks": 6311
+ },
+ {
+  "input": "라틴어",
+  "status": 200,
+  "canonical": "라틴어",
+  "backlinks": 7172
+ },
+ {
+  "input": "디시인사이드",
+  "status": 200,
+  "canonical": "디시인사이드",
+  "backlinks": 6232
+ },
+ {
+  "input": "더불어민주당",
+  "status": 200,
+  "canonical": "더불어민주당",
+  "backlinks": 12349
+ },
+ {
+  "input": "국민의힘",
+  "status": 200,
+  "canonical": "국민의힘",
+  "backlinks": 9696
+ },
+ {
+  "input": "KBS 2TV",
+  "status": 200,
+  "canonical": "KBS 2TV",
+  "backlinks": 8593
+ },
+ {
+  "input": "정치인",
+  "status": 200,
+  "canonical": "정치인",
+  "backlinks": 11345
+ },
+ {
+  "input": "낱말",
+  "status": 200,
+  "canonical": "단어",
+  "backlinks": 8338
+ },
+ {
+  "input": "제9회 전국동시지방선거",
+  "status": 200,
+  "canonical": "제9회 전국동시지방선거",
+  "backlinks": 5092
+ },
+ {
+  "input": "말레이시아",
+  "status": 200,
+  "canonical": "말레이시아",
+  "backlinks": 4817
+ },
+ {
+  "input": "몽골",
+  "status": 200,
+  "canonical": "몽골",
+  "backlinks": 3632
+ },
+ {
+  "input": "사우디아라비아",
+  "status": 200,
+  "canonical": "사우디아라비아",
+  "backlinks": 4021
+ },
+ {
+  "input": "칠레",
+  "status": 200,
+  "canonical": "칠레",
+  "backlinks": 3077
+ },
+ {
+  "input": "남아프리카 공화국",
+  "status": 200,
+  "canonical": "남아프리카 공화국",
+  "backlinks": 3696
+ },
+ {
+  "input": "체코",
+  "status": 200,
+  "canonical": "체코",
+  "backlinks": 3942
+ },
+ {
+  "input": "헝가리",
+  "status": 200,
+  "canonical": "헝가리",
+  "backlinks": 4204
+ },
+ {
+  "input": "제주특별자치도",
+  "status": 200,
+  "canonical": "제주특별자치도",
+  "backlinks": 4781
+ },
+ {
+  "input": "경주시",
+  "status": 200,
+  "canonical": "경주시",
+  "backlinks": 3939
+ },
+ {
+  "input": "전주시",
+  "status": 200,
+  "canonical": "전주시",
+  "backlinks": 3810
+ },
+ {
+  "input": "로마",
+  "status": 200,
+  "canonical": "로마",
+  "backlinks": 4099
+ },
+ {
+  "input": "베를린",
+  "status": 200,
+  "canonical": "베를린",
+  "backlinks": 3719
+ },
+ {
+  "input": "모스크바",
+  "status": 200,
+  "canonical": "모스크바",
+  "backlinks": 3947
+ },
+ {
+  "input": "개",
+  "status": 200,
+  "canonical": "개",
+  "backlinks": 3235
+ },
+ {
+  "input": "소나무",
+  "status": 200,
+  "canonical": "소나무",
+  "backlinks": 4033
+ },
+ {
+  "input": "장미",
+  "status": 200,
+  "canonical": "장미",
+  "backlinks": 3754
+ },
+ {
+  "input": "스마트폰",
+  "status": 200,
+  "canonical": "스마트폰",
+  "backlinks": 4692
+ },
+ {
+  "input": "예수",
+  "status": 200,
+  "canonical": "예수",
+  "backlinks": 3068
+ },
+ {
+  "input": "아돌프 히틀러",
+  "status": 200,
+  "canonical": "아돌프 히틀러",
+  "backlinks": 3691
+ },
+ {
+  "input": "고구려",
+  "status": 200,
+  "canonical": "고구려",
+  "backlinks": 4174
+ },
+ {
+  "input": "백제",
+  "status": 200,
+  "canonical": "백제",
+  "backlinks": 3345
+ },
+ {
+  "input": "임진왜란",
+  "status": 200,
+  "canonical": "임진왜란",
+  "backlinks": 3478
+ },
+ {
+  "input": "냉전",
+  "status": 200,
+  "canonical": "냉전",
+  "backlinks": 4081
+ },
+ {
+  "input": "로마 제국",
+  "status": 200,
+  "canonical": "로마 제국",
+  "backlinks": 3983
+ },
+ {
+  "input": "프리미어 리그",
+  "status": 200,
+  "canonical": "프리미어 리그",
+  "backlinks": 4979
+ },
+ {
+  "input": "힙합",
+  "status": 200,
+  "canonical": "힙합",
+  "backlinks": 3131
+ },
+ {
+  "input": "BTS",
+  "status": 200,
+  "canonical": "방탄소년단",
+  "backlinks": 4610
+ },
+ {
+  "input": "아이유",
+  "status": 200,
+  "canonical": "아이유",
+  "backlinks": 3516
+ },
+ {
+  "input": "TWICE",
+  "status": 200,
+  "canonical": "TWICE",
+  "backlinks": 3304
+ },
+ {
+  "input": "스타워즈",
+  "status": 200,
+  "canonical": "스타워즈",
+  "backlinks": 3585
+ },
+ {
+  "input": "마블 시네마틱 유니버스",
+  "status": 200,
+  "canonical": "마블 시네마틱 유니버스",
+  "backlinks": 4281
+ },
+ {
+  "input": "마인크래프트",
+  "status": 200,
+  "canonical": "마인크래프트",
+  "backlinks": 4231
+ },
+ {
+  "input": "나루토",
+  "status": 200,
+  "canonical": "나루토",
+  "backlinks": 4178
+ },
+ {
+  "input": "드래곤볼",
+  "status": 200,
+  "canonical": "드래곤볼",
+  "backlinks": 3932
+ },
+ {
+  "input": "명탐정 코난",
+  "status": 200,
+  "canonical": "명탐정 코난",
+  "backlinks": 4306
+ },
+ {
+  "input": "대학교",
+  "status": 200,
+  "canonical": "대학",
+  "backlinks": 3216
+ },
+ {
+  "input": "경찰",
+  "status": 200,
+  "canonical": "경찰",
+  "backlinks": 3623
+ },
+ {
+  "input": "의사",
+  "status": 200,
+  "canonical": "의사",
+  "backlinks": 3704
+ },
+ {
+  "input": "변호사",
+  "status": 200,
+  "canonical": "변호사",
+  "backlinks": 3968
+ },
+ {
+  "input": "현대자동차",
+  "status": 200,
+  "canonical": "현대자동차",
+  "backlinks": 4670
+ },
+ {
+  "input": "네이버",
+  "status": 200,
+  "canonical": "네이버",
+  "backlinks": 4277
+ },
+ {
+  "input": "애플",
+  "status": 200,
+  "canonical": "Apple",
+  "backlinks": 3335
+ },
+ {
+  "input": "버스",
+  "status": 200,
+  "canonical": "버스",
+  "backlinks": 3752
+ },
+ {
+  "input": "인천국제공항",
+  "status": 200,
+  "canonical": "인천국제공항",
+  "backlinks": 3520
+ },
+ {
+  "input": "결혼",
+  "status": 200,
+  "canonical": "결혼",
+  "backlinks": 3815
+ },
+ {
+  "input": "크리스마스",
+  "status": 200,
+  "canonical": "성탄절",
+  "backlinks": 3419
+ },
+ {
+  "input": "파키스탄",
+  "status": 200,
+  "canonical": "파키스탄",
+  "backlinks": 3209
+ },
+ {
+  "input": "루마니아",
+  "status": 200,
+  "canonical": "루마니아",
+  "backlinks": 3575
+ },
+ {
+  "input": "스코틀랜드",
+  "status": 200,
+  "canonical": "스코틀랜드",
+  "backlinks": 4729
+ },
+ {
+  "input": "콜롬비아",
+  "status": 200,
+  "canonical": "콜롬비아",
+  "backlinks": 3083
+ },
+ {
+  "input": "포항시",
+  "status": 200,
+  "canonical": "포항시",
+  "backlinks": 3197
+ },
+ {
+  "input": "성남시",
+  "status": 200,
+  "canonical": "성남시",
+  "backlinks": 4297
+ },
+ {
+  "input": "고양시",
+  "status": 200,
+  "canonical": "고양시",
+  "backlinks": 4777
+ },
+ {
+  "input": "용인시",
+  "status": 200,
+  "canonical": "용인시",
+  "backlinks": 3829
+ },
+ {
+  "input": "청주시",
+  "status": 200,
+  "canonical": "청주시",
+  "backlinks": 4658
+ },
+ {
+  "input": "천안시",
+  "status": 200,
+  "canonical": "천안시",
+  "backlinks": 3561
+ },
+ {
+  "input": "종로구",
+  "status": 200,
+  "canonical": "종로구",
+  "backlinks": 4425
+ },
+ {
+  "input": "용산구",
+  "status": 200,
+  "canonical": "용산구",
+  "backlinks": 3035
+ },
+ {
+  "input": "시카고",
+  "status": 200,
+  "canonical": "시카고",
+  "backlinks": 3127
+ },
+ {
+  "input": "워싱턴 D.C.",
+  "status": 200,
+  "canonical": "워싱턴 D.C.",
+  "backlinks": 3042
+ },
+ {
+  "input": "텍사스주",
+  "status": 200,
+  "canonical": "텍사스",
+  "backlinks": 3770
+ },
+ {
+  "input": "플로리다주",
+  "status": 200,
+  "canonical": "플로리다",
+  "backlinks": 3357
+ },
+ {
+  "input": "소녀시대",
+  "status": 200,
+  "canonical": "소녀시대",
+  "backlinks": 3005
+ },
+ {
+  "input": "무한도전",
+  "status": 200,
+  "canonical": "무한도전",
+  "backlinks": 3903
+ },
+ {
+  "input": "발로란트",
+  "status": 200,
+  "canonical": "발로란트",
+  "backlinks": 3141
+ },
+ {
+  "input": "원신",
+  "status": 200,
+  "canonical": "원신",
+  "backlinks": 4896
+ },
+ {
+  "input": "분데스리가",
+  "status": 200,
+  "canonical": "분데스리가",
+  "backlinks": 3072
+ },
+ {
+  "input": "토트넘 홋스퍼 FC",
+  "status": 200,
+  "canonical": "토트넘 홋스퍼 FC",
+  "backlinks": 4345
+ },
+ {
+  "input": "리버풀 FC",
+  "status": 200,
+  "canonical": "리버풀 FC",
+  "backlinks": 4735
+ },
+ {
+  "input": "FC 바르셀로나",
+  "status": 200,
+  "canonical": "FC 바르셀로나",
+  "backlinks": 4540
+ },
+ {
+  "input": "레알 마드리드 CF",
+  "status": 200,
+  "canonical": "레알 마드리드 CF",
+  "backlinks": 4544
+ },
+ {
+  "input": "뉴욕 양키스",
+  "status": 200,
+  "canonical": "뉴욕 양키스",
+  "backlinks": 3833
+ },
+ {
+  "input": "로스앤젤레스 다저스",
+  "status": 200,
+  "canonical": "로스앤젤레스 다저스",
+  "backlinks": 4033
+ },
+ {
+  "input": "공무원",
+  "status": 200,
+  "canonical": "공무원",
+  "backlinks": 3497
+ },
+ {
+  "input": "초등학교",
+  "status": 200,
+  "canonical": "초등학교",
+  "backlinks": 3219
+ },
+ {
+  "input": "중학교",
+  "status": 200,
+  "canonical": "중학교",
+  "backlinks": 3914
+ },
+ {
+  "input": "고등학교",
+  "status": 200,
+  "canonical": "고등학교",
+  "backlinks": 3043
+ },
+ {
+  "input": "군대",
+  "status": 200,
+  "canonical": "군대",
+  "backlinks": 3233
+ },
+ {
+  "input": "유럽 연합",
+  "status": 200,
+  "canonical": "유럽연합",
+  "backlinks": 3082
+ },
+ {
+  "input": "아프리카",
+  "status": 200,
+  "canonical": "아프리카",
+  "backlinks": 4567
+ },
+ {
+  "input": "아시아",
+  "status": 200,
+  "canonical": "아시아",
+  "backlinks": 3670
+ },
+ {
+  "input": "중화민국",
+  "status": 200,
+  "canonical": "중화민국",
+  "backlinks": 3484
+ },
+ {
+  "input": "오스만 제국",
+  "status": 200,
+  "canonical": "오스만 제국",
+  "backlinks": 4629
+ },
+ {
+  "input": "평양시",
+  "status": 200,
+  "canonical": "평양시",
+  "backlinks": 3387
+ },
+ {
+  "input": "동로마 제국",
+  "status": 200,
+  "canonical": "동로마 제국",
+  "backlinks": 3604
+ },
+ {
+  "input": "동남아시아",
+  "status": 200,
+  "canonical": "동남아시아",
+  "backlinks": 3338
+ },
+ {
+  "input": "동아시아",
+  "status": 200,
+  "canonical": "동아시아",
+  "backlinks": 3068
+ },
+ {
+  "input": "러시아 제국",
+  "status": 200,
+  "canonical": "러시아 제국",
+  "backlinks": 4734
+ },
+ {
+  "input": "박정희",
+  "status": 200,
+  "canonical": "박정희",
+  "backlinks": 4248
+ },
+ {
+  "input": "전두환",
+  "status": 200,
+  "canonical": "전두환",
+  "backlinks": 3435
+ },
+ {
+  "input": "노무현",
+  "status": 200,
+  "canonical": "노무현",
+  "backlinks": 4107
+ },
+ {
+  "input": "김대중",
+  "status": 200,
+  "canonical": "김대중",
+  "backlinks": 3634
+ },
+ {
+  "input": "이명박",
+  "status": 200,
+  "canonical": "이명박",
+  "backlinks": 3737
+ },
+ {
+  "input": "박근혜",
+  "status": 200,
+  "canonical": "박근혜",
+  "backlinks": 4463
+ },
+ {
+  "input": "미국 달러",
+  "status": 200,
+  "canonical": "미국 달러",
+  "backlinks": 3727
+ },
+ {
+  "input": "러시아의 우크라이나 침공",
+  "status": 200,
+  "canonical": "2022년 러시아의 우크라이나 침공",
+  "backlinks": 4250
+ },
+ {
+  "input": "베트남 전쟁",
+  "status": 200,
+  "canonical": "베트남 전쟁",
+  "backlinks": 4347
+ },
+ {
+  "input": "아랍어",
+  "status": 200,
+  "canonical": "아랍어",
+  "backlinks": 4253
+ },
+ {
+  "input": "이탈리아어",
+  "status": 200,
+  "canonical": "이탈리아어",
+  "backlinks": 4561
+ },
+ {
+  "input": "포르투갈어",
+  "status": 200,
+  "canonical": "포르투갈어",
+  "backlinks": 3033
+ },
+ {
+  "input": "그리스어",
+  "status": 200,
+  "canonical": "그리스어",
+  "backlinks": 3303
+ },
+ {
+  "input": "유대인",
+  "status": 200,
+  "canonical": "유대인",
+  "backlinks": 3685
+ },
+ {
+  "input": "문화방송",
+  "status": 200,
+  "canonical": "문화방송",
+  "backlinks": 3277
+ },
+ {
+  "input": "한국방송공사",
+  "status": 200,
+  "canonical": "한국방송공사",
+  "backlinks": 4378
+ },
+ {
+  "input": "죽음",
+  "status": 200,
+  "canonical": "죽음",
+  "backlinks": 3524
+ },
+ {
+  "input": "척삭동물",
+  "status": 200,
+  "canonical": "척삭동물",
+  "backlinks": 4691
+ },
+ {
+  "input": "전쟁",
+  "status": 200,
+  "canonical": "전쟁",
+  "backlinks": 3231
+ },
+ {
+  "input": "어머니",
+  "status": 200,
+  "canonical": "어머니",
+  "backlinks": 3678
+ },
+ {
+  "input": "아버지",
+  "status": 200,
+  "canonical": "아버지",
+  "backlinks": 4216
+ },
+ {
+  "input": "페루",
+  "status": 200,
+  "canonical": "페루",
+  "backlinks": 2432
+ },
+ {
+  "input": "쿠바",
+  "status": 200,
+  "canonical": "쿠바",
+  "backlinks": 2636
+ },
+ {
+  "input": "나이지리아",
+  "status": 200,
+  "canonical": "나이지리아",
+  "backlinks": 2242
+ },
+ {
+  "input": "아이슬란드",
+  "status": 200,
+  "canonical": "아이슬란드",
+  "backlinks": 2023
+ },
+ {
+  "input": "춘천시",
+  "status": 200,
+  "canonical": "춘천시",
+  "backlinks": 2801
+ },
+ {
+  "input": "오사카",
+  "status": 200,
+  "canonical": "오사카",
+  "backlinks": 2588
+ },
+ {
+  "input": "베이징",
+  "status": 200,
+  "canonical": "베이징시",
+  "backlinks": 2824
+ },
+ {
+  "input": "상하이",
+  "status": 200,
+  "canonical": "상하이시",
+  "backlinks": 2236
+ },
+ {
+  "input": "하와이",
+  "status": 200,
+  "canonical": "하와이",
+  "backlinks": 2591
+ },
+ {
+  "input": "커피",
+  "status": 200,
+  "canonical": "커피",
+  "backlinks": 2315
+ },
+ {
+  "input": "호랑이",
+  "status": 200,
+  "canonical": "호랑이",
+  "backlinks": 2400
+ },
+ {
+  "input": "사자",
+  "status": 200,
+  "canonical": "사자",
+  "backlinks": 2202
+ },
+ {
+  "input": "토끼",
+  "status": 200,
+  "canonical": "토끼",
+  "backlinks": 2341
+ },
+ {
+  "input": "뱀",
+  "status": 200,
+  "canonical": "뱀",
+  "backlinks": 2162
+ },
+ {
+  "input": "공룡",
+  "status": 200,
+  "canonical": "공룡",
+  "backlinks": 2067
+ },
+ {
+  "input": "은행나무",
+  "status": 200,
+  "canonical": "은행나무",
+  "backlinks": 2507
+ },
+ {
+  "input": "바다",
+  "status": 200,
+  "canonical": "바다",
+  "backlinks": 2203
+ },
+ {
+  "input": "컴퓨터",
+  "status": 200,
+  "canonical": "컴퓨터",
+  "backlinks": 2249
+ },
+ {
+  "input": "인공지능",
+  "status": 200,
+  "canonical": "인공지능",
+  "backlinks": 2634
+ },
+ {
+  "input": "세종대왕",
+  "status": 200,
+  "canonical": "세종(조선)",
+  "backlinks": 2629
+ },
+ {
+  "input": "이순신",
+  "status": 200,
+  "canonical": "이순신",
+  "backlinks": 2064
+ },
+ {
+  "input": "고종(대한제국)",
+  "status": 200,
+  "canonical": "고종(대한제국)",
+  "backlinks": 2469
+ },
+ {
+  "input": "조조",
+  "status": 200,
+  "canonical": "조조",
+  "backlinks": 2776
+ },
+ {
+  "input": "이오시프 스탈린",
+  "status": 200,
+  "canonical": "이오시프 스탈린",
+  "backlinks": 2054
+ },
+ {
+  "input": "대한제국",
+  "status": 200,
+  "canonical": "대한제국",
+  "backlinks": 2740
+ },
+ {
+  "input": "3.1 운동",
+  "status": 200,
+  "canonical": "3.1 운동",
+  "backlinks": 2157
+ },
+ {
+  "input": "5.18 민주화운동",
+  "status": 200,
+  "canonical": "5.18 민주화운동",
+  "backlinks": 2178
+ },
+ {
+  "input": "9.11 테러",
+  "status": 200,
+  "canonical": "9.11 테러",
+  "backlinks": 2262
+ },
+ {
+  "input": "골프",
+  "status": 200,
+  "canonical": "골프",
+  "backlinks": 2107
+ },
+ {
+  "input": "권투",
+  "status": 200,
+  "canonical": "권투",
+  "backlinks": 2532
+ },
+ {
+  "input": "손흥민",
+  "status": 200,
+  "canonical": "손흥민",
+  "backlinks": 2953
+ },
+ {
+  "input": "류현진",
+  "status": 200,
+  "canonical": "류현진",
+  "backlinks": 2705
+ },
+ {
+  "input": "리오넬 메시",
+  "status": 200,
+  "canonical": "리오넬 메시",
+  "backlinks": 2860
+ },
+ {
+  "input": "크리스티아누 호날두",
+  "status": 200,
+  "canonical": "크리스티아누 호날두",
+  "backlinks": 2920
+ },
+ {
+  "input": "피아노",
+  "status": 200,
+  "canonical": "피아노",
+  "backlinks": 2775
+ },
+ {
+  "input": "재즈",
+  "status": 200,
+  "canonical": "재즈",
+  "backlinks": 2085
+ },
+ {
+  "input": "록 음악",
+  "status": 200,
+  "canonical": "록 음악",
+  "backlinks": 2843
+ },
+ {
+  "input": "뮤지컬",
+  "status": 200,
+  "canonical": "뮤지컬",
+  "backlinks": 2147
+ },
+ {
+  "input": "웹툰",
+  "status": 200,
+  "canonical": "웹툰",
+  "backlinks": 2333
+ },
+ {
+  "input": "BLACKPINK",
+  "status": 200,
+  "canonical": "BLACKPINK",
+  "backlinks": 2347
+ },
+ {
+  "input": "싸이",
+  "status": 200,
+  "canonical": "싸이",
+  "backlinks": 2153
+ },
+ {
+  "input": "EXO",
+  "status": 200,
+  "canonical": "EXO",
+  "backlinks": 2298
+ },
+ {
+  "input": "해리 포터 시리즈",
+  "status": 200,
+  "canonical": "해리 포터 시리즈",
+  "backlinks": 2951
+ },
+ {
+  "input": "닌텐도",
+  "status": 200,
+  "canonical": "닌텐도",
+  "backlinks": 2821
+ },
+ {
+  "input": "짱구는 못말려",
+  "status": 200,
+  "canonical": "짱구는 못말려",
+  "backlinks": 2387
+ },
+ {
+  "input": "도라에몽",
+  "status": 200,
+  "canonical": "도라에몽",
+  "backlinks": 2659
+ },
+ {
+  "input": "학교",
+  "status": 200,
+  "canonical": "학교",
+  "backlinks": 2032
+ },
+ {
+  "input": "LG전자",
+  "status": 200,
+  "canonical": "LG전자",
+  "backlinks": 2365
+ },
+ {
+  "input": "KTX",
+  "status": 200,
+  "canonical": "KTX",
+  "backlinks": 2881
+ },
+ {
+  "input": "자동차",
+  "status": 200,
+  "canonical": "자동차",
+  "backlinks": 2766
+ },
+ {
+  "input": "안경",
+  "status": 200,
+  "canonical": "안경",
+  "backlinks": 2058
+ },
+ {
+  "input": "카메라",
+  "status": 200,
+  "canonical": "카메라",
+  "backlinks": 2924
+ },
+ {
+  "input": "종교",
+  "status": 200,
+  "canonical": "종교",
+  "backlinks": 2784
+ },
+ {
+  "input": "유교",
+  "status": 200,
+  "canonical": "유교",
+  "backlinks": 2188
+ },
+ {
+  "input": "사랑",
+  "status": 200,
+  "canonical": "사랑",
+  "backlinks": 2646
+ },
+ {
+  "input": "이라크",
+  "status": 200,
+  "canonical": "이라크",
+  "backlinks": 2899
+ },
+ {
+  "input": "아프가니스탄",
+  "status": 200,
+  "canonical": "아프가니스탄",
+  "backlinks": 2542
+ },
+ {
+  "input": "미얀마",
+  "status": 200,
+  "canonical": "미얀마",
+  "backlinks": 2354
+ },
+ {
+  "input": "캄보디아",
+  "status": 200,
+  "canonical": "캄보디아",
+  "backlinks": 2135
+ },
+ {
+  "input": "카자흐스탄",
+  "status": 200,
+  "canonical": "카자흐스탄",
+  "backlinks": 2568
+ },
+ {
+  "input": "우즈베키스탄",
+  "status": 200,
+  "canonical": "우즈베키스탄",
+  "backlinks": 2138
+ },
+ {
+  "input": "불가리아",
+  "status": 200,
+  "canonical": "불가리아",
+  "backlinks": 2496
+ },
+ {
+  "input": "세르비아",
+  "status": 200,
+  "canonical": "세르비아",
+  "backlinks": 2857
+ },
+ {
+  "input": "크로아티아",
+  "status": 200,
+  "canonical": "크로아티아",
+  "backlinks": 2791
+ },
+ {
+  "input": "웨일스",
+  "status": 200,
+  "canonical": "웨일스",
+  "backlinks": 2148
+ },
+ {
+  "input": "베네수엘라",
+  "status": 200,
+  "canonical": "베네수엘라",
+  "backlinks": 2746
+ },
+ {
+  "input": "우루과이",
+  "status": 200,
+  "canonical": "우루과이",
+  "backlinks": 2100
+ },
+ {
+  "input": "모로코",
+  "status": 200,
+  "canonical": "모로코",
+  "backlinks": 2671
+ },
+ {
+  "input": "시리아",
+  "status": 200,
+  "canonical": "시리아",
+  "backlinks": 2720
+ },
+ {
+  "input": "카타르",
+  "status": 200,
+  "canonical": "카타르",
+  "backlinks": 2107
+ },
+ {
+  "input": "아랍에미리트",
+  "status": 200,
+  "canonical": "아랍에미리트",
+  "backlinks": 2638
+ },
+ {
+  "input": "목포시",
+  "status": 200,
+  "canonical": "목포시",
+  "backlinks": 2111
+ },
+ {
+  "input": "여수시",
+  "status": 200,
+  "canonical": "여수시",
+  "backlinks": 2551
+ },
+ {
+  "input": "강릉시",
+  "status": 200,
+  "canonical": "강릉시",
+  "backlinks": 2597
+ },
+ {
+  "input": "안동시",
+  "status": 200,
+  "canonical": "안동시",
+  "backlinks": 2523
+ },
+ {
+  "input": "진주시",
+  "status": 200,
+  "canonical": "진주시",
+  "backlinks": 2655
+ },
+ {
+  "input": "김해시",
+  "status": 200,
+  "canonical": "김해시",
+  "backlinks": 2624
+ },
+ {
+  "input": "마포구",
+  "status": 200,
+  "canonical": "마포구",
+  "backlinks": 2983
+ },
+ {
+  "input": "송파구",
+  "status": 200,
+  "canonical": "송파구",
+  "backlinks": 2756
+ },
+ {
+  "input": "마카오",
+  "status": 200,
+  "canonical": "마카오",
+  "backlinks": 2351
+ },
+ {
+  "input": "샌프란시스코",
+  "status": 200,
+  "canonical": "샌프란시스코",
+  "backlinks": 2474
+ },
+ {
+  "input": "개나리",
+  "status": 200,
+  "canonical": "개나리",
+  "backlinks": 2151
+ },
+ {
+  "input": "담배",
+  "status": 200,
+  "canonical": "담배",
+  "backlinks": 2921
+ },
+ {
+  "input": "와이파이",
+  "status": 200,
+  "canonical": "Wi-Fi",
+  "backlinks": 2016
+ },
+ {
+  "input": "블루투스",
+  "status": 200,
+  "canonical": "블루투스",
+  "backlinks": 2578
+ },
+ {
+  "input": "CPU",
+  "status": 200,
+  "canonical": "CPU",
+  "backlinks": 2483
+ },
+ {
+  "input": "리눅스",
+  "status": 200,
+  "canonical": "Linux",
+  "backlinks": 2139
+ },
+ {
+  "input": "좀비",
+  "status": 200,
+  "canonical": "좀비",
+  "backlinks": 2100
+ },
+ {
+  "input": "악마",
+  "status": 200,
+  "canonical": "악마",
+  "backlinks": 2222
+ },
+ {
+  "input": "세븐틴",
+  "status": 200,
+  "canonical": "세븐틴",
+  "backlinks": 2034
+ },
+ {
+  "input": "런닝맨",
+  "status": 200,
+  "canonical": "런닝맨",
+  "backlinks": 2617
+ },
+ {
+  "input": "1박 2일",
+  "status": 200,
+  "canonical": "1박 2일",
+  "backlinks": 2144
+ },
+ {
+  "input": "진격의 거인",
+  "status": 200,
+  "canonical": "진격의 거인",
+  "backlinks": 2766
+ },
+ {
+  "input": "귀멸의 칼날",
+  "status": 200,
+  "canonical": "귀멸의 칼날",
+  "backlinks": 2619
+ },
+ {
+  "input": "블리치",
+  "status": 200,
+  "canonical": "블리치",
+  "backlinks": 2846
+ },
+ {
+  "input": "로블록스",
+  "status": 200,
+  "canonical": "Roblox",
+  "backlinks": 2478
+ },
+ {
+  "input": "라리가",
+  "status": 200,
+  "canonical": "라리가",
+  "backlinks": 2905
+ },
+ {
+  "input": "세리에 A",
+  "status": 200,
+  "canonical": "세리에 A",
+  "backlinks": 2929
+ },
+ {
+  "input": "전차",
+  "status": 200,
+  "canonical": "전차",
+  "backlinks": 2069
+ },
+ {
+  "input": "작가",
+  "status": 200,
+  "canonical": "작가",
+  "backlinks": 2681
+ },
+ {
+  "input": "황제",
+  "status": 200,
+  "canonical": "황제",
+  "backlinks": 2659
+ },
+ {
+  "input": "수능",
+  "status": 200,
+  "canonical": "대학수학능력시험",
+  "backlinks": 2114
+ },
+ {
+  "input": "벨라루스",
+  "status": 200,
+  "canonical": "벨라루스",
+  "backlinks": 2294
+ },
+ {
+  "input": "조지아",
+  "status": 200,
+  "canonical": "조지아",
+  "backlinks": 2001
+ },
+ {
+  "input": "북아메리카",
+  "status": 200,
+  "canonical": "북아메리카",
+  "backlinks": 2157
+ },
+ {
+  "input": "일리노이주",
+  "status": 200,
+  "canonical": "일리노이",
+  "backlinks": 2008
+ },
+ {
+  "input": "펜실베이니아주",
+  "status": 200,
+  "canonical": "펜실베이니아",
+  "backlinks": 2081
+ },
+ {
+  "input": "조지아주",
+  "status": 200,
+  "canonical": "조지아주",
+  "backlinks": 2216
+ },
+ {
+  "input": "팔레스타인",
+  "status": 200,
+  "canonical": "팔레스타인",
+  "backlinks": 2130
+ },
+ {
+  "input": "중동",
+  "status": 200,
+  "canonical": "중동",
+  "backlinks": 2577
+ },
+ {
+  "input": "오사카시",
+  "status": 200,
+  "canonical": "오사카시",
+  "backlinks": 2257
+ },
+ {
+  "input": "신성 로마 제국",
+  "status": 200,
+  "canonical": "신성 로마 제국",
+  "backlinks": 2942
+ },
+ {
+  "input": "고대 로마",
+  "status": 200,
+  "canonical": "고대 로마",
+  "backlinks": 2170
+ },
+ {
+  "input": "할리우드",
+  "status": 200,
+  "canonical": "할리우드",
+  "backlinks": 2467
+ },
+ {
+  "input": "마이클 잭슨",
+  "status": 200,
+  "canonical": "마이클 잭슨",
+  "backlinks": 2541
+ },
+ {
+  "input": "김일성",
+  "status": 200,
+  "canonical": "김일성",
+  "backlinks": 2935
+ },
+ {
+  "input": "이승만",
+  "status": 200,
+  "canonical": "이승만",
+  "backlinks": 2712
+ },
+ {
+  "input": "김영삼",
+  "status": 200,
+  "canonical": "김영삼",
+  "backlinks": 2749
+ },
+ {
+  "input": "버락 오바마",
+  "status": 200,
+  "canonical": "버락 오바마",
+  "backlinks": 2201
+ },
+ {
+  "input": "김정은",
+  "status": 200,
+  "canonical": "김정은",
+  "backlinks": 2945
+ },
+ {
+  "input": "박진영",
+  "status": 200,
+  "canonical": "박진영",
+  "backlinks": 2081
+ },
+ {
+  "input": "유재석",
+  "status": 200,
+  "canonical": "유재석",
+  "backlinks": 2979
+ },
+ {
+  "input": "이대호",
+  "status": 200,
+  "canonical": "이대호",
+  "backlinks": 2379
+ },
+ {
+  "input": "중세",
+  "status": 200,
+  "canonical": "중세",
+  "backlinks": 2212
+ },
+ {
+  "input": "교황",
+  "status": 200,
+  "canonical": "교황",
+  "backlinks": 2975
+ },
+ {
+  "input": "사회주의",
+  "status": 200,
+  "canonical": "사회주의",
+  "backlinks": 2287
+ },
+ {
+  "input": "범죄",
+  "status": 200,
+  "canonical": "범죄",
+  "backlinks": 2452
+ },
+ {
+  "input": "MBTI",
+  "status": 200,
+  "canonical": "마이어스-브릭스 유형 지표",
+  "backlinks": 2451
+ },
+ {
+  "input": "유엔",
+  "status": 200,
+  "canonical": "유엔",
+  "backlinks": 2989
+ },
+ {
+  "input": "튀르키예어",
+  "status": 200,
+  "canonical": "튀르키예어",
+  "backlinks": 2148
+ },
+ {
+  "input": "비틀즈",
+  "status": 200,
+  "canonical": "비틀즈",
+  "backlinks": 2679
+ },
+ {
+  "input": "유네스코",
+  "status": 200,
+  "canonical": "유네스코",
+  "backlinks": 2114
+ },
+ {
+  "input": "베트남어",
+  "status": 200,
+  "canonical": "베트남어",
+  "backlinks": 2652
+ },
+ {
+  "input": "하버드 대학교",
+  "status": 200,
+  "canonical": "하버드 대학교",
+  "backlinks": 2958
+ },
+ {
+  "input": "성경",
+  "status": 200,
+  "canonical": "성경",
+  "backlinks": 2959
+ },
+ {
+  "input": "심슨 가족",
+  "status": 200,
+  "canonical": "심슨 가족",
+  "backlinks": 2549
+ },
+ {
+  "input": "네모바지 스폰지밥",
+  "status": 200,
+  "canonical": "네모바지 스폰지밥",
+  "backlinks": 2105
+ },
+ {
+  "input": "광년",
+  "status": 200,
+  "canonical": "광년",
+  "backlinks": 2323
+ },
+ {
+  "input": "새",
+  "status": 200,
+  "canonical": "새",
+  "backlinks": 2233
+ },
+ {
+  "input": "기타",
+  "status": 200,
+  "canonical": "기타",
+  "backlinks": 2597
+ },
+ {
+  "input": "운영체제",
+  "status": 200,
+  "canonical": "운영체제",
+  "backlinks": 2764
+ },
+ {
+  "input": "국가",
+  "status": 200,
+  "canonical": "국가",
+  "backlinks": 2124
+ },
+ {
+  "input": "사형",
+  "status": 200,
+  "canonical": "사형",
+  "backlinks": 2896
+ }
+]

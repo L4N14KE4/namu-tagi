@@ -1,0 +1,5798 @@
+[
+ {
+  "input": "이라크",
+  "status": 200,
+  "canonical": "이라크",
+  "disambig": false,
+  "backlinks": 2899
+ },
+ {
+  "input": "아프가니스탄",
+  "status": 200,
+  "canonical": "아프가니스탄",
+  "disambig": false,
+  "backlinks": 2542
+ },
+ {
+  "input": "파키스탄",
+  "status": 200,
+  "canonical": "파키스탄",
+  "disambig": false,
+  "backlinks": 3209
+ },
+ {
+  "input": "방글라데시",
+  "status": 200,
+  "canonical": "방글라데시",
+  "disambig": false,
+  "backlinks": 1724
+ },
+ {
+  "input": "네팔",
+  "status": 200,
+  "canonical": "네팔",
+  "disambig": false,
+  "backlinks": 1605
+ },
+ {
+  "input": "스리랑카",
+  "status": 200,
+  "canonical": "스리랑카",
+  "disambig": false,
+  "backlinks": 1432
+ },
+ {
+  "input": "미얀마",
+  "status": 200,
+  "canonical": "미얀마",
+  "disambig": false,
+  "backlinks": 2354
+ },
+ {
+  "input": "캄보디아",
+  "status": 200,
+  "canonical": "캄보디아",
+  "disambig": false,
+  "backlinks": 2135
+ },
+ {
+  "input": "라오스",
+  "status": 200,
+  "canonical": "라오스",
+  "disambig": false,
+  "backlinks": 1476
+ },
+ {
+  "input": "카자흐스탄",
+  "status": 200,
+  "canonical": "카자흐스탄",
+  "disambig": false,
+  "backlinks": 2568
+ },
+ {
+  "input": "우즈베키스탄",
+  "status": 200,
+  "canonical": "우즈베키스탄",
+  "disambig": false,
+  "backlinks": 2138
+ },
+ {
+  "input": "루마니아",
+  "status": 200,
+  "canonical": "루마니아",
+  "disambig": false,
+  "backlinks": 3575
+ },
+ {
+  "input": "불가리아",
+  "status": 200,
+  "canonical": "불가리아",
+  "disambig": false,
+  "backlinks": 2496
+ },
+ {
+  "input": "세르비아",
+  "status": 200,
+  "canonical": "세르비아",
+  "disambig": false,
+  "backlinks": 2857
+ },
+ {
+  "input": "크로아티아",
+  "status": 200,
+  "canonical": "크로아티아",
+  "disambig": false,
+  "backlinks": 2791
+ },
+ {
+  "input": "아일랜드",
+  "status": 200,
+  "canonical": "아일랜드",
+  "disambig": false,
+  "backlinks": 5575
+ },
+ {
+  "input": "스코틀랜드",
+  "status": 200,
+  "canonical": "스코틀랜드",
+  "disambig": false,
+  "backlinks": 4729
+ },
+ {
+  "input": "웨일스",
+  "status": 200,
+  "canonical": "웨일스",
+  "disambig": false,
+  "backlinks": 2148
+ },
+ {
+  "input": "잉글랜드",
+  "status": 200,
+  "canonical": "잉글랜드",
+  "disambig": false,
+  "backlinks": 11692
+ },
+ {
+  "input": "바티칸",
+  "status": 200,
+  "canonical": "바티칸",
+  "disambig": false,
+  "backlinks": 1161
+ },
+ {
+  "input": "모나코",
+  "status": 200,
+  "canonical": "모나코",
+  "disambig": false,
+  "backlinks": 1013
+ },
+ {
+  "input": "콜롬비아",
+  "status": 200,
+  "canonical": "콜롬비아",
+  "disambig": false,
+  "backlinks": 3083
+ },
+ {
+  "input": "베네수엘라",
+  "status": 200,
+  "canonical": "베네수엘라",
+  "disambig": false,
+  "backlinks": 2746
+ },
+ {
+  "input": "에콰도르",
+  "status": 200,
+  "canonical": "에콰도르",
+  "disambig": false,
+  "backlinks": 1493
+ },
+ {
+  "input": "볼리비아",
+  "status": 200,
+  "canonical": "볼리비아",
+  "disambig": false,
+  "backlinks": 1438
+ },
+ {
+  "input": "우루과이",
+  "status": 200,
+  "canonical": "우루과이",
+  "disambig": false,
+  "backlinks": 2100
+ },
+ {
+  "input": "파나마",
+  "status": 200,
+  "canonical": "파나마",
+  "disambig": false,
+  "backlinks": 1293
+ },
+ {
+  "input": "자메이카",
+  "status": 200,
+  "canonical": "자메이카",
+  "disambig": false,
+  "backlinks": 1223
+ },
+ {
+  "input": "에티오피아",
+  "status": 200,
+  "canonical": "에티오피아",
+  "disambig": false,
+  "backlinks": 1697
+ },
+ {
+  "input": "가나",
+  "status": 200,
+  "canonical": "가나",
+  "disambig": false,
+  "backlinks": 1351
+ },
+ {
+  "input": "모로코",
+  "status": 200,
+  "canonical": "모로코",
+  "disambig": false,
+  "backlinks": 2671
+ },
+ {
+  "input": "알제리",
+  "status": 200,
+  "canonical": "알제리",
+  "disambig": false,
+  "backlinks": 1912
+ },
+ {
+  "input": "리비아",
+  "status": 200,
+  "canonical": "리비아",
+  "disambig": false,
+  "backlinks": 1407
+ },
+ {
+  "input": "시리아",
+  "status": 200,
+  "canonical": "시리아",
+  "disambig": false,
+  "backlinks": 2720
+ },
+ {
+  "input": "레바논",
+  "status": 200,
+  "canonical": "레바논",
+  "disambig": false,
+  "backlinks": 1994
+ },
+ {
+  "input": "요르단",
+  "status": 200,
+  "canonical": "요르단",
+  "disambig": false,
+  "backlinks": 1642
+ },
+ {
+  "input": "카타르",
+  "status": 200,
+  "canonical": "카타르",
+  "disambig": false,
+  "backlinks": 2107
+ },
+ {
+  "input": "아랍에미리트",
+  "status": 200,
+  "canonical": "아랍에미리트",
+  "disambig": false,
+  "backlinks": 2638
+ },
+ {
+  "input": "쿠웨이트",
+  "status": 200,
+  "canonical": "쿠웨이트",
+  "disambig": false,
+  "backlinks": 1346
+ },
+ {
+  "input": "충청북도",
+  "status": 200,
+  "canonical": "충청북도",
+  "disambig": false,
+  "backlinks": 8356
+ },
+ {
+  "input": "충청남도",
+  "status": 200,
+  "canonical": "충청남도",
+  "disambig": false,
+  "backlinks": 11039
+ },
+ {
+  "input": "전라북도",
+  "status": 200,
+  "canonical": "전라북도",
+  "disambig": false,
+  "backlinks": 417
+ },
+ {
+  "input": "전라남도",
+  "status": 200,
+  "canonical": "전라남도",
+  "disambig": false,
+  "backlinks": 7125
+ },
+ {
+  "input": "경상북도",
+  "status": 200,
+  "canonical": "경상북도",
+  "disambig": false,
+  "backlinks": 16360
+ },
+ {
+  "input": "경상남도",
+  "status": 200,
+  "canonical": "경상남도",
+  "disambig": false,
+  "backlinks": 16118
+ },
+ {
+  "input": "포항시",
+  "status": 200,
+  "canonical": "포항시",
+  "disambig": false,
+  "backlinks": 3197
+ },
+ {
+  "input": "창원시",
+  "status": 200,
+  "canonical": "창원시",
+  "disambig": false,
+  "backlinks": 5159
+ },
+ {
+  "input": "성남시",
+  "status": 200,
+  "canonical": "성남시",
+  "disambig": false,
+  "backlinks": 4297
+ },
+ {
+  "input": "고양시",
+  "status": 200,
+  "canonical": "고양시",
+  "disambig": false,
+  "backlinks": 4777
+ },
+ {
+  "input": "용인시",
+  "status": 200,
+  "canonical": "용인시",
+  "disambig": false,
+  "backlinks": 3829
+ },
+ {
+  "input": "청주시",
+  "status": 200,
+  "canonical": "청주시",
+  "disambig": false,
+  "backlinks": 4658
+ },
+ {
+  "input": "천안시",
+  "status": 200,
+  "canonical": "천안시",
+  "disambig": false,
+  "backlinks": 3561
+ },
+ {
+  "input": "목포시",
+  "status": 200,
+  "canonical": "목포시",
+  "disambig": false,
+  "backlinks": 2111
+ },
+ {
+  "input": "여수시",
+  "status": 200,
+  "canonical": "여수시",
+  "disambig": false,
+  "backlinks": 2551
+ },
+ {
+  "input": "강릉시",
+  "status": 200,
+  "canonical": "강릉시",
+  "disambig": false,
+  "backlinks": 2597
+ },
+ {
+  "input": "속초시",
+  "status": 200,
+  "canonical": "속초시",
+  "disambig": false,
+  "backlinks": 1301
+ },
+ {
+  "input": "안동시",
+  "status": 200,
+  "canonical": "안동시",
+  "disambig": false,
+  "backlinks": 2523
+ },
+ {
+  "input": "진주시",
+  "status": 200,
+  "canonical": "진주시",
+  "disambig": false,
+  "backlinks": 2655
+ },
+ {
+  "input": "김해시",
+  "status": 200,
+  "canonical": "김해시",
+  "disambig": false,
+  "backlinks": 2624
+ },
+ {
+  "input": "마포구",
+  "status": 200,
+  "canonical": "마포구",
+  "disambig": false,
+  "backlinks": 2983
+ },
+ {
+  "input": "강남구",
+  "status": 200,
+  "canonical": "강남구",
+  "disambig": false,
+  "backlinks": 5712
+ },
+ {
+  "input": "종로구",
+  "status": 200,
+  "canonical": "종로구",
+  "disambig": false,
+  "backlinks": 4425
+ },
+ {
+  "input": "용산구",
+  "status": 200,
+  "canonical": "용산구",
+  "disambig": false,
+  "backlinks": 3035
+ },
+ {
+  "input": "송파구",
+  "status": 200,
+  "canonical": "송파구",
+  "disambig": false,
+  "backlinks": 2756
+ },
+ {
+  "input": "여의도",
+  "status": 200,
+  "canonical": "여의도",
+  "disambig": false,
+  "backlinks": 1168
+ },
+ {
+  "input": "명동",
+  "status": 200,
+  "canonical": "명동",
+  "disambig": false,
+  "backlinks": 754
+ },
+ {
+  "input": "인사동",
+  "status": 200,
+  "canonical": "인사동",
+  "disambig": false,
+  "backlinks": 5
+ },
+ {
+  "input": "이태원",
+  "status": 200,
+  "canonical": "이태원동",
+  "disambig": false,
+  "backlinks": 637
+ },
+ {
+  "input": "광화문",
+  "status": 200,
+  "canonical": "광화문",
+  "disambig": true,
+  "backlinks": 318
+ },
+ {
+  "input": "남산",
+  "status": 200,
+  "canonical": "남산",
+  "disambig": false,
+  "backlinks": 17
+ },
+ {
+  "input": "북한산",
+  "status": 200,
+  "canonical": "북한산",
+  "disambig": false,
+  "backlinks": 552
+ },
+ {
+  "input": "관악산",
+  "status": 200,
+  "canonical": "관악산",
+  "disambig": false,
+  "backlinks": 307
+ },
+ {
+  "input": "금강산",
+  "status": 200,
+  "canonical": "금강산",
+  "disambig": false,
+  "backlinks": 586
+ },
+ {
+  "input": "대동강",
+  "status": 200,
+  "canonical": "대동강",
+  "disambig": false,
+  "backlinks": 409
+ },
+ {
+  "input": "압록강",
+  "status": 200,
+  "canonical": "압록강",
+  "disambig": false,
+  "backlinks": 725
+ },
+ {
+  "input": "두만강",
+  "status": 200,
+  "canonical": "두만강",
+  "disambig": true,
+  "backlinks": 419
+ },
+ {
+  "input": "거제도",
+  "status": 200,
+  "canonical": "거제도",
+  "disambig": false,
+  "backlinks": 333
+ },
+ {
+  "input": "강화도",
+  "status": 200,
+  "canonical": "강화도",
+  "disambig": false,
+  "backlinks": 788
+ },
+ {
+  "input": "마라도",
+  "status": 200,
+  "canonical": "마라도",
+  "disambig": false,
+  "backlinks": 154
+ },
+ {
+  "input": "후쿠오카",
+  "status": 200,
+  "canonical": "후쿠오카시",
+  "disambig": false,
+  "backlinks": 1194
+ },
+ {
+  "input": "나고야",
+  "status": 200,
+  "canonical": "나고야시",
+  "disambig": false,
+  "backlinks": 1661
+ },
+ {
+  "input": "삿포로",
+  "status": 200,
+  "canonical": "삿포로시",
+  "disambig": false,
+  "backlinks": 1045
+ },
+ {
+  "input": "오키나와",
+  "status": 200,
+  "canonical": "오키나와",
+  "disambig": true,
+  "backlinks": 2015
+ },
+ {
+  "input": "요코하마",
+  "status": 200,
+  "canonical": "요코하마시",
+  "disambig": false,
+  "backlinks": 1683
+ },
+ {
+  "input": "히로시마",
+  "status": 200,
+  "canonical": "히로시마시",
+  "disambig": false,
+  "backlinks": 798
+ },
+ {
+  "input": "나가사키",
+  "status": 200,
+  "canonical": "나가사키시",
+  "disambig": false,
+  "backlinks": 418
+ },
+ {
+  "input": "광저우",
+  "status": 200,
+  "canonical": "광저우시",
+  "disambig": false,
+  "backlinks": 970
+ },
+ {
+  "input": "선전",
+  "status": 200,
+  "canonical": "선전",
+  "disambig": true,
+  "backlinks": 132
+ },
+ {
+  "input": "충칭",
+  "status": 200,
+  "canonical": "충칭시",
+  "disambig": false,
+  "backlinks": 807
+ },
+ {
+  "input": "시안",
+  "status": 200,
+  "canonical": "시안",
+  "disambig": true,
+  "backlinks": 119
+ },
+ {
+  "input": "마카오",
+  "status": 200,
+  "canonical": "마카오",
+  "disambig": false,
+  "backlinks": 2351
+ },
+ {
+  "input": "타이베이",
+  "status": 200,
+  "canonical": "타이베이시",
+  "disambig": false,
+  "backlinks": 1367
+ },
+ {
+  "input": "두바이",
+  "status": 200,
+  "canonical": "두바이",
+  "disambig": false,
+  "backlinks": 1242
+ },
+ {
+  "input": "쿠알라룸푸르",
+  "status": 200,
+  "canonical": "쿠알라룸푸르",
+  "disambig": false,
+  "backlinks": 961
+ },
+ {
+  "input": "샌프란시스코",
+  "status": 200,
+  "canonical": "샌프란시스코",
+  "disambig": false,
+  "backlinks": 2474
+ },
+ {
+  "input": "시카고",
+  "status": 200,
+  "canonical": "시카고",
+  "disambig": false,
+  "backlinks": 3127
+ },
+ {
+  "input": "워싱턴 D.C.",
+  "status": 200,
+  "canonical": "워싱턴 D.C.",
+  "disambig": false,
+  "backlinks": 3042
+ },
+ {
+  "input": "보스턴",
+  "status": 200,
+  "canonical": "보스턴",
+  "disambig": false,
+  "backlinks": 1687
+ },
+ {
+  "input": "시애틀",
+  "status": 200,
+  "canonical": "시애틀",
+  "disambig": false,
+  "backlinks": 1359
+ },
+ {
+  "input": "마이애미",
+  "status": 200,
+  "canonical": "마이애미",
+  "disambig": false,
+  "backlinks": 1406
+ },
+ {
+  "input": "텍사스주",
+  "status": 200,
+  "canonical": "텍사스",
+  "disambig": false,
+  "backlinks": 3770
+ },
+ {
+  "input": "캘리포니아주",
+  "status": 200,
+  "canonical": "캘리포니아",
+  "disambig": false,
+  "backlinks": 8927
+ },
+ {
+  "input": "플로리다주",
+  "status": 200,
+  "canonical": "플로리다",
+  "disambig": false,
+  "backlinks": 3357
+ },
+ {
+  "input": "맨해튼",
+  "status": 200,
+  "canonical": "맨해튼",
+  "disambig": false,
+  "backlinks": 1710
+ },
+ {
+  "input": "자유의 여신상",
+  "status": 200,
+  "canonical": "자유의 여신상",
+  "disambig": false,
+  "backlinks": 575
+ },
+ {
+  "input": "에펠탑",
+  "status": 200,
+  "canonical": "에펠탑",
+  "disambig": false,
+  "backlinks": 400
+ },
+ {
+  "input": "콜로세움",
+  "status": 200,
+  "canonical": "콜로세움",
+  "disambig": false,
+  "backlinks": 466
+ },
+ {
+  "input": "피사의 사탑",
+  "status": 200,
+  "canonical": "피사의 사탑",
+  "disambig": false,
+  "backlinks": 169
+ },
+ {
+  "input": "만리장성",
+  "status": 200,
+  "canonical": "만리장성",
+  "disambig": false,
+  "backlinks": 626
+ },
+ {
+  "input": "타지마할",
+  "status": 200,
+  "canonical": "타지마할",
+  "disambig": false,
+  "backlinks": 236
+ },
+ {
+  "input": "피라미드",
+  "status": 200,
+  "canonical": "피라미드",
+  "disambig": false,
+  "backlinks": 714
+ },
+ {
+  "input": "스핑크스",
+  "status": 200,
+  "canonical": "스핑크스",
+  "disambig": false,
+  "backlinks": 404
+ },
+ {
+  "input": "앙코르 와트",
+  "status": 200,
+  "canonical": "앙코르 와트",
+  "disambig": false,
+  "backlinks": 160
+ },
+ {
+  "input": "마추픽추",
+  "status": 200,
+  "canonical": "마추픽추",
+  "disambig": false,
+  "backlinks": 147
+ },
+ {
+  "input": "그랜드 캐니언",
+  "status": 200,
+  "canonical": "그랜드 캐니언",
+  "disambig": false,
+  "backlinks": 229
+ },
+ {
+  "input": "나이아가라 폭포",
+  "status": 200,
+  "canonical": "나이아가라 폭포",
+  "disambig": false,
+  "backlinks": 177
+ },
+ {
+  "input": "빅토리아 폭포",
+  "status": 200,
+  "canonical": "빅토리아 폭포",
+  "disambig": false,
+  "backlinks": 60
+ },
+ {
+  "input": "몽블랑",
+  "status": 200,
+  "canonical": "몽블랑",
+  "disambig": false,
+  "backlinks": 170
+ },
+ {
+  "input": "킬리만자로산",
+  "status": 200,
+  "canonical": "킬리만자로산",
+  "disambig": false,
+  "backlinks": 43
+ },
+ {
+  "input": "후지산",
+  "status": 200,
+  "canonical": "후지산",
+  "disambig": false,
+  "backlinks": 769
+ },
+ {
+  "input": "히말라야산맥",
+  "status": 200,
+  "canonical": "히말라야산맥",
+  "disambig": false,
+  "backlinks": 515
+ },
+ {
+  "input": "로키산맥",
+  "status": 200,
+  "canonical": "로키산맥",
+  "disambig": false,
+  "backlinks": 279
+ },
+ {
+  "input": "안데스산맥",
+  "status": 200,
+  "canonical": "안데스산맥",
+  "disambig": false,
+  "backlinks": 302
+ },
+ {
+  "input": "미시시피강",
+  "status": 200,
+  "canonical": "미시시피강",
+  "disambig": false,
+  "backlinks": 159
+ },
+ {
+  "input": "양쯔강",
+  "status": 200,
+  "canonical": "장강",
+  "disambig": false,
+  "backlinks": 591
+ },
+ {
+  "input": "황허",
+  "status": 200,
+  "canonical": "황하",
+  "disambig": false,
+  "backlinks": 536
+ },
+ {
+  "input": "갠지스강",
+  "status": 200,
+  "canonical": "갠지스강",
+  "disambig": false,
+  "backlinks": 234
+ },
+ {
+  "input": "도나우강",
+  "status": 200,
+  "canonical": "다뉴브강",
+  "disambig": false,
+  "backlinks": 189
+ },
+ {
+  "input": "라인강",
+  "status": 200,
+  "canonical": "라인강",
+  "disambig": false,
+  "backlinks": 411
+ },
+ {
+  "input": "세느강",
+  "status": 200,
+  "canonical": "센강",
+  "disambig": false,
+  "backlinks": 133
+ },
+ {
+  "input": "템스강",
+  "status": 200,
+  "canonical": "템스강",
+  "disambig": false,
+  "backlinks": 162
+ },
+ {
+  "input": "바이칼호",
+  "status": 200,
+  "canonical": "바이칼호",
+  "disambig": false,
+  "backlinks": 142
+ },
+ {
+  "input": "카스피해",
+  "status": 200,
+  "canonical": "카스피해",
+  "disambig": false,
+  "backlinks": 369
+ },
+ {
+  "input": "홍해",
+  "status": 200,
+  "canonical": "홍해",
+  "disambig": false,
+  "backlinks": 405
+ },
+ {
+  "input": "사해",
+  "status": 200,
+  "canonical": "사해",
+  "disambig": false,
+  "backlinks": 121
+ },
+ {
+  "input": "동해",
+  "status": 200,
+  "canonical": "동해",
+  "disambig": false,
+  "backlinks": 1151
+ },
+ {
+  "input": "황해",
+  "status": 200,
+  "canonical": "황해",
+  "disambig": false,
+  "backlinks": 565
+ },
+ {
+  "input": "남중국해",
+  "status": 200,
+  "canonical": "남중국해",
+  "disambig": false,
+  "backlinks": 562
+ },
+ {
+  "input": "카리브해",
+  "status": 200,
+  "canonical": "카리브해",
+  "disambig": false,
+  "backlinks": 595
+ },
+ {
+  "input": "지구",
+  "status": 200,
+  "canonical": "지구",
+  "disambig": false,
+  "backlinks": 4188
+ },
+ {
+  "input": "김치볶음밥",
+  "status": 200,
+  "canonical": "김치볶음밥",
+  "disambig": false,
+  "backlinks": 157
+ },
+ {
+  "input": "잡채",
+  "status": 200,
+  "canonical": "잡채",
+  "disambig": false,
+  "backlinks": 184
+ },
+ {
+  "input": "부대찌개",
+  "status": 200,
+  "canonical": "부대찌개",
+  "disambig": false,
+  "backlinks": 349
+ },
+ {
+  "input": "갈비탕",
+  "status": 200,
+  "canonical": "갈비탕",
+  "disambig": false,
+  "backlinks": 111
+ },
+ {
+  "input": "설렁탕",
+  "status": 200,
+  "canonical": "설렁탕",
+  "disambig": false,
+  "backlinks": 278
+ },
+ {
+  "input": "육개장",
+  "status": 200,
+  "canonical": "육개장",
+  "disambig": false,
+  "backlinks": 210
+ },
+ {
+  "input": "칼국수",
+  "status": 200,
+  "canonical": "칼국수",
+  "disambig": false,
+  "backlinks": 287
+ },
+ {
+  "input": "수제비",
+  "status": 200,
+  "canonical": "수제비",
+  "disambig": false,
+  "backlinks": 142
+ },
+ {
+  "input": "파전",
+  "status": 200,
+  "canonical": "파전",
+  "disambig": false,
+  "backlinks": 80
+ },
+ {
+  "input": "김치전",
+  "status": 200,
+  "canonical": "김치전",
+  "disambig": false,
+  "backlinks": 69
+ },
+ {
+  "input": "순대",
+  "status": 200,
+  "canonical": "순대",
+  "disambig": false,
+  "backlinks": 408
+ },
+ {
+  "input": "어묵",
+  "status": 200,
+  "canonical": "어묵",
+  "disambig": false,
+  "backlinks": 364
+ },
+ {
+  "input": "닭갈비",
+  "status": 200,
+  "canonical": "닭갈비",
+  "disambig": false,
+  "backlinks": 225
+ },
+ {
+  "input": "감자탕",
+  "status": 200,
+  "canonical": "감자탕",
+  "disambig": false,
+  "backlinks": 197
+ },
+ {
+  "input": "깍두기",
+  "status": 200,
+  "canonical": "깍두기",
+  "disambig": false,
+  "backlinks": 165
+ },
+ {
+  "input": "미역국",
+  "status": 200,
+  "canonical": "미역국",
+  "disambig": false,
+  "backlinks": 221
+ },
+ {
+  "input": "계란말이",
+  "status": 200,
+  "canonical": "계란말이",
+  "disambig": false,
+  "backlinks": 174
+ },
+ {
+  "input": "오므라이스",
+  "status": 200,
+  "canonical": "오므라이스",
+  "disambig": false,
+  "backlinks": 344
+ },
+ {
+  "input": "돈가스",
+  "status": 200,
+  "canonical": "돈가스",
+  "disambig": false,
+  "backlinks": 647
+ },
+ {
+  "input": "규동",
+  "status": 200,
+  "canonical": "규동",
+  "disambig": false,
+  "backlinks": 233
+ },
+ {
+  "input": "소바",
+  "status": 200,
+  "canonical": "소바",
+  "disambig": false,
+  "backlinks": 266
+ },
+ {
+  "input": "타코야키",
+  "status": 200,
+  "canonical": "타코야키",
+  "disambig": false,
+  "backlinks": 530
+ },
+ {
+  "input": "오코노미야키",
+  "status": 200,
+  "canonical": "오코노미야키",
+  "disambig": false,
+  "backlinks": 298
+ },
+ {
+  "input": "마라탕",
+  "status": 200,
+  "canonical": "마라탕",
+  "disambig": false,
+  "backlinks": 549
+ },
+ {
+  "input": "훠궈",
+  "status": 200,
+  "canonical": "훠궈",
+  "disambig": false,
+  "backlinks": 256
+ },
+ {
+  "input": "딤섬",
+  "status": 200,
+  "canonical": "딤섬",
+  "disambig": false,
+  "backlinks": 152
+ },
+ {
+  "input": "북경오리",
+  "status": 200,
+  "canonical": "북경 오리 구이",
+  "disambig": false,
+  "backlinks": 79
+ },
+ {
+  "input": "마파두부",
+  "status": 200,
+  "canonical": "마파두부",
+  "disambig": false,
+  "backlinks": 207
+ },
+ {
+  "input": "타코",
+  "status": 200,
+  "canonical": "타코",
+  "disambig": false,
+  "backlinks": 91
+ },
+ {
+  "input": "부리토",
+  "status": 200,
+  "canonical": "부리토",
+  "disambig": false,
+  "backlinks": 117
+ },
+ {
+  "input": "리조또",
+  "status": 200,
+  "canonical": "리소토",
+  "disambig": false,
+  "backlinks": 139
+ },
+ {
+  "input": "라자냐",
+  "status": 200,
+  "canonical": "라자냐",
+  "disambig": false,
+  "backlinks": 145
+ },
+ {
+  "input": "티라미수",
+  "status": 200,
+  "canonical": "티라미수",
+  "disambig": false,
+  "backlinks": 193
+ },
+ {
+  "input": "젤라토",
+  "status": 200,
+  "canonical": "젤라토",
+  "disambig": false,
+  "backlinks": 109
+ },
+ {
+  "input": "크루아상",
+  "status": 200,
+  "canonical": "크루아상",
+  "disambig": false,
+  "backlinks": 231
+ },
+ {
+  "input": "바게트",
+  "status": 200,
+  "canonical": "바게트",
+  "disambig": false,
+  "backlinks": 268
+ },
+ {
+  "input": "와플",
+  "status": 200,
+  "canonical": "와플",
+  "disambig": false,
+  "backlinks": 273
+ },
+ {
+  "input": "팬케이크",
+  "status": 200,
+  "canonical": "팬케이크",
+  "disambig": false,
+  "backlinks": 369
+ },
+ {
+  "input": "푸딩",
+  "status": 200,
+  "canonical": "푸딩",
+  "disambig": false,
+  "backlinks": 459
+ },
+ {
+  "input": "마시멜로",
+  "status": 200,
+  "canonical": "마시멜로",
+  "disambig": false,
+  "backlinks": 278
+ },
+ {
+  "input": "사탕",
+  "status": 200,
+  "canonical": "사탕",
+  "disambig": false,
+  "backlinks": 600
+ },
+ {
+  "input": "젤리",
+  "status": 200,
+  "canonical": "젤리",
+  "disambig": false,
+  "backlinks": 443
+ },
+ {
+  "input": "팝콘",
+  "status": 200,
+  "canonical": "팝콘",
+  "disambig": false,
+  "backlinks": 402
+ },
+ {
+  "input": "감자튀김",
+  "status": 200,
+  "canonical": "감자튀김",
+  "disambig": false,
+  "backlinks": 392
+ },
+ {
+  "input": "스테이크",
+  "status": 200,
+  "canonical": "스테이크",
+  "disambig": false,
+  "backlinks": 791
+ },
+ {
+  "input": "베이컨",
+  "status": 200,
+  "canonical": "베이컨",
+  "disambig": false,
+  "backlinks": 442
+ },
+ {
+  "input": "소시지",
+  "status": 200,
+  "canonical": "소시지",
+  "disambig": false,
+  "backlinks": 709
+ },
+ {
+  "input": "햄",
+  "status": 200,
+  "canonical": "햄",
+  "disambig": false,
+  "backlinks": 421
+ },
+ {
+  "input": "스팸",
+  "status": 200,
+  "canonical": "스팸",
+  "disambig": false,
+  "backlinks": 408
+ },
+ {
+  "input": "케첩",
+  "status": 200,
+  "canonical": "케첩",
+  "disambig": false,
+  "backlinks": 387
+ },
+ {
+  "input": "마요네즈",
+  "status": 200,
+  "canonical": "마요네즈",
+  "disambig": false,
+  "backlinks": 444
+ },
+ {
+  "input": "와사비",
+  "status": 200,
+  "canonical": "와사비",
+  "disambig": false,
+  "backlinks": 278
+ },
+ {
+  "input": "후추",
+  "status": 200,
+  "canonical": "후추",
+  "disambig": false,
+  "backlinks": 574
+ },
+ {
+  "input": "고춧가루",
+  "status": 200,
+  "canonical": "고춧가루",
+  "disambig": false,
+  "backlinks": 274
+ },
+ {
+  "input": "올리브유",
+  "status": 200,
+  "canonical": "올리브유",
+  "disambig": false,
+  "backlinks": 332
+ },
+ {
+  "input": "아몬드",
+  "status": 200,
+  "canonical": "아몬드",
+  "disambig": false,
+  "backlinks": 320
+ },
+ {
+  "input": "땅콩",
+  "status": 200,
+  "canonical": "땅콩",
+  "disambig": false,
+  "backlinks": 452
+ },
+ {
+  "input": "호두",
+  "status": 200,
+  "canonical": "호두",
+  "disambig": false,
+  "backlinks": 308
+ },
+ {
+  "input": "밤",
+  "status": 200,
+  "canonical": "밤",
+  "disambig": false,
+  "backlinks": 585
+ },
+ {
+  "input": "대추",
+  "status": 200,
+  "canonical": "대추",
+  "disambig": false,
+  "backlinks": 176
+ },
+ {
+  "input": "매실",
+  "status": 200,
+  "canonical": "매실",
+  "disambig": false,
+  "backlinks": 172
+ },
+ {
+  "input": "유자",
+  "status": 200,
+  "canonical": "유자",
+  "disambig": false,
+  "backlinks": 150
+ },
+ {
+  "input": "오렌지",
+  "status": 200,
+  "canonical": "오렌지",
+  "disambig": false,
+  "backlinks": 697
+ },
+ {
+  "input": "자몽",
+  "status": 200,
+  "canonical": "자몽",
+  "disambig": false,
+  "backlinks": 212
+ },
+ {
+  "input": "석류",
+  "status": 200,
+  "canonical": "석류",
+  "disambig": false,
+  "backlinks": 218
+ },
+ {
+  "input": "무화과",
+  "status": 200,
+  "canonical": "무화과",
+  "disambig": false,
+  "backlinks": 229
+ },
+ {
+  "input": "코코넛",
+  "status": 200,
+  "canonical": "코코넛",
+  "disambig": false,
+  "backlinks": 427
+ },
+ {
+  "input": "아보카도",
+  "status": 200,
+  "canonical": "아보카도",
+  "disambig": false,
+  "backlinks": 295
+ },
+ {
+  "input": "멜론",
+  "status": 200,
+  "canonical": "멜론",
+  "disambig": false,
+  "backlinks": 472
+ },
+ {
+  "input": "라임",
+  "status": 200,
+  "canonical": "라임",
+  "disambig": false,
+  "backlinks": 395
+ },
+ {
+  "input": "살구",
+  "status": 200,
+  "canonical": "살구",
+  "disambig": false,
+  "backlinks": 174
+ },
+ {
+  "input": "자두",
+  "status": 200,
+  "canonical": "자두",
+  "disambig": false,
+  "backlinks": 243
+ },
+ {
+  "input": "홍차",
+  "status": 200,
+  "canonical": "홍차",
+  "disambig": false,
+  "backlinks": 629
+ },
+ {
+  "input": "사이다",
+  "status": 200,
+  "canonical": "사이다",
+  "disambig": false,
+  "backlinks": 548
+ },
+ {
+  "input": "에너지 드링크",
+  "status": 200,
+  "canonical": "에너지 드링크",
+  "disambig": false,
+  "backlinks": 235
+ },
+ {
+  "input": "보드카",
+  "status": 200,
+  "canonical": "보드카",
+  "disambig": false,
+  "backlinks": 661
+ },
+ {
+  "input": "럼",
+  "status": 200,
+  "canonical": "럼",
+  "disambig": false,
+  "backlinks": 309
+ },
+ {
+  "input": "진(술)",
+  "status": 200,
+  "canonical": "진(술)",
+  "disambig": false,
+  "backlinks": 237
+ },
+ {
+  "input": "칵테일",
+  "status": 200,
+  "canonical": "칵테일",
+  "disambig": false,
+  "backlinks": 647
+ },
+ {
+  "input": "샴페인",
+  "status": 200,
+  "canonical": "샴페인",
+  "disambig": false,
+  "backlinks": 365
+ },
+ {
+  "input": "사케",
+  "status": 200,
+  "canonical": "사케",
+  "disambig": false,
+  "backlinks": 288
+ },
+ {
+  "input": "아메리카노",
+  "status": 200,
+  "canonical": "아메리카노",
+  "disambig": false,
+  "backlinks": 87
+ },
+ {
+  "input": "카페 라테",
+  "status": 404
+ },
+ {
+  "input": "에스프레소",
+  "status": 200,
+  "canonical": "에스프레소",
+  "disambig": true,
+  "backlinks": 280
+ },
+ {
+  "input": "카푸치노",
+  "status": 200,
+  "canonical": "카푸치노",
+  "disambig": false,
+  "backlinks": 120
+ },
+ {
+  "input": "코코아",
+  "status": 200,
+  "canonical": "코코아",
+  "disambig": true,
+  "backlinks": 215
+ },
+ {
+  "input": "두유",
+  "status": 200,
+  "canonical": "두유",
+  "disambig": false,
+  "backlinks": 176
+ },
+ {
+  "input": "탄산수",
+  "status": 200,
+  "canonical": "탄산수",
+  "disambig": false,
+  "backlinks": 195
+ },
+ {
+  "input": "사슴",
+  "status": 200,
+  "canonical": "사슴",
+  "disambig": false,
+  "backlinks": 990
+ },
+ {
+  "input": "고라니",
+  "status": 200,
+  "canonical": "고라니",
+  "disambig": false,
+  "backlinks": 399
+ },
+ {
+  "input": "멧돼지",
+  "status": 200,
+  "canonical": "멧돼지",
+  "disambig": false,
+  "backlinks": 1129
+ },
+ {
+  "input": "청설모",
+  "status": 200,
+  "canonical": "청설모",
+  "disambig": false,
+  "backlinks": 210
+ },
+ {
+  "input": "박쥐",
+  "status": 200,
+  "canonical": "박쥐",
+  "disambig": false,
+  "backlinks": 1084
+ },
+ {
+  "input": "하이에나",
+  "status": 200,
+  "canonical": "하이에나",
+  "disambig": false,
+  "backlinks": 388
+ },
+ {
+  "input": "치타",
+  "status": 200,
+  "canonical": "치타",
+  "disambig": false,
+  "backlinks": 496
+ },
+ {
+  "input": "표범",
+  "status": 200,
+  "canonical": "표범",
+  "disambig": false,
+  "backlinks": 760
+ },
+ {
+  "input": "재규어",
+  "status": 200,
+  "canonical": "재규어",
+  "disambig": false,
+  "backlinks": 612
+ },
+ {
+  "input": "퓨마",
+  "status": 200,
+  "canonical": "퓨마",
+  "disambig": false,
+  "backlinks": 408
+ },
+ {
+  "input": "미어캣",
+  "status": 200,
+  "canonical": "미어캣",
+  "disambig": false,
+  "backlinks": 191
+ },
+ {
+  "input": "라마",
+  "status": 200,
+  "canonical": "라마",
+  "disambig": false,
+  "backlinks": 271
+ },
+ {
+  "input": "알파카",
+  "status": 200,
+  "canonical": "알파카",
+  "disambig": false,
+  "backlinks": 286
+ },
+ {
+  "input": "얼룩말",
+  "status": 200,
+  "canonical": "얼룩말",
+  "disambig": false,
+  "backlinks": 334
+ },
+ {
+  "input": "순록",
+  "status": 200,
+  "canonical": "순록",
+  "disambig": false,
+  "backlinks": 331
+ },
+ {
+  "input": "범고래",
+  "status": 200,
+  "canonical": "범고래",
+  "disambig": false,
+  "backlinks": 592
+ },
+ {
+  "input": "흰긴수염고래",
+  "status": 200,
+  "canonical": "대왕고래",
+  "disambig": false,
+  "backlinks": 193
+ },
+ {
+  "input": "혹등고래",
+  "status": 200,
+  "canonical": "혹등고래",
+  "disambig": false,
+  "backlinks": 132
+ },
+ {
+  "input": "해마",
+  "status": 200,
+  "canonical": "해마",
+  "disambig": false,
+  "backlinks": 269
+ },
+ {
+  "input": "불가사리",
+  "status": 200,
+  "canonical": "불가사리",
+  "disambig": false,
+  "backlinks": 337
+ },
+ {
+  "input": "해파리",
+  "status": 200,
+  "canonical": "해파리",
+  "disambig": false,
+  "backlinks": 586
+ },
+ {
+  "input": "가재",
+  "status": 200,
+  "canonical": "가재",
+  "disambig": false,
+  "backlinks": 306
+ },
+ {
+  "input": "랍스터",
+  "status": 200,
+  "canonical": "바닷가재",
+  "disambig": false,
+  "backlinks": 217
+ },
+ {
+  "input": "대게",
+  "status": 200,
+  "canonical": "대게",
+  "disambig": false,
+  "backlinks": 220
+ },
+ {
+  "input": "전복",
+  "status": 200,
+  "canonical": "전복",
+  "disambig": false,
+  "backlinks": 333
+ },
+ {
+  "input": "굴",
+  "status": 200,
+  "canonical": "굴",
+  "disambig": true,
+  "backlinks": 70
+ },
+ {
+  "input": "홍합",
+  "status": 200,
+  "canonical": "홍합",
+  "disambig": false,
+  "backlinks": 187
+ },
+ {
+  "input": "멍게",
+  "status": 200,
+  "canonical": "멍게",
+  "disambig": false,
+  "backlinks": 147
+ },
+ {
+  "input": "가오리",
+  "status": 200,
+  "canonical": "가오리",
+  "disambig": false,
+  "backlinks": 381
+ },
+ {
+  "input": "복어",
+  "status": 200,
+  "canonical": "복어",
+  "disambig": false,
+  "backlinks": 451
+ },
+ {
+  "input": "장어",
+  "status": 200,
+  "canonical": "장어",
+  "disambig": false,
+  "backlinks": 467
+ },
+ {
+  "input": "갈치",
+  "status": 200,
+  "canonical": "갈치",
+  "disambig": false,
+  "backlinks": 200
+ },
+ {
+  "input": "광어",
+  "status": 200,
+  "canonical": "넙치",
+  "disambig": false,
+  "backlinks": 150
+ },
+ {
+  "input": "명태",
+  "status": 200,
+  "canonical": "명태",
+  "disambig": false,
+  "backlinks": 227
+ },
+ {
+  "input": "멸치",
+  "status": 200,
+  "canonical": "멸치",
+  "disambig": false,
+  "backlinks": 423
+ },
+ {
+  "input": "꽁치",
+  "status": 200,
+  "canonical": "꽁치",
+  "disambig": false,
+  "backlinks": 181
+ },
+ {
+  "input": "붕어",
+  "status": 200,
+  "canonical": "붕어",
+  "disambig": false,
+  "backlinks": 260
+ },
+ {
+  "input": "잉어",
+  "status": 200,
+  "canonical": "잉어",
+  "disambig": false,
+  "backlinks": 389
+ },
+ {
+  "input": "금붕어",
+  "status": 200,
+  "canonical": "금붕어",
+  "disambig": false,
+  "backlinks": 315
+ },
+ {
+  "input": "피라냐",
+  "status": 200,
+  "canonical": "피라냐",
+  "disambig": false,
+  "backlinks": 292
+ },
+ {
+  "input": "올빼미",
+  "status": 200,
+  "canonical": "올빼미",
+  "disambig": false,
+  "backlinks": 455
+ },
+ {
+  "input": "매",
+  "status": 200,
+  "canonical": "매",
+  "disambig": true,
+  "backlinks": 181
+ },
+ {
+  "input": "갈매기",
+  "status": 200,
+  "canonical": "갈매기",
+  "disambig": false,
+  "backlinks": 492
+ },
+ {
+  "input": "제비",
+  "status": 200,
+  "canonical": "제비",
+  "disambig": false,
+  "backlinks": 334
+ },
+ {
+  "input": "두루미",
+  "status": 200,
+  "canonical": "두루미",
+  "disambig": false,
+  "backlinks": 422
+ },
+ {
+  "input": "백조",
+  "status": 200,
+  "canonical": "백조",
+  "disambig": true,
+  "backlinks": 135
+ },
+ {
+  "input": "홍학",
+  "status": 200,
+  "canonical": "홍학",
+  "disambig": false,
+  "backlinks": 134
+ },
+ {
+  "input": "공작",
+  "status": 200,
+  "canonical": "공작",
+  "disambig": true,
+  "backlinks": 136
+ },
+ {
+  "input": "타조",
+  "status": 200,
+  "canonical": "타조",
+  "disambig": false,
+  "backlinks": 498
+ },
+ {
+  "input": "칠면조",
+  "status": 200,
+  "canonical": "칠면조",
+  "disambig": false,
+  "backlinks": 325
+ },
+ {
+  "input": "꿩",
+  "status": 200,
+  "canonical": "꿩",
+  "disambig": false,
+  "backlinks": 356
+ },
+ {
+  "input": "까마귀",
+  "status": 200,
+  "canonical": "까마귀",
+  "disambig": false,
+  "backlinks": 1072
+ },
+ {
+  "input": "딱따구리",
+  "status": 200,
+  "canonical": "딱따구리",
+  "disambig": false,
+  "backlinks": 173
+ },
+ {
+  "input": "펠리컨",
+  "status": 200,
+  "canonical": "사다새",
+  "disambig": false,
+  "backlinks": 96
+ },
+ {
+  "input": "카나리아",
+  "status": 200,
+  "canonical": "카나리아",
+  "disambig": true,
+  "backlinks": 98
+ },
+ {
+  "input": "카멜레온",
+  "status": 200,
+  "canonical": "카멜레온",
+  "disambig": false,
+  "backlinks": 444
+ },
+ {
+  "input": "이구아나",
+  "status": 200,
+  "canonical": "이구아나",
+  "disambig": false,
+  "backlinks": 200
+ },
+ {
+  "input": "코브라",
+  "status": 200,
+  "canonical": "코브라",
+  "disambig": false,
+  "backlinks": 400
+ },
+ {
+  "input": "아나콘다",
+  "status": 200,
+  "canonical": "아나콘다",
+  "disambig": false,
+  "backlinks": 203
+ },
+ {
+  "input": "살모사",
+  "status": 200,
+  "canonical": "살모사",
+  "disambig": true,
+  "backlinks": 71
+ },
+ {
+  "input": "두꺼비",
+  "status": 200,
+  "canonical": "두꺼비",
+  "disambig": false,
+  "backlinks": 432
+ },
+ {
+  "input": "도롱뇽",
+  "status": 200,
+  "canonical": "도롱뇽",
+  "disambig": false,
+  "backlinks": 232
+ },
+ {
+  "input": "바다거북",
+  "status": 200,
+  "canonical": "바다거북",
+  "disambig": false,
+  "backlinks": 307
+ },
+ {
+  "input": "매미",
+  "status": 200,
+  "canonical": "매미",
+  "disambig": false,
+  "backlinks": 354
+ },
+ {
+  "input": "반딧불이",
+  "status": 200,
+  "canonical": "반딧불이",
+  "disambig": false,
+  "backlinks": 252
+ },
+ {
+  "input": "사마귀",
+  "status": 200,
+  "canonical": "사마귀",
+  "disambig": false,
+  "backlinks": 676
+ },
+ {
+  "input": "메뚜기",
+  "status": 200,
+  "canonical": "메뚜기",
+  "disambig": false,
+  "backlinks": 537
+ },
+ {
+  "input": "귀뚜라미",
+  "status": 200,
+  "canonical": "귀뚜라미",
+  "disambig": false,
+  "backlinks": 254
+ },
+ {
+  "input": "바퀴벌레",
+  "status": 200,
+  "canonical": "바퀴벌레",
+  "disambig": false,
+  "backlinks": 1234
+ },
+ {
+  "input": "진드기",
+  "status": 200,
+  "canonical": "진드기",
+  "disambig": false,
+  "backlinks": 180
+ },
+ {
+  "input": "전갈",
+  "status": 200,
+  "canonical": "전갈",
+  "disambig": false,
+  "backlinks": 629
+ },
+ {
+  "input": "지네",
+  "status": 200,
+  "canonical": "지네",
+  "disambig": false,
+  "backlinks": 483
+ },
+ {
+  "input": "달팽이",
+  "status": 200,
+  "canonical": "달팽이",
+  "disambig": false,
+  "backlinks": 518
+ },
+ {
+  "input": "트리케라톱스",
+  "status": 200,
+  "canonical": "트리케라톱스",
+  "disambig": false,
+  "backlinks": 658
+ },
+ {
+  "input": "벨로키랍토르",
+  "status": 200,
+  "canonical": "벨로키랍토르",
+  "disambig": false,
+  "backlinks": 371
+ },
+ {
+  "input": "브라키오사우루스",
+  "status": 200,
+  "canonical": "브라키오사우루스",
+  "disambig": false,
+  "backlinks": 334
+ },
+ {
+  "input": "스테고사우루스",
+  "status": 200,
+  "canonical": "스테고사우루스",
+  "disambig": false,
+  "backlinks": 466
+ },
+ {
+  "input": "매머드",
+  "status": 200,
+  "canonical": "매머드",
+  "disambig": false,
+  "backlinks": 434
+ },
+ {
+  "input": "시바견",
+  "status": 200,
+  "canonical": "시바견",
+  "disambig": false,
+  "backlinks": 423
+ },
+ {
+  "input": "진돗개",
+  "status": 200,
+  "canonical": "진돗개",
+  "disambig": false,
+  "backlinks": 284
+ },
+ {
+  "input": "골든 리트리버",
+  "status": 200,
+  "canonical": "골든 리트리버",
+  "disambig": false,
+  "backlinks": 378
+ },
+ {
+  "input": "푸들",
+  "status": 200,
+  "canonical": "푸들",
+  "disambig": false,
+  "backlinks": 539
+ },
+ {
+  "input": "말티즈",
+  "status": 200,
+  "canonical": "말티즈",
+  "disambig": false,
+  "backlinks": 468
+ },
+ {
+  "input": "포메라니안",
+  "status": 200,
+  "canonical": "포메라니안",
+  "disambig": false,
+  "backlinks": 565
+ },
+ {
+  "input": "치와와",
+  "status": 200,
+  "canonical": "치와와",
+  "disambig": false,
+  "backlinks": 411
+ },
+ {
+  "input": "비글",
+  "status": 200,
+  "canonical": "비글",
+  "disambig": false,
+  "backlinks": 242
+ },
+ {
+  "input": "시베리안 허스키",
+  "status": 200,
+  "canonical": "시베리안 허스키",
+  "disambig": false,
+  "backlinks": 227
+ },
+ {
+  "input": "닥스훈트",
+  "status": 200,
+  "canonical": "닥스훈트",
+  "disambig": false,
+  "backlinks": 223
+ },
+ {
+  "input": "웰시 코기",
+  "status": 200,
+  "canonical": "웰시 코기",
+  "disambig": false,
+  "backlinks": 268
+ },
+ {
+  "input": "불도그",
+  "status": 200,
+  "canonical": "불도그",
+  "disambig": false,
+  "backlinks": 284
+ },
+ {
+  "input": "페르시안",
+  "status": 200,
+  "canonical": "페르시안",
+  "disambig": false,
+  "backlinks": 115
+ },
+ {
+  "input": "샴(고양이)",
+  "status": 200,
+  "canonical": "샴(고양이)",
+  "disambig": false,
+  "backlinks": 144
+ },
+ {
+  "input": "러시안 블루",
+  "status": 200,
+  "canonical": "러시안 블루",
+  "disambig": false,
+  "backlinks": 153
+ },
+ {
+  "input": "국화",
+  "status": 200,
+  "canonical": "국화",
+  "disambig": false,
+  "backlinks": 737
+ },
+ {
+  "input": "코스모스",
+  "status": 200,
+  "canonical": "코스모스",
+  "disambig": true,
+  "backlinks": 94
+ },
+ {
+  "input": "백합",
+  "status": 200,
+  "canonical": "백합",
+  "disambig": false,
+  "backlinks": 1162
+ },
+ {
+  "input": "카네이션",
+  "status": 200,
+  "canonical": "카네이션",
+  "disambig": false,
+  "backlinks": 96
+ },
+ {
+  "input": "라벤더",
+  "status": 200,
+  "canonical": "라벤더",
+  "disambig": false,
+  "backlinks": 164
+ },
+ {
+  "input": "연꽃",
+  "status": 200,
+  "canonical": "연꽃",
+  "disambig": false,
+  "backlinks": 564
+ },
+ {
+  "input": "목련",
+  "status": 200,
+  "canonical": "목련",
+  "disambig": false,
+  "backlinks": 1283
+ },
+ {
+  "input": "진달래",
+  "status": 200,
+  "canonical": "진달래",
+  "disambig": false,
+  "backlinks": 654
+ },
+ {
+  "input": "개나리",
+  "status": 200,
+  "canonical": "개나리",
+  "disambig": false,
+  "backlinks": 2151
+ },
+ {
+  "input": "철쭉",
+  "status": 200,
+  "canonical": "철쭉",
+  "disambig": false,
+  "backlinks": 1461
+ },
+ {
+  "input": "동백나무",
+  "status": 200,
+  "canonical": "동백나무",
+  "disambig": false,
+  "backlinks": 267
+ },
+ {
+  "input": "매화",
+  "status": 200,
+  "canonical": "매실나무",
+  "disambig": false,
+  "backlinks": 37
+ },
+ {
+  "input": "난초",
+  "status": 200,
+  "canonical": "난초",
+  "disambig": false,
+  "backlinks": 261
+ },
+ {
+  "input": "수국",
+  "status": 200,
+  "canonical": "수국",
+  "disambig": false,
+  "backlinks": 188
+ },
+ {
+  "input": "데이지",
+  "status": 200,
+  "canonical": "데이지",
+  "disambig": false,
+  "backlinks": 148
+ },
+ {
+  "input": "클로버",
+  "status": 200,
+  "canonical": "토끼풀",
+  "disambig": false,
+  "backlinks": 81
+ },
+ {
+  "input": "쑥",
+  "status": 200,
+  "canonical": "쑥",
+  "disambig": false,
+  "backlinks": 176
+ },
+ {
+  "input": "인삼",
+  "status": 200,
+  "canonical": "인삼",
+  "disambig": false,
+  "backlinks": 417
+ },
+ {
+  "input": "생강",
+  "status": 200,
+  "canonical": "생강",
+  "disambig": false,
+  "backlinks": 375
+ },
+ {
+  "input": "부추",
+  "status": 200,
+  "canonical": "부추",
+  "disambig": false,
+  "backlinks": 186
+ },
+ {
+  "input": "고수",
+  "status": 200,
+  "canonical": "고수",
+  "disambig": true,
+  "backlinks": 278
+ },
+ {
+  "input": "바질",
+  "status": 200,
+  "canonical": "바질",
+  "disambig": true,
+  "backlinks": 65
+ },
+ {
+  "input": "박하",
+  "status": 200,
+  "canonical": "박하",
+  "disambig": false,
+  "backlinks": 219
+ },
+ {
+  "input": "대마",
+  "status": 200,
+  "canonical": "대마",
+  "disambig": true,
+  "backlinks": 129
+ },
+ {
+  "input": "담배",
+  "status": 200,
+  "canonical": "담배",
+  "disambig": false,
+  "backlinks": 2921
+ },
+ {
+  "input": "커피나무",
+  "status": 200,
+  "canonical": "커피나무",
+  "disambig": false,
+  "backlinks": 35
+ },
+ {
+  "input": "카카오",
+  "status": 200,
+  "canonical": "카카오",
+  "disambig": false,
+  "backlinks": 245
+ },
+ {
+  "input": "벼",
+  "status": 200,
+  "canonical": "벼",
+  "disambig": false,
+  "backlinks": 337
+ },
+ {
+  "input": "귀리",
+  "status": 200,
+  "canonical": "귀리",
+  "disambig": false,
+  "backlinks": 162
+ },
+ {
+  "input": "메밀",
+  "status": 200,
+  "canonical": "메밀",
+  "disambig": false,
+  "backlinks": 215
+ },
+ {
+  "input": "팥",
+  "status": 200,
+  "canonical": "팥",
+  "disambig": false,
+  "backlinks": 281
+ },
+ {
+  "input": "녹두",
+  "status": 200,
+  "canonical": "녹두",
+  "disambig": false,
+  "backlinks": 87
+ },
+ {
+  "input": "블록체인",
+  "status": 200,
+  "canonical": "블록체인",
+  "disambig": false,
+  "backlinks": 324
+ },
+ {
+  "input": "빅데이터",
+  "status": 200,
+  "canonical": "빅데이터",
+  "disambig": false,
+  "backlinks": 216
+ },
+ {
+  "input": "클라우드 컴퓨팅",
+  "status": 200,
+  "canonical": "클라우드 컴퓨팅",
+  "disambig": false,
+  "backlinks": 262
+ },
+ {
+  "input": "사물인터넷",
+  "status": 200,
+  "canonical": "사물인터넷",
+  "disambig": false,
+  "backlinks": 186
+ },
+ {
+  "input": "와이파이",
+  "status": 200,
+  "canonical": "Wi-Fi",
+  "disambig": false,
+  "backlinks": 2016
+ },
+ {
+  "input": "블루투스",
+  "status": 200,
+  "canonical": "블루투스",
+  "disambig": false,
+  "backlinks": 2578
+ },
+ {
+  "input": "USB",
+  "status": 200,
+  "canonical": "USB",
+  "disambig": false,
+  "backlinks": 894
+ },
+ {
+  "input": "SSD",
+  "status": 200,
+  "canonical": "SSD",
+  "disambig": false,
+  "backlinks": 554
+ },
+ {
+  "input": "CPU",
+  "status": 200,
+  "canonical": "CPU",
+  "disambig": false,
+  "backlinks": 2483
+ },
+ {
+  "input": "GPU",
+  "status": 200,
+  "canonical": "GPU",
+  "disambig": true,
+  "backlinks": 1926
+ },
+ {
+  "input": "운영 체제",
+  "status": 404
+ },
+ {
+  "input": "마이크로소프트 윈도우",
+  "status": 200,
+  "canonical": "Microsoft Windows",
+  "disambig": false,
+  "backlinks": 8256
+ },
+ {
+  "input": "리눅스",
+  "status": 200,
+  "canonical": "Linux",
+  "disambig": false,
+  "backlinks": 2139
+ },
+ {
+  "input": "안드로이드",
+  "status": 200,
+  "canonical": "안드로이드",
+  "disambig": false,
+  "backlinks": 1762
+ },
+ {
+  "input": "iOS",
+  "status": 200,
+  "canonical": "iOS",
+  "disambig": false,
+  "backlinks": 5802
+ },
+ {
+  "input": "프로그래밍 언어",
+  "status": 200,
+  "canonical": "프로그래밍 언어",
+  "disambig": false,
+  "backlinks": 396
+ },
+ {
+  "input": "파이썬",
+  "status": 200,
+  "canonical": "Python",
+  "disambig": false,
+  "backlinks": 562
+ },
+ {
+  "input": "JavaScript",
+  "status": 200,
+  "canonical": "JavaScript",
+  "disambig": false,
+  "backlinks": 430
+ },
+ {
+  "input": "HTML",
+  "status": 200,
+  "canonical": "HTML",
+  "disambig": false,
+  "backlinks": 320
+ },
+ {
+  "input": "알고리즘",
+  "status": 200,
+  "canonical": "알고리즘",
+  "disambig": false,
+  "backlinks": 493
+ },
+ {
+  "input": "데이터베이스",
+  "status": 200,
+  "canonical": "데이터베이스",
+  "disambig": false,
+  "backlinks": 343
+ },
+ {
+  "input": "암호",
+  "status": 200,
+  "canonical": "암호",
+  "disambig": false,
+  "backlinks": 253
+ },
+ {
+  "input": "해킹",
+  "status": 200,
+  "canonical": "해킹",
+  "disambig": false,
+  "backlinks": 749
+ },
+ {
+  "input": "엔트로피",
+  "status": 200,
+  "canonical": "엔트로피",
+  "disambig": false,
+  "backlinks": 257
+ },
+ {
+  "input": "질량",
+  "status": 200,
+  "canonical": "질량",
+  "disambig": false,
+  "backlinks": 186
+ },
+ {
+  "input": "속도",
+  "status": 200,
+  "canonical": "속도",
+  "disambig": false,
+  "backlinks": 157
+ },
+ {
+  "input": "가속도",
+  "status": 200,
+  "canonical": "가속도",
+  "disambig": false,
+  "backlinks": 84
+ },
+ {
+  "input": "힘",
+  "status": 200,
+  "canonical": "힘",
+  "disambig": false,
+  "backlinks": 586
+ },
+ {
+  "input": "운동량",
+  "status": 200,
+  "canonical": "운동량",
+  "disambig": false,
+  "backlinks": 71
+ },
+ {
+  "input": "에너지 보존 법칙",
+  "status": 200,
+  "canonical": "에너지 보존 법칙",
+  "disambig": false,
+  "backlinks": 84
+ },
+ {
+  "input": "압력",
+  "status": 200,
+  "canonical": "압력",
+  "disambig": false,
+  "backlinks": 170
+ },
+ {
+  "input": "밀도",
+  "status": 200,
+  "canonical": "밀도",
+  "disambig": false,
+  "backlinks": 123
+ },
+ {
+  "input": "파동",
+  "status": 200,
+  "canonical": "파동",
+  "disambig": true,
+  "backlinks": 131
+ },
+ {
+  "input": "전자기파",
+  "status": 200,
+  "canonical": "전자기파",
+  "disambig": false,
+  "backlinks": 218
+ },
+ {
+  "input": "적외선",
+  "status": 200,
+  "canonical": "적외선",
+  "disambig": false,
+  "backlinks": 385
+ },
+ {
+  "input": "자외선",
+  "status": 200,
+  "canonical": "자외선",
+  "disambig": false,
+  "backlinks": 432
+ },
+ {
+  "input": "X선",
+  "status": 200,
+  "canonical": "X선",
+  "disambig": false,
+  "backlinks": 337
+ },
+ {
+  "input": "방사선",
+  "status": 200,
+  "canonical": "방사선",
+  "disambig": false,
+  "backlinks": 356
+ },
+ {
+  "input": "핵분열",
+  "status": 200,
+  "canonical": "핵분열",
+  "disambig": true,
+  "backlinks": 191
+ },
+ {
+  "input": "핵융합",
+  "status": 200,
+  "canonical": "핵융합",
+  "disambig": false,
+  "backlinks": 361
+ },
+ {
+  "input": "플라스마",
+  "status": 200,
+  "canonical": "플라즈마",
+  "disambig": false,
+  "backlinks": 330
+ },
+ {
+  "input": "초전도체",
+  "status": 200,
+  "canonical": "초전도체",
+  "disambig": false,
+  "backlinks": 167
+ },
+ {
+  "input": "레이저",
+  "status": 200,
+  "canonical": "레이저",
+  "disambig": false,
+  "backlinks": 843
+ },
+ {
+  "input": "트랜지스터",
+  "status": 200,
+  "canonical": "트랜지스터",
+  "disambig": false,
+  "backlinks": 275
+ },
+ {
+  "input": "다이오드",
+  "status": 200,
+  "canonical": "다이오드",
+  "disambig": false,
+  "backlinks": 104
+ },
+ {
+  "input": "전압",
+  "status": 200,
+  "canonical": "전압",
+  "disambig": false,
+  "backlinks": 126
+ },
+ {
+  "input": "전류",
+  "status": 200,
+  "canonical": "전류",
+  "disambig": false,
+  "backlinks": 228
+ },
+ {
+  "input": "전기 저항",
+  "status": 200,
+  "canonical": "전기 저항",
+  "disambig": false,
+  "backlinks": 77
+ },
+ {
+  "input": "모터",
+  "status": 200,
+  "canonical": "모터",
+  "disambig": false,
+  "backlinks": 225
+ },
+ {
+  "input": "엔진",
+  "status": 200,
+  "canonical": "엔진",
+  "disambig": false,
+  "backlinks": 715
+ },
+ {
+  "input": "증기 기관",
+  "status": 200,
+  "canonical": "증기 기관",
+  "disambig": false,
+  "backlinks": 311
+ },
+ {
+  "input": "발전소",
+  "status": 200,
+  "canonical": "발전소",
+  "disambig": false,
+  "backlinks": 226
+ },
+ {
+  "input": "풍력 발전",
+  "status": 200,
+  "canonical": "풍력 발전",
+  "disambig": false,
+  "backlinks": 149
+ },
+ {
+  "input": "수력 발전",
+  "status": 200,
+  "canonical": "수력 발전소",
+  "disambig": false,
+  "backlinks": 167
+ },
+ {
+  "input": "석유",
+  "status": 200,
+  "canonical": "석유",
+  "disambig": false,
+  "backlinks": 1507
+ },
+ {
+  "input": "석탄",
+  "status": 200,
+  "canonical": "석탄",
+  "disambig": false,
+  "backlinks": 841
+ },
+ {
+  "input": "천연가스",
+  "status": 200,
+  "canonical": "천연가스",
+  "disambig": false,
+  "backlinks": 499
+ },
+ {
+  "input": "휘발유",
+  "status": 200,
+  "canonical": "휘발유",
+  "disambig": false,
+  "backlinks": 532
+ },
+ {
+  "input": "플라스틱",
+  "status": 200,
+  "canonical": "플라스틱",
+  "disambig": false,
+  "backlinks": 934
+ },
+ {
+  "input": "고무",
+  "status": 200,
+  "canonical": "고무",
+  "disambig": false,
+  "backlinks": 386
+ },
+ {
+  "input": "유리",
+  "status": 200,
+  "canonical": "유리",
+  "disambig": false,
+  "backlinks": 757
+ },
+ {
+  "input": "종이",
+  "status": 200,
+  "canonical": "종이",
+  "disambig": false,
+  "backlinks": 693
+ },
+ {
+  "input": "나일론",
+  "status": 200,
+  "canonical": "나일론",
+  "disambig": false,
+  "backlinks": 241
+ },
+ {
+  "input": "시멘트",
+  "status": 200,
+  "canonical": "시멘트",
+  "disambig": false,
+  "backlinks": 408
+ },
+ {
+  "input": "콘크리트",
+  "status": 200,
+  "canonical": "콘크리트",
+  "disambig": false,
+  "backlinks": 641
+ },
+ {
+  "input": "강철",
+  "status": 200,
+  "canonical": "강철",
+  "disambig": false,
+  "backlinks": 512
+ },
+ {
+  "input": "스테인리스강",
+  "status": 200,
+  "canonical": "스테인리스강",
+  "disambig": false,
+  "backlinks": 222
+ },
+ {
+  "input": "티타늄",
+  "status": 200,
+  "canonical": "티타늄",
+  "disambig": false,
+  "backlinks": 492
+ },
+ {
+  "input": "마그네슘",
+  "status": 200,
+  "canonical": "마그네슘",
+  "disambig": false,
+  "backlinks": 338
+ },
+ {
+  "input": "칼슘",
+  "status": 200,
+  "canonical": "칼슘",
+  "disambig": false,
+  "backlinks": 392
+ },
+ {
+  "input": "나트륨",
+  "status": 200,
+  "canonical": "나트륨",
+  "disambig": false,
+  "backlinks": 423
+ },
+ {
+  "input": "칼륨",
+  "status": 200,
+  "canonical": "칼륨",
+  "disambig": false,
+  "backlinks": 305
+ },
+ {
+  "input": "염소",
+  "status": 200,
+  "canonical": "염소",
+  "disambig": false,
+  "backlinks": 882
+ },
+ {
+  "input": "불소",
+  "status": 200,
+  "canonical": "플루오린",
+  "disambig": false,
+  "backlinks": 191
+ },
+ {
+  "input": "헬륨",
+  "status": 200,
+  "canonical": "헬륨",
+  "disambig": false,
+  "backlinks": 358
+ },
+ {
+  "input": "네온",
+  "status": 200,
+  "canonical": "네온",
+  "disambig": false,
+  "backlinks": 131
+ },
+ {
+  "input": "아르곤",
+  "status": 200,
+  "canonical": "아르곤",
+  "disambig": false,
+  "backlinks": 148
+ },
+ {
+  "input": "우라늄",
+  "status": 200,
+  "canonical": "우라늄",
+  "disambig": false,
+  "backlinks": 538
+ },
+ {
+  "input": "플루토늄",
+  "status": 200,
+  "canonical": "플루토늄",
+  "disambig": false,
+  "backlinks": 304
+ },
+ {
+  "input": "수은",
+  "status": 200,
+  "canonical": "수은",
+  "disambig": false,
+  "backlinks": 534
+ },
+ {
+  "input": "납",
+  "status": 200,
+  "canonical": "납",
+  "disambig": false,
+  "backlinks": 560
+ },
+ {
+  "input": "아연",
+  "status": 200,
+  "canonical": "아연",
+  "disambig": false,
+  "backlinks": 343
+ },
+ {
+  "input": "니켈",
+  "status": 200,
+  "canonical": "니켈",
+  "disambig": false,
+  "backlinks": 332
+ },
+ {
+  "input": "백금",
+  "status": 200,
+  "canonical": "백금",
+  "disambig": false,
+  "backlinks": 274
+ },
+ {
+  "input": "호르몬",
+  "status": 200,
+  "canonical": "호르몬",
+  "disambig": false,
+  "backlinks": 296
+ },
+ {
+  "input": "효소",
+  "status": 200,
+  "canonical": "효소",
+  "disambig": false,
+  "backlinks": 253
+ },
+ {
+  "input": "단백질",
+  "status": 200,
+  "canonical": "단백질",
+  "disambig": false,
+  "backlinks": 883
+ },
+ {
+  "input": "지방",
+  "status": 200,
+  "canonical": "지방",
+  "disambig": true,
+  "backlinks": 11
+ },
+ {
+  "input": "탄수화물",
+  "status": 200,
+  "canonical": "탄수화물",
+  "disambig": false,
+  "backlinks": 429
+ },
+ {
+  "input": "비타민",
+  "status": 200,
+  "canonical": "비타민",
+  "disambig": false,
+  "backlinks": 406
+ },
+ {
+  "input": "콜레스테롤",
+  "status": 200,
+  "canonical": "콜레스테롤",
+  "disambig": false,
+  "backlinks": 198
+ },
+ {
+  "input": "인슐린",
+  "status": 200,
+  "canonical": "인슐린",
+  "disambig": false,
+  "backlinks": 243
+ },
+ {
+  "input": "백신",
+  "status": 200,
+  "canonical": "백신",
+  "disambig": false,
+  "backlinks": 442
+ },
+ {
+  "input": "항생제",
+  "status": 200,
+  "canonical": "항생제",
+  "disambig": false,
+  "backlinks": 385
+ },
+ {
+  "input": "페니실린",
+  "status": 200,
+  "canonical": "페니실린",
+  "disambig": false,
+  "backlinks": 251
+ },
+ {
+  "input": "아스피린",
+  "status": 200,
+  "canonical": "아스피린",
+  "disambig": true,
+  "backlinks": 100
+ },
+ {
+  "input": "마취",
+  "status": 200,
+  "canonical": "마취",
+  "disambig": false,
+  "backlinks": 191
+ },
+ {
+  "input": "혈액형",
+  "status": 200,
+  "canonical": "혈액형",
+  "disambig": false,
+  "backlinks": 748
+ },
+ {
+  "input": "혈압",
+  "status": 200,
+  "canonical": "혈압",
+  "disambig": false,
+  "backlinks": 166
+ },
+ {
+  "input": "뇌졸중",
+  "status": 200,
+  "canonical": "뇌졸중",
+  "disambig": false,
+  "backlinks": 943
+ },
+ {
+  "input": "치매",
+  "status": 200,
+  "canonical": "치매",
+  "disambig": false,
+  "backlinks": 1060
+ },
+ {
+  "input": "우울증",
+  "status": 200,
+  "canonical": "우울장애",
+  "disambig": false,
+  "backlinks": 366
+ },
+ {
+  "input": "불면증",
+  "status": 200,
+  "canonical": "불면증",
+  "disambig": false,
+  "backlinks": 503
+ },
+ {
+  "input": "비만",
+  "status": 200,
+  "canonical": "비만",
+  "disambig": false,
+  "backlinks": 1107
+ },
+ {
+  "input": "다이어트",
+  "status": 200,
+  "canonical": "다이어트",
+  "disambig": false,
+  "backlinks": 1047
+ },
+ {
+  "input": "근육",
+  "status": 200,
+  "canonical": "근육",
+  "disambig": false,
+  "backlinks": 947
+ },
+ {
+  "input": "척추",
+  "status": 200,
+  "canonical": "척추",
+  "disambig": false,
+  "backlinks": 331
+ },
+ {
+  "input": "소화",
+  "status": 200,
+  "canonical": "소화",
+  "disambig": true,
+  "backlinks": 139
+ },
+ {
+  "input": "세조(조선)",
+  "status": 200,
+  "canonical": "세조(조선)",
+  "disambig": false,
+  "backlinks": 1598
+ },
+ {
+  "input": "태종(조선)",
+  "status": 200,
+  "canonical": "태종(조선)",
+  "disambig": false,
+  "backlinks": 1574
+ },
+ {
+  "input": "성종(조선)",
+  "status": 200,
+  "canonical": "성종(조선)",
+  "disambig": false,
+  "backlinks": 1170
+ },
+ {
+  "input": "영조",
+  "status": 200,
+  "canonical": "영조",
+  "disambig": false,
+  "backlinks": 1846
+ },
+ {
+  "input": "순조",
+  "status": 200,
+  "canonical": "순조",
+  "disambig": false,
+  "backlinks": 889
+ },
+ {
+  "input": "정도전",
+  "status": 200,
+  "canonical": "정도전",
+  "disambig": false,
+  "backlinks": 629
+ },
+ {
+  "input": "이방원",
+  "status": 200,
+  "canonical": "태종(조선)",
+  "disambig": false,
+  "backlinks": 1574
+ },
+ {
+  "input": "왕건",
+  "status": 200,
+  "canonical": "태조(고려)",
+  "disambig": false,
+  "backlinks": 922
+ },
+ {
+  "input": "궁예",
+  "status": 200,
+  "canonical": "궁예",
+  "disambig": false,
+  "backlinks": 680
+ },
+ {
+  "input": "견훤",
+  "status": 200,
+  "canonical": "견훤",
+  "disambig": false,
+  "backlinks": 650
+ },
+ {
+  "input": "김춘추",
+  "status": 200,
+  "canonical": "태종 무열왕",
+  "disambig": false,
+  "backlinks": 415
+ },
+ {
+  "input": "선덕여왕",
+  "status": 200,
+  "canonical": "선덕여왕",
+  "disambig": false,
+  "backlinks": 462
+ },
+ {
+  "input": "장보고",
+  "status": 200,
+  "canonical": "장보고",
+  "disambig": false,
+  "backlinks": 318
+ },
+ {
+  "input": "원효",
+  "status": 200,
+  "canonical": "원효",
+  "disambig": false,
+  "backlinks": 300
+ },
+ {
+  "input": "최치원",
+  "status": 200,
+  "canonical": "최치원",
+  "disambig": false,
+  "backlinks": 366
+ },
+ {
+  "input": "김부식",
+  "status": 200,
+  "canonical": "김부식",
+  "disambig": false,
+  "backlinks": 354
+ },
+ {
+  "input": "정몽주",
+  "status": 200,
+  "canonical": "정몽주",
+  "disambig": false,
+  "backlinks": 472
+ },
+ {
+  "input": "황진이",
+  "status": 200,
+  "canonical": "황진이",
+  "disambig": false,
+  "backlinks": 168
+ },
+ {
+  "input": "김홍도",
+  "status": 200,
+  "canonical": "김홍도",
+  "disambig": false,
+  "backlinks": 236
+ },
+ {
+  "input": "신윤복",
+  "status": 200,
+  "canonical": "신윤복",
+  "disambig": false,
+  "backlinks": 102
+ },
+ {
+  "input": "정선",
+  "status": 200,
+  "canonical": "정선",
+  "disambig": true,
+  "backlinks": 26
+ },
+ {
+  "input": "김정희",
+  "status": 200,
+  "canonical": "김정희",
+  "disambig": false,
+  "backlinks": 243
+ },
+ {
+  "input": "박지원",
+  "status": 200,
+  "canonical": "박지원",
+  "disambig": false,
+  "backlinks": 51
+ },
+ {
+  "input": "최제우",
+  "status": 200,
+  "canonical": "최제우",
+  "disambig": false,
+  "backlinks": 128
+ },
+ {
+  "input": "전봉준",
+  "status": 200,
+  "canonical": "전봉준",
+  "disambig": false,
+  "backlinks": 194
+ },
+ {
+  "input": "안창호",
+  "status": 200,
+  "canonical": "안창호",
+  "disambig": false,
+  "backlinks": 658
+ },
+ {
+  "input": "클레오파트라 7세",
+  "status": 200,
+  "canonical": "클레오파트라 7세",
+  "disambig": false,
+  "backlinks": 315
+ },
+ {
+  "input": "네로",
+  "status": 200,
+  "canonical": "네로",
+  "disambig": false,
+  "backlinks": 540
+ },
+ {
+  "input": "아우구스투스",
+  "status": 200,
+  "canonical": "아우구스투스",
+  "disambig": false,
+  "backlinks": 968
+ },
+ {
+  "input": "한니발",
+  "status": 200,
+  "canonical": "한니발",
+  "disambig": false,
+  "backlinks": 153
+ },
+ {
+  "input": "레오니다스 1세",
+  "status": 200,
+  "canonical": "레오니다스 1세",
+  "disambig": false,
+  "backlinks": 123
+ },
+ {
+  "input": "아킬레우스",
+  "status": 200,
+  "canonical": "아킬레우스",
+  "disambig": false,
+  "backlinks": 455
+ },
+ {
+  "input": "오디세우스",
+  "status": 200,
+  "canonical": "오디세우스",
+  "disambig": false,
+  "backlinks": 482
+ },
+ {
+  "input": "헤라클레스",
+  "status": 200,
+  "canonical": "헤라클레스",
+  "disambig": false,
+  "backlinks": 959
+ },
+ {
+  "input": "제우스",
+  "status": 200,
+  "canonical": "제우스",
+  "disambig": false,
+  "backlinks": 1418
+ },
+ {
+  "input": "아테나",
+  "status": 200,
+  "canonical": "아테나",
+  "disambig": false,
+  "backlinks": 727
+ },
+ {
+  "input": "아폴론",
+  "status": 200,
+  "canonical": "아폴론",
+  "disambig": false,
+  "backlinks": 670
+ },
+ {
+  "input": "포세이돈",
+  "status": 200,
+  "canonical": "포세이돈",
+  "disambig": false,
+  "backlinks": 779
+ },
+ {
+  "input": "하데스",
+  "status": 200,
+  "canonical": "하데스",
+  "disambig": false,
+  "backlinks": 600
+ },
+ {
+  "input": "오딘",
+  "status": 200,
+  "canonical": "오딘",
+  "disambig": false,
+  "backlinks": 834
+ },
+ {
+  "input": "토르",
+  "status": 200,
+  "canonical": "토르",
+  "disambig": false,
+  "backlinks": 696
+ },
+ {
+  "input": "로키",
+  "status": 200,
+  "canonical": "로키",
+  "disambig": false,
+  "backlinks": 492
+ },
+ {
+  "input": "아누비스",
+  "status": 200,
+  "canonical": "아누비스",
+  "disambig": true,
+  "backlinks": 357
+ },
+ {
+  "input": "잔 다르크",
+  "status": 200,
+  "canonical": "잔 다르크",
+  "disambig": false,
+  "backlinks": 914
+ },
+ {
+  "input": "루이 14세",
+  "status": 200,
+  "canonical": "루이 14세",
+  "disambig": false,
+  "backlinks": 849
+ },
+ {
+  "input": "마리 앙투아네트",
+  "status": 200,
+  "canonical": "마리 앙투아네트",
+  "disambig": false,
+  "backlinks": 600
+ },
+ {
+  "input": "엘리자베스 1세",
+  "status": 200,
+  "canonical": "엘리자베스 1세",
+  "disambig": false,
+  "backlinks": 952
+ },
+ {
+  "input": "빅토리아 여왕",
+  "status": 200,
+  "canonical": "빅토리아 여왕",
+  "disambig": false,
+  "backlinks": 1114
+ },
+ {
+  "input": "표트르 1세",
+  "status": 200,
+  "canonical": "표트르 1세",
+  "disambig": false,
+  "backlinks": 367
+ },
+ {
+  "input": "예카테리나 2세",
+  "status": 200,
+  "canonical": "예카테리나 2세",
+  "disambig": false,
+  "backlinks": 501
+ },
+ {
+  "input": "니콜라이 2세",
+  "status": 200,
+  "canonical": "니콜라이 2세",
+  "disambig": false,
+  "backlinks": 650
+ },
+ {
+  "input": "쿠빌라이",
+  "status": 200,
+  "canonical": "쿠빌라이",
+  "disambig": false,
+  "backlinks": 72
+ },
+ {
+  "input": "마르코 폴로",
+  "status": 200,
+  "canonical": "마르코 폴로",
+  "disambig": false,
+  "backlinks": 262
+ },
+ {
+  "input": "크리스토퍼 콜럼버스",
+  "status": 200,
+  "canonical": "크리스토퍼 콜럼버스",
+  "disambig": false,
+  "backlinks": 530
+ },
+ {
+  "input": "페르디난드 마젤란",
+  "status": 200,
+  "canonical": "페르디난드 마젤란",
+  "disambig": false,
+  "backlinks": 145
+ },
+ {
+  "input": "바스코 다 가마",
+  "status": 200,
+  "canonical": "바스쿠 다 가마",
+  "disambig": false,
+  "backlinks": 103
+ },
+ {
+  "input": "제임스 쿡",
+  "status": 200,
+  "canonical": "제임스 쿡",
+  "disambig": false,
+  "backlinks": 162
+ },
+ {
+  "input": "벤저민 프랭클린",
+  "status": 200,
+  "canonical": "벤저민 프랭클린",
+  "disambig": false,
+  "backlinks": 314
+ },
+ {
+  "input": "토머스 제퍼슨",
+  "status": 200,
+  "canonical": "토머스 제퍼슨",
+  "disambig": false,
+  "backlinks": 329
+ },
+ {
+  "input": "존 F. 케네디",
+  "status": 200,
+  "canonical": "존 F. 케네디",
+  "disambig": false,
+  "backlinks": 1208
+ },
+ {
+  "input": "프랭클린 D. 루스벨트",
+  "status": 200,
+  "canonical": "프랭클린 D. 루스벨트",
+  "disambig": false,
+  "backlinks": 970
+ },
+ {
+  "input": "르네 데카르트",
+  "status": 200,
+  "canonical": "르네 데카르트",
+  "disambig": false,
+  "backlinks": 292
+ },
+ {
+  "input": "임마누엘 칸트",
+  "status": 200,
+  "canonical": "임마누엘 칸트",
+  "disambig": false,
+  "backlinks": 346
+ },
+ {
+  "input": "프리드리히 니체",
+  "status": 200,
+  "canonical": "프리드리히 니체",
+  "disambig": false,
+  "backlinks": 733
+ },
+ {
+  "input": "카를 마르크스",
+  "status": 200,
+  "canonical": "카를 마르크스",
+  "disambig": false,
+  "backlinks": 870
+ },
+ {
+  "input": "지크문트 프로이트",
+  "status": 200,
+  "canonical": "지그문트 프로이트",
+  "disambig": false,
+  "backlinks": 400
+ },
+ {
+  "input": "카를 구스타프 융",
+  "status": 200,
+  "canonical": "카를 융",
+  "disambig": false,
+  "backlinks": 133
+ },
+ {
+  "input": "장자크 루소",
+  "status": 200,
+  "canonical": "장자크 루소",
+  "disambig": false,
+  "backlinks": 38
+ },
+ {
+  "input": "볼테르",
+  "status": 200,
+  "canonical": "볼테르",
+  "disambig": false,
+  "backlinks": 314
+ },
+ {
+  "input": "존 로크",
+  "status": 200,
+  "canonical": "존 로크",
+  "disambig": false,
+  "backlinks": 184
+ },
+ {
+  "input": "애덤 스미스",
+  "status": 200,
+  "canonical": "애덤 스미스",
+  "disambig": false,
+  "backlinks": 260
+ },
+ {
+  "input": "그레고어 멘델",
+  "status": 200,
+  "canonical": "그레고어 멘델",
+  "disambig": false,
+  "backlinks": 93
+ },
+ {
+  "input": "루이 파스퇴르",
+  "status": 200,
+  "canonical": "루이 파스퇴르",
+  "disambig": false,
+  "backlinks": 117
+ },
+ {
+  "input": "니콜라우스 코페르니쿠스",
+  "status": 200,
+  "canonical": "니콜라우스 코페르니쿠스",
+  "disambig": false,
+  "backlinks": 127
+ },
+ {
+  "input": "요하네스 케플러",
+  "status": 200,
+  "canonical": "요하네스 케플러",
+  "disambig": false,
+  "backlinks": 174
+ },
+ {
+  "input": "앙투안 라부아지에",
+  "status": 200,
+  "canonical": "앙투안 라부아지에",
+  "disambig": false,
+  "backlinks": 124
+ },
+ {
+  "input": "제임스 클러크 맥스웰",
+  "status": 200,
+  "canonical": "제임스 클러크 맥스웰",
+  "disambig": false,
+  "backlinks": 116
+ },
+ {
+  "input": "마이클 패러데이",
+  "status": 200,
+  "canonical": "마이클 패러데이",
+  "disambig": false,
+  "backlinks": 119
+ },
+ {
+  "input": "닐스 보어",
+  "status": 200,
+  "canonical": "닐스 보어",
+  "disambig": false,
+  "backlinks": 142
+ },
+ {
+  "input": "에르빈 슈뢰딩거",
+  "status": 200,
+  "canonical": "에르빈 슈뢰딩거",
+  "disambig": false,
+  "backlinks": 113
+ },
+ {
+  "input": "엔리코 페르미",
+  "status": 200,
+  "canonical": "엔리코 페르미",
+  "disambig": false,
+  "backlinks": 114
+ },
+ {
+  "input": "알프레드 노벨",
+  "status": 200,
+  "canonical": "알프레드 노벨",
+  "disambig": false,
+  "backlinks": 151
+ },
+ {
+  "input": "라이트 형제",
+  "status": 200,
+  "canonical": "라이트 형제",
+  "disambig": false,
+  "backlinks": 275
+ },
+ {
+  "input": "알렉산더 그레이엄 벨",
+  "status": 200,
+  "canonical": "알렉산더 그레이엄 벨",
+  "disambig": false,
+  "backlinks": 106
+ },
+ {
+  "input": "제임스 와트",
+  "status": 200,
+  "canonical": "제임스 와트",
+  "disambig": false,
+  "backlinks": 81
+ },
+ {
+  "input": "헨리 포드",
+  "status": 200,
+  "canonical": "헨리 포드",
+  "disambig": false,
+  "backlinks": 201
+ },
+ {
+  "input": "라파엘로 산치오",
+  "status": 200,
+  "canonical": "라파엘로 산치오",
+  "disambig": false,
+  "backlinks": 136
+ },
+ {
+  "input": "렘브란트 판 레인",
+  "status": 404
+ },
+ {
+  "input": "클로드 모네",
+  "status": 200,
+  "canonical": "클로드 모네",
+  "disambig": false,
+  "backlinks": 158
+ },
+ {
+  "input": "폴 세잔",
+  "status": 200,
+  "canonical": "폴 세잔",
+  "disambig": false,
+  "backlinks": 96
+ },
+ {
+  "input": "살바도르 달리",
+  "status": 200,
+  "canonical": "살바도르 달리",
+  "disambig": false,
+  "backlinks": 217
+ },
+ {
+  "input": "구스타프 클림트",
+  "status": 200,
+  "canonical": "구스타프 클림트",
+  "disambig": false,
+  "backlinks": 95
+ },
+ {
+  "input": "에드바르 뭉크",
+  "status": 200,
+  "canonical": "에드바르트 뭉크",
+  "disambig": false,
+  "backlinks": 88
+ },
+ {
+  "input": "앤디 워홀",
+  "status": 200,
+  "canonical": "앤디 워홀",
+  "disambig": false,
+  "backlinks": 310
+ },
+ {
+  "input": "요한 제바스티안 바흐",
+  "status": 200,
+  "canonical": "요한 제바스티안 바흐",
+  "disambig": false,
+  "backlinks": 566
+ },
+ {
+  "input": "프레데리크 쇼팽",
+  "status": 200,
+  "canonical": "프레데리크 쇼팽",
+  "disambig": false,
+  "backlinks": 434
+ },
+ {
+  "input": "표트르 차이콥스키",
+  "status": 200,
+  "canonical": "표트르 차이콥스키",
+  "disambig": false,
+  "backlinks": 384
+ },
+ {
+  "input": "요하네스 브람스",
+  "status": 200,
+  "canonical": "요하네스 브람스",
+  "disambig": false,
+  "backlinks": 293
+ },
+ {
+  "input": "리하르트 바그너",
+  "status": 200,
+  "canonical": "리하르트 바그너",
+  "disambig": false,
+  "backlinks": 471
+ },
+ {
+  "input": "안토니오 비발디",
+  "status": 200,
+  "canonical": "안토니오 비발디",
+  "disambig": false,
+  "backlinks": 271
+ },
+ {
+  "input": "구스타프 말러",
+  "status": 200,
+  "canonical": "구스타프 말러",
+  "disambig": false,
+  "backlinks": 242
+ },
+ {
+  "input": "마녀",
+  "status": 200,
+  "canonical": "마녀",
+  "disambig": false,
+  "backlinks": 1088
+ },
+ {
+  "input": "뱀파이어",
+  "status": 200,
+  "canonical": "뱀파이어",
+  "disambig": true,
+  "backlinks": 1162
+ },
+ {
+  "input": "좀비",
+  "status": 200,
+  "canonical": "좀비",
+  "disambig": false,
+  "backlinks": 2100
+ },
+ {
+  "input": "유령",
+  "status": 200,
+  "canonical": "유령",
+  "disambig": false,
+  "backlinks": 964
+ },
+ {
+  "input": "드래곤",
+  "status": 200,
+  "canonical": "드래곤",
+  "disambig": false,
+  "backlinks": 1774
+ },
+ {
+  "input": "유니콘",
+  "status": 200,
+  "canonical": "유니콘",
+  "disambig": false,
+  "backlinks": 671
+ },
+ {
+  "input": "요정",
+  "status": 200,
+  "canonical": "요정",
+  "disambig": false,
+  "backlinks": 670
+ },
+ {
+  "input": "천사",
+  "status": 200,
+  "canonical": "천사",
+  "disambig": false,
+  "backlinks": 1430
+ },
+ {
+  "input": "악마",
+  "status": 200,
+  "canonical": "악마",
+  "disambig": false,
+  "backlinks": 2222
+ },
+ {
+  "input": "천국",
+  "status": 200,
+  "canonical": "천국",
+  "disambig": false,
+  "backlinks": 698
+ },
+ {
+  "input": "지옥",
+  "status": 200,
+  "canonical": "지옥",
+  "disambig": false,
+  "backlinks": 1528
+ },
+ {
+  "input": "해적",
+  "status": 200,
+  "canonical": "해적",
+  "disambig": false,
+  "backlinks": 1471
+ },
+ {
+  "input": "사무라이",
+  "status": 200,
+  "canonical": "사무라이",
+  "disambig": false,
+  "backlinks": 1320
+ },
+ {
+  "input": "닌자",
+  "status": 200,
+  "canonical": "닌자",
+  "disambig": false,
+  "backlinks": 1579
+ },
+ {
+  "input": "카우보이",
+  "status": 200,
+  "canonical": "카우보이",
+  "disambig": true,
+  "backlinks": 423
+ },
+ {
+  "input": "기사(중세)",
+  "status": 404
+ },
+ {
+  "input": "소녀시대",
+  "status": 200,
+  "canonical": "소녀시대",
+  "disambig": false,
+  "backlinks": 3005
+ },
+ {
+  "input": "레드벨벳",
+  "status": 404
+ },
+ {
+  "input": "마마무",
+  "status": 200,
+  "canonical": "마마무",
+  "disambig": false,
+  "backlinks": 1485
+ },
+ {
+  "input": "2NE1",
+  "status": 200,
+  "canonical": "2NE1",
+  "disambig": false,
+  "backlinks": 1115
+ },
+ {
+  "input": "세븐틴",
+  "status": 200,
+  "canonical": "세븐틴",
+  "disambig": false,
+  "backlinks": 2034
+ },
+ {
+  "input": "NCT",
+  "status": 200,
+  "canonical": "NCT",
+  "disambig": false,
+  "backlinks": 1343
+ },
+ {
+  "input": "엔하이픈",
+  "status": 200,
+  "canonical": "엔하이픈",
+  "disambig": false,
+  "backlinks": 927
+ },
+ {
+  "input": "ITZY",
+  "status": 200,
+  "canonical": "ITZY",
+  "disambig": false,
+  "backlinks": 1315
+ },
+ {
+  "input": "에이핑크",
+  "status": 200,
+  "canonical": "Apink",
+  "disambig": false,
+  "backlinks": 1513
+ },
+ {
+  "input": "걸스데이",
+  "status": 200,
+  "canonical": "걸스데이",
+  "disambig": false,
+  "backlinks": 856
+ },
+ {
+  "input": "원더걸스",
+  "status": 200,
+  "canonical": "원더걸스",
+  "disambig": false,
+  "backlinks": 1307
+ },
+ {
+  "input": "카라",
+  "status": 200,
+  "canonical": "카라",
+  "disambig": false,
+  "backlinks": 1518
+ },
+ {
+  "input": "동방신기",
+  "status": 200,
+  "canonical": "동방신기",
+  "disambig": false,
+  "backlinks": 1745
+ },
+ {
+  "input": "H.O.T.",
+  "status": 200,
+  "canonical": "H.O.T.",
+  "disambig": false,
+  "backlinks": 1180
+ },
+ {
+  "input": "조용필",
+  "status": 200,
+  "canonical": "조용필",
+  "disambig": false,
+  "backlinks": 1485
+ },
+ {
+  "input": "무한도전",
+  "status": 200,
+  "canonical": "무한도전",
+  "disambig": false,
+  "backlinks": 3903
+ },
+ {
+  "input": "런닝맨",
+  "status": 200,
+  "canonical": "런닝맨",
+  "disambig": false,
+  "backlinks": 2617
+ },
+ {
+  "input": "1박 2일",
+  "status": 200,
+  "canonical": "1박 2일",
+  "disambig": false,
+  "backlinks": 2144
+ },
+ {
+  "input": "나 혼자 산다",
+  "status": 200,
+  "canonical": "나 혼자 산다",
+  "disambig": false,
+  "backlinks": 1390
+ },
+ {
+  "input": "응답하라 1988",
+  "status": 200,
+  "canonical": "응답하라 1988",
+  "disambig": false,
+  "backlinks": 902
+ },
+ {
+  "input": "별에서 온 그대",
+  "status": 200,
+  "canonical": "별에서 온 그대",
+  "disambig": false,
+  "backlinks": 577
+ },
+ {
+  "input": "겨울연가",
+  "status": 200,
+  "canonical": "겨울연가",
+  "disambig": false,
+  "backlinks": 375
+ },
+ {
+  "input": "대장금",
+  "status": 200,
+  "canonical": "대장금",
+  "disambig": false,
+  "backlinks": 630
+ },
+ {
+  "input": "도깨비",
+  "status": 200,
+  "canonical": "도깨비",
+  "disambig": false,
+  "backlinks": 536
+ },
+ {
+  "input": "사랑의 불시착",
+  "status": 200,
+  "canonical": "사랑의 불시착",
+  "disambig": false,
+  "backlinks": 629
+ },
+ {
+  "input": "올드보이",
+  "status": 200,
+  "canonical": "올드보이",
+  "disambig": true,
+  "backlinks": 113
+ },
+ {
+  "input": "살인의 추억",
+  "status": 200,
+  "canonical": "살인의 추억",
+  "disambig": false,
+  "backlinks": 406
+ },
+ {
+  "input": "괴물(영화)",
+  "status": 200,
+  "canonical": "괴물(동음이의어)",
+  "disambig": true,
+  "backlinks": 1
+ },
+ {
+  "input": "부산행",
+  "status": 200,
+  "canonical": "부산행",
+  "disambig": false,
+  "backlinks": 685
+ },
+ {
+  "input": "택시운전사",
+  "status": 200,
+  "canonical": "택시운전사",
+  "disambig": false,
+  "backlinks": 427
+ },
+ {
+  "input": "명량",
+  "status": 200,
+  "canonical": "명량",
+  "disambig": false,
+  "backlinks": 526
+ },
+ {
+  "input": "극한직업",
+  "status": 200,
+  "canonical": "극한직업",
+  "disambig": true,
+  "backlinks": 125
+ },
+ {
+  "input": "범죄도시",
+  "status": 200,
+  "canonical": "범죄도시",
+  "disambig": false,
+  "backlinks": 507
+ },
+ {
+  "input": "태극기 휘날리며",
+  "status": 200,
+  "canonical": "태극기 휘날리며",
+  "disambig": false,
+  "backlinks": 419
+ },
+ {
+  "input": "실미도",
+  "status": 200,
+  "canonical": "실미도",
+  "disambig": false,
+  "backlinks": 105
+ },
+ {
+  "input": "국제시장",
+  "status": 200,
+  "canonical": "국제시장",
+  "disambig": false,
+  "backlinks": 153
+ },
+ {
+  "input": "쥬라기 공원",
+  "status": 200,
+  "canonical": "쥬라기 공원",
+  "disambig": false,
+  "backlinks": 556
+ },
+ {
+  "input": "터미네이터",
+  "status": 200,
+  "canonical": "터미네이터",
+  "disambig": true,
+  "backlinks": 556
+ },
+ {
+  "input": "매트릭스",
+  "status": 200,
+  "canonical": "매트릭스",
+  "disambig": true,
+  "backlinks": 328
+ },
+ {
+  "input": "인셉션",
+  "status": 200,
+  "canonical": "인셉션",
+  "disambig": false,
+  "backlinks": 609
+ },
+ {
+  "input": "인터스텔라",
+  "status": 200,
+  "canonical": "인터스텔라",
+  "disambig": false,
+  "backlinks": 689
+ },
+ {
+  "input": "다크 나이트",
+  "status": 200,
+  "canonical": "다크 나이트",
+  "disambig": true,
+  "backlinks": 312
+ },
+ {
+  "input": "쉰들러 리스트",
+  "status": 200,
+  "canonical": "쉰들러 리스트",
+  "disambig": false,
+  "backlinks": 256
+ },
+ {
+  "input": "포레스트 검프",
+  "status": 200,
+  "canonical": "포레스트 검프",
+  "disambig": false,
+  "backlinks": 466
+ },
+ {
+  "input": "아바타(영화)",
+  "status": 200,
+  "canonical": "아바타(영화)",
+  "disambig": false,
+  "backlinks": 709
+ },
+ {
+  "input": "007 시리즈",
+  "status": 200,
+  "canonical": "007 시리즈",
+  "disambig": false,
+  "backlinks": 935
+ },
+ {
+  "input": "미션 임파서블",
+  "status": 200,
+  "canonical": "미션 임파서블",
+  "disambig": false,
+  "backlinks": 200
+ },
+ {
+  "input": "분노의 질주",
+  "status": 200,
+  "canonical": "분노의 질주",
+  "disambig": false,
+  "backlinks": 137
+ },
+ {
+  "input": "트랜스포머",
+  "status": 200,
+  "canonical": "트랜스포머",
+  "disambig": true,
+  "backlinks": 731
+ },
+ {
+  "input": "캐리비안의 해적",
+  "status": 200,
+  "canonical": "캐리비안의 해적",
+  "disambig": false,
+  "backlinks": 337
+ },
+ {
+  "input": "겨울왕국",
+  "status": 200,
+  "canonical": "겨울왕국",
+  "disambig": false,
+  "backlinks": 1347
+ },
+ {
+  "input": "라이온 킹",
+  "status": 200,
+  "canonical": "라이온 킹",
+  "disambig": false,
+  "backlinks": 805
+ },
+ {
+  "input": "알라딘",
+  "status": 200,
+  "canonical": "알라딘",
+  "disambig": true,
+  "backlinks": 369
+ },
+ {
+  "input": "인어공주",
+  "status": 200,
+  "canonical": "인어공주",
+  "disambig": false,
+  "backlinks": 473
+ },
+ {
+  "input": "미녀와 야수",
+  "status": 200,
+  "canonical": "미녀와 야수",
+  "disambig": false,
+  "backlinks": 266
+ },
+ {
+  "input": "백설공주",
+  "status": 200,
+  "canonical": "백설공주",
+  "disambig": false,
+  "backlinks": 605
+ },
+ {
+  "input": "신데렐라",
+  "status": 200,
+  "canonical": "신데렐라",
+  "disambig": false,
+  "backlinks": 781
+ },
+ {
+  "input": "토이 스토리",
+  "status": 200,
+  "canonical": "토이 스토리",
+  "disambig": false,
+  "backlinks": 462
+ },
+ {
+  "input": "니모를 찾아서",
+  "status": 200,
+  "canonical": "니모를 찾아서",
+  "disambig": false,
+  "backlinks": 331
+ },
+ {
+  "input": "코코(영화)",
+  "status": 200,
+  "canonical": "코코(애니메이션)",
+  "disambig": false,
+  "backlinks": 393
+ },
+ {
+  "input": "인사이드 아웃",
+  "status": 200,
+  "canonical": "인사이드 아웃",
+  "disambig": false,
+  "backlinks": 427
+ },
+ {
+  "input": "주토피아",
+  "status": 200,
+  "canonical": "주토피아",
+  "disambig": false,
+  "backlinks": 659
+ },
+ {
+  "input": "헐크",
+  "status": 200,
+  "canonical": "헐크",
+  "disambig": false,
+  "backlinks": 967
+ },
+ {
+  "input": "캡틴 아메리카",
+  "status": 200,
+  "canonical": "캡틴 아메리카",
+  "disambig": false,
+  "backlinks": 1000
+ },
+ {
+  "input": "닥터 스트레인지",
+  "status": 200,
+  "canonical": "닥터 스트레인지",
+  "disambig": false,
+  "backlinks": 508
+ },
+ {
+  "input": "데드풀",
+  "status": 200,
+  "canonical": "데드풀",
+  "disambig": false,
+  "backlinks": 578
+ },
+ {
+  "input": "엑스맨",
+  "status": 200,
+  "canonical": "엑스맨",
+  "disambig": false,
+  "backlinks": 610
+ },
+ {
+  "input": "원더 우먼",
+  "status": 404
+ },
+ {
+  "input": "아쿠아맨",
+  "status": 200,
+  "canonical": "아쿠아맨",
+  "disambig": false,
+  "backlinks": 372
+ },
+ {
+  "input": "플래시",
+  "status": 200,
+  "canonical": "플래시",
+  "disambig": true,
+  "backlinks": 310
+ },
+ {
+  "input": "조커",
+  "status": 200,
+  "canonical": "조커",
+  "disambig": true,
+  "backlinks": 466
+ },
+ {
+  "input": "슬램덩크",
+  "status": 200,
+  "canonical": "슬램덩크",
+  "disambig": false,
+  "backlinks": 1544
+ },
+ {
+  "input": "데스노트",
+  "status": 200,
+  "canonical": "데스노트",
+  "disambig": false,
+  "backlinks": 1697
+ },
+ {
+  "input": "강철의 연금술사",
+  "status": 200,
+  "canonical": "강철의 연금술사",
+  "disambig": false,
+  "backlinks": 1824
+ },
+ {
+  "input": "진격의 거인",
+  "status": 200,
+  "canonical": "진격의 거인",
+  "disambig": false,
+  "backlinks": 2766
+ },
+ {
+  "input": "귀멸의 칼날",
+  "status": 200,
+  "canonical": "귀멸의 칼날",
+  "disambig": false,
+  "backlinks": 2619
+ },
+ {
+  "input": "주술회전",
+  "status": 200,
+  "canonical": "주술회전",
+  "disambig": false,
+  "backlinks": 1839
+ },
+ {
+  "input": "하이큐!!",
+  "status": 200,
+  "canonical": "하이큐!!",
+  "disambig": false,
+  "backlinks": 1193
+ },
+ {
+  "input": "블리치",
+  "status": 200,
+  "canonical": "블리치",
+  "disambig": false,
+  "backlinks": 2846
+ },
+ {
+  "input": "헌터×헌터",
+  "status": 200,
+  "canonical": "헌터×헌터",
+  "disambig": false,
+  "backlinks": 1458
+ },
+ {
+  "input": "건담",
+  "status": 200,
+  "canonical": "건담",
+  "disambig": false,
+  "backlinks": 1336
+ },
+ {
+  "input": "마징가 Z",
+  "status": 200,
+  "canonical": "마징가 Z",
+  "disambig": false,
+  "backlinks": 948
+ },
+ {
+  "input": "세일러문",
+  "status": 200,
+  "canonical": "미소녀 전사 세일러 문 시리즈",
+  "disambig": false,
+  "backlinks": 1325
+ },
+ {
+  "input": "카드캡터 사쿠라",
+  "status": 200,
+  "canonical": "카드캡터 사쿠라",
+  "disambig": false,
+  "backlinks": 765
+ },
+ {
+  "input": "모노노케 히메",
+  "status": 200,
+  "canonical": "모노노케 히메",
+  "disambig": false,
+  "backlinks": 561
+ },
+ {
+  "input": "하울의 움직이는 성",
+  "status": 200,
+  "canonical": "하울의 움직이는 성",
+  "disambig": false,
+  "backlinks": 288
+ },
+ {
+  "input": "너의 이름은.",
+  "status": 200,
+  "canonical": "너의 이름은.",
+  "disambig": false,
+  "backlinks": 1238
+ },
+ {
+  "input": "소닉 더 헤지혹",
+  "status": 200,
+  "canonical": "소닉 더 헤지혹",
+  "disambig": false,
+  "backlinks": 1221
+ },
+ {
+  "input": "로블록스",
+  "status": 200,
+  "canonical": "Roblox",
+  "disambig": false,
+  "backlinks": 2478
+ },
+ {
+  "input": "어몽 어스",
+  "status": 200,
+  "canonical": "Among Us",
+  "disambig": false,
+  "backlinks": 697
+ },
+ {
+  "input": "동물의 숲 시리즈",
+  "status": 200,
+  "canonical": "동물의 숲 시리즈",
+  "disambig": false,
+  "backlinks": 819
+ },
+ {
+  "input": "별의 커비",
+  "status": 200,
+  "canonical": "별의 커비",
+  "disambig": false,
+  "backlinks": 329
+ },
+ {
+  "input": "메이플스토리",
+  "status": 200,
+  "canonical": "메이플스토리",
+  "disambig": false,
+  "backlinks": 6589
+ },
+ {
+  "input": "던전 앤 파이터",
+  "status": 404
+ },
+ {
+  "input": "리니지",
+  "status": 200,
+  "canonical": "리니지",
+  "disambig": true,
+  "backlinks": 321
+ },
+ {
+  "input": "서든어택",
+  "status": 200,
+  "canonical": "서든어택",
+  "disambig": false,
+  "backlinks": 1159
+ },
+ {
+  "input": "카트라이더",
+  "status": 200,
+  "canonical": "크레이지레이싱 카트라이더",
+  "disambig": false,
+  "backlinks": 1145
+ },
+ {
+  "input": "FIFA 온라인",
+  "status": 404
+ },
+ {
+  "input": "발로란트",
+  "status": 200,
+  "canonical": "발로란트",
+  "disambig": false,
+  "backlinks": 3141
+ },
+ {
+  "input": "포트나이트",
+  "status": 200,
+  "canonical": "포트나이트",
+  "disambig": false,
+  "backlinks": 1171
+ },
+ {
+  "input": "원신",
+  "status": 200,
+  "canonical": "원신",
+  "disambig": false,
+  "backlinks": 4896
+ },
+ {
+  "input": "몬스터 헌터 시리즈",
+  "status": 200,
+  "canonical": "몬스터 헌터 시리즈",
+  "disambig": false,
+  "backlinks": 1502
+ },
+ {
+  "input": "파이널 판타지 시리즈",
+  "status": 200,
+  "canonical": "파이널 판타지 시리즈",
+  "disambig": false,
+  "backlinks": 1422
+ },
+ {
+  "input": "드래곤 퀘스트 시리즈",
+  "status": 200,
+  "canonical": "드래곤 퀘스트 시리즈",
+  "disambig": false,
+  "backlinks": 997
+ },
+ {
+  "input": "바이오하자드 시리즈",
+  "status": 200,
+  "canonical": "바이오하자드 시리즈",
+  "disambig": false,
+  "backlinks": 1287
+ },
+ {
+  "input": "다크 소울 시리즈",
+  "status": 200,
+  "canonical": "소울 시리즈",
+  "disambig": false,
+  "backlinks": 614
+ },
+ {
+  "input": "엘든 링",
+  "status": 200,
+  "canonical": "엘든 링",
+  "disambig": false,
+  "backlinks": 1408
+ },
+ {
+  "input": "어쌔신 크리드 시리즈",
+  "status": 200,
+  "canonical": "어쌔신 크리드 시리즈",
+  "disambig": false,
+  "backlinks": 821
+ },
+ {
+  "input": "콜 오브 듀티 시리즈",
+  "status": 200,
+  "canonical": "콜 오브 듀티 시리즈",
+  "disambig": false,
+  "backlinks": 1555
+ },
+ {
+  "input": "Grand Theft Auto 시리즈",
+  "status": 200,
+  "canonical": "Grand Theft Auto 시리즈",
+  "disambig": false,
+  "backlinks": 1074
+ },
+ {
+  "input": "아시안 게임",
+  "status": 200,
+  "canonical": "아시안 게임",
+  "disambig": false,
+  "backlinks": 994
+ },
+ {
+  "input": "UEFA 챔피언스 리그",
+  "status": 200,
+  "canonical": "UEFA 챔피언스 리그",
+  "disambig": false,
+  "backlinks": 6052
+ },
+ {
+  "input": "라리가",
+  "status": 200,
+  "canonical": "라리가",
+  "disambig": false,
+  "backlinks": 2905
+ },
+ {
+  "input": "분데스리가",
+  "status": 200,
+  "canonical": "분데스리가",
+  "disambig": false,
+  "backlinks": 3072
+ },
+ {
+  "input": "세리에 A",
+  "status": 200,
+  "canonical": "세리에 A",
+  "disambig": false,
+  "backlinks": 2929
+ },
+ {
+  "input": "토트넘 홋스퍼 FC",
+  "status": 200,
+  "canonical": "토트넘 홋스퍼 FC",
+  "disambig": false,
+  "backlinks": 4345
+ },
+ {
+  "input": "맨체스터 유나이티드 FC",
+  "status": 200,
+  "canonical": "맨체스터 유나이티드 FC",
+  "disambig": false,
+  "backlinks": 5472
+ },
+ {
+  "input": "리버풀 FC",
+  "status": 200,
+  "canonical": "리버풀 FC",
+  "disambig": false,
+  "backlinks": 4735
+ },
+ {
+  "input": "FC 바르셀로나",
+  "status": 200,
+  "canonical": "FC 바르셀로나",
+  "disambig": false,
+  "backlinks": 4540
+ },
+ {
+  "input": "레알 마드리드 CF",
+  "status": 200,
+  "canonical": "레알 마드리드 CF",
+  "disambig": false,
+  "backlinks": 4544
+ },
+ {
+  "input": "뉴욕 양키스",
+  "status": 200,
+  "canonical": "뉴욕 양키스",
+  "disambig": false,
+  "backlinks": 3833
+ },
+ {
+  "input": "로스앤젤레스 다저스",
+  "status": 200,
+  "canonical": "로스앤젤레스 다저스",
+  "disambig": false,
+  "backlinks": 4033
+ },
+ {
+  "input": "NBA",
+  "status": 200,
+  "canonical": "전미 농구 협회",
+  "disambig": false,
+  "backlinks": 941
+ },
+ {
+  "input": "NFL",
+  "status": 200,
+  "canonical": "내셔널 풋볼 리그",
+  "disambig": false,
+  "backlinks": 518
+ },
+ {
+  "input": "슈퍼볼",
+  "status": 200,
+  "canonical": "슈퍼볼",
+  "disambig": false,
+  "backlinks": 752
+ },
+ {
+  "input": "윔블던 챔피언십",
+  "status": 200,
+  "canonical": "윔블던(테니스 대회)",
+  "disambig": false,
+  "backlinks": 408
+ },
+ {
+  "input": "포뮬러 1",
+  "status": 200,
+  "canonical": "포뮬러 1",
+  "disambig": false,
+  "backlinks": 1859
+ },
+ {
+  "input": "양궁",
+  "status": 200,
+  "canonical": "양궁",
+  "disambig": false,
+  "backlinks": 1441
+ },
+ {
+  "input": "펜싱",
+  "status": 200,
+  "canonical": "펜싱",
+  "disambig": false,
+  "backlinks": 920
+ },
+ {
+  "input": "역도",
+  "status": 200,
+  "canonical": "역도",
+  "disambig": false,
+  "backlinks": 413
+ },
+ {
+  "input": "체조",
+  "status": 200,
+  "canonical": "체조",
+  "disambig": false,
+  "backlinks": 377
+ },
+ {
+  "input": "육상",
+  "status": 200,
+  "canonical": "육상",
+  "disambig": false,
+  "backlinks": 1980
+ },
+ {
+  "input": "높이뛰기",
+  "status": 200,
+  "canonical": "높이뛰기",
+  "disambig": false,
+  "backlinks": 111
+ },
+ {
+  "input": "장대높이뛰기",
+  "status": 200,
+  "canonical": "장대높이뛰기",
+  "disambig": false,
+  "backlinks": 105
+ },
+ {
+  "input": "철인3종경기",
+  "status": 200,
+  "canonical": "트라이애슬론",
+  "disambig": false,
+  "backlinks": 250
+ },
+ {
+  "input": "스케이트보드",
+  "status": 200,
+  "canonical": "스케이트보드",
+  "disambig": false,
+  "backlinks": 423
+ },
+ {
+  "input": "서핑",
+  "status": 200,
+  "canonical": "서핑",
+  "disambig": false,
+  "backlinks": 344
+ },
+ {
+  "input": "스포츠 클라이밍",
+  "status": 200,
+  "canonical": "스포츠 클라이밍",
+  "disambig": false,
+  "backlinks": 102
+ },
+ {
+  "input": "볼링",
+  "status": 200,
+  "canonical": "볼링",
+  "disambig": false,
+  "backlinks": 526
+ },
+ {
+  "input": "당구",
+  "status": 200,
+  "canonical": "당구",
+  "disambig": false,
+  "backlinks": 613
+ },
+ {
+  "input": "바둑",
+  "status": 200,
+  "canonical": "바둑",
+  "disambig": false,
+  "backlinks": 1284
+ },
+ {
+  "input": "장기",
+  "status": 200,
+  "canonical": "장기",
+  "disambig": false,
+  "backlinks": 589
+ },
+ {
+  "input": "체스",
+  "status": 200,
+  "canonical": "체스",
+  "disambig": false,
+  "backlinks": 1390
+ },
+ {
+  "input": "오목",
+  "status": 200,
+  "canonical": "오목",
+  "disambig": false,
+  "backlinks": 227
+ },
+ {
+  "input": "윷놀이",
+  "status": 200,
+  "canonical": "윷놀이",
+  "disambig": false,
+  "backlinks": 270
+ },
+ {
+  "input": "고스톱",
+  "status": 200,
+  "canonical": "고스톱",
+  "disambig": false,
+  "backlinks": 263
+ },
+ {
+  "input": "포커",
+  "status": 200,
+  "canonical": "포커",
+  "disambig": false,
+  "backlinks": 520
+ },
+ {
+  "input": "블랙잭",
+  "status": 200,
+  "canonical": "블랙잭",
+  "disambig": true,
+  "backlinks": 267
+ },
+ {
+  "input": "마작",
+  "status": 200,
+  "canonical": "마작",
+  "disambig": false,
+  "backlinks": 708
+ },
+ {
+  "input": "보드 게임",
+  "status": 404
+ },
+ {
+  "input": "퍼즐",
+  "status": 200,
+  "canonical": "퍼즐",
+  "disambig": false,
+  "backlinks": 385
+ },
+ {
+  "input": "루빅스 큐브",
+  "status": 200,
+  "canonical": "3×3×3 큐브",
+  "disambig": false,
+  "backlinks": 80
+ },
+ {
+  "input": "레고",
+  "status": 200,
+  "canonical": "레고",
+  "disambig": false,
+  "backlinks": 1286
+ },
+ {
+  "input": "프라모델",
+  "status": 200,
+  "canonical": "프라모델",
+  "disambig": false,
+  "backlinks": 749
+ },
+ {
+  "input": "피규어",
+  "status": 200,
+  "canonical": "피규어",
+  "disambig": false,
+  "backlinks": 1045
+ },
+ {
+  "input": "인형",
+  "status": 200,
+  "canonical": "인형",
+  "disambig": false,
+  "backlinks": 912
+ },
+ {
+  "input": "연(놀이기구)",
+  "status": 404
+ },
+ {
+  "input": "팽이",
+  "status": 200,
+  "canonical": "팽이",
+  "disambig": false,
+  "backlinks": 114
+ },
+ {
+  "input": "제기차기",
+  "status": 200,
+  "canonical": "제기차기",
+  "disambig": false,
+  "backlinks": 50
+ },
+ {
+  "input": "줄넘기",
+  "status": 200,
+  "canonical": "줄넘기",
+  "disambig": false,
+  "backlinks": 175
+ },
+ {
+  "input": "공기놀이",
+  "status": 200,
+  "canonical": "공기놀이",
+  "disambig": false,
+  "backlinks": 72
+ },
+ {
+  "input": "오토바이",
+  "status": 200,
+  "canonical": "오토바이",
+  "disambig": false,
+  "backlinks": 1611
+ },
+ {
+  "input": "트럭",
+  "status": 200,
+  "canonical": "트럭",
+  "disambig": false,
+  "backlinks": 945
+ },
+ {
+  "input": "소방차",
+  "status": 200,
+  "canonical": "소방차",
+  "disambig": false,
+  "backlinks": 481
+ },
+ {
+  "input": "구급차",
+  "status": 200,
+  "canonical": "구급차",
+  "disambig": false,
+  "backlinks": 578
+ },
+ {
+  "input": "경찰차",
+  "status": 200,
+  "canonical": "경찰차",
+  "disambig": false,
+  "backlinks": 435
+ },
+ {
+  "input": "케이블카",
+  "status": 200,
+  "canonical": "케이블카",
+  "disambig": false,
+  "backlinks": 417
+ },
+ {
+  "input": "헬리콥터",
+  "status": 200,
+  "canonical": "헬리콥터",
+  "disambig": false,
+  "backlinks": 1305
+ },
+ {
+  "input": "열기구",
+  "status": 200,
+  "canonical": "열기구",
+  "disambig": false,
+  "backlinks": 185
+ },
+ {
+  "input": "잠수함",
+  "status": 200,
+  "canonical": "잠수함",
+  "disambig": false,
+  "backlinks": 1457
+ },
+ {
+  "input": "항공모함",
+  "status": 200,
+  "canonical": "항공모함",
+  "disambig": false,
+  "backlinks": 1497
+ },
+ {
+  "input": "구축함",
+  "status": 200,
+  "canonical": "구축함",
+  "disambig": false,
+  "backlinks": 1422
+ },
+ {
+  "input": "전투기",
+  "status": 200,
+  "canonical": "전투기",
+  "disambig": false,
+  "backlinks": 1696
+ },
+ {
+  "input": "폭격기",
+  "status": 200,
+  "canonical": "폭격기",
+  "disambig": false,
+  "backlinks": 988
+ },
+ {
+  "input": "미사일",
+  "status": 200,
+  "canonical": "미사일",
+  "disambig": false,
+  "backlinks": 1360
+ },
+ {
+  "input": "핵무기",
+  "status": 200,
+  "canonical": "핵무기",
+  "disambig": false,
+  "backlinks": 1362
+ },
+ {
+  "input": "전차",
+  "status": 200,
+  "canonical": "전차",
+  "disambig": false,
+  "backlinks": 2069
+ },
+ {
+  "input": "총",
+  "status": 200,
+  "canonical": "총",
+  "disambig": false,
+  "backlinks": 1370
+ },
+ {
+  "input": "권총",
+  "status": 200,
+  "canonical": "권총",
+  "disambig": false,
+  "backlinks": 1814
+ },
+ {
+  "input": "소총",
+  "status": 200,
+  "canonical": "소총",
+  "disambig": false,
+  "backlinks": 888
+ },
+ {
+  "input": "대포",
+  "status": 200,
+  "canonical": "대포",
+  "disambig": true,
+  "backlinks": 499
+ },
+ {
+  "input": "활",
+  "status": 200,
+  "canonical": "활",
+  "disambig": false,
+  "backlinks": 954
+ },
+ {
+  "input": "방패",
+  "status": 200,
+  "canonical": "방패",
+  "disambig": false,
+  "backlinks": 837
+ },
+ {
+  "input": "갑옷",
+  "status": 200,
+  "canonical": "갑옷",
+  "disambig": false,
+  "backlinks": 589
+ },
+ {
+  "input": "경복궁",
+  "status": 200,
+  "canonical": "경복궁",
+  "disambig": false,
+  "backlinks": 1183
+ },
+ {
+  "input": "창덕궁",
+  "status": 200,
+  "canonical": "창덕궁",
+  "disambig": false,
+  "backlinks": 635
+ },
+ {
+  "input": "덕수궁",
+  "status": 200,
+  "canonical": "덕수궁",
+  "disambig": false,
+  "backlinks": 421
+ },
+ {
+  "input": "종묘",
+  "status": 200,
+  "canonical": "종묘",
+  "disambig": false,
+  "backlinks": 470
+ },
+ {
+  "input": "불국사",
+  "status": 200,
+  "canonical": "불국사",
+  "disambig": false,
+  "backlinks": 336
+ },
+ {
+  "input": "석굴암",
+  "status": 200,
+  "canonical": "석굴암",
+  "disambig": false,
+  "backlinks": 261
+ },
+ {
+  "input": "첨성대",
+  "status": 200,
+  "canonical": "첨성대",
+  "disambig": true,
+  "backlinks": 170
+ },
+ {
+  "input": "숭례문",
+  "status": 200,
+  "canonical": "숭례문",
+  "disambig": false,
+  "backlinks": 569
+ },
+ {
+  "input": "수원 화성",
+  "status": 200,
+  "canonical": "수원 화성",
+  "disambig": false,
+  "backlinks": 201
+ },
+ {
+  "input": "해인사",
+  "status": 200,
+  "canonical": "해인사",
+  "disambig": false,
+  "backlinks": 306
+ },
+ {
+  "input": "팔만대장경",
+  "status": 200,
+  "canonical": "팔만대장경",
+  "disambig": false,
+  "backlinks": 217
+ },
+ {
+  "input": "직지심체요절",
+  "status": 200,
+  "canonical": "직지심체요절",
+  "disambig": false,
+  "backlinks": 96
+ },
+ {
+  "input": "거북선",
+  "status": 200,
+  "canonical": "거북선",
+  "disambig": false,
+  "backlinks": 352
+ },
+ {
+  "input": "판옥선",
+  "status": 200,
+  "canonical": "판옥선",
+  "disambig": false,
+  "backlinks": 176
+ },
+ {
+  "input": "신기전",
+  "status": 200,
+  "canonical": "신기전",
+  "disambig": false,
+  "backlinks": 132
+ },
+ {
+  "input": "측우기",
+  "status": 200,
+  "canonical": "측우기",
+  "disambig": false,
+  "backlinks": 54
+ },
+ {
+  "input": "해시계",
+  "status": 200,
+  "canonical": "해시계",
+  "disambig": false,
+  "backlinks": 80
+ },
+ {
+  "input": "금속활자",
+  "status": 200,
+  "canonical": "금속활자",
+  "disambig": false,
+  "backlinks": 91
+ },
+ {
+  "input": "고인돌",
+  "status": 200,
+  "canonical": "고인돌",
+  "disambig": false,
+  "backlinks": 196
+ },
+ {
+  "input": "빗살무늬 토기",
+  "status": 200,
+  "canonical": "빗살무늬토기",
+  "disambig": false,
+  "backlinks": 45
+ },
+ {
+  "input": "고려청자",
+  "status": 200,
+  "canonical": "고려청자",
+  "disambig": false,
+  "backlinks": 171
+ },
+ {
+  "input": "조선백자",
+  "status": 200,
+  "canonical": "조선백자",
+  "disambig": false,
+  "backlinks": 63
+ },
+ {
+  "input": "한복",
+  "status": 200,
+  "canonical": "한복",
+  "disambig": false,
+  "backlinks": 966
+ },
+ {
+  "input": "한옥",
+  "status": 200,
+  "canonical": "한옥",
+  "disambig": false,
+  "backlinks": 324
+ },
+ {
+  "input": "온돌",
+  "status": 200,
+  "canonical": "온돌",
+  "disambig": false,
+  "backlinks": 278
+ },
+ {
+  "input": "김장",
+  "status": 200,
+  "canonical": "김장",
+  "disambig": false,
+  "backlinks": 195
+ },
+ {
+  "input": "사물놀이",
+  "status": 200,
+  "canonical": "사물놀이",
+  "disambig": false,
+  "backlinks": 125
+ },
+ {
+  "input": "탈춤",
+  "status": 200,
+  "canonical": "탈춤",
+  "disambig": false,
+  "backlinks": 78
+ },
+ {
+  "input": "한지",
+  "status": 200,
+  "canonical": "한지",
+  "disambig": false,
+  "backlinks": 243
+ },
+ {
+  "input": "판사",
+  "status": 200,
+  "canonical": "판사",
+  "disambig": false,
+  "backlinks": 1217
+ },
+ {
+  "input": "검사",
+  "status": 200,
+  "canonical": "검사",
+  "disambig": true,
+  "backlinks": 205
+ },
+ {
+  "input": "경찰관",
+  "status": 200,
+  "canonical": "경찰공무원",
+  "disambig": false,
+  "backlinks": 1240
+ },
+ {
+  "input": "기자",
+  "status": 200,
+  "canonical": "기자",
+  "disambig": false,
+  "backlinks": 1917
+ },
+ {
+  "input": "작가",
+  "status": 200,
+  "canonical": "작가",
+  "disambig": false,
+  "backlinks": 2681
+ },
+ {
+  "input": "화가",
+  "status": 200,
+  "canonical": "화가",
+  "disambig": true,
+  "backlinks": 1306
+ },
+ {
+  "input": "건축가",
+  "status": 200,
+  "canonical": "건축가",
+  "disambig": false,
+  "backlinks": 545
+ },
+ {
+  "input": "과학자",
+  "status": 200,
+  "canonical": "과학자",
+  "disambig": false,
+  "backlinks": 941
+ },
+ {
+  "input": "공무원",
+  "status": 200,
+  "canonical": "공무원",
+  "disambig": false,
+  "backlinks": 3497
+ },
+ {
+  "input": "국회의원",
+  "status": 200,
+  "canonical": "의원(정치인)",
+  "disambig": false,
+  "backlinks": 91
+ },
+ {
+  "input": "왕",
+  "status": 200,
+  "canonical": "왕",
+  "disambig": false,
+  "backlinks": 1928
+ },
+ {
+  "input": "황제",
+  "status": 200,
+  "canonical": "황제",
+  "disambig": false,
+  "backlinks": 2659
+ },
+ {
+  "input": "여왕",
+  "status": 200,
+  "canonical": "여왕",
+  "disambig": false,
+  "backlinks": 895
+ },
+ {
+  "input": "귀족",
+  "status": 200,
+  "canonical": "귀족",
+  "disambig": false,
+  "backlinks": 1823
+ },
+ {
+  "input": "가수",
+  "status": 200,
+  "canonical": "가수",
+  "disambig": false,
+  "backlinks": 9993
+ },
+ {
+  "input": "배우",
+  "status": 200,
+  "canonical": "배우",
+  "disambig": false,
+  "backlinks": 22738
+ },
+ {
+  "input": "감독",
+  "status": 200,
+  "canonical": "감독",
+  "disambig": true,
+  "backlinks": 1517
+ },
+ {
+  "input": "아나운서",
+  "status": 200,
+  "canonical": "아나운서",
+  "disambig": false,
+  "backlinks": 1980
+ },
+ {
+  "input": "유튜버",
+  "status": 200,
+  "canonical": "유튜브 크리에이터",
+  "disambig": false,
+  "backlinks": 5109
+ },
+ {
+  "input": "스트리머",
+  "status": 200,
+  "canonical": "스트리머",
+  "disambig": false,
+  "backlinks": 1340
+ },
+ {
+  "input": "게이머",
+  "status": 200,
+  "canonical": "게이머",
+  "disambig": false,
+  "backlinks": 167
+ },
+ {
+  "input": "프로게이머",
+  "status": 200,
+  "canonical": "프로게이머",
+  "disambig": false,
+  "backlinks": 5249
+ },
+ {
+  "input": "학생",
+  "status": 200,
+  "canonical": "학생",
+  "disambig": true,
+  "backlinks": 1067
+ },
+ {
+  "input": "초등학교",
+  "status": 200,
+  "canonical": "초등학교",
+  "disambig": false,
+  "backlinks": 3219
+ },
+ {
+  "input": "중학교",
+  "status": 200,
+  "canonical": "중학교",
+  "disambig": false,
+  "backlinks": 3914
+ },
+ {
+  "input": "고등학교",
+  "status": 200,
+  "canonical": "고등학교",
+  "disambig": false,
+  "backlinks": 3043
+ },
+ {
+  "input": "수능",
+  "status": 200,
+  "canonical": "대학수학능력시험",
+  "disambig": false,
+  "backlinks": 2114
+ },
+ {
+  "input": "입시",
+  "status": 200,
+  "canonical": "입시",
+  "disambig": false,
+  "backlinks": 251
+ },
+ {
+  "input": "군대",
+  "status": 200,
+  "canonical": "군대",
+  "disambig": false,
+  "backlinks": 3233
+ },
+ {
+  "input": "병역",
+  "status": 200,
+  "canonical": "병역제도",
+  "disambig": false,
+  "backlinks": 35
+ },
+ {
+  "input": "세계 보건 기구",
+  "status": 404
+ },
+ {
+  "input": "국제 연합 안전 보장 이사회",
+  "status": 404
+ },
+ {
+  "input": "NATO",
+  "status": 200,
+  "canonical": "북대서양 조약 기구",
+  "disambig": false,
+  "backlinks": 1000
+ },
+ {
+  "input": "유럽 연합",
+  "status": 200,
+  "canonical": "유럽연합",
+  "disambig": false,
+  "backlinks": 3082
+ },
+ {
+  "input": "올림픽 위원회",
+  "status": 404
+ },
+ {
+  "input": "적십자",
+  "status": 200,
+  "canonical": "적십자",
+  "disambig": false,
+  "backlinks": 338
+ },
+ {
+  "input": "노벨상",
+  "status": 200,
+  "canonical": "노벨상",
+  "disambig": false,
+  "backlinks": 747
+ },
+ {
+  "input": "노벨 평화상",
+  "status": 404
+ },
+ {
+  "input": "퓰리처상",
+  "status": 200,
+  "canonical": "퓰리처상",
+  "disambig": false,
+  "backlinks": 299
+ },
+ {
+  "input": "아카데미 시상식",
+  "status": 200,
+  "canonical": "아카데미 시상식",
+  "disambig": false,
+  "backlinks": 1967
+ },
+ {
+  "input": "칸 영화제",
+  "status": 200,
+  "canonical": "칸 영화제",
+  "disambig": false,
+  "backlinks": 1586
+ },
+ {
+  "input": "그래미 어워드",
+  "status": 200,
+  "canonical": "그래미 어워드",
+  "disambig": false,
+  "backlinks": 1495
+ },
+ {
+  "input": "빌보드 핫 100",
+  "status": 200,
+  "canonical": "빌보드 핫 100",
+  "disambig": false,
+  "backlinks": 5007
+ }
+]
