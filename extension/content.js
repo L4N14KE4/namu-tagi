@@ -183,45 +183,7 @@
   // 시작 전(도전장 수락 창, 카운트다운)에 주소창이나 뒤로가기로 다른 문서를 열면 그 문서에서 판이 시작돼 버린다(목표 옆 문서에서 시작하는 꼼수).
   // 시작 문서가 아닌 곳에서 다시 불러왔으면 판을 버린다. 아직 시작 전이라 기록할 것도 없다. 같은 문서 새로고침은 그대로 이어 간다.
   else if (state?.status === 'starting' && state.start && docOf(location.pathname) !== state.start) { clear(); state = null; }
-  // ---- 처음 설치 안내 ----
-  // 설치하고 처음 나무위키에 들어오면 설명(팝업의 ? 와 같은 글, intro.js)을 화면 가운데에 한 번 띄운다. 확인을 누르면 introSeen이 저장돼
-  // 팝업도 처음 열 때 설명을 띄우지 않는다. 주소 끝에 #ng-intro를 붙이면 언제든 다시 띄울 수 있다.
-  const introOnce = async () => {
-    let seen = true;
-    try { ({ introSeen: seen } = await chrome.storage.local.get('introSeen')); } catch { return; }
-    if (seen && location.hash !== '#ng-intro') return;
-    if (document.readyState === 'loading') await new Promise(r => document.addEventListener('DOMContentLoaded', r, { once: true }));
-    const host = document.createElement('div');
-    host.id = 'ng-intro';
-    const sh = host.attachShadow({ mode: 'open' });
-    sh.innerHTML = `
-      <style>
-        :host { all: initial; --card: #fff; --text: #212529; --muted: #6c757d; --border: #dadada; --soft: #f5f5f5; --primary: #00a69c; --err: #d64a58; --link: #0275d8;
-                font-family: "Pretendard JP", Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
-        :host([data-theme="dark"]) { --card: #1c1d1f; --text: #e0e0e0; --muted: #9a9a9a; --border: #3e3e3e; --soft: #26282b; --link: #ec9f19; }
-        .ov { position: fixed; inset: 0; z-index: 2147483647; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; }
-        .card { display: flex; flex-direction: column; width: min(460px, 92vw); max-height: 88vh; background: var(--card); color: var(--text);
-                border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 6px 24px rgba(0,0,0,.35); font-size: 14px; }
-        .scroll { overflow: auto; padding: 20px 24px 8px; }
-        .foot { padding: 12px 24px 18px; }
-        button { font: inherit; font-weight: 600; width: 100%; padding: 10px; border: 0; border-radius: .3rem; background: var(--primary); color: #fff; cursor: pointer; }
-        button:hover { filter: brightness(1.08); }
-        ${LR_INTRO.css}
-      </style>
-      <div class="ov"><div class="card"><div class="scroll">${LR_INTRO.html}</div><div class="foot"><button>확인</button></div></div></div>`;
-    const paint = () => { host.dataset.theme = theme(); };
-    paint(); new MutationObserver(paint).observe(document.body, { attributes: true, attributeFilter: ['class'] });
-    const close = () => host.remove();
-    sh.querySelector('button').onclick = () => {
-      try { chrome.storage.local.set({ introSeen: true }); } catch {}
-      if (location.hash === '#ng-intro') history.replaceState(null, '', location.pathname + location.search);
-      close();
-    };
-    try { chrome.storage.onChanged.addListener(c => { if (c.introSeen?.newValue) close(); }); } catch {} // 다른 탭에서 확인했으면 이 탭 것도 닫는다
-    for (const t of ['keydown', 'keypress', 'keyup']) host.addEventListener(t, e => e.stopPropagation()); // 나무위키 단축키로 새지 않게
-    document.body.appendChild(host);
-  };
-  if (!state) { introOnce(); return; } // 게임 중이 아닌 탭: 게임용 리스너도 CSS도 붙이지 않는다(처음 설치 안내만 확인).
+  if (!state) return; // 게임 중이 아닌 탭: 게임용 리스너도 CSS도 붙이지 않는다.
   document.documentElement.dataset.ng = state.status; // CSS 훅: 게임 중인 탭 표시
   // 지난 로드에서 만든 화면 정리 CSS를 바로 넣는다(아래 hideChrome). 새로고침·시작 문서에서 사이드바가 번쩍이지 않게.
   const dynStyle = document.createElement('style');

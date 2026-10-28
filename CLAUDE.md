@@ -42,7 +42,7 @@ git 저장소: GitHub `L4N14KE4/namu-game`(비공개), 브랜치 main. 2026-10-2
 
 | 파일 | 역할 |
 | --- | --- |
-| `manifest.json` | 권한은 activeTab, storage 뿐. 콘텐츠 스크립트: words.js, hubs.js, intro.js, vendor/confetti.min.js, content.js, content.css. `devtools_page`: devtools.html |
+| `manifest.json` | 권한은 activeTab, storage 뿐. 콘텐츠 스크립트: words.js, hubs.js, vendor/confetti.min.js, content.js, content.css. `devtools_page`: devtools.html |
 | `background.js` | 서비스 워커. `onInstalled`에서 reason이 `install`일 때만 `welcome.html`을 새 탭으로 연다(권한 추가 없음) |
 | `welcome.html`, `welcome.js` | 설치 환영 페이지(전체 화면, 나무위키 문서 모양(사과 문서에서 잰 값: 본문 15px, 제목 36px, 소제목 27px, 칸 5px 10px 등): 위 막대에 `wordmark.svg`, 제목 밑 "최근 버전: v…"(manifest 버전을 읽음), 목차 상자(details), 링크색 번호 소제목, 테두리 표, 점 목록, 각주 위 가로줄. 버튼 둘: 나무위키로 가기(넓게) / 닫기(작게)). 두 버튼이 `introSeen`을 저장해 나무위키 안 안내 창·팝업 첫 설명이 또 안 뜨게 한다. 탭 X로 닫으면 저장 안 돼 그 둘이 대신 뜬다(보험) |
 | `devtools.html`, `devtools.js` | 개발자 도구가 열려 있는 동안 1초마다 `inspectedWindow.eval('window.ngDevtools?.()', {useContentScriptContext})`로 게임 탭에 알린다(게임 중이면 진 판) |
@@ -58,7 +58,7 @@ git 저장소: GitHub `L4N14KE4/namu-game`(비공개), 브랜치 main. 2026-10-2
 | `../demo/` | 폭죽, 카운트다운, 아이콘 라이브러리 비교(`icons.html`), 로고 후보(`logo.html`: 나무위키 로고를 재서 다시 그린 변형 8가지) 데모(확장 아님) |
 | `../design/` | 고른 로고(2번 목표 깃발)의 PSD·SVG·PNG. `logo-icon`은 초록 원 아이콘 1024px, `logo-mark`는 로고만 투명 배경, `wordmark-*`는 마크 + "나무타기" 글자(밝은/어두운 배경용 SVG·PNG, `wordmark.psd`는 글자·고리·마크 14레이어)로 제목에 쓴다. 글자 나·무는 나무위키 로고에서 가장자리를 재서 그대로 다시 그렸고(획 굵기 차이: ㄴ 28, 줄기 23.3, ㅁ 21, ㅋ 가운데 줄 18.6, 둥근 모서리 볼록 4.75·오목 4.2), 타·기는 같은 규칙으로 새로 짰다(고리 높이도 나무위키처럼 낮음·높음·중간). PSD는 부분마다 레이어(래스터). 사용자가 직접 다듬었다(`logo-mark.psd`는 깃발을 왼쪽으로 34px, `logo-icon.psd`는 오른쪽 14px·아래 6px 옮겨서 고리 지름의 약 15% 어긋나 있고 괜찮다고 봄). 아직 manifest `icons`에 안 넣었다. `wordmark.mjs`는 글자 모양·간격과 마크 위치의 원본(마크 PSD의 깃발 이동량이 안에 상수로 들어 있다. `node design/wordmark.mjs demo/logo.html <폴더>`. `wordmark-white.svg`는 팝업용 흰색 한 색). 아이콘과 팝업 제목은 0.34.0에서 확장에 넣었다 |
 
-`content.js` 구역 순서: 공통 도구 → 팝업 연결(onConnect: suggest/probe) → 게임 상태와 해시 파싱 → 설치 안내(introOnce) → 화면 정리(hideChrome) → 판정(verdict, inTemplateBox, inFoldBox, inNoticeBox, inFootnote) → 입력 가로채기 → 이동 확정(check) → 무작위 목표 → 목표 미리보기 → 폭죽 → 기록(record) → 카운트다운, ready/begin → HUD(mount/render) → 공유(shareText) → 도전장 수락(invite).
+`content.js` 구역 순서: 공통 도구 → 팝업 연결(onConnect: suggest/probe) → 게임 상태와 해시 파싱 → 화면 정리(hideChrome) → 판정(verdict, inTemplateBox, inFoldBox, inNoticeBox, inFootnote) → 입력 가로채기 → 이동 확정(check) → 무작위 목표 → 목표 미리보기 → 폭죽 → 기록(record) → 카운트다운, ready/begin → HUD(mount/render) → 공유(shareText) → 도전장 수락(invite).
 
 ## 핵심 설계
 

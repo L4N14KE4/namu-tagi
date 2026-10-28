@@ -32,7 +32,6 @@
       "js": [
         "words.js",
         "hubs.js",
-        "intro.js",
         "vendor/confetti.min.js",
         "content.js"
       ],
