@@ -1,4 +1,4 @@
-// 나무타기 프로토타입. document_start에 실행. 서버·점수·계정 없음.
+// 나무타기. document_start에 실행. 서버·점수·계정 없음.
 // 상태는 탭의 sessionStorage 하나. ponytail: 탭을 닫으면 끝이고 복구는 없다. 탭을 복제하면 게임도 복제된다.
 (() => {
   // ---- 공통 도구 ----
@@ -893,7 +893,8 @@
   const retry = async () => {
     await abandon();
     // 메모리의 state도 새 판으로 바꾼다. 안 그러면 페이지를 떠날 때 leave()가 옛 판(진행 중)에 떠난 시각을 적어 저장하면서 새 판을 덮어쓴다.
-    save(state = fresh('starting', state.start, state.goal, { mode: state.mode, diff: state.diff, day: state.day, rules: state.rules, vs: state.vs }));
+    // rs도 넘긴다. 빠뜨리면 직접 출제(시작 비움) 판의 '새 문제' 버튼이 다시하기 뒤에 사라진다.
+    save(state = fresh('starting', state.start, state.goal, { mode: state.mode, diff: state.diff, rs: state.rs, day: state.day, rules: state.rules, vs: state.vs }));
     location.replace('/w/' + encPath(state.start));
   };
   let toastTimer;
