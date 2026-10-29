@@ -1,6 +1,7 @@
 // 나무타기 짧은 링크 서버. 의존 패키지 없음.
 //   POST /c      확장이 도전장을 맡기고 짧은 주소의 id를 받는다(본문은 JSON 글자, text/plain이라 preflight가 없다)
-//   GET  /:id    메신저 미리보기용 OG 태그를 담은 페이지를 주고, 사람은 바로 나무위키 도전장(#ng=… 짧은 형식)으로 보낸다
+//   GET  /:id    브라우저로 연 사람은 302로 바로 나무위키 도전장(#ng=… 짧은 형식)으로 보낸다(중간 흰 화면 없음).
+//                메신저 미리보기 봇에게는 OG 태그를 담은 카드 페이지를 준다. 판단을 못 하면 카드 페이지가 "이동하는 중이에요"를 보이고 바로 넘긴다.
 //   GET  /       웹스토어로 보낸다
 // 리다이렉트 주소는 저장한 값으로만 만들어서 아무 곳으로나 보내는 데 쓸 수 없다.
 const STORE_URL = 'https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi';
@@ -11,7 +12,13 @@ const ID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS } });
 const bad = reason => json({ error: reason }, 400);
-const html = (body, status = 200) => new Response(body, { status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=300' } });
+const html = (body, status = 200, cache = 'no-store') => new Response(body, { status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': cache } });
+// 도전장은 한 번 만들면 바뀌지 않아서 Cloudflare 가장자리에 1시간 캐시한다(삭제 요청은 1시간 뒤 반영).
+const KEEP = 'public, max-age=3600';
+// 브라우저는 사람이 링크를 열 때 Sec-Fetch-Mode: navigate를 보낸다. 미리보기 봇은 보통 안 보내지만, 브라우저 엔진으로 긁는 봇도 있어 이름으로 한 번 더 거른다.
+// 앱 안 브라우저(사람)의 UA에도 KAKAOTALK, Line 같은 앱 이름이 들어 있어서 미리보기 봇 이름만 좁게 잡는다(카카오톡 봇은 kakaotalk-scrap).
+const BOT = /bot|crawl|spider|scrap|preview|facebookexternalhit|whatsapp|yeti|daumoa|embedly|vkshare|pinterest/i;
+const isPerson = req => req.headers.get('Sec-Fetch-Mode') === 'navigate' && !BOT.test(req.headers.get('User-Agent') || '');
 const escHtml = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const newId = () => [...crypto.getRandomValues(new Uint8Array(6))].map(b => ID_CHARS[b % 62]).join('');
 const sha256 = async s => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))].map(b => b.toString(16).padStart(2, '0')).join('');
@@ -69,30 +76,42 @@ const create = async (req, env) => {
 };
 
 // 미리보기 카드 + 바로 이동. 메신저 크롤러는 OG 태그를 읽고, 사람은 meta refresh와 location.replace로 나무위키로 간다.
+// 바탕과 글자색은 나무위키(밝은 #f5f5f5 / 어두운 #000)를 따라 화면 모드에 맞춘다. 흰 화면이 번쩍이지 않게.
 const page = (title, desc, to) => `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <title>${escHtml(title)}</title><meta property="og:type" content="website"><meta property="og:site_name" content="나무타기">
 <meta property="og:title" content="${escHtml(title)}"><meta property="og:description" content="${escHtml(desc)}"><meta name="twitter:card" content="summary">
-${to ? `<meta http-equiv="refresh" content="0; url=${escHtml(to)}">` : ''}</head>
-<body style="font: 15px/1.6 -apple-system, system-ui, 'Apple SD Gothic Neo', sans-serif; margin: 40px auto; max-width: 560px; padding: 0 16px; word-break: keep-all;">
-<p>${escHtml(desc)}</p>${to ? `<p><a href="${escHtml(to)}">나무위키에서 도전하기</a></p>` : `<p><a href="https://namu.wiki/">나무위키로 가기</a></p>`}
-<p><a href="${STORE_URL}">나무타기 확장 설치</a></p><p style="color: #777;">나무타기는 나무위키 및 umanle S.R.L.과 관계없는 비공식 게임이에요.</p>
+${to ? `<meta http-equiv="refresh" content="0; url=${escHtml(to)}">` : ''}
+<style>html{background:#f5f5f5;color:#212529}a{color:#0275d8;text-decoration:none}small{color:#6c757d}@media (prefers-color-scheme:dark){html{background:#000;color:#e0e0e0}a{color:#ec9f19}small{color:#9a9a9a}}
+body{font:15px/1.6 "Pretendard JP",Pretendard,-apple-system,system-ui,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 16px;text-align:center;word-break:keep-all}
+p{margin:0 0 8px}</style></head>
+<body>${to ? `<p>나무위키로 이동하는 중이에요…</p><p><small>${escHtml(desc)}</small></p><p><small><a href="${escHtml(to)}">바로 가기</a></small></p>`
+  : `<p>${escHtml(desc)}</p><p><a href="https://namu.wiki/">나무위키로 가기</a></p>`}
+<p><small><a href="${STORE_URL}">나무타기 확장 설치</a></small></p><p><small>나무타기는 나무위키 및 umanle S.R.L.과 관계없는 비공식 게임이에요.</small></p>
 ${to ? `<script>location.replace(${JSON.stringify(to).replace(/</g, '\\u003c')})</script>` : ''}</body></html>`;
 
-const show = async (id, env) => {
+const show = async (req, id, env, ctx) => {
+  const person = isPerson(req), key = new Request(`https://namutagi.com/${id}?${person ? 'go' : 'card'}`); // 사람용(302)과 봇용(카드)을 따로 캐시
+  const hit = await caches.default.match(key);
+  if (hit) return hit;
   const row = await env.DB.prepare('SELECT * FROM challenges WHERE id = ?').bind(id).first();
   if (!row) return html(page('나무타기', '없는 도전장이에요. 주소를 다시 확인해 주세요.', null), 404);
   const c = { ...row, rules: JSON.parse(row.rules), path: JSON.parse(row.path), times: JSON.parse(row.times) };
-  return html(page(`${c.by}님의 도전장`, `${c.start} → ${c.goal}, ${c.steps}단계 ${took(c.ms)}. 나무타기 확장이 있으면 같은 문제에 바로 도전할 수 있어요.`, challengeLink(c)));
+  const to = new URL(challengeLink(c)).href; // Location 헤더는 ASCII여야 해서 한글을 %로 바꾼 꼴로
+  const res = person ? new Response(null, { status: 302, headers: { Location: to, 'Cache-Control': KEEP } })
+    : html(page(`${c.by}님의 도전장`, `${c.start} → ${c.goal}, ${c.steps}단계 ${took(c.ms)}. 나무타기 확장이 있으면 같은 문제에 바로 도전할 수 있어요.`, to), 200, KEEP);
+  ctx.waitUntil(caches.default.put(key, res.clone()));
+  return res;
 };
 
 export default {
-  async fetch(req, env) {
+  async fetch(req, env, ctx) {
     const { pathname } = new URL(req.url);
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
     if (pathname === '/c' && req.method === 'POST') return create(req, env);
     if (req.method !== 'GET' && req.method !== 'HEAD') return new Response('Method Not Allowed', { status: 405 });
     if (pathname === '/') return Response.redirect(STORE_URL, 302);
     const m = pathname.match(/^\/([0-9A-Za-z]{6})$/);
-    return m ? show(m[1], env) : html(page('나무타기', '없는 주소예요.', null), 404);
+    return m ? show(req, m[1], env, ctx) : html(page('나무타기', '없는 주소예요.', null), 404);
   },
 };
