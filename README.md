@@ -22,8 +22,6 @@
 - 직접 출제: 시작 문서와 목표 문서를 직접 정하기, 비워 두면 무작위로 정하기
 - 무작위: 난이도(쉬움, 보통, 어려움, 랜덤)만 고르면 시작과 목표를 정하기
 - 나무위키 검색창과 같은 문서 이름 추천, 동음이의어 문서는 뜻을 골라서 시작
-- 나무위키 문서나 링크에서 우클릭해 시작 문서, 목표 문서로 정하기
-- 입력한 시작 문서와 목표 문서는 게임을 시작할 때까지 유지
 
 **게임 중**
 - 카운트다운이 끝나면 시간 측정 시작
@@ -43,7 +41,7 @@
 <table>
   <tr>
     <td valign="top"><img src="docs/screenshots/popup-today.png" width="240" alt="팝업의 오늘의 문제 탭"></td>
-    <td valign="top"><img src="docs/screenshots/popup-custom.png" width="240" alt="팝업의 직접 출제 탭. 시작과 목표 문서를 입력했고 초기화 버튼과 규칙 옵션이 보인다"></td>
+    <td valign="top"><img src="docs/screenshots/popup-custom.png" width="240" alt="팝업의 직접 출제 탭과 규칙 옵션"></td>
   </tr>
 </table>
 
