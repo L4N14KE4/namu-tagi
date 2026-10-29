@@ -10,3 +10,6 @@ scripts/*-cache.json
 
 # 개발 노트는 로컬에만 둔다(저장소에 올리지 않음)
 docs/DEVELOPMENT.md
+
+# 짧은 링크 서버의 로컬 시험 데이터(wrangler dev)
+server/.wrangler/

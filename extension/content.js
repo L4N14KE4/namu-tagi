@@ -141,7 +141,7 @@
 
   // 이미 열려 있는 같은 문서에서 공유 링크를 붙여 넣으면 해시만 바뀌어 페이지가 다시 불러와지지 않는다.
   // 게임 중이든 아니든 새로고침해서 링크의 게임을 시작한다(시작할 때 해시는 지워지므로 되풀이되지 않는다).
-  window.addEventListener('hashchange', () => { if (/^#ng-goal=/.test(location.hash)) location.reload(); });
+  window.addEventListener('hashchange', () => { if (/^#ng(-goal)?=/.test(location.hash)) location.reload(); });
 
   // ---- 게임 상태 ----
   const KEY = 'ng_state', CSS_KEY = 'ng_css';
@@ -162,6 +162,7 @@
   //  nb nt nc nf nh nr =1       규칙: 뒤로가기·틀 상자 링크·분류 링크·각주 속 링크·허브 문서 금지, 같은 문서 재방문 금지
   //  tl=초 ms=단계              규칙: 제한 시간, 최대 단계
   //  by= s= t= p=…              도전장: 보낸 사람, 그 사람의 단계·시간(ms)·경로(문서마다 p 하나)
+  // 도전장 공유 링크는 짧은 형식 /w/<시작>#ng=<목표>&… 를 쓴다(아래 challengeLink, parseShort). 예전 ng-goal 링크도 그대로 열린다.
   let state = load();
   const fresh = (status, start, goal, extra = {}) => ({ start, goal, status, path: [], pending: null, mode: 'custom', diff: null, rs: false,
     day: null, rules: { nb: false, nt: false, nc: false, nf: false, nh: false, nr: false, tl: 0, ms: 0 }, vs: null, ...extra });
@@ -173,10 +174,35 @@
              tl: num(q.get('tl'), 99 * 60), ms: num(q.get('ms'), 99) },
     vs: q.get('by') ? { by: q.get('by').slice(0, 20), steps: num(q.get('s'), 999), ms: num(q.get('t'), 99 * 3600e3), path: q.getAll('p').slice(0, 60), times: (q.get('pt') || '').split(',').map(Number) } : null,
   });
+  // 도전장 짧은 형식. 한글은 그대로 두고 꼭 필요한 글자만 바꿔서 링크가 짧다(같은 판이 398자 → 84자). 짧은 링크 서버(server/src/index.js)도 같은 형식으로 보낸다.
+  //  ng=목표 d=회차(오늘의 문제) rd=난이도 글자(무작위) r=규칙 글자 tl= ms= b=보낸 사람
+  //  p=시작과 목표를 뺀 경로(|로 이음) t=문서마다 걸린 1/100초(36진수, .로 이음). 단계·전체 시간은 여기서 다시 센다.
+  const RULE_CH = { nb: 'b', nt: 't', nc: 'c', nf: 'f', nh: 'h', nr: 'r' }, DIFF_CH = { easy: 'e', normal: 'n', hard: 'h', wild: 'w' };
+  const esc = s => String(s).replace(/[%&=#+|\s]/g, c => (c === ' ' ? '+' : encodeURIComponent(c)));
+  const challengeLink = s => {
+    const v = s.vs, cs = v.times.map(t => Math.floor(t / 10)), flags = Object.keys(RULE_CH).filter(k => s.rules?.[k]).map(k => RULE_CH[k]).join('');
+    const kv = [['ng', esc(s.goal)], ...(s.mode === 'daily' && s.day ? [['d', s.day]] : []), ...(s.mode === 'random' && s.diff ? [['rd', DIFF_CH[s.diff]]] : []),
+      ...(flags ? [['r', flags]] : []), ...(s.rules?.tl ? [['tl', s.rules.tl]] : []), ...(s.rules?.ms ? [['ms', s.rules.ms]] : []),
+      ['b', esc(v.by)], ['p', v.path.slice(1, -1).map(esc).join('|')], ['t', cs.slice(1).map((c, i) => (c - cs[i]).toString(36)).join('.')]];
+    return `https://namu.wiki/w/${s.start.split('/').map(x => x.replace(/[%?#\s]/g, encodeURIComponent)).join('/')}#` + kv.map(([k, x]) => `${k}=${x}`).join('&');
+  };
+  // p는 |로 먼저 나눈 뒤 하나씩 푼다(이름 속 |는 %7C로 왔다). URLSearchParams로 먼저 풀면 섞인다.
+  const parseShort = hash => {
+    const kv = Object.fromEntries(hash.replace(/^#/, '').split('&').map(x => { const i = x.indexOf('='); return i < 0 ? [x, ''] : [x.slice(0, i), x.slice(i + 1)]; }));
+    const dec = x => { try { return decodeURIComponent((x || '').replace(/\+/g, ' ')); } catch { return x || ''; } };
+    const start = docOf(location.pathname) || '', goal = dec(kv.ng).trim(), flags = dec(kv.r);
+    const path = [start, ...(kv.p ? kv.p.split('|').map(dec) : []), goal].slice(0, 60);
+    const times = (kv.t ? kv.t.split('.') : []).reduce((a, x) => [...a, a.at(-1) + (parseInt(x, 36) || 0) * 10], [0]).slice(0, path.length);
+    const diff = Object.keys(DIFF_CH).find(k => DIFF_CH[k] === kv.rd) || null;
+    return { goal, mode: kv.d ? 'daily' : diff ? 'random' : 'custom', diff, rs: false, tries: 0, day: num(kv.d, 100000) || null,
+      rules: { ...Object.fromEntries(Object.entries(RULE_CH).map(([k, c]) => [k, flags.includes(c)])), tl: num(kv.tl, 99 * 60), ms: num(kv.ms, 99) },
+      vs: kv.b ? { by: dec(kv.b).slice(0, 20), steps: path.length - 1, ms: Math.min(times.at(-1), 99 * 3600e3), path, times } : null };
+  };
   const params = new URLSearchParams(location.hash.slice(1));
-  const fromHash = params.has('ng-goal'); // 목표 확인(정식 이름, 동음이의어 고르기)은 팝업이 끝내고 온다
+  const short = !params.has('ng-goal') && params.has('ng') ? parseShort(location.hash) : null;
+  const fromHash = params.has('ng-goal') || !!short; // 목표 확인(정식 이름, 동음이의어 고르기)은 팝업이 끝내고 온다
   if (fromHash) {
-    state = fresh('starting', docOf(location.pathname) || '', params.get('ng-goal').trim(), parse(params));
+    state = short ? fresh('starting', docOf(location.pathname) || '', short.goal, short) : fresh('starting', docOf(location.pathname) || '', params.get('ng-goal').trim(), parse(params));
     state.invite = !!state.vs && !state.rs; // 도전장 링크는 수락해야 시작한다(아래 invite). 새로고침·다시하기로는 다시 묻지 않는다.
   }
   if (fromHash) { save(state); history.replaceState(null, '', location.pathname + location.search); }
@@ -516,9 +542,11 @@
   // 내 기록 경신과 도전장 승리 모두 화면 아래 가운데에서 위로 한 번
   const burst = () => cc({ particleCount: 140, angle: 90, spread: 100, startVelocity: 75, origin: { x: .5, y: 1 } });
   // 도전장은 시간이 빠른 쪽이 이긴다. 시간이 같을 때만 단계가 적은 쪽.
+  // 도전장 시간은 화면에 보이는 1/100초로 비교한다(짧은 링크가 1/100초까지만 싣는다).
+  const csOf = ms => Math.floor(ms / 10);
   const vsWin = () => {
     const v = state.vs, steps = state.path.length - 1;
-    return state.status === 'done' && !!v && (state.finishedAt < v.ms || (state.finishedAt === v.ms && steps < v.steps));
+    return state.status === 'done' && !!v && (csOf(state.finishedAt) < csOf(v.ms) || (csOf(state.finishedAt) === csOf(v.ms) && steps < v.steps));
   };
   // 이번 판이 내 기록을 깼을 때만 보여 주는 안내 줄. 전에 깬 기록(state.best)과 비교해 단계가 줄었으면 단계, 같으면 시간을 보여 준다.
   const bestText = () => {
@@ -928,14 +956,30 @@
     $('.overlay').classList.add('on');
   };
 
-  // 공유하기: 닉네임을 받아 결과 문구를 복사한다. 링크는 같은 문제를 시작 문서에서 바로 여는 #ng-goal 형식.
+  // 공유하기: 닉네임을 받아 결과 문구를 복사한다. 링크는 짧은 링크 서버(server/)가 준 주소, 서버에 닿지 못하면 짧은 형식(#ng=) 나무위키 링크.
   // 웹스토어 주소. 가운데 'namutagi'는 웹스토어가 무시하는 이름 자리이고 뒤의 확장 ID로 찾아간다.
   const STORE_URL = 'https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi';
+  const SHORT_BASE = 'https://namutagi.com';
   // 도전장 링크에는 내 이름·단계·시간·경로를 담는다. 받은 사람은 진행 막대에서 내 기록을 보고, 끝나면 경로를 비교한다.
-  const shareText = nick => {
+  const challenge = nick => ({ ...state, rs: false, vs: { by: nick, steps: state.path.length - 1, ms: state.finishedAt, path: state.path.map(p => p.doc), times: state.path.map(p => p.t) } });
+  // 익명 ID: 브라우저마다 무작위 UUID 하나. chrome.storage.sync라 크롬 동기화를 켜면 다른 컴퓨터에서도 같다. 서버는 이 값의 해시만 저장한다(나중에 로그인과 연결할 때 증명용).
+  const playerId = async () => {
+    let { pid } = await chrome.storage.sync.get('pid');
+    if (!pid) { pid = crypto.randomUUID(); await chrome.storage.sync.set({ pid }); }
+    return pid;
+  };
+  // 짧은 링크 서버에 도전장을 맡기고 https://namutagi.com/<id>를 받는다. 3초 안에 못 받으면 null(긴 링크로 대신한다).
+  const shortLink = async me => {
+    try {
+      const body = JSON.stringify({ pid: await playerId(), start: me.start, goal: me.goal, mode: me.mode, diff: me.diff, day: me.day, rules: me.rules,
+        by: me.vs.by, path: me.vs.path, times: me.vs.times, ver: chrome.runtime.getManifest().version });
+      const r = await fetch(`${SHORT_BASE}/c`, { method: 'POST', body, signal: AbortSignal.timeout(3000) });
+      const { id } = r.ok ? await r.json() : {};
+      return id ? `${SHORT_BASE}/${id}` : null;
+    } catch { return null; }
+  };
+  const shareText = (nick, link) => {
     const steps = state.path.length - 1;
-    const me = { ...state, rs: false, vs: { by: nick, steps, ms: state.finishedAt, path: state.path.map(p => p.doc), times: state.path.map(p => p.t) } };
-    const link = `https://namu.wiki/w/${encPath(state.start)}${hashFor(me)}`;
     const daily = state.mode === 'daily';
     return (daily ? `나무타기 ${dayLabel(state.day)}의 문제\n` : '') +
       `${nick}님이 ${state.start} 문서에서 ${state.goal} 문서로 ${took(state.finishedAt)} 만에 ${steps}단계로 이동했어요.\n` +
@@ -961,10 +1005,16 @@
     const shown = el('div', { className: 'sharebox', hidden: true });
     const readable = u => { try { return decodeURI(u); } catch { return u; } };
     const note = el('div', { className: 'muted' });
+    let made = {};
     const copy = async () => {
       const typed = input.value.trim(), nick = typed || auto;
       if (typed) try { await chrome.storage.local.set({ nick: typed }); } catch {}
-      out.value = shareText(nick);
+      if (made.nick !== nick) { // 같은 이름으로 다시 누르면 받아 둔 링크를 다시 쓴다(서버에 같은 도전장을 또 만들지 않게)
+        note.textContent = '링크 만드는 중…';
+        const me = challenge(nick);
+        made = { nick, link: await shortLink(me) || challengeLink(me) };
+      }
+      out.value = shareText(nick, made.link);
       shown.replaceChildren(...out.value.split(/(https?:\/\/\S+)/).map((part, i) => (i % 2 ? el('span', { className: 'lk', textContent: readable(part) }) : part)));
       try { await navigator.clipboard.writeText(out.value); out.hidden = true; shown.hidden = false; note.textContent = '복사했어요.\n메신저에 붙여 넣으세요.'; }
       catch { shown.hidden = true; out.hidden = false; out.select(); note.textContent = '자동 복사가 막혀 있어요.\n위 글을 복사해 주세요.'; }
@@ -1040,12 +1090,12 @@
       const canRetry = state.path.length > 0 && state.goal; // 시작 전에 끝난 경우(없는 문서 등)는 다시 할 게 없다
       // 도전장으로 온 판이면 상대 기록과 비교하고 두 경로를 나란히 보여 준다(상대 경로는 끝난 뒤에만 보인다).
       const v = state.vs;
-      const sec = x => (Math.abs(x) / 1000).toFixed(2) + '초', dSteps = steps - (v ? v.steps : 0);
+      const sec = x => (Math.abs(x) / 100).toFixed(2) + '초', dSteps = steps - (v ? v.steps : 0), mine = csOf(state.finishedAt), theirs = v ? csOf(v.ms) : 0;
       const verdict = !v ? null : !done ? `${v.by}님은 ${v.steps}단계, ${fmt(v.ms)}에 도착했어요` :
-        state.finishedAt < v.ms ? `${v.by}님보다 ${sec(v.ms - state.finishedAt)} 빨라요` :
-        state.finishedAt > v.ms ? `${v.by}님보다 ${sec(state.finishedAt - v.ms)} 느려요` :
+        mine < theirs ? `${v.by}님보다 ${sec(theirs - mine)} 빨라요` :
+        mine > theirs ? `${v.by}님보다 ${sec(mine - theirs)} 느려요` :
         dSteps < 0 ? `${v.by}님과 같은 시간인데 ${-dSteps}단계 적어요` : dSteps > 0 ? `${v.by}님과 같은 시간인데 ${dSteps}단계 많아요` : `${v.by}님과 똑같아요`;
-      const verdict2 = v && done && dSteps && state.finishedAt !== v.ms ? `단계는 ${Math.abs(dSteps)}단계 ${dSteps > 0 ? '많아요' : '적어요'}` : null;
+      const verdict2 = v && done && dSteps && mine !== theirs ? `단계는 ${Math.abs(dSteps)}단계 ${dSteps > 0 ? '많아요' : '적어요'}` : null;
       const rec = (n, s, ms) => [el('h3', { textContent: n }), el('p', { className: 'rec', textContent: `${s}단계, ${fmt(ms)}` })];
       // 상대 경로는 이겼을 때만 보인다. 졌으면 흐리게 가리고, 실제 문서 이름은 화면에 아예 넣지 않는다(자리 글자만).
       const oppPath = v => { const win = vsWin(), ol = el('ol', {}, ...v.path.map((d, i) => el('li', {}, ...dt(win ? v.times : v.times?.map(() => 0), i), win ? d : '■'.repeat(Math.max(2, d.length)))));

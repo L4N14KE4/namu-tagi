@@ -1,7 +1,9 @@
 // 릴리스 zip(또는 extension 폴더)을 Chrome for Testing 새 프로필에 압축해제 로드해 확인한다. 의존 패키지 없음(Node 22+ 내장 WebSocket으로 CDP).
 //   gh release download v0.1.0 -p '*.zip' -D <빈 폴더> && unzip <zip> -d <빈 폴더2>
 //   node e2e/release-test.mjs <빈 폴더2>        (폴더를 안 주면 저장소의 extension/)
-// 확인: 설치하면 환영 페이지와 manifest 버전, 우클릭 메뉴 4개, 권한, 팝업 직접 출제 입력(draft)과 초기화, 나무위키 사과 → 사과나무 한 판.
+// 확인: 설치하면 환영 페이지와 manifest 버전, 우클릭 메뉴 4개, 권한, 팝업 직접 출제 입력(draft)과 초기화, 나무위키 사과 → 사과나무 한 판,
+//       공유하기로 만든 도전장 링크를 열면 수락 창에 같은 이름, 경로, 시간이 뜨는지.
+// SHORT_BASE=http://localhost:8787 을 주면 확장 사본의 짧은 링크 서버 주소를 바꿔 로컬 서버(server/, npx wrangler dev --local)로 시험한다.
 // 새 임시 프로필이라 사용자 크롬 기록에는 판이 남지 않는다. 나무위키에 실제로 접속한다.
 // 정식 크롬 137+는 --load-extension을 무시해서 Chrome for Testing이 필요하다: CHROME 환경 변수, e2e/browsers(npm run chrome), ~/.cache/puppeteer 순으로 찾는다.
 import { spawn } from 'node:child_process';
@@ -9,7 +11,16 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 const here = path.dirname(new URL(import.meta.url).pathname);
-const ext = path.resolve(process.argv[2] || path.join(here, '../extension'));
+let ext = path.resolve(process.argv[2] || path.join(here, '../extension'));
+const SHORT = process.env.SHORT_BASE;
+if (SHORT) { // 사본을 만들어 SHORT_BASE만 바꾼다
+  const copy = fs.mkdtempSync(path.join(os.tmpdir(), 'namu-tagi-ext-'));
+  fs.cpSync(ext, copy, { recursive: true });
+  const cj = path.join(copy, 'content.js'), src = fs.readFileSync(cj, 'utf8');
+  if (!src.includes("const SHORT_BASE = 'https://namutagi.com';")) { console.error('content.js에서 SHORT_BASE를 못 찾았어요'); process.exit(2); }
+  fs.writeFileSync(cj, src.replace("const SHORT_BASE = 'https://namutagi.com';", `const SHORT_BASE = '${SHORT}';`));
+  ext = copy;
+}
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'namu-tagi-'));
 const findCft = d => { try { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (f === 'Google Chrome for Testing' && fs.statSync(p).isFile()) return p; if (fs.statSync(p).isDirectory()) { const r = findCft(p); if (r) return r; } } } catch {} return null; };
 const CFT = process.env.CHROME || findCft(path.join(here, 'browsers')) || findCft(path.join(os.homedir(), '.cache/puppeteer/chrome'));
@@ -18,7 +29,7 @@ const PORT = 9333;
 const VERSION = JSON.parse(fs.readFileSync(path.join(ext, 'manifest.json'), 'utf8')).version;
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36'; // 헤드리스 표시(HeadlessChrome)를 뺀 보통 UA
 const chrome = spawn(CFT, ['--headless=new', `--user-data-dir=${profile}`, `--load-extension=${ext}`, `--disable-extensions-except=${ext}`,
-  `--remote-debugging-port=${PORT}`, '--no-first-run', '--no-default-browser-check', `--user-agent=${UA}`, '--window-size=1280,900', 'about:blank'], { stdio: 'ignore' });
+  `--remote-debugging-port=${PORT}`, '--no-first-run', ...(SHORT ? ['--disable-features=LocalNetworkAccessChecks,PrivateNetworkAccessRespectPreflightResults'] : []), '--no-default-browser-check', `--user-agent=${UA}`, '--window-size=1280,900', 'about:blank'], { stdio: 'ignore' });
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const results = [];
 const check = (name, ok, detail = '') => { results.push({ name, ok: !!ok, detail }); console.log(ok ? 'PASS' : 'FAIL', name, detail); };
@@ -89,6 +100,26 @@ try {
   check('사과나무에 도착해 끝남', done?.status === 'done', done ? JSON.stringify({ win: done.win, path: done.path }) : '');
   const card = await waitFor(() => evaluate(gs, `document.getElementById('ng-host')?.shadowRoot?.textContent.includes('도착') && 'ok'`), 5000);
   check('결과 카드에 "도착"', card);
+
+  // 5. 공유하기 → 도전장 링크 → 새 탭에서 열면 수락 창(이름, 경로, 시간)
+  const NICK = '시험 a|b&c+d';
+  await evaluate(gs, `[...document.getElementById('ng-host').shadowRoot.querySelectorAll('button')].find(b => b.textContent === '공유하기').click()`);
+  await waitFor(() => evaluate(gs, `!!document.getElementById('ng-host').shadowRoot.querySelector('.share input')`), 5000);
+  await evaluate(gs, `(() => { const r = document.getElementById('ng-host').shadowRoot, i = r.querySelector('.share input'); i.value = ${JSON.stringify(NICK)};
+    [...r.querySelectorAll('.share button')].find(b => b.textContent === '복사하기').click(); })()`);
+  const text = await waitFor(() => evaluate(gs, `(() => { const r = document.getElementById('ng-host').shadowRoot; return !/만드는 중/.test(r.querySelector('.share .muted').textContent) && r.querySelector('.share textarea').value; })()`), 8000);
+  const link = text && (text.match(/⚔️ (\S+)/) || [])[1];
+  check(SHORT ? '공유 글에 짧은 링크' : '공유 글에 도전장 링크', link && (!SHORT || link.startsWith(SHORT + '/')), `${link?.length}자 ${link}`);
+  if (link) {
+    const { targetId: inv } = await send('Target.createTarget', { url: link });
+    const is = await attach(inv);
+    const vs = await waitFor(async () => { const s = await evaluate(is, `JSON.parse(sessionStorage.getItem('ng_state') || 'null')`); return s?.invite && s.vs; }, 30000);
+    check('도전장 링크를 열면 수락 대기', vs, vs ? JSON.stringify({ by: vs.by, steps: vs.steps, ms: vs.ms, path: vs.path }) : '');
+    check('도전장의 이름, 경로, 시간이 같음', vs && vs.by === NICK && JSON.stringify(vs.path) === JSON.stringify(done.path.map(p => p.doc)) && Math.floor(vs.ms / 10) === Math.floor(done.finishedAt / 10),
+      vs ? `보낸 ${Math.floor(done.finishedAt / 10)} / 받은 ${Math.floor(vs.ms / 10)} (1/100초)` : '');
+    const btn = await waitFor(() => evaluate(is, `[...document.getElementById('ng-host')?.shadowRoot?.querySelectorAll('button') || []].some(b => b.textContent === '도전하기') && 'ok'`), 10000);
+    check('수락 창에 도전하기 버튼', btn);
+  }
 } catch (e) {
   check('오류 없이 끝남', false, e.message);
 } finally {

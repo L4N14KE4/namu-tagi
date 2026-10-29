@@ -121,17 +121,17 @@ Adds "Start from this article" and "Set this article as the target" to the right
 **storage**
 
 ```text
-Stores game records, the player's nickname, rule settings, recently used target articles, and short previews of target articles in chrome.storage.local, only on the user's device. The start and target articles being entered in the custom game form are kept in chrome.storage.session until the game starts or Chrome is closed. Nothing is sent to any server.
+Stores game records, the player's nickname, rule settings, recently used target articles, and short previews of target articles in chrome.storage.local, only on the user's device. The start and target articles being entered in the custom game form are kept in chrome.storage.session until the game starts or Chrome is closed. A random anonymous ID is kept in chrome.storage.sync and sent (hashed on the server) only with a challenge when the user shares.
 
-게임 기록, 닉네임, 규칙 설정, 최근에 나온 목표 문서, 목표 문서의 짧은 미리보기를 chrome.storage.local에 저장합니다. 직접 출제 칸에 입력 중인 시작 문서와 목표 문서는 게임을 시작하거나 크롬을 끌 때까지 chrome.storage.session에 둡니다. 사용자의 기기 안에만 저장하며 어떤 서버로도 보내지 않습니다.
+게임 기록, 닉네임, 규칙 설정, 최근에 나온 목표 문서, 목표 문서의 짧은 미리보기를 chrome.storage.local에 저장합니다. 직접 출제 칸에 입력 중인 시작 문서와 목표 문서는 게임을 시작하거나 크롬을 끌 때까지 chrome.storage.session에 둡니다. 무작위 익명 ID는 chrome.storage.sync에 두고, 사용자가 공유할 때만 도전장과 함께 보냅니다(서버는 해시만 저장).
 ```
 
 **호스트 권한 (Host permission: https://namu.wiki/\*)**
 
 ```text
-Namutagi is a game that runs inside namu.wiki pages. The content script must load on every namu.wiki page (at document_start) to check each clicked link against the game rules, block shortcuts such as the search box, show the in-page progress bar and result card, and detect page changes. It also has to start automatically in tabs opened from the popup and from challenge links shared by friends, so activeTab alone is not enough. Access is limited to https://namu.wiki/* and no data is collected or sent anywhere.
+Namutagi is a game that runs inside namu.wiki pages. The content script must load on every namu.wiki page (at document_start) to check each clicked link against the game rules, block shortcuts such as the search box, show the in-page progress bar and result card, and detect page changes. It also has to start automatically in tabs opened from the popup and from challenge links shared by friends, so activeTab alone is not enough. Access is limited to https://namu.wiki/*. Page data is not collected; the only data sent anywhere is the challenge sent to the developer's short link server when the user presses Share.
 
-게임이 나무위키 페이지 안에서 돌아가서, 모든 나무위키 페이지에 스크립트가 붙어야 링크 판정, 지름길 막기, 진행 막대와 결과 카드 표시, 문서 이동 감지를 할 수 있습니다. 팝업이 연 탭과 친구가 보낸 도전장 링크에서도 바로 시작돼야 해서 activeTab만으로는 부족합니다. 접근은 https://namu.wiki/* 한 곳으로 제한하며, 어떤 정보도 수집하거나 보내지 않습니다.
+게임이 나무위키 페이지 안에서 돌아가서, 모든 나무위키 페이지에 스크립트가 붙어야 링크 판정, 지름길 막기, 진행 막대와 결과 카드 표시, 문서 이동 감지를 할 수 있습니다. 팝업이 연 탭과 친구가 보낸 도전장 링크에서도 바로 시작돼야 해서 activeTab만으로는 부족합니다. 접근은 https://namu.wiki/* 한 곳으로 제한합니다. 페이지 정보는 수집하지 않으며, 밖으로 보내는 것은 사용자가 공유하기를 누를 때 개발자의 짧은 링크 서버로 보내는 도전장뿐입니다.
 ```
 
 ### 원격 코드 (Remote code)
@@ -141,17 +141,17 @@ Namutagi is a game that runs inside namu.wiki pages. The content script must loa
 
 ### 데이터 사용 (Data usage)
 
-웹스토어 안내(User Data FAQ)에 따르면 **기기 안에서만 처리하거나 저장하는 정보도 밝혀야 합니다.** 그래서 실제로 다루는 세 가지에 체크합니다.
+웹스토어 안내(User Data FAQ)에 따르면 **기기 안에서만 처리하거나 저장하는 정보도 밝혀야 합니다.** 그래서 실제로 다루는 네 가지에 체크합니다. 공유할 때 보내는 도전장(닉네임, 익명 ID, 경로, 시간)은 개발자 서버(Cloudflare)로 가고 팔거나 넘기지 않습니다.
 
 | 항목 | 체크 | 이유 |
 | --- | --- | --- |
-| 개인 식별 정보 (Personally identifiable information) | 안 함 | 닉네임은 실명이 아닌 게임용 표시 이름이고 기기 밖으로 보내지 않음 |
+| 개인 식별 정보 (Personally identifiable information) | **체크** | 공유할 때 닉네임과 익명 ID(무작위 값의 해시)를 짧은 링크 서버로 보냄. 실명, 이메일은 받지 않음 |
 | 건강 정보 (Health information) | 안 함 | |
 | 금융 및 결제 정보 (Financial and payment information) | 안 함 | |
 | 인증 정보 (Authentication information) | 안 함 | |
 | 개인 커뮤니케이션 (Personal communications) | 안 함 | |
 | 위치 (Location) | 안 함 | |
-| 웹 기록 (Web history) | **체크** | 게임 중 지나간 나무위키 문서 이름과 시간을 기록으로 저장 |
+| 웹 기록 (Web history) | **체크** | 게임 중 지나간 나무위키 문서 이름과 시간을 기록으로 저장. 공유할 때 그 판의 경로와 시간을 짧은 링크 서버로 보냄 |
 | 사용자 활동 (User activity) | **체크** | 클릭, 키 입력, 마우스 움직임 여부로 링크 판정과 자리 비움 확인(저장하지 않음) |
 | 웹사이트 콘텐츠 (Website content) | **체크** | 페이지의 링크와 목표 문서의 소개 글, 그림 주소를 읽음 |
 

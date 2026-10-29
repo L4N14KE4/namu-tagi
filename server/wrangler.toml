@@ -1,0 +1,14 @@
+# 나무타기 짧은 링크 서버(Cloudflare Workers + D1). 확장 zip에는 들어가지 않는다.
+#   npx wrangler d1 create namutagi          → 아래 database_id 채우기
+#   npx wrangler d1 execute namutagi --remote --file=schema.sql
+#   npx wrangler deploy
+# 로컬 시험: npx wrangler d1 execute namutagi --local --file=schema.sql && npx wrangler dev --local
+name = "namutagi"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+routes = [{ pattern = "namutagi.com", custom_domain = true }]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "namutagi"
+database_id = "6f84cf26-68d4-4955-92e9-362ef60a8664"
