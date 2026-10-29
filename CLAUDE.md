@@ -11,6 +11,18 @@ git 저장소: GitHub `L4N14KE4/namu-tagi`(비공개, 2026-10-29에 namu-game에
 1. 이 파일과 `docs/DEVELOPMENT.md`를 읽는다.
 2. 메모리(`~/.claude/projects/-Users-laniakea-dev-namu-game/memory/`)의 `namu-game-prototype-status.md`에 버전별 변경 이력과 결정 이유가 더 자세히 있다.
 3. 사용자 요청이 애매하면 "질문이면 답만, 요청이면 구현"으로 가른다(아래 작업 방식).
+4. 아래 "남은 일"을 확인한다.
+
+## 남은 일 (2026-10-29 대화를 마치며)
+
+main은 `12b5ed3`까지 푸시됨. 짧은 링크 서버는 namutagi.com에 배포돼 동작 중(버전 129bfa74).
+
+- **v0.1.0 릴리스가 낡았다.** 태그 `v0.1.0`은 `2ccfc09`(우클릭 메뉴까지)에 있고 첨부 zip도 그때 것이다. 그 뒤의 긴 제목 두 줄, 환영 페이지, 짧은 링크가 빠져 있다. 바꾸려면 `git tag -f v0.1.0 HEAD && git push -f origin v0.1.0`과 `gh release upload v0.1.0 dist/namu-tagi-v0.1.0.zip --clobber`(zip은 `git archive --format=zip -o dist/namu-tagi-v0.1.0.zip HEAD:extension`). 릴리스 설명은 처음 0.1.0 그대로 둔다. 태그 강제 푸시는 Claude Code 자동 승인이 막으니 사용자에게 허락을 받거나 사용자가 직접 돌린다.
+- **사용자 확인 대기**: 크롬에서 확장 새로고침 뒤 공유하기 → 카카오톡, 디스코드에 붙여 넣어 링크가 잡히는지와 미리보기 카드("○○님의 도전장")가 뜨는지.
+- **Cloudflare 대시보드(사용자)**: `namutagi.com/c` POST에 요청 제한 규칙 하나(IP당 분당 10번 정도). 아직 안 걸었다.
+- **웹스토어 대시보드(사용자)**: `store/listing.md`대로 contextMenus 권한 이유, 데이터 사용(개인 식별 정보 체크로 바뀜), storage 설명을 옮긴다. 저장소가 비공개라 개인정보처리방침 공개 주소가 없다. `namutagi.com/privacy`로 PRIVACY.md를 보여 주는 길도 있다(아직 안 함, 제안만).
+- **나중에**: 리더보드(서버 D1의 challenges와 익명 ID `pid` 바탕), 구글 로그인(선택 기능, 익명 ID 기록을 계정에 연결). 사용자와 논의만 했다.
+- **주의**: `node e2e/release-test.mjs`는 실제 서버에 "시험 a|b&c+d" 도전장을 남긴다. 끝나면 지운다(명령은 아래 파일 지도의 `../server/` 칸). 이 맥은 새 도메인의 DNS "없음" 답을 캐시해 터미널 curl이 한동안 `--resolve namutagi.com:443:172.67.158.67`이 필요했다(크롬은 괜찮음).
 
 ## 사용자와 일하는 방식
 
