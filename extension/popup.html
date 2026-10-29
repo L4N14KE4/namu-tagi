@@ -22,6 +22,10 @@
   main { padding: 12px; }
   label { display: block; margin: 8px 0 4px; font-weight: 600; }
   .row { display: flex; gap: 6px; }
+  .head { display: flex; align-items: baseline; justify-content: space-between; margin: 8px 0 4px; }   /* 칸 제목 줄의 오른쪽 끝 버튼(초기화). 여백은 label이 아니라 이 줄이 가져야 위 탭과 겹쳐(12px) 다른 칸과 같아진다 */
+  .head label { margin: 0; }
+  .head button { margin-right: 11px; padding: 0; border: 0;   /* 오른쪽 끝을 아래 "이 문서로" 글자 끝(버튼 안쪽 여백 10 + 테두리 1)에 맞춘다 */ background: none; font: inherit; font-size: 12px; color: var(--muted); cursor: pointer; }
+  .head button:hover { color: var(--text); }
   input:not([type="radio"]):not([type="checkbox"]) { flex: 1; min-width: 0; padding: 7px 8px; font: inherit; color: var(--text); background: var(--btn);
           border: 1px solid var(--border); border-radius: .3rem; outline-color: var(--primary); }
   .btn { font: inherit; font-size: 13px; padding: 6px 10px; color: var(--text); background: var(--btn); border: 1px solid var(--border);
@@ -137,7 +141,7 @@
 <main id="game" hidden>
   <nav class="tabs"><button type="button" data-mode="daily">오늘의 문제</button><button type="button" data-mode="custom">직접 출제</button><button type="button" data-mode="random">무작위</button></nav>
   <form id="f" autocomplete="off">
-    <label for="start">시작 문서</label>
+    <div class="head"><label for="start">시작 문서</label><button type="button" id="clear" hidden>초기화</button></div>
     <div class="row"><input id="start" name="start" placeholder="비우면 무작위"><button type="button" class="btn" data-fill="start">이 문서로</button></div>
     <ul class="sug" hidden></ul>
     <label for="goal">목표 문서</label>

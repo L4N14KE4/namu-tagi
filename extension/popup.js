@@ -93,13 +93,19 @@ $('reload').onclick = () => {
 const request = msg => port ? new Promise(res => { const id = ++reqId; waiting.set(id, res); port.postMessage({ id, ...msg }); }) : Promise.resolve(null);
 
 // 시작과 목표가 같으면 바로 알리고 시작 버튼을 막는다. 넘겨주기로만 같은 경우(UN·유엔)는 목표 확인 뒤에 걸러진다.
+// 칸이 바뀔 때마다 여기를 지나므로 입력도 여기서 남긴다(draft). 팝업은 페이지를 누르기만 해도 닫혀서, 문서를 옮겨 다니며 "이 문서로"를 하나씩 누를 수 있게.
+// chrome.storage.session이라 크롬을 끄면 사라진다. 우클릭 메뉴(background.js)도 같은 draft에 넣는다. 직접 출제로 판을 시작하면 지운다(launch).
+const draft = chrome.storage.session;
 const check = () => {
   const s = $('start').value.trim(), g = $('goal').value.trim();
   const same = s !== '' && s === g;
   $('err').textContent = same ? '시작과 목표가 같아요' : '';
   $('go').disabled = same;
   $('pick').hidden = true;
+  $('clear').hidden = !s && !g;
+  draft.set({ draft: { start: $('start').value, goal: $('goal').value } });
 };
+$('clear').onclick = () => { $('start').value = $('goal').value = ''; check(); };
 
 // 지금 탭이 나무위키면 연결하고 "이 문서로"를 켠다. activeTab 덕분에 팝업을 연 탭의 주소만 읽을 수 있다.
 chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
@@ -143,6 +149,8 @@ for (const input of document.querySelectorAll('.row input')) {
     else if (e.key === 'Escape') { e.preventDefault(); list([]); }
   });
   input.addEventListener('blur', () => list([]));
+  // 채워진 칸을 다시 누르면 전부 고른다: 바로 치면 덮어써지고, 그냥 나가면 그대로 남는다. 이미 커서가 있는 칸을 또 누르면 평소처럼 커서만 옮긴다.
+  input.addEventListener('mousedown', e => { if (document.activeElement !== input) { e.preventDefault(); input.focus(); input.select(); } });
 }
 
 // ---- 게임 시작 ----
@@ -163,6 +171,7 @@ const ruleParams = r => ({ ...Object.fromEntries(Object.keys(FLAGS).filter(k => 
 const launch = (start, goal, extra = {}) => {
   if (start && start === goal) { $('err').textContent = '시작과 목표가 같아요'; return; } // UN과 유엔처럼 넘겨주기로 같은 경우
   const hash = new URLSearchParams({ 'ng-goal': goal, mode: 'custom', ...(extra.mode === 'daily' ? {} : ruleParams(rules())), ...extra, ...(start ? {} : { rs: '1' }) });
+  if (!extra.mode) draft.remove('draft'); // 직접 출제로 시작하면 입력을 비운다
   chrome.tabs.create({ url: (start ? `https://namu.wiki/w/${enc(start)}` : 'https://namu.wiki/random') + '#' + hash });
 };
 const busy = (btn, on, label) => { btn.disabled = on; btn.textContent = on ? '확인 중…' : label; };
@@ -308,10 +317,15 @@ const renderRecords = async () => {
 store.get(['introSeen', 'popupMode', 'diff', 'rules'], ({ introSeen, popupMode, diff, rules = {} }) => {
   for (const k of Object.keys(FLAGS)) $(k).checked = !!rules[k];
   $('tlm').value = rules.tl ? String(Math.min(99, Math.round(rules.tl / 60))) : ''; $('msn').value = rules.ms ? String(Math.min(99, rules.ms)) : ''; noteRules();
-  setMode('daily'); // 처음 열면 늘 오늘의 문제
+  setMode('daily'); // 처음 열면 오늘의 문제. 남은 입력(draft)이 있으면 아래에서 직접 출제로 바꾼다
   const radio = document.querySelector(`input[name="diff"][value="${diff}"]`);
   if (radio) radio.checked = true;
   noteDiff();
   if (!introSeen) setIntro(false);
   show(introSeen ? 'game' : 'intro');
+  draft.get('draft', ({ draft: d }) => {
+    if (!d?.start && !d?.goal) return;
+    $('start').value = d.start || ''; $('goal').value = d.goal || '';
+    setMode('custom'); check();
+  });
 });

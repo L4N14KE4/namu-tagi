@@ -32,7 +32,7 @@ git 저장소: GitHub `L4N14KE4/namu-tagi`(비공개, 2026-10-29에 namu-game에
 - 확장은 격리된 세계에서 돈다. 페이지에서 `chrome.storage`는 못 읽는다. 대신 `sessionStorage`의 `ng_state`와 열린 Shadow DOM(`document.getElementById('ng-host').shadowRoot`)을 읽는다. 링크는 `a.click()`으로 누르면 클릭 가로채기가 그대로 동작한다.
 - 게임이 시작된 뒤(카운트다운 약 4초 후 `status === 'playing'`)에 눌러야 한다. 폭죽은 `.fx` 캔버스의 픽셀로 확인한다.
 - **환영 페이지의 설치 시 자동 열기(`onInstalled`)는 재설치해야 시험된다.** 확장을 지웠다 다시 올리면 `chrome.storage`의 기록이 모두 사라지므로 사용자의 Default 프로필에서는 하지 않는다. 대신 `welcome.html` 화면은 `popup-harness`가 만드는 `welcome-test.html`(localhost)로, 자동 열기는 새 크롬 프로필에서 압축해제 로드해 사용자에게 확인을 부탁한다. 확장 새로고침은 reason이 `update`라 안 열린다.
-- **팝업은 localhost 시험 페이지로 확인한다.** `python3 e2e/popup-harness/build.py <빈 폴더>`로 만들고 그 폴더에서 `python3 -m http.server 8765`를 띄운 뒤 `http://localhost:8765/popup-test.html?theme=dark` 를 연다(`dead=1`은 탭 연결 끊김 화면). `window.__store`로 저장소를 고쳐 기록 화면 등을 시험한다.
+- **팝업은 localhost 시험 페이지로 확인한다.** `python3 e2e/popup-harness/build.py <빈 폴더>`로 만들고 그 폴더에서 `python3 -m http.server 8765`를 띄운 뒤 `http://localhost:8765/popup-test.html?theme=dark` 를 연다(`dead=1`은 탭 연결 끊김 화면, `start=`·`goal=`은 남은 직접 출제 입력). `window.__store`(local)와 `window.__session`(session)으로 저장소를 고쳐 기록 화면 등을 시험한다. 내장 브라우저에서 `resize_window`로 좁게 흉내 내면 좌표 클릭이 어긋나니 흉내 없이 ref로 누른다. 우클릭 메뉴는 도구로 못 여니 사용자에게 확인을 부탁한다.
 - **크롬 테스트는 사용자의 실제 기록(chrome.storage의 records)에 판을 남긴다.** 끝까지 한 판은 기록이 되므로 오늘의 문제는 `day=99`처럼 실제 날짜와 안 겹치는 값을 쓰고, 남긴 기록이 있으면 사용자에게 알린다. 0.32.0부터 판을 시작하는 순간 "끝내지 않음" 기록이 남으므로 `sessionStorage.clear()`로도 기록을 막을 수 없다(카운트다운이 끝나기 전에 비우면 안 남는다).
 - 끝나면 테스트 탭은 닫고 `sessionStorage`를 비운다.
 - Claude in Chrome은 활성 탭을 바꾸지 못해 `document.hidden`이 안 바뀐다. 떠남(leave) 경로는 example.com으로 갔다가 `history.back()`으로 시험한다. 진짜 포커스 잃기(메뉴의 찾기 창)와 개발자 도구 열기는 도구로 못 하니 사용자에게 확인을 부탁한다. 숨김 모양은 `data-ng-blur`/`data-blur` 속성을 직접 붙여 본다.
@@ -42,13 +42,13 @@ git 저장소: GitHub `L4N14KE4/namu-tagi`(비공개, 2026-10-29에 namu-game에
 
 | 파일 | 역할 |
 | --- | --- |
-| `manifest.json` | 권한은 activeTab, storage 뿐. 콘텐츠 스크립트: words.js, hubs.js, vendor/confetti.min.js, content.js, content.css. `devtools_page`: devtools.html |
-| `background.js` | 서비스 워커. `onInstalled`에서 reason이 `install`일 때만 `welcome.html`을 새 탭으로 연다(권한 추가 없음) |
+| `manifest.json` | 권한은 activeTab, contextMenus, storage 뿐. 콘텐츠 스크립트: words.js, hubs.js, vendor/confetti.min.js, content.js, content.css. `devtools_page`: devtools.html |
+| `background.js` | 서비스 워커. `onInstalled`에서 reason이 `install`일 때만 `welcome.html`을 새 탭으로 연다. 우클릭 메뉴(이 문서에서 시작/이 문서를 목표로, 링크 위에서는 링크 문서로)를 만들고, 누르면 `chrome.storage.session`의 `draft`에 넣고 `action.openPopup()` |
 | `welcome.html`, `welcome.js` | 설치 환영 페이지(전체 화면, 나무위키 문서 모양(사과 문서에서 잰 값: 본문 15px, 제목 36px, 소제목 27px, 칸 5px 10px 등): 위 막대에 `wordmark.svg`, 제목 밑 "최근 버전: v…"(manifest 버전을 읽음), 목차 상자(details), 링크색 번호 소제목, 테두리 표, 점 목록, 각주 위 가로줄. 버튼 둘: 나무위키로 가기(넓게) / 닫기(작게)). 두 버튼이 `introSeen`을 저장해 나무위키 안 안내 창·팝업 첫 설명이 또 안 뜨게 한다. 탭 X로 닫으면 저장 안 돼 팝업의 짧은 첫 설명이 대신 뜬다(보험) |
 | `devtools.html`, `devtools.js` | 개발자 도구가 열려 있는 동안 1초마다 `inspectedWindow.eval('window.ngDevtools?.()', {useContentScriptContext})`로 게임 탭에 알린다(게임 중이면 진 판) |
 | `content.js` | 게임 전부(약 900줄). 판정, 이동 확정, 진행 막대(HUD, Shadow DOM), 카운트다운, 결과 카드, 공유, 기록 저장, 팝업 연결(자동완성·목표 확인) |
 | `content.css` | 게임 중 탭(`html[data-ng]`)의 우회로 숨김 |
-| `popup.html`, `popup.js` | 팝업: 오늘의 문제/직접 출제/무작위 탭, 규칙, 기록(규칙별 보기), 설명(?). 머리글 제목은 `wordmark.svg`(흰색 가로 로고) |
+| `popup.html`, `popup.js` | 팝업: 오늘의 문제/직접 출제/무작위 탭, 규칙, 기록(규칙별 보기), 설명(?). 직접 출제 입력은 시작 전까지 `draft`(session)에 남고(있으면 직접 출제 탭으로 열림), 직접 출제로 시작하면 비운다. 초기화 버튼, 다시 누르면 전체 선택. 머리글 제목은 `wordmark.svg`(흰색 가로 로고) |
 | `icons/`, `wordmark.svg` | 0.34.0에서 넣은 확장 아이콘 PNG 4종(`design/logo-icon.psd`를 줄임)과 팝업 제목 로고(`design/wordmark-white.svg` 복사본). 로고를 고치면 `design/`에서 다시 만들어 두 곳에 복사 |
 | `intro.js` | 팝업의 설명 글과 모양. 전체(`html`, ? 버튼)와 처음 여는 팝업의 짧은 설명(`short`, 확인이 스크롤 없이 보임) 둘. 나무위키 안 설명 창(모달)은 0.1.0 직전에 없앴다 |
 | `words.js`, `hubs.js` | 자동 생성 목록(무작위 4068개이고 그중 보통 889개가 오늘의 문제 풀, 허브 446개). 직접 고치지 않는다 |
@@ -56,7 +56,7 @@ git 저장소: GitHub `L4N14KE4/namu-tagi`(비공개, 2026-10-29에 namu-game에
 | `../scripts/` | `build-words.mjs`, `build-hubs.mjs`, `suggest-candidates.mjs`(위키백과 조회수로 후보 제안), `suggest-candidates-wikidata.mjs`(Wikidata 링크된 언어판 수로 후보 제안; 둘 다 풀은 안 건드림)와 후보 목록·보고서. 나무위키를 요청 사이 1초씩 쉬며 조사한다 |
 | `../e2e/` | puppeteer 테스트와 `popup-harness/`(팝업 시험 도구) |
 | `../demo/` | 폭죽, 카운트다운, 아이콘 라이브러리 비교(`icons.html`), 로고 후보(`logo.html`: 나무위키 로고를 재서 다시 그린 변형 8가지) 데모(확장 아님) |
-| `../design/` | 고른 로고(2번 목표 깃발)의 PSD·SVG·PNG. `logo-icon`은 초록 원 아이콘 1024px, `logo-mark`는 로고만 투명 배경, `wordmark-*`는 마크 + "나무타기" 글자(밝은/어두운 배경용 SVG·PNG, `wordmark.psd`는 글자·고리·마크 14레이어)로 제목에 쓴다. 글자 나·무는 나무위키 로고에서 가장자리를 재서 그대로 다시 그렸고(획 굵기 차이: ㄴ 28, 줄기 23.3, ㅁ 21, ㅋ 가운데 줄 18.6, 둥근 모서리 볼록 4.75·오목 4.2), 타·기는 같은 규칙으로 새로 짰다(고리 높이도 나무위키처럼 낮음·높음·중간). PSD는 부분마다 레이어(래스터). 사용자가 직접 다듬었다(`logo-mark.psd`는 깃발을 왼쪽으로 34px, `logo-icon.psd`는 오른쪽 14px·아래 6px 옮겨서 고리 지름의 약 15% 어긋나 있고 괜찮다고 봄). 아직 manifest `icons`에 안 넣었다. `wordmark.mjs`는 글자 모양·간격과 마크 위치의 원본(마크 PSD의 깃발 이동량이 안에 상수로 들어 있다. `node design/wordmark.mjs demo/logo.html <폴더>`. `wordmark-white.svg`는 팝업용 흰색 한 색). 아이콘과 팝업 제목은 0.34.0에서 확장에 넣었다 |
+| `../design/` | 고른 로고(2번 목표 깃발)의 PSD·SVG·PNG. `logo-icon`은 초록 원 아이콘 1024px, `logo-mark`는 로고만 투명 배경, `wordmark-*`는 마크 + "나무타기" 글자(밝은/어두운 배경용 SVG·PNG, `wordmark.psd`는 글자·고리·마크 14레이어)로 제목에 쓴다. 글자 나·무는 나무위키 로고에서 가장자리를 재서 그대로 다시 그렸고(획 굵기 차이: ㄴ 28, 줄기 23.3, ㅁ 21, ㅋ 가운데 줄 18.6, 둥근 모서리 볼록 4.75·오목 4.2), 타·기는 같은 규칙으로 새로 짰다(고리 높이도 나무위키처럼 낮음·높음·중간). PSD는 부분마다 레이어(래스터). 사용자가 직접 다듬었다(`logo-mark.psd`는 깃발을 왼쪽으로 34px, `logo-icon.psd`는 오른쪽 14px·아래 6px 옮겨서 고리 지름의 약 15% 어긋나 있고 괜찮다고 봄). 2026-10-29에 `logo-icon`·`logo-mark`의 PNG는 PSD 합성 그대로, SVG는 깃발 `<polygon>`을 `translate`로 감싸 PSD와 맞췄다(헤드리스 크롬으로 그려 PSD와 비교해 차이 없음). PSD를 또 고치면 이 넷을 다시 맞추고 `extension/icons/`도 `logo-icon.png`를 줄여 다시 만든다. `wordmark.mjs`는 글자 모양·간격과 마크 위치의 원본(마크 PSD의 깃발 이동량이 안에 상수로 들어 있다. `node design/wordmark.mjs demo/logo.html <폴더>`. `wordmark-white.svg`는 팝업용 흰색 한 색). 아이콘과 팝업 제목은 0.34.0에서 확장에 넣었다 |
 
 `content.js` 구역 순서: 공통 도구 → 팝업 연결(onConnect: suggest/probe) → 게임 상태와 해시 파싱 → 화면 정리(hideChrome) → 판정(verdict, inTemplateBox, inFoldBox, inNoticeBox, inFootnote) → 입력 가로채기 → 이동 확정(check) → 무작위 목표 → 목표 미리보기 → 폭죽 → 기록(record) → 카운트다운, ready/begin → HUD(mount/render) → 공유(shareText) → 도전장 수락(invite).
 
@@ -72,7 +72,7 @@ git 저장소: GitHub `L4N14KE4/namu-tagi`(비공개, 2026-10-29에 namu-game에
 - 폭죽(화면 아래 가운데에서 위로 한 번): 내 기록 경신, 도전장 승리, 오늘의 문제 풀이 때. 첫 도착이나 패배에는 없다.
 - 도전장: 공유 링크에 내 이름·기록·경로·단계별 시간·규칙이 실린다. 받는 쪽은 수락 창에서 어디서 어디로, 상대 기록, 규칙을 보고 도전하기를 눌러야 시작한다. 도전 중에는 새 문제가 막힌다. 결과 카드의 상대 경로는 이겼을 때만 보이고, 졌으면 흐리게 가려 눌러도 안 풀리며 "이기면 볼 수 있어요"를 띄운다(상대의 단계와 시간은 항상 보임, 0.33.9. 0.33.8의 "바로 보임"은 사용자 뜻이 아니어서 고쳤다). 도전장 판의 폭죽은 이겼을 때만(내 기록 경신만으로는 안 터진다).
 - 게임 중 UI: 진행 막대, 목표 설명 카드(첫 이동 뒤 자동으로 접힘, ⓘ로 다시), 한 줄 경로(폭 채우기, 누르면 전체 목록, ≡ 버튼으로 켜고 끔), 다시하기(3초 안에 한 번 더 눌러야 함, 기록하지 않음), 그만두기(진 판으로 기록), 자리 비움 창(제한 시간 없는 판에서 5분 입력 없으면 "아직 하고 계세요?" 이어하기·다시하기·닫기. 창이 뜨는 시각 = 마지막 입력 + 5분에 시계를 멈추고(`state.pausedAt`), 이어하기가 `startedAt`을 멈춘 만큼 뒤로 민다. 걸린 시간은 항상 `elapsed()`로 잰다. 닫기는 그만두기와 같다). 탭이나 페이지를 떠났다 돌아와도 시계는 멈추지 않는다(`awayAt`). 30초 넘게 떠났으면 진 판, 짧게 떠난 것은 한 번만 경고 창("떠났어요, 한 번 더 떠나면 실격", `aways`·`warn`, `MAX_AWAY`=1)이고 두 번째에 진 판(0.32.9에서 1단계로 줄였다: 3→2→1). 탭을 떠난 것(visibilitychange, pagehide)뿐 아니라 포커스가 나간 것(window blur)도 같은 `leave()`/`back()`으로 센다. 제한 시간 판도 같고 새로고침은 세지 않는다(0.32.0에서 이어하기 창을 없앴다). 포커스가 페이지 밖으로 가면 `#app`을 숨기고 떠남으로 센다(메뉴 찾기, 옆 창 조사 방지). 뒤로가기 금지 판의 뒤로가기는 실격 대신 되돌린다(popstate를 나무위키보다 먼저 받아 멈추고 `history.forward()`, 전체 로드면 begin이 앞으로 보냄). 단 주소의 문서가 지금 보는 문서와 같은 뒤로가기(목차·각주로 쌓인 해시 기록)는 통과시킨다.
-- 저장소 키(`chrome.storage.local`): introSeen, diff, rules, records(최근 200판, 단계별 시간 `times` 포함, 0.32.0부터 판마다 `id`. 시작할 때 "끝내지 않음"으로 넣고 끝나면 같은 id를 결과로 바꾼다. 다시하기·새 문제는 이동 전이면 지우고 이동 뒤면 "다시 시작함"), nick, autoNick, used, previews, hudPath.
+- 저장소 키(`chrome.storage.session`): draft(직접 출제 칸의 시작·목표, 크롬을 끄면 사라짐). (`chrome.storage.local`): introSeen, diff, rules, records(최근 200판, 단계별 시간 `times` 포함, 0.32.0부터 판마다 `id`. 시작할 때 "끝내지 않음"으로 넣고 끝나면 같은 id를 결과로 바꾼다. 다시하기·새 문제는 이동 전이면 지우고 이동 뒤면 "다시 시작함"), nick, autoNick, used, previews, hudPath.
 - 오늘의 문제: 한국 시간, 2026-10-25를 1회차로 센다. 회차 번호가 시드이고 `words.js`의 보통 구간 문서 889개(허브 목록과 무관. 쉬움 구간으로는 너무 싱겁게 풀렸다)에서 그날 문제를 계산한다(서버 없음, 별도 `daily.js`는 0.32.7에서 없앴다). 목록을 정렬해 고정 씨앗으로 섞은 순서 Q를 만들고, 목표는 Q를 바퀴(N일)마다 다시 섞은 순서대로 하루 하나씩, 시작은 Q에서 목표 위치로부터 s칸 뒤(s는 바퀴마다 1, 2, 3…). 그래서 같은 쌍도 뒤집힌 쌍도 ceil(N/2)-1바퀴 동안 안 겹친다(N=889면 약 1081년, `node scripts/check-daily.mjs`로 확인). `words.js`를 다시 만들어 보통 구간이 바뀌면(문서를 더하거나 경계를 넘나드는 문서가 있으면) 그 뒤 모든 날의 문제가 바뀐다. 사용자가 "나중에 더 넣어도 큰 상관 없다"고 했고(0.32.6), 무작위 목록과 하나로 합치자고 골랐다(0.32.7: 합집합으로 굳히는 안은 안 썼다).
 
 ## 나무위키 사정 (실측으로 알게 된 것)
