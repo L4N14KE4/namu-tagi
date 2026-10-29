@@ -4,7 +4,8 @@
   "description": "나무타기 확장을 Chrome for Testing에 실제로 로드해 핵심 흐름을 검증한다.",
   "scripts": {
     "chrome": "puppeteer browsers install chrome@stable --path ./browsers",
-    "test": "node e2e.js"
+    "test": "node e2e.js",
+    "release": "node release-test.mjs"
   },
   "dependencies": {
     "puppeteer-core": "^25.16.0"
