@@ -728,7 +728,12 @@
                font-size: 14px; line-height: 1.4; padding: 8px 14px; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,.3);
                display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; max-width: calc(100vw - 24px); } /* 좁은 창에서는 규칙 칩이 윗줄로 접힌다 */
         .bar b { color: var(--accent); }
-        .bar .grp { display: inline-flex; align-items: center; gap: 6px; }
+        .bar .grp { display: inline-flex; align-items: flex-start; gap: 6px; }
+        /* 목표 제목은 막대에서 두 줄까지, 넘치면 …(전체는 ⓘ의 목표 설명). "목표"와 ⓘ는 줄어들지 않는다(줄면 "목/표"로 쪼개지고 ⓘ가 길쭉해졌다).
+           두 줄이면 "목표"는 첫 줄, ⓘ는 둘째 줄 높이. 글자 위아래 여백 (26px - 줄 높이)/2 덕분에 한 줄일 때는 ⓘ(26px)와 가운데가 맞는다. */
+        .bar .grp .lbl { flex: none; margin-top: calc((26px - 1.4em) / 2); }
+        .bar .goal { min-width: 0; margin: calc((26px - 1.4em) / 2) 0; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; }
+        .bar .grp .info { flex: none; align-self: flex-end; }
         .bar .ctl { all: unset; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; height: 26px; padding: 0 8px;
                     border-radius: 13px; background: rgba(255,255,255,.18); font-size: 12px; line-height: 1; white-space: nowrap; cursor: pointer; }
         .bar .acts { display: flex; gap: 9px; flex: 1 1 auto; } /* 새 문제·다시하기·그만두기. 좁아서 줄이 바뀌면 남는 너비를 버튼이 나눠 채운다 */
@@ -850,7 +855,7 @@
                            background: var(--btn); font-size: 13px; line-height: 1.5; white-space: pre-wrap; }
         .share .sharebox .lk { font-size: 12px; color: var(--muted); }
       </style>
-      <div class="top"><div class="bar"><span class="chips"></span><span class="grp">목표 <b class="goal"></b><button class="ctl icon info" title="목표 미리보기" hidden>${ICON_INFO}</button></span>
+      <div class="top"><div class="bar"><span class="chips"></span><span class="grp"><span class="lbl">목표</span><b class="goal"></b><button class="ctl icon info" title="목표 미리보기" hidden>${ICON_INFO}</button></span>
         <span>단계 <b class="steps">0</b></span><button class="ctl icon pathbtn" title="경로 보기/숨기기" hidden>${ICON_LIST}</button><b class="time">00:00.00</b><span class="vs" hidden></span><span class="acts"><button class="ctl newq" hidden>새 문제</button><button class="ctl retrybtn" hidden>다시하기</button><button class="ctl quit">그만두기</button></span></div>
       <div class="preview" hidden><div class="pimg"><img alt=""></div><div class="ptxt"><b class="pgoal"></b><p></p></div><button class="pclose" title="닫기">×</button></div>
         <div class="crumb" title="지나온 문서 전체 보기" hidden><span class="cl">경로</span><span class="cp"></span><span class="chev">▾</span></div>
