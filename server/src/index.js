@@ -6,7 +6,9 @@
 //   GET  /og.png 미리보기 카드 그림(public/, wrangler.toml의 assets)
 // 리다이렉트 주소는 저장한 값으로만 만들어서 아무 곳으로나 보내는 데 쓸 수 없다.
 const STORE_URL = 'https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi';
-const CORS = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
+// 확장의 콘텐츠 스크립트는 나무위키 페이지의 출처로 보낸다. 다른 사이트가 방문자 브라우저로 도전장을 찍어 내지 못하게 POST는 이 출처만 받는다.
+const ORIGIN = 'https://namu.wiki';
+const CORS = { 'Access-Control-Allow-Origin': ORIGIN, 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
 const RULES = ['nb', 'nt', 'nc', 'nf', 'nh', 'nr'];
 const DIFFS = ['easy', 'normal', 'hard', 'wild'];
 const ID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -38,7 +40,8 @@ const challengeLink = c => {
 };
 
 // 확장의 parse와 같은 범위로 검사한다. 맞지 않으면 저장하지 않는다.
-const okDoc = s => typeof s === 'string' && s.length > 0 && s.length <= 255 && !/[\u0000-\u001f]/.test(s);
+// . 과 .. 칸은 주소에서 접혀 /w/ 밖(예: /member/logout)으로 보내게 되므로 받지 않는다.
+const okDoc = s => typeof s === 'string' && s.length > 0 && s.length <= 255 && !/[\u0000-\u001f]/.test(s) && !s.split('/').some(x => x === '.' || x === '..');
 const okInt = (n, max) => Number.isInteger(n) && n >= 0 && n <= max;
 const validate = b => {
   if (!b || typeof b !== 'object') return 'body';
@@ -58,8 +61,17 @@ const validate = b => {
   return null;
 };
 
+// IPv6는 한 집(한 회선)이 /64를 통째로 받아 주소를 마음대로 바꿀 수 있어서 앞 64비트로 센다.
+const ipKey = ip => {
+  if (!ip.includes(':')) return ip;
+  const [a, b] = ip.split('::'), h = a ? a.split(':') : [], t = b ? b.split(':') : [];
+  return (b === undefined ? h : [...h, ...Array(8 - h.length - t.length).fill('0'), ...t]).slice(0, 4).join(':');
+};
+
 const create = async (req, env) => {
-  if (!(await env.LIMIT.limit({ key: req.headers.get('CF-Connecting-IP') || '' })).success) return json({ error: 'slow' }, 429);
+  if (req.headers.get('Origin') !== ORIGIN) return json({ error: 'origin' }, 403);
+  if (!(await env.LIMIT.limit({ key: ipKey(req.headers.get('CF-Connecting-IP') || '') })).success) return json({ error: 'slow' }, 429);
+  if (Number(req.headers.get('Content-Length')) > 8192) return bad('size'); // 큰 본문은 읽기 전에 거절(길이 없이 오면 아래에서)
   const text = await req.text();
   if (text.length > 8192) return bad('size');
   let b; try { b = JSON.parse(text); } catch { return bad('json'); }
