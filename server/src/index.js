@@ -25,12 +25,14 @@ const isPerson = req => req.headers.get('Sec-Fetch-Mode') === 'navigate' && !BOT
 const escHtml = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const newId = () => [...crypto.getRandomValues(new Uint8Array(6))].map(b => ID_CHARS[b % 62]).join('');
 const sha256 = async s => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))].map(b => b.toString(16).padStart(2, '0')).join('');
+const cut = s => (s.length > 30 ? s.slice(0, 30) + '…' : s); // 카드 설명의 문서 이름. 긴 글을 넣어 카드를 공지처럼 꾸미지 못하게 자른다
 const took = ms => { const cs = Math.floor(ms / 10), m = Math.floor(cs / 6000); return (m ? `${m}분 ` : '') + `${((cs % 6000) / 100).toFixed(2)}초`; };
 
 // 나무위키 도전장 링크(짧은 형식). extension/content.js의 challengeLink와 같은 형식이어야 한다.
 const RULE_CH = { nb: 'b', nt: 't', nc: 'c', nf: 'f', nh: 'h', nr: 'r' }, DIFF_CH = { easy: 'e', normal: 'n', hard: 'h', wild: 'w' };
 const esc = s => String(s).replace(/[%&=#+|\s]/g, c => (c === ' ' ? '+' : encodeURIComponent(c)));
-const escPath = s => s.split('/').map(x => x.replace(/[%?#\s]/g, encodeURIComponent)).join('/');
+// \ 도 바꾼다: 브라우저는 주소 속 \ 를 / 로 읽어서 ..\member 같은 이름이 /w/ 밖으로 나간다.
+const escPath = s => s.split('/').map(x => x.replace(/[%?#\s\\]/g, encodeURIComponent)).join('/');
 const challengeLink = c => {
   const cs = c.times.map(t => Math.floor(t / 10)), flags = RULES.filter(k => c.rules[k]).map(k => RULE_CH[k]).join('');
   const kv = [['ng', esc(c.goal)], ...(c.mode === 'daily' && c.day ? [['d', c.day]] : []), ...(c.mode === 'random' && c.diff ? [['rd', DIFF_CH[c.diff]]] : []),
@@ -40,8 +42,16 @@ const challengeLink = c => {
 };
 
 // 확장의 parse와 같은 범위로 검사한다. 맞지 않으면 저장하지 않는다.
-// . 과 .. 칸은 주소에서 접혀 /w/ 밖(예: /member/logout)으로 보내게 되므로 받지 않는다.
-const okDoc = s => typeof s === 'string' && s.length > 0 && s.length <= 255 && !/[\u0000-\u001f]/.test(s) && !s.split('/').some(x => x === '.' || x === '..');
+// . 과 .. 칸은 주소에서 접혀 /w/ 밖(예: /member/logout)으로 보내게 되므로 받지 않는다(\ 도 / 로 읽히니 같이 나눠 본다).
+// 글자 방향을 뒤집는 글자(U+202E 등)는 카드의 글을 다르게 보이게 꾸밀 수 있어 받지 않는다.
+const okDoc = s => typeof s === 'string' && s.length > 0 && s.length <= 255 && !/[\u0000-\u001f\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/.test(s)
+  && !s.split(/[\\/]/).some(x => x === '.' || x === '..');
+// 닉네임 검사. extension/content.js의 nameProblem과 같은 규칙이어야 한다(확장이 먼저 알리고, 서버는 직접 보내는 요청을 막는다).
+// 보이지 않는 글자(폭 없는 공백, 한글 채움 글자 등)와 운영자로 오해할 이름을 막는다. 띄어쓰기·기호·전각을 빼고 비교한다.
+// ponytail: 낱말 목록이라 "운영쟈" 같은 변형은 못 막는다. 문제가 된 도전장은 D1에서 지운다.
+const INVISIBLE = /[\u0000-\u001f\u007f\u00ad\u034f\u061c\u115f\u1160\u17b4\u17b5\u180b-\u180f\u200b\u200c\u200e\u200f\u202a-\u202e\u2060-\u206f\u3164\ufeff\uffa0]/;
+const RESERVED = ['운영자', '운영진', '운영팀', '관리자', '관리팀', '개발자', '개발팀', '공식', '고객센터', '나무위키', '나무타기', 'namuwiki', 'namutagi', 'admin', 'official', 'staff', 'moderator'];
+const nameProblem = s => INVISIBLE.test(s) ? 'invisible' : RESERVED.some(w => s.normalize('NFKC').toLowerCase().replace(/[\s\p{P}\p{S}]/gu, '').includes(w)) ? 'reserved' : '';
 const okInt = (n, max) => Number.isInteger(n) && n >= 0 && n <= max;
 const validate = b => {
   if (!b || typeof b !== 'object') return 'body';
@@ -53,7 +63,7 @@ const validate = b => {
   const r = b.rules;
   if (!r || typeof r !== 'object' || Object.keys(r).some(k => ![...RULES, 'tl', 'ms'].includes(k)) || RULES.some(k => r[k] != null && typeof r[k] !== 'boolean')) return 'rules';
   if (!okInt(r.tl ?? 0, 99 * 60) || !okInt(r.ms ?? 0, 99)) return 'rules';
-  if (typeof b.by !== 'string' || !b.by.trim() || b.by.length > 20 || /[\u0000-\u001f]/.test(b.by)) return 'by';
+  if (typeof b.by !== 'string' || !b.by.trim() || b.by.length > 20 || nameProblem(b.by)) return 'by';
   const { path, times } = b;
   if (!Array.isArray(path) || path.length < 2 || path.length > 60 || !path.every(okDoc)) return 'path';
   if (path[0] !== b.start || path.at(-1) !== b.goal) return 'path';
@@ -113,7 +123,7 @@ const show = async (req, id, env, ctx) => {
   const c = { ...row, rules: JSON.parse(row.rules), path: JSON.parse(row.path), times: JSON.parse(row.times) };
   const to = new URL(challengeLink(c)).href; // Location 헤더는 ASCII여야 해서 한글을 %로 바꾼 꼴로
   const res = person ? new Response(null, { status: 302, headers: { Location: to, 'Cache-Control': KEEP } })
-    : html(page(`${c.by}님의 도전장`, `${c.start} → ${c.goal}, ${c.steps}단계 ${took(c.ms)}. 나무타기 확장이 있으면 같은 문제에 바로 도전할 수 있어요.`, to), 200, KEEP);
+    : html(page(`${c.by}님의 도전장`, `${cut(c.start)} → ${cut(c.goal)}, ${c.steps}단계 ${took(c.ms)}. 나무타기 확장이 있으면 같은 문제에 바로 도전할 수 있어요.`, to), 200, KEEP);
   ctx.waitUntil(caches.default.put(key, res.clone()));
   return res;
 };

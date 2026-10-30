@@ -15,6 +15,15 @@
     catch { return null; }
   };
   const encPath = name => name.split('/').map(encodeURIComponent).join('/');
+  // 주소에서 . 과 .. 칸은 접힌다(/w/../member → /member). 해시로 온 목표가 이러면 숨은 미리보기 창이 /w/ 밖을 열게 되므로 받지 않는다.
+  const dotSeg = name => name.split('/').some(x => x === '.' || x === '..');
+  // 닉네임 검사. server/src/index.js의 nameProblem과 같은 규칙이어야 한다(서버가 거절하면 공유가 말없이 긴 링크로 바뀌니 여기서 먼저 알린다).
+  // 보이지 않는 글자(폭 없는 공백, 한글 채움 글자 등)와 운영자로 오해할 이름을 막는다. 띄어쓰기·기호·전각을 빼고 비교한다.
+  const INVISIBLE = /[\u0000-\u001f\u007f\u00ad\u034f\u061c\u115f\u1160\u17b4\u17b5\u180b-\u180f\u200b\u200c\u200e\u200f\u202a-\u202e\u2060-\u206f\u3164\ufeff\uffa0]/;
+  const RESERVED = ['운영자', '운영진', '운영팀', '관리자', '관리팀', '개발자', '개발팀', '공식', '고객센터', '나무위키', '나무타기', 'namuwiki', 'namutagi', 'admin', 'official', 'staff', 'moderator'];
+  const nameProblem = s => INVISIBLE.test(s) ? '보이지 않는 글자는 이름에 쓸 수 없어요.' :
+    RESERVED.some(w => s.normalize('NFKC').toLowerCase().replace(/[\s\p{P}\p{S}]/gu, '').includes(w)) ? '운영자로 오해할 수 있는 이름은 쓸 수 없어요.' : '';
+  const byName = s => (nameProblem(s) ? '익명' : s.slice(0, 20)); // 손으로 만든 도전장 링크의 이름도 같은 규칙으로 거른다
   const currentDoc = (d = document) => { const c = d.querySelector('link[rel=canonical]'); return c ? docOf(c.getAttribute('href')) : null; };
 
   // 클래스명과 data-v 해시는 배포마다 바뀐다(한 달 사이 cf067982 → 820edf40). 그래서 이름을 쓰지 않고
@@ -172,7 +181,7 @@
     diff: DIFF[q.get('diff')] ? q.get('diff') : null, rs: q.get('rs') === '1', tries: Number(q.get('tries') || 0), day: Number(q.get('day')) || null,
     rules: { nb: q.get('nb') === '1', nt: q.get('nt') === '1', nc: q.get('nc') === '1', nf: q.get('nf') === '1', nh: q.get('nh') === '1', nr: q.get('nr') === '1',
              tl: num(q.get('tl'), 99 * 60), ms: num(q.get('ms'), 99) },
-    vs: q.get('by') ? { by: q.get('by').slice(0, 20), steps: num(q.get('s'), 999), ms: num(q.get('t'), 99 * 3600e3), path: q.getAll('p').slice(0, 60), times: (q.get('pt') || '').split(',').map(Number) } : null,
+    vs: q.get('by') ? { by: byName(q.get('by')), steps: num(q.get('s'), 999), ms: num(q.get('t'), 99 * 3600e3), path: q.getAll('p').slice(0, 60), times: (q.get('pt') || '').split(',').map(Number) } : null,
   });
   // 도전장 짧은 형식. 한글은 그대로 두고 꼭 필요한 글자만 바꿔서 링크가 짧다(같은 판이 398자 → 84자). 짧은 링크 서버(server/src/index.js)도 같은 형식으로 보낸다.
   //  ng=목표 d=회차(오늘의 문제) rd=난이도 글자(무작위) r=규칙 글자 tl= ms= b=보낸 사람
@@ -184,7 +193,7 @@
     const kv = [['ng', esc(s.goal)], ...(s.mode === 'daily' && s.day ? [['d', s.day]] : []), ...(s.mode === 'random' && s.diff ? [['rd', DIFF_CH[s.diff]]] : []),
       ...(flags ? [['r', flags]] : []), ...(s.rules?.tl ? [['tl', s.rules.tl]] : []), ...(s.rules?.ms ? [['ms', s.rules.ms]] : []),
       ['b', esc(v.by)], ['p', v.path.slice(1, -1).map(esc).join('|')], ['t', cs.slice(1).map((c, i) => (c - cs[i]).toString(36)).join('.')]];
-    return `https://namu.wiki/w/${s.start.split('/').map(x => x.replace(/[%?#\s]/g, encodeURIComponent)).join('/')}#` + kv.map(([k, x]) => `${k}=${x}`).join('&');
+    return `https://namu.wiki/w/${s.start.split('/').map(x => x.replace(/[%?#\s\\]/g, encodeURIComponent)).join('/')}#` + kv.map(([k, x]) => `${k}=${x}`).join('&');
   };
   // p는 |로 먼저 나눈 뒤 하나씩 푼다(이름 속 |는 %7C로 왔다). URLSearchParams로 먼저 풀면 섞인다.
   const parseShort = hash => {
@@ -196,11 +205,11 @@
     const diff = Object.keys(DIFF_CH).find(k => DIFF_CH[k] === kv.rd) || null;
     return { goal, mode: kv.d ? 'daily' : diff ? 'random' : 'custom', diff, rs: false, tries: 0, day: num(kv.d, 100000) || null,
       rules: { ...Object.fromEntries(Object.entries(RULE_CH).map(([k, c]) => [k, flags.includes(c)])), tl: num(kv.tl, 99 * 60), ms: num(kv.ms, 99) },
-      vs: kv.b ? { by: dec(kv.b).slice(0, 20), steps: path.length - 1, ms: Math.min(times.at(-1), 99 * 3600e3), path, times } : null };
+      vs: kv.b ? { by: byName(dec(kv.b)), steps: path.length - 1, ms: Math.min(times.at(-1), 99 * 3600e3), path, times } : null };
   };
   const params = new URLSearchParams(location.hash.slice(1));
   const short = !params.has('ng-goal') && params.has('ng') ? parseShort(location.hash) : null;
-  const fromHash = params.has('ng-goal') || !!short; // 목표 확인(정식 이름, 동음이의어 고르기)은 팝업이 끝내고 온다
+  const fromHash = (params.has('ng-goal') || !!short) && !dotSeg((short ? short.goal : params.get('ng-goal')).trim()); // 목표 확인(정식 이름, 동음이의어 고르기)은 팝업이 끝내고 온다
   if (fromHash) {
     state = short ? fresh('starting', docOf(location.pathname) || '', short.goal, short) : fresh('starting', docOf(location.pathname) || '', params.get('ng-goal').trim(), parse(params));
     state.invite = !!state.vs && !state.rs; // 도전장 링크는 수락해야 시작한다(아래 invite). 새로고침·다시하기로는 다시 묻지 않는다.
@@ -1007,7 +1016,8 @@
     const note = el('div', { className: 'muted' });
     let made = {};
     const copy = async () => {
-      const typed = input.value.trim(), nick = typed || auto;
+      const typed = input.value.trim(), nick = typed || auto, why = nameProblem(nick);
+      if (why) { note.textContent = why; return input.focus(); }
       if (typed) try { await chrome.storage.local.set({ nick: typed }); } catch {}
       if (made.nick !== nick) { // 같은 이름으로 다시 누르면 받아 둔 링크를 다시 쓴다(서버에 같은 도전장을 또 만들지 않게)
         note.textContent = '링크 만드는 중…';
