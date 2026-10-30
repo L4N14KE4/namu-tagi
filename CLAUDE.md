@@ -15,12 +15,12 @@ git 저장소: GitHub `L4N14KE4/namu-tagi`(비공개, 2026-10-29에 namu-game에
 
 ## 남은 일 (2026-10-29 대화를 마치며)
 
-main은 `12b5ed3`까지 푸시됨. 짧은 링크 서버는 namutagi.com에 배포돼 동작 중(버전 129bfa74).
+main은 2026-10-30에 보안 수정까지 푸시됨. 짧은 링크 서버는 namutagi.com에 배포돼 동작 중(버전 8ea81d1d).
 
 - **v0.1.0 릴리스가 낡았다.** 태그 `v0.1.0`은 `2ccfc09`(우클릭 메뉴까지)에 있고 첨부 zip도 그때 것이다. 그 뒤의 긴 제목 두 줄, 환영 페이지, 짧은 링크가 빠져 있다. 바꾸려면 `git tag -f v0.1.0 HEAD && git push -f origin v0.1.0`과 `gh release upload v0.1.0 dist/namu-tagi-v0.1.0.zip --clobber`(zip은 `git archive --format=zip -o dist/namu-tagi-v0.1.0.zip HEAD:extension`). 릴리스 설명은 처음 0.1.0 그대로 둔다. 태그 강제 푸시는 Claude Code 자동 승인이 막으니 사용자에게 허락을 받거나 사용자가 직접 돌린다.
 - **사용자 확인 대기**: 미리보기 카드는 글자는 뜨는 것을 사용자가 확인했고, 그림(og:image)을 넣었다. 새 도전장 링크로 카카오톡, 디스코드에 그림이 뜨는지.
 - **요청 제한**: `POST /c`는 Worker ratelimit 바인딩(IP당 60초 10번, 느슨함)으로 걸었다. 정확히 막으려면 Cloudflare 대시보드 규칙(무료는 10초 기간)을 더한다.
-- **서버 배포 대기(2026-10-30)**: 97cae31과 그 뒤 커밋의 서버 수정(나무위키 출처만, IPv6 /64, 큰 본문 먼저 거절, 문서 이름의 `.`/`..`와 `\`, 닉네임 검사, 카드 문서 이름 30자)이 아직 namutagi.com에 안 올라갔다. `cd server && npx wrangler deploy`는 Claude Code 자동 승인이 [Production Deploy]로 두 번 막아서 사용자가 직접 돌린다(사용자가 하기로 함). 배포 뒤 확인: 봇 UA로 카드, `Origin` 없는 POST가 403.
+- **서버 보안 수정 배포됨(2026-10-30, 버전 8ea81d1d, 사용자가 직접 배포)**: 실제 서버에서 Origin 없음·다른 출처 403, `..\`·`../`·방향 문자 문서 400, 운영자·폭 없는 공백 이름 400, 봇 카드 200(og:image), 브라우저 302, og.png 200 확인. `npx wrangler deploy`는 Claude Code 자동 승인이 [Production Deploy]로 막으니 다음에도 사용자가 돌리거나 허용 규칙을 넣는다.
 - **서비스 멈추기(사용자가 하기로 함)**: 없는 id로 GET을 퍼부으면 Worker 무료 하루 요청 한도(10만, UTC 0시 초기화)가 바닥나 그날 짧은 링크가 모두 안 열린다(새 공유는 긴 링크로 대신함). Worker 안에서는 못 막고 대시보드 Security rules의 요청 제한 규칙(무료: 1개, 경로와 Verified Bot 필드, IP, 10초, 10초 차단)으로 막는다. IP 여러 개면 못 막으니 확실히는 Workers 유료. 급할 때 Under Attack Mode(켜는 동안 메신저 미리보기와 공유 POST가 안 됨).
 - **닉네임 변형**: 금지 낱말 목록이라 "운영쟈" 같은 변형은 못 막는다. 문제 도전장은 D1에서 지운다.
 - **웹스토어 대시보드(사용자)**: `store/listing.md`대로 contextMenus 권한 이유, 데이터 사용(개인 식별 정보 체크로 바뀜), storage 설명을 옮긴다. 저장소가 비공개라 개인정보처리방침 공개 주소가 없다. `namutagi.com/privacy`로 PRIVACY.md를 보여 주는 길도 있다(아직 안 함, 제안만).
