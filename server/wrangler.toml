@@ -12,3 +12,13 @@ routes = [{ pattern = "namutagi.com", custom_domain = true }]
 binding = "DB"
 database_name = "namutagi"
 database_id = "6f84cf26-68d4-4955-92e9-362ef60a8664"
+
+# 미리보기 카드 그림(/og.png, design/logo-icon.png를 400px로 줄임). 있는 파일은 Worker보다 먼저 나간다.
+[assets]
+directory = "./public"
+
+# POST /c 요청 제한: IP당 60초에 10번(Cloudflare 위치마다 따로 센다). 넘으면 429, 확장은 긴 링크로 대신한다.
+[[ratelimits]]
+name = "LIMIT"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }

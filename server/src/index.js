@@ -3,6 +3,7 @@
 //   GET  /:id    브라우저로 연 사람은 302로 바로 나무위키 도전장(#ng=… 짧은 형식)으로 보낸다(중간 흰 화면 없음).
 //                메신저 미리보기 봇에게는 OG 태그를 담은 카드 페이지를 준다. 판단을 못 하면 카드 페이지가 "이동하는 중이에요"를 보이고 바로 넘긴다.
 //   GET  /       웹스토어로 보낸다
+//   GET  /og.png 미리보기 카드 그림(public/, wrangler.toml의 assets)
 // 리다이렉트 주소는 저장한 값으로만 만들어서 아무 곳으로나 보내는 데 쓸 수 없다.
 const STORE_URL = 'https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi';
 const CORS = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
@@ -58,6 +59,7 @@ const validate = b => {
 };
 
 const create = async (req, env) => {
+  if (!(await env.LIMIT.limit({ key: req.headers.get('CF-Connecting-IP') || '' })).success) return json({ error: 'slow' }, 429);
   const text = await req.text();
   if (text.length > 8192) return bad('size');
   let b; try { b = JSON.parse(text); } catch { return bad('json'); }
@@ -80,7 +82,7 @@ const create = async (req, env) => {
 const page = (title, desc, to) => `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>${escHtml(title)}</title><meta property="og:type" content="website"><meta property="og:site_name" content="나무타기">
-<meta property="og:title" content="${escHtml(title)}"><meta property="og:description" content="${escHtml(desc)}"><meta name="twitter:card" content="summary">
+<meta property="og:title" content="${escHtml(title)}"><meta property="og:description" content="${escHtml(desc)}"><meta property="og:image" content="https://namutagi.com/og.png"><meta property="og:image:width" content="400"><meta property="og:image:height" content="400"><meta name="twitter:card" content="summary">
 ${to ? `<meta http-equiv="refresh" content="0; url=${escHtml(to)}">` : ''}
 <style>html{background:#f5f5f5;color:#212529}a{color:#0275d8;text-decoration:none}small{color:#6c757d}@media (prefers-color-scheme:dark){html{background:#000;color:#e0e0e0}a{color:#ec9f19}small{color:#9a9a9a}}
 body{font:15px/1.6 "Pretendard JP",Pretendard,-apple-system,system-ui,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 16px;text-align:center;word-break:keep-all}
@@ -91,7 +93,7 @@ p{margin:0 0 8px}</style></head>
 ${to ? `<script>location.replace(${JSON.stringify(to).replace(/</g, '\\u003c')})</script>` : ''}</body></html>`;
 
 const show = async (req, id, env, ctx) => {
-  const person = isPerson(req), key = new Request(`https://namutagi.com/${id}?${person ? 'go' : 'card'}`); // 사람용(302)과 봇용(카드)을 따로 캐시
+  const person = isPerson(req), key = new Request(`https://namutagi.com/${id}?${person ? 'go' : 'card2'}`); // 사람용(302)과 봇용(카드)을 따로 캐시(카드 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다)
   const hit = await caches.default.match(key);
   if (hit) return hit;
   const row = await env.DB.prepare('SELECT * FROM challenges WHERE id = ?').bind(id).first();
