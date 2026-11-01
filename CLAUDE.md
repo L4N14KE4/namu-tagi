@@ -15,7 +15,7 @@ git 저장소: GitHub `L4N14KE4/namu-tagi`(비공개, 2026-10-29에 namu-game에
 
 ## 남은 일 (2026-10-29 대화를 마치며)
 
-main은 2026-11-02에 푸시됨. 서버는 namutagi.com에 배포돼 동작 중(버전 2e7ad5ba, 랜딩 페이지까지).
+main은 2026-11-02에 푸시됨. 서버는 namutagi.com에 배포돼 동작 중(버전 2dc1404f, 랜딩 페이지까지).
 
 - **v0.1.0 릴리스**: 2026-11-02에 태그와 zip을 `8aee6be`로 옮겼다(웹 환영 페이지, 글꼴까지). 이 뒤에 `extension/`을 바꾸면 다시 낡는다. 다시 맞추려면 `git archive --format=zip -o dist/namu-tagi-v0.1.0.zip HEAD:extension`, `git tag -f v0.1.0 HEAD && git push -f origin v0.1.0`, `gh release upload v0.1.0 dist/namu-tagi-v0.1.0.zip --clobber`. 릴리스 설명은 처음 0.1.0 그대로 둔다. 태그 강제 푸시는 Claude Code 자동 승인이 막으니 사용자가 직접 돌린다.
 - **사용자 확인 대기**: 미리보기 카드는 글자는 뜨는 것을 사용자가 확인했고, 그림(og:image)을 넣었다. 새 도전장 링크로 카카오톡, 디스코드에 그림이 뜨는지.
