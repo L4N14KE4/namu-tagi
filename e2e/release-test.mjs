@@ -3,7 +3,8 @@
 //   node e2e/release-test.mjs <빈 폴더2>        (폴더를 안 주면 저장소의 extension/)
 // 확인: 설치하면 환영 페이지와 manifest 버전, 우클릭 메뉴 4개, 권한, 팝업 직접 출제 입력(draft)과 초기화, 나무위키 사과 → 사과나무 한 판,
 //       공유하기로 만든 도전장 링크를 열면 수락 창에 같은 이름, 경로, 시간이 뜨는지.
-// SHORT_BASE=http://localhost:8787 을 주면 확장 사본의 짧은 링크 서버 주소를 바꿔 로컬 서버(server/, npx wrangler dev --local)로 시험한다.
+// SHORT_BASE=http://localhost:8787 을 주면 확장 사본의 서버 주소를 바꿔 로컬 서버(server/, npx wrangler dev --local)로 시험한다.
+// 사본은 확장 ID가 달라 페이지가 확장을 못 찾으므로 도전장은 설치 안내가 뜨는지 보고 나무위키 링크를 직접 연다. 끝까지 보려면 배포 뒤 SHORT_BASE 없이 저장소의 extension/로 돌린다.
 // 새 임시 프로필이라 사용자 크롬 기록에는 판이 남지 않는다. 나무위키에 실제로 접속한다.
 // 정식 크롬 137+는 --load-extension을 무시해서 Chrome for Testing이 필요하다: CHROME 환경 변수, e2e/browsers(npm run chrome), ~/.cache/puppeteer 순으로 찾는다.
 import { spawn } from 'node:child_process';
@@ -19,6 +20,10 @@ if (SHORT) { // 사본을 만들어 SHORT_BASE만 바꾼다
   const cj = path.join(copy, 'content.js'), src = fs.readFileSync(cj, 'utf8');
   if (!src.includes("const SHORT_BASE = 'https://namutagi.com';")) { console.error('content.js에서 SHORT_BASE를 못 찾았어요'); process.exit(2); }
   fs.writeFileSync(cj, src.replace("const SHORT_BASE = 'https://namutagi.com';", `const SHORT_BASE = '${SHORT}';`));
+  const bj = path.join(copy, 'background.js'), mj = path.join(copy, 'manifest.json'), man = JSON.parse(fs.readFileSync(mj, 'utf8'));
+  fs.writeFileSync(bj, fs.readFileSync(bj, 'utf8').replace("'https://namutagi.com/welcome'", `'${SHORT}/welcome'`));
+  man.externally_connectable.matches.push(`${SHORT}/*`);
+  fs.writeFileSync(mj, JSON.stringify(man));
   ext = copy;
 }
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'namu-tagi-'));
@@ -55,16 +60,27 @@ try {
   ws.addEventListener('message', e => { const m = JSON.parse(e.data); const p = pending.get(m.id); if (p) { pending.delete(m.id); m.error ? p.rej(new Error(m.error.message)) : p.res(m.result); } });
 
   // 1. 설치하면 환영 페이지가 열린다(onInstalled install)
-  // 크롬 안에 든 다른 확장도 background.js 서비스 워커가 있어서, 환영 페이지의 확장 ID로 우리 것을 찾는다.
-  const welcome = await waitFor(async () => (await targets()).find(t => t.type === 'page' && t.url.endsWith('/welcome.html')));
+  const BASE = SHORT || 'https://namutagi.com';
+  const welcome = await waitFor(async () => (await targets()).find(t => t.type === 'page' && t.url.startsWith(`${BASE}/welcome`)));
   check('설치하면 환영 페이지가 열린다', welcome, welcome?.url);
-  const extId = new URL(welcome.url).host;
-  const sw = await waitFor(async () => (await targets()).find(t => t.type === 'service_worker' && t.url === `chrome-extension://${extId}/background.js`));
+  // 크롬 안에 든 다른 확장도 background.js 서비스 워커가 있어서, 이름으로 우리 것을 찾는다.
+  const sw = await waitFor(async () => {
+    for (const t of await targets()) {
+      if (t.type !== 'service_worker' || !t.url.endsWith('/background.js')) continue;
+      if (await evaluate(await attach(t.targetId), `chrome.runtime.getManifest().name.includes('나무타기')`)) return t;
+    }
+  });
   check('서비스 워커가 뜬다', sw, sw?.url);
+  const extId = new URL(sw.url).host;
   if (welcome) {
     const s = await attach(welcome.targetId);
     const v = await waitFor(() => evaluate(s, `document.body.innerText.includes('v${VERSION}') && document.body.innerText.slice(0, 60)`));
     check(`환영 페이지에 v${VERSION}`, v, JSON.stringify(v));
+    const face = await evaluate(s, `document.fonts.ready.then(() => [...document.fonts].filter(f => f.status === 'loaded').length)`);
+    check('환영 페이지에 Pretendard', face === 2, face);
+    const ping = await evaluate(s, `chrome.runtime.sendMessage(${JSON.stringify(extId)}, 'ping')`);
+    check('페이지가 물으면 확장이 답함', ping === true, ping);
+    await evaluate(s, SHORT ? `chrome.runtime.sendMessage(${JSON.stringify(extId)}, 'introSeen')` : `seen()`);
   }
 
   // 2. 우클릭 메뉴 네 개가 만들어졌다(없는 id는 update가 실패한다)
@@ -73,6 +89,8 @@ try {
   check('우클릭 메뉴 4개 등록(없는 id는 오류)', menus.join() === 'ok,ok,ok,ok,err', menus.join());
   const perms = await evaluate(sws, `chrome.runtime.getManifest().permissions.join()`);
   check('권한은 activeTab, contextMenus, storage', perms === 'activeTab,contextMenus,storage', perms);
+  const intro = await evaluate(sws, `chrome.storage.local.get('introSeen').then(o => o.introSeen)`);
+  check('환영 페이지가 알리면 introSeen 저장', intro === true, intro);
 
   // 3. 메뉴가 넣는 draft를 팝업이 직접 출제 칸에 채우고, 초기화가 지운다
   await evaluate(sws, `chrome.storage.session.set({ draft: { start: '사과', goal: '사과나무' } })`);
@@ -84,6 +102,8 @@ try {
   await sleep(300);
   const cleared = await evaluate(sws, `chrome.storage.session.get('draft').then(o => JSON.stringify([o.draft.start, o.draft.goal]))`);
   check('초기화가 입력을 비움', cleared === JSON.stringify(['', '']), cleared);
+  const popFont = await evaluate(ps, `document.fonts.load('16px Pretendard').then(() => document.fonts.ready).then(() => [...document.fonts].some(f => f.family === 'Pretendard' && f.status === 'loaded'))`);
+  check('팝업에 Pretendard', popFont === true, popFont);
   await send('Target.closeTarget', { targetId: popId });
 
   // 4. 나무위키에서 한 판: 사과 → 사과나무(뒤로가기 금지)
@@ -94,6 +114,8 @@ try {
   check('나무위키 문서에 진행 막대가 붙음', host);
   const playing = await waitFor(async () => (await st())?.status === 'playing', 20000);
   check('카운트다운 뒤 playing', playing);
+  const hudFont = await waitFor(() => evaluate(gs, `[...document.fonts].some(f => f.family.includes('NamutagiPretendard') && f.status === 'loaded') && getComputedStyle(document.getElementById('ng-host').shadowRoot.querySelector('button')).fontFamily.slice(0, 18)`), 5000);
+  check('진행 막대에 글꼴, 나무위키 본문은 그대로', hudFont === 'NamutagiPretendard' && await evaluate(gs, `!getComputedStyle(document.body).fontFamily.includes('Namutagi')`), hudFont);
   const clicked = await evaluate(gs, `(() => { const a = [...document.querySelectorAll('a[href^="/w/"]')].find(a => decodeURIComponent(a.getAttribute('href').split('#')[0]) === '/w/사과나무'); if (!a) return false; a.click(); return true; })()`);
   check('본문의 사과나무 링크를 누름', clicked);
   const done = await waitFor(async () => { const s = await st(); return s?.status === 'done' && s; }, 20000);
@@ -113,6 +135,11 @@ try {
   if (link) {
     const { targetId: inv } = await send('Target.createTarget', { url: link });
     const is = await attach(inv);
+    if (SHORT) {
+      const prompt = await waitFor(() => evaluate(is, `document.querySelector('[data-s="none"]')?.hidden === false && document.querySelector('[data-s="none"] a.btn').textContent`), 8000);
+      check('확장을 못 찾으면 설치 안내', prompt === '설치하러 가기', prompt);
+      await send('Page.navigate', { url: await evaluate(is, `document.getElementById('to').href`) }, is);
+    }
     const vs = await waitFor(async () => { const s = await evaluate(is, `JSON.parse(sessionStorage.getItem('ng_state') || 'null')`); return s?.invite && s.vs; }, 30000);
     check('도전장 링크를 열면 수락 대기', vs, vs ? JSON.stringify({ by: vs.by, steps: vs.steps, ms: vs.ms, path: vs.path }) : '');
     check('도전장의 이름, 경로, 시간이 같음', vs && vs.by === NICK && JSON.stringify(vs.path) === JSON.stringify(done.path.map(p => p.doc)) && Math.floor(vs.ms / 10) === Math.floor(done.finishedAt / 10),

@@ -4,22 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>나무타기에 오신 걸 환영해요</title>
+<link rel="icon" href="og.png">
 <style>
-  /* 설치하면 background.js가 새 탭으로 여는 환영 페이지. 나무위키 문서(2026-10, 사과 문서)에서 잰 값을 그대로 쓴다:
+  /* Pretendard(OFL, fonts/LICENSE.txt)를 직접 담았다. 굵기 둘, 500 이하는 Regular, 600 이상은 Bold로 나온다.
+     글자 조각 여러 개로 나누는 방식은 요청이 많아 Cloudflare 요청 제한(IP당 10초 10번)에 걸릴 수 있어서 파일 하나짜리 subset을 쓴다. */
+  @font-face { font-family: Pretendard; font-weight: 400; font-display: swap; src: url("fonts/Pretendard-Regular.subset.woff2") format("woff2"); }
+  @font-face { font-family: Pretendard; font-weight: 700; font-display: swap; src: url("fonts/Pretendard-Bold.subset.woff2") format("woff2"); }
+  /* namutagi.com/welcome. 설치하면 background.js가 새 탭으로 여는 환영 페이지. 나무위키 문서(2026-10, 사과 문서)에서 잰 값을 그대로 쓴다:
      본문 15px/1.5, 제목 36px, 소제목 27px(밑줄, 번호는 링크색), 목차 상자(details, "목차"는 18.75px), 표 칸 5px 10px, 점 목록, 각주 위 가로줄.
      색은 밝은 화면 / 어두운 화면 둘 다 실측. 어느 쪽인지는 컴퓨터 설정을 따른다.
      2026-10-29에 다시 재서 맞춤: 소제목 왼쪽 접기 화살표, 목차 화살표(굵고 회색, 접으면 왼쪽), 어두운 화면 각주 줄 색, 각주 말풍선.
-     나무위키 화살표는 Ionicons(소제목)와 Font Awesome(목차) 글꼴이지만, 여기서는 Lucide chevron을 같은 크기로 잘라 쓴다(vendor/LICENSE-lucide.txt). */
+     나무위키 화살표는 Ionicons(소제목)와 Font Awesome(목차) 글꼴이지만, 여기서는 Lucide chevron을 같은 크기로 잘라 쓴다(extension/vendor/LICENSE-lucide.txt). */
   :root { --page: #f5f5f5; --bg: #fff; --text: #212529; --sub: rgba(33,37,41,.75); --box: #ccc; --rule: #ccc; --cell: #ddd; --fn: #777; --link: #0275d8; --pop: #fff; --pop-shadow: rgba(0,0,0,.5); --pop-arrow: #ddd;
           --soft: #f5f5f5; --primary: #00a69c; --soft-border: rgba(0,0,0,.3); --bar: linear-gradient(to right, #00a69c, #00a69c, #28b472); }
   @media (prefers-color-scheme: dark) { :root { --page: #000; --bg: #1c1d1f; --text: #e0e0e0; --sub: rgba(224,224,224,.75); --box: #444; --rule: #383b40; --cell: #383b40; --fn: #383840; --pop: #383b40; --pop-shadow: rgba(255,255,255,.5); --pop-arrow: #ccc;
           --link: #ec9f19; --soft: #26282b; --soft-border: rgba(255,255,255,.34); --bar: #2e3033; } }
   html { background: var(--page); }
-  body { margin: 0; color: var(--text); font-family: "Pretendard JP", Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  body { margin: 0; color: var(--text); font-family: Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
          font-size: 15px; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }
-  header { box-sizing: border-box; height: 56px; padding: 8px 0; background: var(--bar); }
+  /* 막대 높이는 나무위키와 같은 56px(1024px 미만은 48px). 로고는 그림 속 글자 폭이 나무위키와 같게(116px, 720px 이하는 103px) */
+  header { display: flex; align-items: center; height: 56px; background: var(--bar); }
   header div, article { box-sizing: border-box; width: min(897px, calc(100% - 32px)); margin-left: auto; margin-right: auto; }   /* 막대 안 로고와 문서 상자의 왼쪽 선이 어떤 폭에서도 같은 자리 */
-  header img { display: block; height: 40px; margin-left: -2.6px; }   /* 로고 그림 자체의 왼쪽 여백(40/2682 × 173.5px)만큼 당겨서 마크가 상자 선에 닿게 */
+  header img { display: block; height: 27.5px; margin-left: -1.8px; }   /* 로고 그림 자체의 왼쪽 여백(40/618.2 × 27.5px)만큼 당겨서 마크가 상자 선에 닿게 */
   article { margin-top: 16px; margin-bottom: 40px; padding: 24px; background: var(--bg); border: 1px solid var(--box); border-radius: 6px; }
   a { color: var(--link); text-decoration: none; }
   a:hover { text-decoration: underline; }
@@ -48,17 +54,19 @@
   ul { margin: 6px 0 22.5px 22.5px; padding: 0 0 0 8px; list-style: outside disc; }
   li { margin: 6px 0; }
   .actions { display: flex; align-items: center; gap: 10px; margin: 0; }
-  .btn { flex: none; font: inherit; font-size: 17px; font-weight: 600; padding: 12px 24px; border: 1px solid var(--soft-border); border-radius: .3rem; background: var(--soft); color: var(--text); cursor: pointer; }
+  .btn { flex: none; font: inherit; font-size: 16px; font-weight: 600; padding: 8px 20px; border: 1px solid var(--soft-border); border-radius: .3rem; background: var(--soft); color: var(--text); cursor: pointer; }
   .btn:hover { filter: brightness(1.08); }
-  .btn.primary { flex: 0 1 180px; padding-left: 0; padding-right: 0; background: var(--primary); border-color: var(--primary); color: #fff; }
-  .fns { margin: 22.5px 0 0; padding: 7.5px 0; border-top: 1px solid var(--fn); }
-  .fns span { display: block; margin-bottom: 7.5px; line-height: 1.75; }
+  .btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .fns { margin: 22.5px 0 0; padding: 7.5px 0 0; border-top: 1px solid var(--fn); }
+  .fns span { display: block; line-height: 1.75; }
   .fns a { font-size: 15px; }
   /* 각주 말풍선: 나무위키 popper(placement top)와 같은 값. 참조 위 가운데에 5px 띄우고 밑에 10×5 꼬리. 위에 자리가 없으면 아래로 */
   .popper { position: absolute; z-index: 510; max-width: 50%; padding: 15px; border-radius: 3px; background: var(--pop); box-shadow: 0 0 2px var(--pop-shadow); }
   .popper::after { content: ""; position: absolute; top: 100%; left: var(--arrow); margin-left: -5px; border: 5px solid transparent; border-bottom: 0; border-top-color: var(--pop-arrow); }
   .popper.below::after { top: auto; bottom: 100%; border: 5px solid transparent; border-top: 0; border-bottom-color: var(--pop-arrow); }
-  @media (max-width: 520px) { article { padding: 16px; } th { white-space: normal; } h1 { font-size: 30px; } }
+  @media (max-width: 1023px) { header { height: 48px; } }
+  @media (max-width: 720px) { header img { height: 24.4px; margin-left: -1.6px; } }
+  @media (max-width: 520px) { article { padding: 16px; } th { white-space: normal; overflow-wrap: normal; } h1 { font-size: 30px; } .btn.primary { flex: 1; } }
 </style>
 </head>
 <body>
@@ -66,10 +74,10 @@
 <article>
   <div class="title">
     <h1>나무타기</h1>
-    <div class="sub">최근 버전: <span id="ver"></span></div>
+    <div class="sub">최근 버전: v0.1.0</div>
   </div>
 
-  <p>나무타기에 오신 걸 환영해요.<br>링크를 하나씩 눌러 나무위키 문서 사이를 올라가는 게임이에요.<a class="ref" id="r1" href="#fn1">[1]</a><br>부담 없이 한 판 해 보세요.</p>
+  <p>나무타기에 오신 걸 환영해요.<br>링크를 하나씩 눌러 나무위키 문서 사이를 올라가는 <span style="white-space: nowrap">게임이에요.<a class="ref" id="r1" href="#fn1">[1]</a></span><br>부담 없이 한 판 해 보세요.</p>
 
   <details class="toc" id="toc" open>
     <summary></summary>

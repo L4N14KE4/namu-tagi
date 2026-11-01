@@ -1,3 +1,8 @@
+/* 진행 막대와 결과 카드의 글꼴(Pretendard, OFL, vendor/LICENSE-pretendard.txt). 나무위키 본문의 글꼴 목록에도 Pretendard가 있어서, 그 이름으로 등록하면 본문까지 바뀌므로 다른 이름을 쓴다.
+   Shadow DOM 안에서는 @font-face가 안 먹어서 문서 쪽인 여기에 둔다. 쓰는 글자가 화면에 나올 때(게임 중)만 받는다. */
+@font-face { font-family: NamutagiPretendard; font-weight: 400; font-display: swap; src: url("chrome-extension://__MSG_@@extension_id__/fonts/Pretendard-Regular.subset.woff2") format("woff2"); }
+@font-face { font-family: NamutagiPretendard; font-weight: 700; font-display: swap; src: url("chrome-extension://__MSG_@@extension_id__/fonts/Pretendard-Bold.subset.woff2") format("woff2"); }
+
 /* 게임 중인 탭(html[data-ng])에서만 우회로를 숨긴다. 클래스명은 해시라 href 기준. 역사 버튼의 주소는 /activity/. */
 html[data-ng] input[type="search"],
 html[data-ng] a[href^="/activity/"],

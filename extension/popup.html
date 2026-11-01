@@ -2,6 +2,9 @@
 <html lang="ko">
 <meta charset="utf-8">
 <style>
+  /* Pretendard(OFL, vendor/LICENSE-pretendard.txt). 500 이하는 Regular, 600 이상은 Bold로 나온다. */
+  @font-face { font-family: Pretendard; font-weight: 400; font-display: swap; src: url("fonts/Pretendard-Regular.subset.woff2") format("woff2"); }
+  @font-face { font-family: Pretendard; font-weight: 700; font-display: swap; src: url("fonts/Pretendard-Bold.subset.woff2") format("woff2"); }
   /* 나무위키 실측 색(2026-10, --espejo-* 변수). 막대·카드·일반 버튼은 나무위키 테마를 따르고, 주요 버튼은 두 테마 모두
      나무위키 초록(#00a69c), 경고 문구는 나무위키 위험색(#d64a58)이다.
      테마는 연결된 나무위키 탭의 설정을 따르고, 나무위키 탭이 아니면 시스템 설정을 따른다. */
@@ -12,7 +15,7 @@
   :root[data-theme="dark"] { --bar: #2e3033; --card: #1c1d1f; --text: #e0e0e0; --muted: #9a9a9a; --border: #3e3e3e;
           --btn: #000; --btn-hover: #1e1e1e; --hl: #325e4a; --soft: #26282b; --link: #ec9f19; }
   body { width: 320px; margin: 0; word-break: keep-all; overflow-wrap: anywhere; background: var(--card); color: var(--text); font-size: 14px;
-         font-family: "Pretendard JP", Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
+         font-family: Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
   header { display: flex; align-items: center; gap: 8px; background: var(--bar); color: #fff; padding: 10px 12px; }
   header img { display: block; height: 26px; margin-right: auto; }   /* 흰색 한 색 로고(design/wordmark.mjs가 만든 wordmark.svg) */
   header button { all: unset; cursor: pointer; height: 22px; border-radius: 11px; border: 1.5px solid rgba(255,255,255,.8);

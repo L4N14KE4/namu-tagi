@@ -34,7 +34,7 @@
 ### 네트워크 요청
 
 확장은 나무위키(namu.wiki) 페이지만 엽니다. 목표 문서를 확인하거나 무작위 목표를 고를 때 나무위키 문서를 보이지 않는 창으로 열 수 있습니다. 이때의 요청은 평소처럼 나무위키를 방문하는 것과 같으며, 나무위키의 개인정보처리방침이 적용됩니다.
-그 밖에는 공유하기에서 짧은 링크를 만들 때만 짧은 링크 서버(namutagi.com)로 요청을 보냅니다. 광고, 분석 도구, 원격 코드를 쓰지 않습니다.
+그 밖에는 공유하기에서 짧은 링크를 만들 때 짧은 링크 서버(namutagi.com)로 요청을 보냅니다. 설치할 때 환영 페이지(namutagi.com/welcome)를 새 탭으로 엽니다. 이때 서버(Cloudflare)는 보통의 웹사이트 접속처럼 요청을 처리합니다. 광고, 분석 도구, 원격 코드를 쓰지 않습니다.
 
 ### 도전장 링크를 만들 때 서버로 보내는 정보
 
@@ -99,7 +99,7 @@ To enforce the game rules, the extension processes the following inside namu.wik
 ### Network requests
 
 The extension only opens namu.wiki pages. To verify a target article or pick a random target, it may load a namu.wiki page in a hidden frame. These requests are the same as visiting namu.wiki normally, and namu.wiki's own privacy policy applies to them.
-Otherwise, it sends requests only to the short link server (namutagi.com) when you create a short link with Share. It uses no advertising, no analytics, and no remote code.
+Otherwise, it sends requests to the short link server (namutagi.com) when you create a short link with Share. On install, it opens the welcome page (namutagi.com/welcome) in a new tab, and the server (Cloudflare) handles that request like any ordinary website visit. It uses no advertising, no analytics, and no remote code.
 
 ### Information sent to the server when you create a challenge link
 

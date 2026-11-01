@@ -742,7 +742,7 @@
   // 색과 글꼴은 나무위키 실측값(2026-10, --espejo-* 변수). 막대와 카드는 나무위키 테마를 따르고, 주요 버튼은 두 테마 모두
   // 나무위키 초록(#00a69c), 경고 안내는 나무위키 위험색(#d64a58)이다.
   let $, host;
-  // 아이콘은 Lucide(ISC, vendor/LICENSE-lucide.txt)의 info, list. 환영 페이지(welcome.html)의 줄 아이콘도 같은 라이브러리다.
+  // 아이콘은 Lucide(ISC, vendor/LICENSE-lucide.txt)의 info, list. 다.
   const ICON_INFO = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>';
   const ICON_LIST = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h.01"/><path d="M3 12h.01"/><path d="M3 19h.01"/><path d="M8 5h13"/><path d="M8 12h13"/><path d="M8 19h13"/></svg>';
   const el = (tag, props = {}, ...kids) => { const e = Object.assign(document.createElement(tag), props); e.append(...kids); return e; };
@@ -754,7 +754,7 @@
         :host { all: initial; --bar: linear-gradient(to right, #00a69c, #00a69c, #28b472); --bar-text: #fff; --accent: #fff;
                 --card: #fff; --text: #212529; --muted: #6c757d; --border: #ccc; --btn: #fff; --btn-border: #dadada; --btn-hover: #efefef;
                 --primary: #00a69c; --danger: #d64a58; --soft: #eef0f2; --soft-border: rgba(0,0,0,.3);
-                font-family: "Pretendard JP", Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
+                font-family: NamutagiPretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
         :host { word-break: keep-all; overflow-wrap: anywhere; } /* 한글을 낱말 중간에서 끊지 않는다 */
         [hidden] { display: none !important; } /* 아래 all: unset·display 규칙이 hidden 속성을 덮지 않게 */
         :host([data-theme="dark"]) { --bar: #2e3033; --accent: #ec9f19; --card: #1c1d1f; --text: #e0e0e0; --muted: #9a9a9a;

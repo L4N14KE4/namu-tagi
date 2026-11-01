@@ -4,19 +4,25 @@
 const DOC = 'https://namu.wiki/w/*';
 const MENUS = { 'start:page': '이 문서에서 시작', 'goal:page': '이 문서를 목표로', 'start:link': '링크 문서에서 시작', 'goal:link': '링크 문서를 목표로' };
 
-// 설치하면 환영 페이지(welcome.html)를 새 탭으로 연다.
+// 설치하면 환영 페이지(namutagi.com/welcome, server/public/welcome.html)를 새 탭으로 연다.
 // 크롬은 확장을 설치할 때 이미 열려 있던 나무위키 탭에 content script를 넣지 않는다(그 탭을 새로고침해야 붙는다).
-// 그래서 첫 안내를 나무위키 탭에 의존하면 안 보일 수 있어서, 확장 자신의 페이지로 반드시 보여 준다.
+// 그래서 첫 안내를 나무위키 탭에 의존하면 안 보일 수 있어서, 새 탭으로 반드시 보여 준다.
 // 확장 새로고침(update)이나 크롬 업데이트에서는 열지 않는다. tabs.create는 별도 권한이 필요 없다.
 // 우클릭 메뉴는 설치와 업데이트 때마다 다시 만든다(크롬이 기억하므로 서비스 워커가 깰 때마다 만들 필요는 없다).
 chrome.runtime.onInstalled.addListener(({ reason }) => {
-  if (reason === 'install') chrome.tabs.create({ url: 'welcome.html' });
+  if (reason === 'install') chrome.tabs.create({ url: 'https://namutagi.com/welcome' });
   chrome.contextMenus.removeAll(() => {
     for (const [id, title] of Object.entries(MENUS)) {
       const link = id.endsWith(':link');
       chrome.contextMenus.create({ id, title, contexts: [link ? 'link' : 'page'], documentUrlPatterns: [link ? 'https://namu.wiki/*' : DOC], ...(link ? { targetUrlPatterns: [DOC] } : {}) });
     }
   });
+});
+
+// namutagi.com(manifest의 externally_connectable)과의 대화. 도전장 페이지는 'ping'으로 확장이 있는지 묻고, 환영 페이지는 버튼을 누르면 'introSeen'을 보낸다.
+chrome.runtime.onMessageExternal.addListener((msg, sender, reply) => {
+  if (msg === 'introSeen') chrome.storage.local.set({ introSeen: true });
+  reply(true);
 });
 
 chrome.contextMenus.onClicked.addListener(async ({ menuItemId, linkUrl, pageUrl }) => {
