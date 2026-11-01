@@ -19,8 +19,12 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
   });
 });
 
-// namutagi.com(manifest의 externally_connectable)과의 대화. 도전장 페이지는 'ping'으로 확장이 있는지 묻고, 환영 페이지는 버튼을 누르면 'introSeen'을 보낸다.
+// namutagi.com(manifest의 externally_connectable)과의 대화. 도전장 페이지는 'ping'으로 확장이 있는지 묻고, 환영 페이지는 버튼을 누르면 'introSeen'과 'openPopup'을 보낸다.
 chrome.runtime.onMessageExternal.addListener((msg, sender, reply) => {
+  if (msg === 'openPopup') { // 크롬 127 미만이나 창이 없으면 실패한다. 그러면 페이지가 나무위키로 보낸다
+    Promise.resolve().then(() => chrome.action.openPopup()).then(() => reply(true), () => reply(false));
+    return true;
+  }
   if (msg === 'introSeen') chrome.storage.local.set({ introSeen: true });
   reply(true);
 });

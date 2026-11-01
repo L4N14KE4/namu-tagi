@@ -548,8 +548,13 @@
     ? ['#00a69c', '#28b472', '#ec9f19', '#d64a58', '#0275d8']
     : ['#00a69c', '#28b472', '#ec9f19', '#d64a58', '#fefc8c', '#ffffff'];
   const cc = o => fire && fire({ colors: palette(), disableForReducedMotion: true, ...o });
-  // 내 기록 경신과 도전장 승리 모두 화면 아래 가운데에서 위로 한 번
-  const burst = () => cc({ particleCount: 140, angle: 90, spread: 100, startVelocity: 75, origin: { x: .5, y: 1 } });
+  // 내 기록 경신과 도전장 승리 모두 화면 아래 가운데에서 위로 한 번.
+  // 조각이 오르는 높이는 속도로 정해진다(픽셀 단위, 대략 속도 × 10 - 120). 화면 높이에 맞춰야 큰 화면에서 아래쪽만 터지거나 작은 화면에서 천장을 넘지 않는다.
+  // 높이 900px에서 예전 값(속도 75, 140개)과 같고, 그보다 크면 조각 수와 크기와 떠 있는 시간도 같이 늘린다.
+  const burst = () => {
+    const h = innerHeight, k = Math.max(1, h / 900);
+    cc({ particleCount: Math.min(320, Math.round(140 * k)), angle: 90, spread: 100, startVelocity: (.7 * h + 120) / 10, scalar: Math.min(2, k), ticks: Math.round(200 * k), origin: { x: .5, y: 1 } });
+  };
   // 도전장은 시간이 빠른 쪽이 이긴다. 시간이 같을 때만 단계가 적은 쪽.
   // 도전장 시간은 화면에 보이는 1/100초로 비교한다(짧은 링크가 1/100초까지만 싣는다).
   const csOf = ms => Math.floor(ms / 10);
