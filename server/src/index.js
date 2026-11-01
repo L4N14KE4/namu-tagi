@@ -1,8 +1,7 @@
 // 나무타기 짧은 링크 서버. 의존 패키지 없음.
 //   POST /c      확장이 도전장을 맡기고 짧은 주소의 id를 받는다(본문은 JSON 글자, text/plain이라 preflight가 없다)
 //   GET  /:id    도전장 페이지. 미리보기 봇은 OG 태그를 읽고, 확장이 있는 사람은 바로 나무위키 도전장(#ng=… 짧은 형식)으로 넘어가고, 없는 사람은 설치 안내를 본다.
-//   GET  /       웹스토어로 보낸다
-//   public/      /welcome(설치 환영 페이지), /og.png, /wordmark.svg, /fonts/(wrangler.toml의 assets). 있는 파일은 Worker보다 먼저 나간다
+//   public/      /(랜딩 페이지, index.html), /welcome(설치 환영 페이지), /privacy, /shots/, /og.png, /wordmark.svg, /fonts/(wrangler.toml의 assets). 있는 파일은 Worker보다 먼저 나간다
 // 리다이렉트 주소는 저장한 값으로만 만들어서 아무 곳으로나 보내는 데 쓸 수 없다.
 const STORE_URL = 'https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi';
 // 확장의 콘텐츠 스크립트는 나무위키 페이지의 출처로 보낸다. 다른 사이트가 방문자 브라우저로 도전장을 찍어 내지 못하게 POST는 이 출처만 받는다.
@@ -219,7 +218,6 @@ export default {
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
     if (pathname === '/c' && req.method === 'POST') return create(req, env);
     if (req.method !== 'GET' && req.method !== 'HEAD') return new Response('Method Not Allowed', { status: 405 });
-    if (pathname === '/') return Response.redirect(STORE_URL, 302);
     const m = pathname.match(/^\/([0-9A-Za-z]{6})$/);
     return m ? show(m[1], env, ctx) : notFound();
   },

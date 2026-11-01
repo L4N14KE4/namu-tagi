@@ -83,6 +83,17 @@ try {
     await evaluate(s, SHORT ? `chrome.runtime.sendMessage(${JSON.stringify(extId)}, 'introSeen')` : `seen()`);
   }
 
+  // 랜딩 페이지: 확장이 있으면 버튼이 나무위키로 바뀐다(사본은 ID가 달라 그대로). 사진과 글꼴이 다 받아진다.
+  const { targetId: landId } = await send('Target.createTarget', { url: `${BASE}/` });
+  const ls = await attach(landId);
+  const land = await waitFor(() => evaluate(ls, `document.readyState === 'complete' && document.querySelector('.go')?.textContent`));
+  const wanted = SHORT ? '크롬 확장 추가하기' : '나무위키로 가기';
+  const landBtn = await waitFor(() => evaluate(ls, `document.querySelector('.go').textContent === ${JSON.stringify(wanted)} && document.querySelector('.go').textContent`), 4000);
+  check(`랜딩 버튼이 "${wanted}"`, landBtn, land);
+  const broken = await evaluate(ls, `(async () => { document.querySelectorAll('img[loading=lazy]').forEach(i => { i.loading = 'eager'; }); await new Promise(r => setTimeout(r, 2500)); return [...document.images].filter(i => !i.naturalWidth).map(i => i.src).join(); })()`);
+  check('랜딩 사진이 모두 나옴', broken === '', broken);
+  await send('Target.closeTarget', { targetId: landId });
+
   // 2. 우클릭 메뉴 네 개가 만들어졌다(없는 id는 update가 실패한다)
   const sws = await attach(sw.targetId);
   const menus = await evaluate(sws, `Promise.all(['start:page','goal:page','start:link','goal:link','nope'].map(id => chrome.contextMenus.update(id, {}).then(() => 'ok', e => 'err')))`);

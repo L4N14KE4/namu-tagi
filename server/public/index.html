@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>나무타기: 나무위키 파도타기 게임</title>
+<meta name="description" content="시작 문서에서 목표 문서까지 본문 링크만 눌러 찾아가는 나무위키 파도타기 게임이에요.">
+<link rel="icon" href="og.png">
+<meta property="og:type" content="website"><meta property="og:site_name" content="나무타기">
+<meta property="og:title" content="나무타기: 나무위키 파도타기 게임"><meta property="og:description" content="시작 문서에서 목표 문서까지 본문 링크만 눌러 찾아가는 게임이에요.">
+<meta property="og:image" content="https://namutagi.com/og-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
+<style>
+  /* Pretendard(OFL, fonts/LICENSE.txt)를 직접 담았다. 굵기 둘, 500 이하는 Regular, 600 이상은 Bold로 나온다.
+     글자 조각 여러 개로 나누는 방식은 요청이 많아 Cloudflare 요청 제한(IP당 10초 10번)에 걸릴 수 있어서 파일 하나짜리 subset을 쓴다. */
+  @font-face { font-family: Pretendard; font-weight: 400; font-display: swap; src: url("fonts/Pretendard-Regular.subset.woff2") format("woff2"); }
+  @font-face { font-family: Pretendard; font-weight: 700; font-display: swap; src: url("fonts/Pretendard-Bold.subset.woff2") format("woff2"); }
+  /* namutagi.com 첫 화면. 값은 환영 페이지와 같다. 나무위키 문서(2026-10, 사과 문서)에서 잰 값을 그대로 쓴다:
+     본문 15px/1.5, 제목 36px, 소제목 27px(밑줄, 번호는 링크색), 목차 상자(details, "목차"는 18.75px), 표 칸 5px 10px, 점 목록, 각주 위 가로줄.
+     색은 밝은 화면 / 어두운 화면 둘 다 실측. 어느 쪽인지는 컴퓨터 설정을 따른다.
+     2026-10-29에 다시 재서 맞춤: 소제목 왼쪽 접기 화살표, 목차 화살표(굵고 회색, 접으면 왼쪽), 어두운 화면 각주 줄 색, 각주 말풍선.
+     나무위키 화살표는 Ionicons(소제목)와 Font Awesome(목차) 글꼴이지만, 여기서는 Lucide chevron을 같은 크기로 잘라 쓴다(extension/vendor/LICENSE-lucide.txt). */
+  :root { --page: #f5f5f5; --bg: #fff; --text: #212529; --sub: rgba(33,37,41,.75); --box: #ccc; --rule: #ccc; --cell: #ddd; --fn: #777; --link: #0275d8; --pop: #fff; --pop-shadow: rgba(0,0,0,.5); --pop-arrow: #ddd;
+          --soft: #f5f5f5; --primary: #00a69c; --soft-border: rgba(0,0,0,.3); --bar: linear-gradient(to right, #00a69c, #00a69c, #28b472); }
+  @media (prefers-color-scheme: dark) { :root { --page: #000; --bg: #1c1d1f; --text: #e0e0e0; --sub: rgba(224,224,224,.75); --box: #444; --rule: #383b40; --cell: #383b40; --fn: #383840; --pop: #383b40; --pop-shadow: rgba(255,255,255,.5); --pop-arrow: #ccc;
+          --link: #ec9f19; --soft: #26282b; --soft-border: rgba(255,255,255,.34); --bar: #2e3033; } }
+  html { background: var(--page); }
+  body { margin: 0; color: var(--text); font-family: Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+         font-size: 15px; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }
+  /* 막대 높이는 나무위키와 같은 56px(1024px 미만은 48px). 로고는 그림 속 글자 폭이 나무위키와 같게(116px, 720px 이하는 103px) */
+  header { display: flex; align-items: center; height: 56px; background: var(--bar); }
+  header div, article { box-sizing: border-box; width: min(897px, calc(100% - 32px)); margin-left: auto; margin-right: auto; }   /* 막대 안 로고와 문서 상자의 왼쪽 선이 어떤 폭에서도 같은 자리 */
+  header img { display: block; height: 27.5px; margin-left: -1.8px; }   /* 로고 그림 자체의 왼쪽 여백(40/618.2 × 27.5px)만큼 당겨서 마크가 상자 선에 닿게 */
+  article { margin-top: 16px; margin-bottom: 40px; padding: 24px; background: var(--bg); border: 1px solid var(--box); border-radius: 6px; }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .title { margin: 0 0 24px; }
+  h1 { margin: 0; font-size: 36px; line-height: 36px; font-weight: 700; }
+  .sub { margin-top: 8px; font-size: 14.4px; line-height: 1.5; color: var(--sub); }
+  h2 { margin: 32.4px 0 21.6px; padding-bottom: 5px; font-size: 27px; line-height: 40.5px; font-weight: 700; border-bottom: 1px solid var(--rule); cursor: pointer; }
+  /* 소제목 접기 화살표: 나무위키는 21.6px 글자 칸(19.44×38.88)을 왼쪽에 띄우고 오른쪽 8px. 누르면 밑 내용을 접고 화살표가 오른쪽을 본다(welcome.js). */
+  h2::before { content: ""; float: left; width: 19.44px; height: 38.88px; margin: 0 8px 0 3.2px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 19.44px no-repeat; }
+  h2.folded::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E"); }
+  p { margin: 0 0 22.5px; }
+  .ref { font-size: 12px; line-height: 0; vertical-align: super; }
+  details.toc { display: inline-block; margin: 0 0 22.5px 5px; padding: 12px 20px 12px 0; border: 1px solid var(--rule); }
+  details.toc[open] { padding-bottom: 16px; }   /* 나무위키는 펼쳤을 때만 안쪽에 4px가 더 있다 */
+  /* 목차 화살표: 높이 14px, 제목 줄 오른쪽 끝. 펼치면 아래, 접으면 왼쪽(나무위키와 같음). 접은 제목 줄 폭은 60px */
+  details.toc summary { margin: 0 0 12px 14px; padding-right: 22.5px; font-size: 18.75px; cursor: pointer; list-style: none;
+                        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") 100% 50% / auto 14px no-repeat; }
+  details.toc:not([open]) summary { margin-bottom: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m15 18-6-6 6-6'/%3E%3C/svg%3E"); }
+  details.toc summary::-webkit-details-marker { display: none; }
+  details.toc summary::before { content: "목차"; }
+  details.toc div { padding-left: 20px; }
+  details.toc span { display: block; }
+  table { margin: 0 0 22.5px; width: 100%; border-collapse: collapse; }
+  th, td { padding: 5px 10px; text-align: left; vertical-align: top; border: 1px solid var(--cell); }
+  th { width: 1%; white-space: nowrap; background: var(--soft); }
+  ul { margin: 6px 0 22.5px 22.5px; padding: 0 0 0 8px; list-style: outside disc; }
+  li { margin: 6px 0; }
+  .actions { display: flex; align-items: center; gap: 10px; margin: 0; }
+  .btn { display: inline-block; text-decoration: none; text-align: center; flex: none; font: inherit; font-size: 16px; font-weight: 600; padding: 8px 20px; border: 1px solid var(--soft-border); border-radius: .3rem; background: var(--soft); color: var(--text); cursor: pointer; }
+  .btn:hover { filter: brightness(1.08); text-decoration: none; }
+  .btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .fns { margin: 22.5px 0 0; padding: 7.5px 0 0; border-top: 1px solid var(--fn); }
+  .fns span { display: block; line-height: 1.75; }
+  .fns a { font-size: 15px; }
+  /* 각주 말풍선: 나무위키 popper(placement top)와 같은 값. 참조 위 가운데에 5px 띄우고 밑에 10×5 꼬리. 위에 자리가 없으면 아래로 */
+  .popper { position: absolute; z-index: 510; max-width: 50%; padding: 15px; border-radius: 3px; background: var(--pop); box-shadow: 0 0 2px var(--pop-shadow); }
+  .popper::after { content: ""; position: absolute; top: 100%; left: var(--arrow); margin-left: -5px; border: 5px solid transparent; border-bottom: 0; border-top-color: var(--pop-arrow); }
+  .popper.below::after { top: auto; bottom: 100%; border: 5px solid transparent; border-top: 0; border-bottom-color: var(--pop-arrow); }
+  @media (max-width: 1023px) { header { height: 48px; } }
+  @media (max-width: 720px) { header img { height: 24.4px; margin-left: -1.6px; } }
+  @media (max-width: 520px) { article { padding: 16px; } th { white-space: normal; overflow-wrap: normal; } h1 { font-size: 30px; } .btn.primary { flex: 1; } }
+
+  /* 스크린샷: 다크 모드면 어두운 그림으로(picture). 게임 화면은 960x600으로 찍었다. */
+  figure { margin: 0 0 22.5px; }
+  figure img { display: block; width: 100%; height: auto; border: 1px solid var(--cell); box-sizing: border-box; }
+  figcaption { margin-top: 6px; font-size: 14.4px; color: var(--sub); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22.5px; }
+  .two figure { margin: 0; }
+  .pops { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 22.5px; }
+  .pops figure { margin: 0; width: 280px; max-width: 100%; }
+  .lead { font-size: 17px; }
+  ol { margin: 6px 0 22.5px 22.5px; padding: 0 0 0 8px; }
+  @media (max-width: 720px) { .two { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .actions .btn { flex: 1; } }
+</style>
+</head>
+<body>
+<header><div><img src="wordmark.svg" alt="나무타기"></div></header>
+<article>
+  <div class="title">
+    <h1>나무타기</h1>
+    <div class="sub">나무위키 파도타기 게임</div>
+  </div>
+
+  <p class="lead">시작 문서에서 목표 문서까지, 본문 링크만 눌러 찾아가 보세요.<a class="ref" id="r1" href="#fn1">[1]</a><br>적은 단계, 짧은 시간으로 도착하면 잘한 거예요.</p>
+
+  <div class="actions" style="margin-bottom: 22.5px"><a class="btn primary go" href="https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi">크롬 확장 추가하기</a></div>
+
+  <figure><picture><source media="(prefers-color-scheme: dark)" srcset="shots/play-dark.webp"><img src="shots/play-light.webp" width="960" height="600" alt="게임 중인 나무위키 화면. 위쪽 진행 막대에 목표, 단계, 남은 시간이 보이고 그 밑에 목표 문서 설명이 있다"></picture><figcaption>사과 문서에서 사과나무 문서로 가는 판이에요. 진행 막대에 목표, 단계, 시간이 보여요.</figcaption></figure>
+
+  <details class="toc" id="toc" open>
+    <summary></summary>
+    <div>
+      <span><a href="#s1">1</a>. 문제 고르기</span>
+      <span><a href="#s2">2</a>. 더 어렵게 하기</span>
+      <span><a href="#s3">3</a>. 친구와 겨루기</span>
+      <span><a href="#s4">4</a>. 내 기록 보기</span>
+      <span><a href="#s5">5</a>. 계정 없이 바로 시작해요</span>
+    </div>
+  </details>
+
+  <h2 id="s1"><a href="#toc">1.</a> 문제 고르기</h2>
+  <div>
+    <table>
+      <tr><th>오늘의 문제</th><td>하루에 하나, 모두에게 같은 문제가 나와요.<br>규칙도 같아서 친구와 비교하기 좋아요.</td></tr>
+      <tr><th>직접 출제</th><td>시작 문서와 목표 문서를 직접 정해요.<br>나무위키 검색창처럼 문서 이름을 추천해 줘요.</td></tr>
+      <tr><th>무작위</th><td>난이도만 고르면 시작과 목표를 대신 정해 줘요.</td></tr>
+    </table>
+    <div class="pops">
+      <figure><picture><source media="(prefers-color-scheme: dark)" srcset="shots/popup-today-dark.webp"><img src="shots/popup-today-light.webp" loading="lazy" alt="팝업의 오늘의 문제 탭"></picture><figcaption>오늘의 문제</figcaption></figure>
+      <figure><picture><source media="(prefers-color-scheme: dark)" srcset="shots/popup-custom-dark.webp"><img src="shots/popup-custom-light.webp" loading="lazy" alt="팝업의 직접 출제 탭"></picture><figcaption>직접 출제</figcaption></figure>
+    </div>
+    <p>나무위키에서 우클릭해서 지금 문서를 시작이나 목표로 바로 넣을 수도 있어요.</p>
+  </div>
+
+  <h2 id="s2"><a href="#toc">2.</a> 더 어렵게 하기</h2>
+  <div>
+    <p>규칙을 켜면 같은 문제도 전혀 다른 판이 돼요.</p>
+    <ul>
+      <li>뒤로가기 금지, 같은 문서 재방문 금지</li>
+      <li>틀 상자, 분류, 각주 링크 금지</li>
+      <li>허브 문서 금지: 대한민국, 미국처럼 어디서나 닿는 문서를 못 지나가요.</li>
+      <li>제한 시간, 최대 단계</li>
+    </ul>
+    <p>게임 중에는 검색창, 랜덤 버튼, 찾기(Ctrl+F)처럼 건너뛰는 길을 막아요.<br>다른 탭으로 가면 경고가 뜨고, 한 번 더 가면 실격이에요.</p>
+  </div>
+
+  <h2 id="s3"><a href="#toc">3.</a> 친구와 겨루기</h2>
+  <div>
+    <p>도착하면 내 기록이 담긴 도전장 링크를 만들 수 있어요.<br>받은 친구는 같은 문제, 같은 규칙으로 도전해요.<br>시간이 빠른 쪽이 이기고, 같으면 단계가 적은 쪽이 이겨요.<br>상대의 경로는 이겨야 볼 수 있어요.</p>
+    <div class="two">
+      <figure><picture><source media="(prefers-color-scheme: dark)" srcset="shots/invite-dark.webp"><img src="shots/invite-light.webp" width="960" height="600" loading="lazy" alt="도전장 링크를 열면 뜨는 수락 창"></picture><figcaption>도전장을 받으면 어떤 판인지 보고 도전해요.</figcaption></figure>
+      <figure><picture><source media="(prefers-color-scheme: dark)" srcset="shots/win-dark.webp"><img src="shots/win-light.webp" width="960" height="600" loading="lazy" alt="도전장에서 이겼을 때의 결과 카드와 폭죽"></picture><figcaption>이기면 폭죽이 터지고 상대 경로가 열려요.</figcaption></figure>
+    </div>
+  </div>
+
+  <h2 id="s4"><a href="#toc">4.</a> 내 기록 보기</h2>
+  <div>
+    <p>도착률, 평균 단계와 시간, 연속 도착을 팝업에서 볼 수 있어요.<br>지난 판의 이동 경로와 문서마다 머문 시간도 남아요.</p>
+    <div class="pops"><figure><picture><source media="(prefers-color-scheme: dark)" srcset="shots/popup-records-dark.webp"><img src="shots/popup-records-light.webp" loading="lazy" alt="팝업의 기록 화면. 도착률과 연속 도착, 최근 판이 보인다"></picture><figcaption>기록 화면(예시)</figcaption></figure></div>
+  </div>
+
+  <h2 id="s5"><a href="#toc">5.</a> 계정 없이 바로 시작해요</h2>
+  <div>
+    <p>기록은 내 브라우저에만 저장돼요.<br>도전장 링크를 만들 때만 그 판의 정보를 서버로 보내요.<br>자세한 내용은 <a href="/privacy">개인정보처리방침</a>을 확인해 주세요.</p>
+  </div>
+
+  <div class="actions"><a class="btn primary go" href="https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi">크롬 확장 추가하기</a></div>
+
+  <div class="fns">
+    <span id="fn1"><a href="#r1">[1]</a> 나무타기는 나무위키 및 umanle S.R.L.과 관계없는 비공식 게임이에요.</span>
+  </div>
+</article>
+<script>
+  // 확장이 있으면 설치 버튼 대신 나무위키로 보낸다(externally_connectable).
+  const EXT = ['fiadjnefijhjdngbdcaoahcdhkbnckfi', 'bljboledcipggdpgboobagbhobhlgijb'];
+  Promise.any(EXT.map(async id => { if (await chrome.runtime.sendMessage(id, 'ping') !== true) throw 0; })).then(() => {
+    document.querySelectorAll('.go').forEach(a => { a.href = 'https://namu.wiki/'; a.textContent = '나무위키로 가기'; });
+  }, () => {});
+  for (const h of document.querySelectorAll('h2')) h.onclick = e => { if (!e.target.closest('a')) h.nextElementSibling.hidden = h.classList.toggle('folded'); };
+  const ref = document.getElementById('r1'), pop = Object.assign(document.createElement('div'), { className: 'popper', hidden: true, innerHTML: document.getElementById('fn1').innerHTML });
+  document.body.append(pop);
+  let hideTimer;
+  const showPop = () => {
+    clearTimeout(hideTimer); pop.hidden = false;
+    const r = ref.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight, cx = r.left + r.width / 2;
+    const left = Math.min(Math.max(5, cx - w / 2), document.documentElement.clientWidth - w - 5), below = r.top - h - 5 < 0;
+    pop.classList.toggle('below', below);
+    pop.style.left = (left + scrollX) + 'px';
+    pop.style.top = ((below ? r.bottom + 5 : r.top - h - 5) + scrollY) + 'px';
+    pop.style.setProperty('--arrow', (cx - left) + 'px');
+  };
+  for (const el of [ref, pop]) {
+    el.addEventListener('mouseenter', showPop);
+    el.addEventListener('mouseleave', () => { hideTimer = setTimeout(() => { pop.hidden = true; }, 100); });
+  }
+</script>
+</body>
+</html>
