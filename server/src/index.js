@@ -135,7 +135,7 @@ const STYLE = `
 `;
 const page = (title, desc, main, script = '') => `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark"><title>${escHtml(title)}</title><link rel="icon" href="/og.png"><meta property="og:type" content="website"><meta property="og:site_name" content="나무타기">
-<meta property="og:title" content="${escHtml(title)}"><meta property="og:description" content="${escHtml(desc)}"><meta property="og:image" content="https://namutagi.com/og.png"><meta property="og:image:width" content="400"><meta property="og:image:height" content="400"><meta name="twitter:card" content="summary">
+<meta property="og:title" content="${escHtml(title)}"><meta property="og:description" content="${escHtml(desc)}"><meta property="og:image" content="https://namutagi.com/og-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 <style>${STYLE}</style></head>
 <body><header><div><img src="/wordmark.svg" alt="나무타기"></div></header><article>${main}</article>${script}</body></html>`;
 
@@ -201,14 +201,14 @@ const challengeMain = (c, to) => {
 };
 
 const show = async (id, env, ctx) => {
-  const key = new Request(`https://namutagi.com/${id}?page1`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
+  const key = new Request(`https://namutagi.com/${id}?page2`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
   const hit = await caches.default.match(key);
   if (hit) return hit;
   const row = await env.DB.prepare('SELECT * FROM challenges WHERE id = ?').bind(id).first();
   if (!row) return notFound();
   const c = { ...row, rules: JSON.parse(row.rules), path: JSON.parse(row.path), times: JSON.parse(row.times) };
   const to = new URL(challengeLink(c)).href;
-  const res = html(page(`${c.by}님의 도전장`, `${cut(c.start)} → ${cut(c.goal)}, ${c.steps}단계 ${took(c.ms)}. 나무타기 확장이 있으면 같은 문제에 바로 도전할 수 있어요.`, challengeMain(c, to), SCRIPT(to)), 200, KEEP);
+  const res = html(page(`${c.by}님의 도전장`, `${cut(c.start)} → ${cut(c.goal)}, ${c.steps}단계 ${took(c.ms)}. 같은 문제에 도전해 보세요.`, challengeMain(c, to), SCRIPT(to)), 200, KEEP);
   ctx.waitUntil(caches.default.put(key, res.clone()));
   return res;
 };

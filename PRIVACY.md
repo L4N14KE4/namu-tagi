@@ -1,6 +1,6 @@
 # 나무타기 개인정보처리방침 / Privacy Policy
 
-시행일 / Effective date: 2026-10-29
+시행일 / Effective date: 2026-11-02
 
 [한국어](#한국어) | [English](#english)
 
@@ -11,7 +11,7 @@
 
 ### 브라우저 안에만 저장하는 정보
 
-다음 정보는 사용자의 크롬 브라우저 안(`chrome.storage.local`)에만 저장됩니다. 공유하기 때 서버로 보내는 정보는 아래 따로 적었습니다.
+다음 정보는 사용자의 크롬 브라우저 안(`chrome.storage.local`)에만 저장됩니다. 공유하기 때 서버로 보내는 정보는 아래에 따로 적었습니다.
 
 - 게임 기록: 시작 문서, 목표 문서, 지나간 나무위키 문서 이름과 문서마다 걸린 시간, 단계, 결과, 켜 둔 규칙 (최근 200판)
 - 닉네임: 공유하기에서 직접 입력한 이름, 또는 자동으로 만든 이름("명랑한 다람쥐" 등)
@@ -55,13 +55,13 @@
 
 ### 제3자 제공
 
-사용자 정보를 판매하거나 제3자에게 제공하지 않으며, 게임 이외의 목적으로 쓰지 않습니다. 짧은 링크 서버의 운영(저장, 전송)은 Cloudflare, Inc.에 맡깁니다.
+사용자 정보를 판매하거나 제3자에게 제공하지 않으며, 게임 이외의 목적으로 쓰지 않습니다. 짧은 링크 서버의 운영(저장, 전송)은 Cloudflare, Inc.의 서비스를 이용합니다.
 
 ### 삭제
 
 - 팝업의 **기록** 화면에서 **기록 지우기**를 누르면 게임 기록이 지워집니다.
 - 확장을 삭제하면 브라우저에 저장된 모든 정보가 함께 지워집니다.
-- 짧은 링크 서버에 저장된 도전장은 문의 메일로 짧은 링크 주소를 알려 주시면 지웁니다.
+- 짧은 링크 서버에 저장된 도전장은 문의 메일로 짧은 링크 주소를 알려 주시면 지워드립니다.
 
 ### 문의
 
@@ -120,13 +120,13 @@ The link reaches other people only if you paste and send it yourself.
 
 ### Third parties
 
-User information is never sold or transferred to third parties, and is not used for any purpose other than the game. Operation of the short link server (storage and transmission) is entrusted to Cloudflare, Inc.
+User information is never sold or transferred to third parties, and is not used for any purpose other than the game. Operation of the short link server (storage and transmission) uses the services of Cloudflare, Inc.
 
 ### Deletion
 
 - Press **기록 지우기** (Clear records) on the **기록** (Records) screen of the popup to delete game records.
 - Removing the extension deletes all information stored in the browser.
-- Challenges stored on the short link server are deleted if you send the short link address to the contact email.
+- If you send the short link address to the contact email, we will delete the challenge stored on the short link server.
 
 ### Contact
 

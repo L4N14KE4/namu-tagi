@@ -163,10 +163,7 @@ Namutagi is a game that runs inside namu.wiki pages. The content script must loa
 
 ### 개인정보처리방침 URL (Privacy policy)
 
-- 내용은 저장소 맨 위 `PRIVACY.md`(한국어, 영어)에 썼습니다.
-- 저장소가 비공개라 지금은 링크가 열리지 않습니다. 공개된 주소가 필요합니다.
-  - 저장소를 공개하면: `https://github.com/L4N14KE4/namu-tagi/blob/main/PRIVACY.md`
-  - 비공개로 두면: `PRIVACY.md`를 공개 Gist로 올리고 그 주소를 넣습니다.
+- 주소: `https://namutagi.com/privacy` (한국어, 영어). 원문은 저장소 맨 위 `PRIVACY.md`이고 `server/public/privacy.html`과 같아야 합니다.
 
 ---
 

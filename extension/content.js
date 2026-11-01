@@ -614,6 +614,23 @@
     else { state.recorded = true; await saveRecord(null); }
   };
 
+  // 게임은 하나만 돈다. 판을 시작하는 탭이 activeGame에 자기 run을 적고, 다른 탭의 진행 중이거나 카운트다운 중인 판은 그걸 보고 끝난다.
+  // 수락을 기다리는 도전장은 아직 시작한 게 아니라 그대로 둔다. 잠들어 있던 탭은 다시 불릴 때 ready에서 확인한다.
+  // ponytail: 탭 복제는 sessionStorage가 복사돼 run이 같아 서로 못 끝낸다. 판 id가 겹치는 기존 한계와 같다.
+  const OTHER_TAB = '다른 탭에서 새 게임을 시작했어요';
+  const superseded = async active => {
+    if (state.invite || !active || active === state.run) return;
+    if (state.status === 'starting') fail(OTHER_TAB);
+    else if (state.status === 'playing' && state.path.length > 1) lose(OTHER_TAB);
+    else if (state.status === 'playing') { state.recorded = true; fail(OTHER_TAB); await saveRecord(null); } // abandon과 같다: 이동 전이면 기록을 지운다
+  };
+  try { chrome.storage.onChanged.addListener((changes, area) => { if (area === 'local' && changes.activeGame) superseded(changes.activeGame.newValue); }); } catch {}
+  const claimGame = () => {
+    if (state.run) return;
+    state.run = crypto.randomUUID(); save(state);
+    try { chrome.storage.local.set({ activeGame: state.run }); } catch {}
+  };
+
   // 없는 문서: 새 탭 첫 로드는 HTTP 404가 오고, 같은 출처 이동(location.replace, 새로고침)은 200 껍데기라 문구로 본다.
   const notFound = () => performance.getEntriesByType('navigation')[0]?.responseStatus >= 400 || notFoundText(articleRoot());
   // 껍데기 로드에서는 DOMContentLoaded 시점에 canonical·h1이 아직 없다. 생길 때까지 기다린다.
@@ -653,6 +670,7 @@
     settle(async () => {
       const doc = currentDoc();
       if (state.status === 'starting') {
+        claimGame();
         // 무작위 시작이 못 쓰는 문서(없음·다른 이름공간·목표와 같음)면 세 번까지 다시 뽑는다.
         if (state.rs && (!doc || notFound() || banned(doc) || doc === state.goal) && (state.tries || 0) < 3)
           return location.replace('/random' + hashFor(state, { tries: String((state.tries || 0) + 1) }));
@@ -735,6 +753,7 @@
   const ready = async () => {
     // 경로를 켜 둘지는 마지막에 고른 값을 기억한다(경로 버튼). 이어 하는 판은 그 판의 값을 쓴다.
     if (state.pathOn === undefined) { try { ({ hudPath: state.pathOn } = await chrome.storage.local.get('hudPath')); } catch {} }
+    if (state.run) { try { await superseded((await chrome.storage.local.get('activeGame')).activeGame); } catch {} }
     mount(); render(); watchChrome(); if (state.invite) invite(); else begin();
   };
 
@@ -993,7 +1012,8 @@
     return (daily ? `나무타기 ${dayLabel(state.day)}의 문제\n` : '') +
       `${nick}님이 ${state.start} 문서에서 ${state.goal} 문서로 ${took(state.finishedAt)} 만에 ${steps}단계로 이동했어요.\n` +
       (ruleItems(state.rules).length ? `조건: ${ruleItems(state.rules).join(', ')}\n` : '') +
-      `같은 문제에 도전해 보세요 ⚔️ ${link}\n도전하려면 확장을 먼저 설치해야 해요.\n나무타기 확장 설치 👉 ${STORE_URL}`; // 확장이 없으면 링크는 그냥 나무위키 문서로 열린다
+      `같은 문제에 도전해 보세요 ⚔️\n${link}` +
+      (link.startsWith(SHORT_BASE) ? '' : `\n도전하려면 확장을 먼저 설치해야 해요.\n나무타기 확장 설치 👉\n${STORE_URL}`); // 짧은 링크는 열면 설치 안내가 나온다. 긴 링크(서버에 못 닿았을 때)는 나무위키로 바로 가서 안내할 곳이 없다
   };
   // 닉네임을 비워 두면 쓰는 자동 이름("명랑한 다람쥐"). 처음 한 번 만들어 저장해 두고, 직접 쓴 닉네임이 있으면 그것을 쓴다.
   const NICK_ADJ = ['명랑한', '용감한', '느긋한', '씩씩한', '부지런한', '엉뚱한', '수줍은', '듬직한', '재빠른', '졸린', '배고픈', '호기심 많은',

@@ -106,6 +106,31 @@ try {
   check('팝업에 Pretendard', popFont === true, popFont);
   await send('Target.closeTarget', { targetId: popId });
 
+  // 새 게임을 시작하면 다른 탭의 판이 끝난다. 이동 전이면 기록이 지워지고, 이동 뒤면 진 판으로 남는다.
+  const GAME = 'https://namu.wiki/w/%EC%82%AC%EA%B3%BC#ng-goal=%EA%B0%90&mode=custom';
+  const openGame = async () => {
+    const { targetId } = await send('Target.createTarget', { url: GAME });
+    const s = await attach(targetId);
+    await waitFor(async () => (await evaluate(s, `JSON.parse(sessionStorage.getItem('ng_state') || 'null')?.status`)) === 'playing', 30000);
+    return { targetId, s, st: () => evaluate(s, `JSON.parse(sessionStorage.getItem('ng_state') || 'null')`) };
+  };
+  const records = () => evaluate(sws, `chrome.storage.local.get('records').then(o => o.records || [])`);
+  const g1 = await openGame(), id1 = (await g1.st()).id;
+  const g2 = await openGame();
+  const ended1 = await waitFor(async () => { const x = await g1.st(); return x.status === 'invalid' && x; }, 8000);
+  check('새 게임을 시작하면 이전 판이 끝남', ended1 && (await g2.st()).status === 'playing', ended1?.reason);
+  await sleep(500);
+  check('이동 전이면 이전 판 기록을 지움', !(await records()).some(r => r.id === id1));
+  const moved = await evaluate(g2.s, `(() => { const a = document.querySelector('a[href="/w/%EC%82%AC%EA%B3%BC%EB%82%98%EB%AC%B4"]') || [...document.querySelectorAll('a[href^="/w/"]')].find(a => decodeURIComponent(a.getAttribute('href').split('#')[0]) === '/w/사과나무'); if (!a) return false; a.click(); return true; })()`);
+  await waitFor(async () => (await g2.st()).path.length > 1, 15000);
+  const id2 = (await g2.st()).id, g3 = await openGame();
+  const ended2 = await waitFor(async () => { const x = await g2.st(); return x.status === 'invalid' && x; }, 8000);
+  await sleep(500);
+  const rec2 = (await records()).find(r => r.id === id2);
+  check('이동 뒤면 이전 판을 진 판으로 남김', moved && ended2 && rec2 && !rec2.win, rec2?.reason);
+  check('끝난 판 화면에 이유가 나옴', await evaluate(g2.s, `document.getElementById('ng-host').shadowRoot.textContent.includes('다른 탭에서 새 게임을 시작했어요')`));
+  for (const g of [g1, g2, g3]) await send('Target.closeTarget', { targetId: g.targetId });
+
   // 4. 나무위키에서 한 판: 사과 → 사과나무(뒤로가기 금지)
   const { targetId: gameId } = await send('Target.createTarget', { url: 'https://namu.wiki/w/%EC%82%AC%EA%B3%BC#ng-goal=%EC%82%AC%EA%B3%BC%EB%82%98%EB%AC%B4&mode=custom&nb=1' });
   const gs = await attach(gameId);
@@ -130,8 +155,9 @@ try {
   await evaluate(gs, `(() => { const r = document.getElementById('ng-host').shadowRoot, i = r.querySelector('.share input'); i.value = ${JSON.stringify(NICK)};
     [...r.querySelectorAll('.share button')].find(b => b.textContent === '복사하기').click(); })()`);
   const text = await waitFor(() => evaluate(gs, `(() => { const r = document.getElementById('ng-host').shadowRoot; return !/만드는 중/.test(r.querySelector('.share .muted').textContent) && r.querySelector('.share textarea').value; })()`), 8000);
-  const link = text && (text.match(/⚔️ (\S+)/) || [])[1];
+  const link = text && (text.match(/⚔️\n(\S+)/) || [])[1];
   check(SHORT ? '공유 글에 짧은 링크' : '공유 글에 도전장 링크', link && (!SHORT || link.startsWith(SHORT + '/')), `${link?.length}자 ${link}`);
+  check('짧은 링크 공유 글에 설치 안내 없음', !link?.startsWith(SHORT || 'https://namutagi.com') || !text.includes('확장을 먼저'), text?.split('\n').pop());
   if (link) {
     const { targetId: inv } = await send('Target.createTarget', { url: link });
     const is = await attach(inv);

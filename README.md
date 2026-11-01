@@ -118,6 +118,8 @@ mkdir -p dist && git archive --format=zip -o dist/namu-tagi-v$(node -p "require(
 
 ## 개인정보
 
+자세한 내용은 [개인정보처리방침](https://namutagi.com/privacy)을 확인해 주세요.
+
 - 기록, 닉네임, 규칙 설정은 브라우저 안(`chrome.storage.local`)에만 저장됩니다. 확장을 지우면 함께 지워집니다.
 - 공유하기로 도전장 링크를 만들 때만 닉네임, 문제, 경로, 기록, 익명 ID를 짧은 링크 서버(namutagi.com)로 보냅니다. 그 밖의 사용자 정보나 이용 기록은 수집하거나 보내지 않습니다.
 - 나무위키(namu.wiki) 페이지에서만 동작하고, 네트워크 요청은 나무위키와 짧은 링크 서버(namutagi.com, 설치할 때 열리는 환영 페이지 포함)로만 보냅니다.
