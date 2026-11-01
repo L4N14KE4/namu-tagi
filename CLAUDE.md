@@ -15,16 +15,16 @@ git 저장소: GitHub `L4N14KE4/namu-tagi`(비공개, 2026-10-29에 namu-game에
 
 ## 남은 일 (2026-10-29 대화를 마치며)
 
-main은 2026-10-30에 보안 수정까지 푸시됨. 짧은 링크 서버는 namutagi.com에 배포돼 동작 중(버전 8ea81d1d).
+main은 2026-11-02에 푸시됨. 서버는 namutagi.com에 배포돼 동작 중(버전 96ea14f3).
 
-- **v0.1.0 릴리스가 낡았다.** 태그 `v0.1.0`은 `2ccfc09`(우클릭 메뉴까지)에 있고 첨부 zip도 그때 것이다. 그 뒤의 긴 제목 두 줄, 환영 페이지, 짧은 링크가 빠져 있다. 바꾸려면 `git tag -f v0.1.0 HEAD && git push -f origin v0.1.0`과 `gh release upload v0.1.0 dist/namu-tagi-v0.1.0.zip --clobber`(zip은 `git archive --format=zip -o dist/namu-tagi-v0.1.0.zip HEAD:extension`). 릴리스 설명은 처음 0.1.0 그대로 둔다. 태그 강제 푸시는 Claude Code 자동 승인이 막으니 사용자에게 허락을 받거나 사용자가 직접 돌린다.
+- **v0.1.0 릴리스가 낡았다.** 태그 `v0.1.0`은 `2ccfc09`(우클릭 메뉴까지)에 있고 첨부 zip도 그때 것이다. 그 뒤의 긴 제목 두 줄, 환영 페이지, 짧은 링크, 웹 환영 페이지와 글꼴이 빠져 있다. 바꾸려면 `git tag -f v0.1.0 HEAD && git push -f origin v0.1.0`과 `gh release upload v0.1.0 dist/namu-tagi-v0.1.0.zip --clobber`(zip은 `git archive --format=zip -o dist/namu-tagi-v0.1.0.zip HEAD:extension`). 릴리스 설명은 처음 0.1.0 그대로 둔다. 태그 강제 푸시는 Claude Code 자동 승인이 막으니 사용자에게 허락을 받거나 사용자가 직접 돌린다.
 - **사용자 확인 대기**: 미리보기 카드는 글자는 뜨는 것을 사용자가 확인했고, 그림(og:image)을 넣었다. 새 도전장 링크로 카카오톡, 디스코드에 그림이 뜨는지.
 - **요청 제한**: `POST /c`는 Worker ratelimit 바인딩(IP당 60초 10번, 느슨함)으로 걸었다. 정확히 막으려면 Cloudflare 대시보드 규칙(무료는 10초 기간)을 더한다.
 - **서버 보안 수정 배포됨(2026-10-30, 버전 8ea81d1d, 사용자가 직접 배포)**: 실제 서버에서 Origin 없음·다른 출처 403, `..\`·`../`·방향 문자 문서 400, 운영자·폭 없는 공백 이름 400, 봇 카드 200(og:image), 브라우저 302, og.png 200 확인. `npx wrangler deploy`는 Claude Code 자동 승인이 [Production Deploy]로 막으니 다음에도 사용자가 돌리거나 허용 규칙을 넣는다.
 - **서비스 멈추기 대비**: 2026-10-30 Cloudflare 대시보드 Security rules에 요청 제한 규칙 "짧은 링크 폭주 막기"(식 `not cf.bot_management.verified_bot`, IP당 10초 10번, Block 10초, 무료라 규칙 1개가 꽉 참)를 걸었다(사용자 허락 뒤 Claude in Chrome으로). 확인: 없는 id GET을 연달아 보내면 13번째쯤부터 429, 12초 뒤 풀림. Worker 하루 무료 한도(10만, UTC 0시 초기화)는 IP 여러 개로 나눠 오면 여전히 바닥날 수 있다. 확실히는 Workers 유료, 급할 때 Under Attack Mode(켜는 동안 메신저 미리보기와 공유 POST가 안 됨).
 - **닉네임 변형**: 금지 낱말 목록이라 "운영쟈" 같은 변형은 못 막는다. 문제 도전장은 D1에서 지운다.
 - **웹스토어 대시보드(사용자)**: `store/listing.md`대로 contextMenus 권한 이유, 데이터 사용(개인 식별 정보 체크로 바뀜), storage 설명을 옮긴다. 저장소가 비공개라 개인정보처리방침 공개 주소가 없다. `namutagi.com/privacy`로 PRIVACY.md를 보여 주는 길도 있다(아직 안 함, 제안만).
-- **배포 대기(2026-11-02 커밋)**: 웹 환영 페이지, 도전장 설치 안내, Pretendard를 넣었다. 서버는 사용자가 `cd server && npx wrangler deploy`를 돌려야 한다. 배포 뒤 `node e2e/release-test.mjs`로 실제 서버와 확인(남은 시험 도전장 지우기), 사용자 크롬은 확장 새로고침 필요. 웹 환영 페이지의 "최근 버전"은 직접 적어서 출시 뒤 버전을 올릴 때 `server/public/welcome.html`도 고쳐 배포한다.
+- **웹 환영 페이지, 도전장 설치 안내, Pretendard 배포됨(2026-11-02, 버전 96ea14f3, 사용자가 직접 배포)**: 실제 서버와 새 프로필로 `node e2e/release-test.mjs` 21/21, 짧은 링크 3번 연속 확장이 있으면 바로 나무위키 수락 창까지 확인. 첫 번째 시험 한 번은 짧은 링크를 못 받아 긴 링크로 대신했다(D1에 줄이 없음, 원인 모름, 다시 안 나옴). 웹스토어 공개 전이라 설치하러 갔다 돌아오는 길은 시험 못 했다. 웹 환영 페이지의 "최근 버전"은 직접 적어서 출시 뒤 버전을 올릴 때 `server/public/welcome.html`도 고쳐 배포한다.
 - **나중에**: 리더보드(서버 D1의 challenges와 익명 ID `pid` 바탕), 구글 로그인(선택 기능, 익명 ID 기록을 계정에 연결). 사용자와 논의만 했다.
 - **주의**: `node e2e/release-test.mjs`는 실제 서버에 "시험 a|b&c+d" 도전장을 남긴다. 끝나면 지운다(명령은 아래 파일 지도의 `../server/` 칸). 이 맥은 새 도메인의 DNS "없음" 답을 캐시해 터미널 curl이 한동안 `--resolve namutagi.com:443:172.67.158.67`이 필요했다(크롬은 괜찮음).
 
