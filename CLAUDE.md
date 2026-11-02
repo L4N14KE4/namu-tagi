@@ -15,9 +15,9 @@ git 저장소: GitHub `L4N14KE4/namu-tagi`(비공개, 2026-10-29에 namu-game에
 
 ## 남은 일 (2026-10-29 대화를 마치며)
 
-main은 2026-11-02에 푸시됨. 서버는 namutagi.com에 배포돼 동작 중(버전 120d0786, 로고 링크까지).
+main은 2026-11-02에 푸시됨(20ce63f, 런칭 전 정리와 시작 버튼). 서버는 namutagi.com에 배포돼 동작 중(버전 39e8f2c0, 실제 서버 release-test 30/30, 시험 도전장은 지웠다).
 
-- **v0.1.0 릴리스**: 2026-11-02에 태그와 zip을 `983d39c`로 옮겼다(폭죽, devtools, 팝업 열기까지). 이 뒤에 `extension/`을 바꾸면 다시 낡는다. 다시 맞추려면 `git archive --format=zip -o dist/namu-tagi-v0.1.0.zip HEAD:extension`, `git tag -f v0.1.0 HEAD && git push -f origin v0.1.0`, `gh release upload v0.1.0 dist/namu-tagi-v0.1.0.zip --clobber`. 릴리스 설명은 처음 0.1.0 그대로 둔다. 태그 강제 푸시는 Claude Code 자동 승인이 막으니 사용자가 직접 돌린다.
+- **v0.1.0 릴리스**: 태그와 첨부 zip은 아직 `983d39c`(폭죽, devtools, 팝업 열기까지)에 있다. `dist/namu-tagi-v0.1.0.zip`은 20ce63f로 다시 만들어 두었고(위키레이싱 이름, startOnNamu), 사용자가 태그를 옮기고 올리면 된다. 이 뒤에 `extension/`을 바꾸면 다시 낡는다. 다시 맞추려면 `git archive --format=zip -o dist/namu-tagi-v0.1.0.zip HEAD:extension`, `git tag -f v0.1.0 HEAD && git push -f origin v0.1.0`, `gh release upload v0.1.0 dist/namu-tagi-v0.1.0.zip --clobber`. 릴리스 설명은 처음 0.1.0 그대로 둔다. 태그 강제 푸시는 Claude Code 자동 승인이 막으니 사용자가 직접 돌린다.
 - **사용자 확인 대기**: 미리보기 카드는 글자는 뜨는 것을 사용자가 확인했고, 그림(og:image)을 넣었다. 새 도전장 링크로 카카오톡, 디스코드에 그림이 뜨는지.
 - **요청 제한**: `POST /c`는 Worker ratelimit 바인딩(IP당 60초 10번, 느슨함)으로 걸었다. 정확히 막으려면 Cloudflare 대시보드 규칙(무료는 10초 기간)을 더한다.
 - **서버 보안 수정 배포됨(2026-10-30, 버전 8ea81d1d, 사용자가 직접 배포)**: 실제 서버에서 Origin 없음·다른 출처 403, `..\`·`../`·방향 문자 문서 400, 운영자·폭 없는 공백 이름 400, 봇 카드 200(og:image), 브라우저 302, og.png 200 확인. `npx wrangler deploy`는 Claude Code 자동 승인이 [Production Deploy]로 막으니 다음에도 사용자가 돌리거나 허용 규칙을 넣는다.
