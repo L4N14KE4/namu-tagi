@@ -108,9 +108,12 @@ const check = () => {
 $('clear').onclick = () => { $('start').value = $('goal').value = ''; check(); };
 
 // 지금 탭이 나무위키면 연결하고 "이 문서로"를 켠다. activeTab 덕분에 팝업을 연 탭의 주소만 읽을 수 있다.
-chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+// 환영 페이지의 시작 버튼으로 열린 팝업은 주소를 못 읽는다. 대신 background.js가 남긴 startTab이 그 탭이면 나무위키 대문이니 연결한다.
+chrome.tabs.query({ active: true, currentWindow: true }, async ([tab]) => {
   const url = tab?.url || '';
-  if (/^https:\/\/namu\.wiki\//.test(url)) connect(tab.id);
+  const { startTab } = await chrome.storage.session.get('startTab');
+  if (startTab) chrome.storage.session.remove('startTab');
+  if (/^https:\/\/namu\.wiki\//.test(url) || (!url && tab && tab.id === startTab)) connect(tab.id);
   else $('hint').textContent = '나무위키 탭에서 열면 문서 이름 추천, "이 문서로", 목표 문서 확인을 쓸 수 있어요.';
   const doc = docOf(url);
   for (const b of document.querySelectorAll('[data-fill]')) {

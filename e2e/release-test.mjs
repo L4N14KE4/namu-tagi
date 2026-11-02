@@ -6,7 +6,7 @@
 // SHORT_BASE=http://localhost:8787 을 주면 확장 사본의 서버 주소를 바꿔 로컬 서버(server/, npx wrangler dev --local)로 시험한다.
 // 사본은 확장 ID가 달라 페이지가 확장을 못 찾으므로 도전장은 설치 안내가 뜨는지 보고 나무위키 링크를 직접 연다. 끝까지 보려면 배포 뒤 SHORT_BASE 없이 저장소의 extension/로 돌린다.
 // 새 임시 프로필이라 사용자 크롬 기록에는 판이 남지 않는다. 나무위키에 실제로 접속한다.
-// 정식 크롬 137+는 --load-extension을 무시해서 Chrome for Testing이 필요하다: CHROME 환경 변수, e2e/browsers(npm run chrome), ~/.cache/puppeteer 순으로 찾는다.
+// 정식 크롬 137+는 --load-extension을 무시해서 Chrome for Testing이 필요하다: CHROME 환경 변수, e2e/browsers, ~/.cache/puppeteer 순으로 찾는다(설치: npx @puppeteer/browsers install chrome@stable --path e2e/browsers).
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -29,7 +29,7 @@ if (SHORT) { // 사본을 만들어 SHORT_BASE만 바꾼다
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'namu-tagi-'));
 const findCft = d => { try { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (f === 'Google Chrome for Testing' && fs.statSync(p).isFile()) return p; if (fs.statSync(p).isDirectory()) { const r = findCft(p); if (r) return r; } } } catch {} return null; };
 const CFT = process.env.CHROME || findCft(path.join(here, 'browsers')) || findCft(path.join(os.homedir(), '.cache/puppeteer/chrome'));
-if (!CFT) { console.error('Chrome for Testing이 없습니다. e2e에서 npm install && npm run chrome 을 실행하세요.'); process.exit(2); }
+if (!CFT) { console.error('Chrome for Testing이 없습니다. npx @puppeteer/browsers install chrome@stable --path e2e/browsers 를 실행하세요.'); process.exit(2); }
 const PORT = 9333;
 const VERSION = JSON.parse(fs.readFileSync(path.join(ext, 'manifest.json'), 'utf8')).version;
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36'; // 헤드리스 표시(HeadlessChrome)를 뺀 보통 UA
@@ -81,20 +81,25 @@ try {
     const ping = await evaluate(s, `chrome.runtime.sendMessage(${JSON.stringify(extId)}, 'ping')`);
     check('페이지가 물으면 확장이 답함', ping === true, ping);
     await evaluate(s, SHORT ? `chrome.runtime.sendMessage(${JSON.stringify(extId)}, 'introSeen')` : `seen()`);
-    // 실제 서버면 버튼을 직접 누른다. 사본은 확장 ID가 달라 버튼이 확장을 못 찾으므로 메시지를 직접 보낸다.
-    const opened = SHORT ? await evaluate(s, `chrome.runtime.sendMessage(${JSON.stringify(extId)}, 'openPopup')`)
+    // 첫 판 시작하기: 실제 서버면 버튼을 직접 누른다. 사본은 확장 ID가 달라 버튼이 확장을 못 찾으므로 메시지를 직접 보낸다.
+    const sent = SHORT ? await evaluate(s, `chrome.runtime.sendMessage(${JSON.stringify(extId)}, 'startOnNamu')`)
       : await evaluate(s, `document.getElementById('go').click(), true`);
-    await sleep(1500);
-    const popupUp = (await targets()).some(t => t.url === `chrome-extension://${extId}/popup.html`);
-    check('환영 페이지가 부탁하면 팝업이 열림', opened === true && popupUp, `답 ${opened}, 팝업 ${popupUp}`);
-    for (const t of await targets()) if (t.url === `chrome-extension://${extId}/popup.html`) await send('Target.closeTarget', { targetId: t.targetId }).catch(() => {});
+    const pop = await waitFor(async () => (await targets()).find(t => t.url === `chrome-extension://${extId}/popup.html`), 25000);
+    const moved = (await targets()).find(t => t.targetId === welcome.targetId)?.url || '';
+    check('첫 판 시작하기가 나무위키로 보내고 팝업을 엶', sent === true && moved.startsWith('https://namu.wiki/') && pop, `답 ${sent}, 탭 ${moved.slice(0, 40)}, 팝업 ${!!pop}`);
+    if (pop) {
+      const pps = await attach(pop.targetId);
+      const linked = await waitFor(() => evaluate(pps, `port !== null && document.getElementById('hint').textContent === '' && 'ok'`), 3000);
+      check('그 팝업이 나무위키 탭에 연결됨', linked, await evaluate(pps, `JSON.stringify([port !== null, document.getElementById('hint').textContent])`));
+      await send('Target.closeTarget', { targetId: pop.targetId }).catch(() => {});
+    }
   }
 
   // 랜딩 페이지: 확장이 있으면 버튼이 나무위키로 바뀐다(사본은 ID가 달라 그대로). 사진과 글꼴이 다 받아진다.
   const { targetId: landId } = await send('Target.createTarget', { url: `${BASE}/` });
   const ls = await attach(landId);
   const land = await waitFor(() => evaluate(ls, `document.readyState === 'complete' && document.querySelector('.go')?.textContent`));
-  const wanted = SHORT ? '크롬 확장 추가하기' : '나무위키로 가기';
+  const wanted = SHORT ? '크롬 확장 추가하기' : '나무위키에서 시작하기';
   const landBtn = await waitFor(() => evaluate(ls, `document.querySelector('.go').textContent === ${JSON.stringify(wanted)} && document.querySelector('.go').textContent`), 4000);
   check(`랜딩 버튼이 "${wanted}"`, landBtn, land);
   const broken = await evaluate(ls, `(async () => { document.querySelectorAll('img[loading=lazy]').forEach(i => { i.loading = 'eager'; }); await new Promise(r => setTimeout(r, 2500)); return [...document.images].filter(i => !i.naturalWidth).map(i => i.src).join(); })()`);

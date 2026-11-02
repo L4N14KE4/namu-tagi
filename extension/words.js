@@ -1,4 +1,4 @@
-// 자동 생성: node scripts/build-words.mjs (2026-10-27). 직접 고치지 말고 scripts/candidates.txt를 고친 뒤 다시 만든다.
+// 자동 생성: node scripts/build-words.mjs (2026-10-27). 직접 고치지 말고 scripts/data/candidates.txt를 고친 뒤 다시 만든다.
 // 정식 문서 이름만 담는다(넘겨주기 이름은 정식 이름으로 바꿈). 난이도는 '문서' 이름공간 역링크 수로 나눈 것(경계 고정).
 // 쉬움 역링크 1615~119447, 보통 677~1614, 어려움 100~676. 역링크 100개 미만과 동음이의어 문서는 뺐다.
 var LR_WORDS = {

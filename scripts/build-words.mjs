@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const EXT = join(here, '..', 'extension');
-const REPORT = join(here, 'words-report.json');
+const REPORT = join(here, 'data', 'words-report.json');
 const OUT = join(EXT, 'words.js');
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36';
 // 이보다 적게 연결된 문서는 도달이 너무 어려워 뺀다(0.25.1에서 30 → 100).
@@ -57,7 +57,7 @@ async function inspect(input) {
   return { input, status: 200, canonical, disambig, backlinks: m ? Number(m[1].replace(/,/g, '')) : null };
 }
 
-const candidates = [...new Set(readFileSync(join(here, 'candidates.txt'), 'utf8').split('\n').map(s => s.trim()).filter(s => s && !s.startsWith('#')))];
+const candidates = [...new Set(readFileSync(join(here, 'data', 'candidates.txt'), 'utf8').split('\n').map(s => s.trim()).filter(s => s && !s.startsWith('#')))];
 const resume = process.argv.includes('--resume') && existsSync(REPORT);
 const report = resume ? JSON.parse(readFileSync(REPORT, 'utf8')) : [];
 const done = new Set(report.map(r => r.input));
@@ -77,7 +77,7 @@ const usable = [...new Map(report
 const built = new Date().toISOString().slice(0, 10);
 const range = t => `${t.at(-1)?.backlinks}~${t[0]?.backlinks}`;
 const tiers = { easy: usable.filter(r => r.backlinks >= EASY_MIN), normal: usable.filter(r => r.backlinks < EASY_MIN && r.backlinks >= NORMAL_MIN), hard: usable.filter(r => r.backlinks < NORMAL_MIN) };
-writeFileSync(OUT, `// 자동 생성: node scripts/build-words.mjs (${built}). 직접 고치지 말고 scripts/candidates.txt를 고친 뒤 다시 만든다.
+writeFileSync(OUT, `// 자동 생성: node scripts/build-words.mjs (${built}). 직접 고치지 말고 scripts/data/candidates.txt를 고친 뒤 다시 만든다.
 // 정식 문서 이름만 담는다(넘겨주기 이름은 정식 이름으로 바꿈). 난이도는 '문서' 이름공간 역링크 수로 나눈 것(경계 고정).
 // 쉬움 역링크 ${range(tiers.easy)}, 보통 ${range(tiers.normal)}, 어려움 ${range(tiers.hard)}. 역링크 ${MIN_BACKLINKS}개 미만과 동음이의어 문서는 뺐다.
 var LR_WORDS = ${JSON.stringify({ built, easy: tiers.easy.map(r => r.canonical), normal: tiers.normal.map(r => r.canonical), hard: tiers.hard.map(r => r.canonical) }, null, 1)};

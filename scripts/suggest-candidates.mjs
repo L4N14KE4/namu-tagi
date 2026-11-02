@@ -3,8 +3,8 @@
 // 1) 지난 N달의 월별 조회수 상위 1000개(wikimedia pageviews API)를 받아 합친다. 한 달만 많이 읽힌 뉴스성 문서를 거르려고
 //    min-months달 이상 상위에 오른 것만 남기고, 특수·분류 같은 이름공간, 날짜·연도, 목록, 동음이의 문서는 뺀다.
 // 2) 후보와 지금 풀(words.js)의 분류(위키백과 분류)를 받아 분야를 짐작하고, 분포를 견줘 보여 준다. 성인·범죄 같은 분류가 걸린 문서는 '주의' 표시.
-// 3) 지금 풀과 허브에 없는 새 후보만 scripts/wiki-candidates.tsv에 쓴다(제목, 분야, 상위에 오른 달 수, 조회수 합, 주의).
-// 받은 응답은 scripts/wiki-cache.json에 남겨 다시 돌릴 때 건너뛴다. 요청은 하나씩 차례로 보내고 사이에 쉰다.
+// 3) 지금 풀과 허브에 없는 새 후보만 scripts/data/wiki-candidates.tsv에 쓴다(제목, 분야, 상위에 오른 달 수, 조회수 합, 주의).
+// 받은 응답은 scripts/data/wiki-cache.json에 남겨 다시 돌릴 때 건너뛴다. 요청은 하나씩 차례로 보내고 사이에 쉰다.
 // ponytail: 분야는 분류 이름의 낱말로 짐작한 것이라 틀릴 수 있다(분포를 보려는 용도). 풀에 넣기 전에 목록을 사람이 훑는다.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -14,8 +14,8 @@ const here = dirname(fileURLToPath(import.meta.url));
 const num = (name, def) => { const i = process.argv.indexOf('--' + name); return i < 0 ? def : Number(process.argv[i + 1]); };
 const MONTHS = num('months', 12), MIN_MONTHS = num('min-months', 8), TOP = num('top', 600);
 const UA = 'namu-game-research/0.1 (hobby project; serial low-rate requests)';
-const CACHE = join(here, 'wiki-cache.json');
-const OUT = join(here, 'wiki-candidates.tsv');
+const CACHE = join(here, 'data', 'wiki-cache.json');
+const OUT = join(here, 'data', 'wiki-candidates.tsv');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const cache = existsSync(CACHE) ? JSON.parse(readFileSync(CACHE, 'utf8')) : { pageviews: {}, cats: {} };
 const save = () => writeFileSync(CACHE, JSON.stringify(cache));

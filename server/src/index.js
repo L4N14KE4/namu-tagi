@@ -9,7 +9,6 @@ const ORIGIN = 'https://namu.wiki';
 const CORS = { 'Access-Control-Allow-Origin': ORIGIN, 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
 const RULES = ['nb', 'nt', 'nc', 'nf', 'nh', 'nr'];
 const DIFFS = ['easy', 'normal', 'hard', 'wild'];
-const EXT = ['fiadjnefijhjdngbdcaoahcdhkbnckfi', 'bljboledcipggdpgboobagbhobhlgijb']; // 웹스토어, 개발용(압축해제). public/welcome.js에도 있다
 const ID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS } });
@@ -95,59 +94,32 @@ const create = async (req, env) => {
 };
 
 // 도전장 페이지와 없는 페이지. 메신저 미리보기 봇은 OG 태그만 읽고, 사람에게는 스크립트가 확장이 있는지 물어 있으면 바로 나무위키로 보낸다.
-// 모양은 public/welcome.html과 같은 값(나무위키 문서에서 잰 값)이다. Cloudflare 요청 제한(IP당 10초 10번)이 있어 첫 방문 요청을 줄이려고 CSS와 스크립트를 안에 담는다(문서, 로고, 글꼴 2개, 아이콘).
+// 공통 모양과 스크립트는 public/site.css, public/site.js(다른 페이지와 같다). 여기에는 이 페이지에만 다른 것만 둔다.
+// 첫 방문 요청은 문서, site.css, site.js, 로고, 아이콘 다섯 번이다(글꼴은 대시보드 요청 제한에서 빠진다).
 const STYLE = `
-  /* Pretendard(OFL, fonts/LICENSE.txt). 500 이하는 Regular, 600 이상은 Bold로 나온다. */
-  @font-face { font-family: Pretendard; font-weight: 400; font-display: swap; src: url("/fonts/Pretendard-Regular.subset.woff2") format("woff2"); }
-  @font-face { font-family: Pretendard; font-weight: 700; font-display: swap; src: url("/fonts/Pretendard-Bold.subset.woff2") format("woff2"); }
-  :root { --page: #f5f5f5; --bg: #fff; --text: #212529; --box: #ccc; --cell: #ddd; --fn: #777; --link: #0275d8; --pop: #fff; --pop-shadow: rgba(0,0,0,.5); --pop-arrow: #ddd;
-          --soft: #f5f5f5; --primary: #00a69c; --bar: linear-gradient(to right, #00a69c, #00a69c, #28b472); }
-  @media (prefers-color-scheme: dark) { :root { --page: #000; --bg: #1c1d1f; --text: #e0e0e0; --box: #444; --cell: #383b40; --fn: #383840; --pop: #383b40; --pop-shadow: rgba(255,255,255,.5); --pop-arrow: #ccc;
-          --link: #ec9f19; --soft: #26282b; --bar: #2e3033; } }
-  html { background: var(--page); }
-  body { margin: 0; color: var(--text); font-family: Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
-         font-size: 15px; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }
-  header { display: flex; align-items: center; height: 56px; background: var(--bar); }
-  header div, article { box-sizing: border-box; width: min(897px, calc(100% - 32px)); margin-left: auto; margin-right: auto; }
-  header img { display: block; height: 27.5px; margin-left: -1.8px; }
-  article { margin-top: 16px; margin-bottom: 40px; padding: 24px; background: var(--bg); border: 1px solid var(--box); border-radius: 6px; }
-  a { color: var(--link); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  h1 { margin: 0 0 24px; font-size: 36px; line-height: 1.25; font-weight: 700; }
-  p { margin: 0 0 22.5px; }
+  h1 { margin: 0 0 24px; line-height: 1.25; }
   [data-s] > p:last-child { margin-bottom: 0; }
-  .ref { font-size: 12px; line-height: 0; vertical-align: super; }
-  table { margin: 0 0 22.5px; border-collapse: collapse; }
-  th, td { padding: 5px 10px; text-align: left; vertical-align: top; border: 1px solid var(--cell); }
-  th { white-space: nowrap; background: var(--soft); }
-  td span, .nb { white-space: nowrap; }
-  .btn { box-sizing: border-box; display: inline-block; font: inherit; font-size: 16px; font-weight: 600; padding: 8px 20px; border: 1px solid var(--primary); border-radius: .3rem; background: var(--primary); color: #fff; text-align: center; cursor: pointer; }
-  .btn:hover { filter: brightness(1.08); text-decoration: none; }
-  .fns { margin: 22.5px 0 0; padding: 7.5px 0 0; border-top: 1px solid var(--fn); line-height: 1.75; }
-  .popper { position: absolute; z-index: 510; max-width: 50%; padding: 15px; border-radius: 3px; background: var(--pop); box-shadow: 0 0 2px var(--pop-shadow); }
-  .popper::after { content: ""; position: absolute; top: 100%; left: var(--arrow); margin-left: -5px; border: 5px solid transparent; border-bottom: 0; border-top-color: var(--pop-arrow); }
-  .popper.below::after { top: auto; bottom: 100%; border: 5px solid transparent; border-top: 0; border-bottom-color: var(--pop-arrow); }
-  [hidden] { display: none !important; }
-  @media (max-width: 1023px) { header { height: 48px; } }
-  @media (max-width: 720px) { header img { height: 24.4px; margin-left: -1.6px; } }
-  @media (max-width: 520px) { article { padding: 16px; } h1 { font-size: 30px; } .btn { display: block; width: 100%; } }
+  table { width: auto; }
+  th { width: auto; }
+  td span, .nb { white-space: nowrap; }   /* 규칙 하나, "게임이에요.[1]"은 끊지 않는다 */
+  @media (max-width: 520px) { .btn { display: block; width: 100%; } }
 `;
 const page = (title, desc, main, script = '') => `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark"><title>${escHtml(title)}</title><link rel="icon" href="/og.png"><meta property="og:type" content="website"><meta property="og:site_name" content="나무타기">
 <meta property="og:title" content="${escHtml(title)}"><meta property="og:description" content="${escHtml(desc)}"><meta property="og:image" content="https://namutagi.com/og-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
-<style>${STYLE}</style></head>
-<body><header><div><a href="/"><img src="/wordmark.svg" alt="나무타기"></a></div></header><article>${main}</article>${script}</body></html>`;
+<link rel="stylesheet" href="/site.css"><style>${STYLE}</style></head>
+<body><header><div><a href="/"><img src="/wordmark.svg" alt="나무타기"></a></div></header><article>${main}</article><script src="/site.js"></script>${script}</body></html>`;
 
 const notFound = () => html(page('나무타기', '없는 페이지예요. 주소를 다시 확인해 주세요.', `<h1>나무타기</h1>
-<p>없는 페이지예요.<br>주소를 다시 확인해 주세요.</p><a class="btn" href="/">홈으로 가기</a>`), 404); // 없는 도전장과 없는 주소를 가르지 않는다
+<p>없는 페이지예요.<br>주소를 다시 확인해 주세요.</p><a class="btn primary" href="/">홈으로 가기</a>`), 404); // 없는 도전장과 없는 주소를 가르지 않는다
 
-// 확장은 manifest의 externally_connectable로 namutagi.com의 'ping'에 답한다. 없으면 바로 실패한다(없는 ID, chrome.runtime 없음).
+// 확장은 manifest의 externally_connectable로 namutagi.com의 'ping'에 답한다(ask는 site.js). 없으면 바로 실패한다(없는 ID, chrome.runtime 없음).
 // 폰과 크롬 계열이 아닌 브라우저(userAgentData.mobile이 false가 아님)는 설치할 수 없어서 PC 안내를 보여 준다.
 // 설치하러 갔다가 이 탭으로 돌아오면 다시 불러서 확인한다.
 const SCRIPT = to => `<script>
-const TO = ${JSON.stringify(to).replace(/</g, '\\u003c')}, EXT = ${JSON.stringify(EXT)};
+const TO = ${JSON.stringify(to).replace(/</g, '\\u003c')};
 const show = s => { document.querySelectorAll('[data-s]').forEach(d => { d.hidden = d.dataset.s !== s; }); document.querySelector('.fns').hidden = s === 'have'; };
-Promise.race([Promise.any(EXT.map(async id => { if (await chrome.runtime.sendMessage(id, 'ping') !== true) throw 0; })), new Promise((_, no) => setTimeout(no, 1500))]).then(() => {
+Promise.race([ask('ping'), new Promise((_, no) => setTimeout(no, 1500))]).then(() => {
   show('have'); location.replace(TO);
 }, () => {
   if (navigator.userAgentData?.mobile !== false) return show('phone');
@@ -160,25 +132,6 @@ copy.onclick = async () => {
   copy.textContent = '복사했어요';
   setTimeout(() => { copy.textContent = '링크 복사'; }, 2000);
 };
-/* 각주 [1]에 마우스를 올리면 말풍선(public/welcome.js와 같다) */
-const pop = Object.assign(document.createElement('div'), { className: 'popper', hidden: true, innerHTML: document.getElementById('fn1').innerHTML });
-document.body.append(pop);
-let hideTimer;
-const hidePop = () => { hideTimer = setTimeout(() => { pop.hidden = true; }, 100); };
-document.querySelectorAll('.ref').forEach(ref => {
-  ref.addEventListener('mouseenter', () => {
-    clearTimeout(hideTimer); pop.hidden = false;
-    const r = ref.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight, cx = r.left + r.width / 2;
-    const left = Math.min(Math.max(5, cx - w / 2), document.documentElement.clientWidth - w - 5), below = r.top - h - 5 < 0;
-    pop.classList.toggle('below', below);
-    pop.style.left = (left + scrollX) + 'px';
-    pop.style.top = ((below ? r.bottom + 5 : r.top - h - 5) + scrollY) + 'px';
-    pop.style.setProperty('--arrow', (cx - left) + 'px');
-  });
-  ref.addEventListener('mouseleave', hidePop);
-});
-pop.addEventListener('mouseenter', () => clearTimeout(hideTimer));
-pop.addEventListener('mouseleave', hidePop);
 </script>`;
 
 // 규칙 글. extension/content.js의 ruleItems, DIFF와 같은 말을 쓴다.
@@ -192,15 +145,15 @@ const challengeMain = (c, to) => {
   return `<h1>${by}님의 도전장</h1>
 <p><b>${escHtml(cut(c.start))}</b> 문서에서 <b>${escHtml(cut(c.goal))}</b> 문서로 이동하는 판이에요.</p>
 <table><tr><th>기록</th><td>${c.steps}단계, ${took(c.ms)}</td></tr>${rules.length ? `<tr><th>규칙</th><td>${rules.map((r, i) => `<span>${escHtml(r)}${i < rules.length - 1 ? ',' : ''}</span>`).join(' ')}</td></tr>` : ''}</table>
-<div data-s="none" hidden><p>나무타기는 본문 링크만 눌러 목표 문서까지 가는 나무위키 <span class="nb">게임이에요.<a class="ref" href="#fn1">[1]</a></span><br>${by}님과 겨루려면 나무타기 확장이 필요해요.<br>설치하고 이 탭으로 돌아오면 바로 도전할 수 있어요.</p><a class="btn" href="${STORE_URL}" target="_blank" rel="noopener">설치하러 가기</a></div>
-<div data-s="phone" hidden><p>나무타기는 PC 크롬에서 하는 나무위키 <span class="nb">게임이에요.<a class="ref" href="#fn1">[1]</a></span><br>PC에서 이 링크를 열면 ${by}님과 겨룰 수 있어요.</p><button class="btn" id="copy">링크 복사</button></div>
+<div data-s="none" hidden><p>나무타기는 본문 링크만 눌러 목표 문서까지 가는 나무위키 <span class="nb">게임이에요.<a class="ref" href="#fn1">[1]</a></span><br>${by}님과 겨루려면 나무타기 확장이 필요해요.<br>설치하고 이 탭으로 돌아오면 바로 도전할 수 있어요.</p><a class="btn primary" href="${STORE_URL}" target="_blank" rel="noopener">설치하러 가기</a></div>
+<div data-s="phone" hidden><p>나무타기는 PC 크롬에서 하는 나무위키 <span class="nb">게임이에요.<a class="ref" href="#fn1">[1]</a></span><br>PC에서 이 링크를 열면 ${by}님과 겨룰 수 있어요.</p><button class="btn primary" id="copy">링크 복사</button></div>
 <div data-s="have" hidden><p>나무위키로 이동하는 중이에요…<br>넘어가지 않으면 <a id="to" href="${escHtml(to)}">여기</a>를 눌러 주세요.</p></div>
 <noscript><p><a href="${escHtml(to)}">나무위키에서 도전하기</a></p></noscript>
 <div class="fns" hidden><span id="fn1"><a href="#">[1]</a> 나무타기는 나무위키 및 umanle S.R.L.과 관계없는 비공식 게임이에요.</span></div>`;
 };
 
 const show = async (id, env, ctx) => {
-  const key = new Request(`https://namutagi.com/${id}?page3`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
+  const key = new Request(`https://namutagi.com/${id}?page4`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
   const hit = await caches.default.match(key);
   if (hit) return hit;
   const row = await env.DB.prepare('SELECT * FROM challenges WHERE id = ?').bind(id).first();

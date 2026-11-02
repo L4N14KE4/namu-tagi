@@ -19,14 +19,26 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
   });
 });
 
-// namutagi.com(manifest의 externally_connectable)과의 대화. 도전장 페이지는 'ping'으로 확장이 있는지 묻고, 환영 페이지는 버튼을 누르면 'introSeen'과 'openPopup'을 보낸다.
+// 환영 페이지의 "첫 판 시작하기"와 랜딩의 "나무위키에서 시작하기": 그 탭을 나무위키 대문으로 보내고, 다 열리면 팝업을 연다.
+// tabs.update로 주소를 바꾸는 데는 권한이 필요 없다. 팝업을 못 열면(크롬 127 미만 등) 나무위키 탭만 남는다.
+// 이렇게 연 팝업은 activeTab을 못 받아 탭 주소를 못 읽으므로, 그 탭이 나무위키라고 startTab(session)으로 알려 준다(popup.js가 읽고 지운다).
+const startOnNamu = tabId => {
+  const loaded = (id, info) => {
+    if (id !== tabId || info.status !== 'complete') return;
+    chrome.tabs.onUpdated.removeListener(loaded);
+    chrome.storage.session.set({ startTab: tabId }).then(() => chrome.action.openPopup()).catch(() => {});
+  };
+  chrome.tabs.onUpdated.addListener(loaded);
+  setTimeout(() => chrome.tabs.onUpdated.removeListener(loaded), 20000); // 20초 안에 못 열리면 팝업은 포기한다
+  chrome.tabs.update(tabId, { url: 'https://namu.wiki/' }).catch(() => chrome.tabs.onUpdated.removeListener(loaded));
+};
+
+// namutagi.com(manifest의 externally_connectable)과의 대화. 도전장 페이지와 랜딩은 'ping'으로 확장이 있는지 묻고,
+// 환영 페이지는 버튼을 누르면 'introSeen'을 보내며, 시작 버튼은 'startOnNamu'를 보낸다. 모르는 말에는 false라 페이지가 알아서 나무위키로 간다.
 chrome.runtime.onMessageExternal.addListener((msg, sender, reply) => {
-  if (msg === 'openPopup') { // 크롬 127 미만이나 창이 없으면 실패한다. 그러면 페이지가 나무위키로 보낸다
-    Promise.resolve().then(() => chrome.action.openPopup()).then(() => reply(true), () => reply(false));
-    return true;
-  }
   if (msg === 'introSeen') chrome.storage.local.set({ introSeen: true });
-  reply(true);
+  if (msg === 'startOnNamu' && sender.tab) { reply(true); return startOnNamu(sender.tab.id); } // 답을 먼저 보내야 페이지가 따로 이동하지 않는다
+  reply(msg === 'ping' || msg === 'introSeen');
 });
 
 chrome.contextMenus.onClicked.addListener(async ({ menuItemId, linkUrl, pageUrl }) => {

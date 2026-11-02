@@ -9,7 +9,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const REPORT = join(here, 'hubs-report.json');
+const REPORT = join(here, 'data', 'hubs-report.json');
 const OUT = join(here, '..', 'extension', 'hubs.js');
 const MIN_BACKLINKS = 2000; // 0.27.0에서 3000 → 2000(허브 금지는 직접 켜는 어려운 모드라 빡빡하게)
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36';
@@ -46,7 +46,7 @@ async function inspect(input) {
   return { input, status: 200, canonical, backlinks: m ? Number(m[1].replace(/,/g, '')) : null };
 }
 
-const candidates = [...new Set(readFileSync(join(here, 'hub-candidates.txt'), 'utf8').split('\n').map(s => s.trim()).filter(s => s && !s.startsWith('#')))];
+const candidates = [...new Set(readFileSync(join(here, 'data', 'hub-candidates.txt'), 'utf8').split('\n').map(s => s.trim()).filter(s => s && !s.startsWith('#')))];
 const report = process.argv.includes('--resume') && existsSync(REPORT) ? JSON.parse(readFileSync(REPORT, 'utf8')) : [];
 const done = new Set(report.map(r => r.input));
 for (const [i, word] of candidates.entries()) {
@@ -59,7 +59,7 @@ for (const [i, word] of candidates.entries()) {
 const top = [...new Map(report.filter(r => r.status === 200 && r.backlinks).map(r => [r.canonical, r])).values()]
   .filter(r => r.backlinks >= MIN_BACKLINKS).sort((a, b) => b.backlinks - a.backlinks);
 const built = new Date().toISOString().slice(0, 10);
-writeFileSync(OUT, `// 자동 생성: node scripts/build-hubs.mjs (${built}). 직접 고치지 말고 scripts/hub-candidates.txt를 고친 뒤 다시 만든다.
+writeFileSync(OUT, `// 자동 생성: node scripts/build-hubs.mjs (${built}). 직접 고치지 말고 scripts/data/hub-candidates.txt를 고친 뒤 다시 만든다.
 // 허브 문서(어디서나 링크되는 큰 문서) 정식 이름 ${top.length}개. 역링크 ${top.at(-1)?.backlinks}~${top[0]?.backlinks}개. "허브 문서 금지" 규칙이 쓴다.
 var LR_HUBS = ${JSON.stringify({ built, docs: top.map(r => r.canonical) }, null, 1)};
 `);

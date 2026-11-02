@@ -5,7 +5,7 @@
   </picture>
 </h1>
 
-**나무타기**는 나무위키에서 즐기는 파도타기(위키레이싱) 게임입니다.
+**나무타기**는 나무위키에서 즐기는 위키레이싱 게임입니다.
 시작 문서에서 목표 문서까지 본문 링크만 눌러서 찾아가 보세요.
 더 적은 단계, 더 짧은 시간으로 도착할수록 좋은 기록입니다.
 
@@ -15,7 +15,7 @@
 
 ## 기능
 
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/play-dark.webp"><img src="docs/screenshots/play-light.webp" alt="게임 중 화면. 위쪽 진행 막대에 목표, 단계, 시간이 보이고 그 아래에 목표 문서 미리보기가 있다"></picture></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/start-dark.webp"><img src="server/public/shots/start-light.webp" alt="게임 중 화면. 위쪽 진행 막대에 목표, 단계, 시간이 보이고 그 아래에 목표 문서 미리보기가 있다"></picture></p>
 
 **문제 고르기**
 - 오늘의 문제: 하루에 하나, 모두에게 같은 문제 (규칙은 기본으로 고정)
@@ -30,8 +30,8 @@
 - 검색창, 랜덤 버튼, 편집 링크처럼 게임을 건너뛰는 길은 숨기거나 막기
 - 문제가 마음에 들지 않으면 새 문제로 바꾸기, 같은 문제를 처음부터 다시하기
 
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/countdown-dark.webp"><img src="docs/screenshots/countdown-light.webp" width="480" alt="시작 전 카운트다운 화면"></picture></p>
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/path-dark.webp"><img src="docs/screenshots/path-light.webp" alt="지나온 경로와 문서마다 머문 시간을 펼친 화면"></picture></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/countdown-dark.webp"><img src="server/public/shots/countdown-light.webp" width="480" alt="시작 전 카운트다운 화면"></picture></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/play-dark.webp"><img src="server/public/shots/play-light.webp" alt="지나온 경로와 문서마다 머문 시간을 펼친 화면"></picture></p>
 
 **규칙 옵션**
 - 뒤로가기 금지, 틀 상자 링크 금지, 분류 링크 금지, 각주 링크 금지
@@ -40,8 +40,8 @@
 
 <table>
   <tr>
-    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/popup-today-dark.webp"><img src="docs/screenshots/popup-today-light.webp" width="240" alt="팝업의 오늘의 문제 탭"></picture></td>
-    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/popup-custom-dark.webp"><img src="docs/screenshots/popup-custom-light.webp" width="240" alt="팝업의 직접 출제 탭과 규칙 옵션"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-today-dark.webp"><img src="server/public/shots/popup-today-light.webp" width="240" alt="팝업의 오늘의 문제 탭"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-rules-dark.webp"><img src="server/public/shots/popup-rules-light.webp" width="240" alt="팝업의 직접 출제 탭과 규칙 옵션"></picture></td>
   </tr>
 </table>
 
@@ -52,8 +52,8 @@
 
 <table>
   <tr>
-    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/invite-dark.webp"><img src="docs/screenshots/invite-light.webp" width="400" alt="도전장 링크를 열면 뜨는 수락 창"></picture></td>
-    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/win-dark.webp"><img src="docs/screenshots/win-light.webp" width="400" alt="도전장에서 이겼을 때의 결과 카드와 폭죽"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/invite-dark.webp"><img src="server/public/shots/invite-light.webp" width="400" alt="도전장 링크를 열면 뜨는 수락 창"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/win-dark.webp"><img src="server/public/shots/win-light.webp" width="400" alt="도전장에서 이겼을 때의 결과 카드와 폭죽"></picture></td>
   </tr>
 </table>
 
@@ -65,8 +65,8 @@
 
 <table>
   <tr>
-    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/result-dark.webp"><img src="docs/screenshots/result-light.webp" width="400" alt="목표에 도착했을 때의 결과 카드"></picture></td>
-    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/popup-records-dark.webp"><img src="docs/screenshots/popup-records-light.webp" width="240" alt="팝업의 기록 화면(예시 기록)"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/result-dark.webp"><img src="server/public/shots/result-light.webp" width="400" alt="목표에 도착했을 때의 결과 카드"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-records-dark.webp"><img src="server/public/shots/popup-records-light.webp" width="240" alt="팝업의 기록 화면(예시 기록)"></picture></td>
   </tr>
 </table>
 
@@ -113,6 +113,8 @@ node scripts/build-words.mjs    # 무작위 단어 목록(extension/words.js) �
 node scripts/build-hubs.mjs     # 허브 문서 목록(extension/hubs.js) 다시 만들기
 node scripts/check-daily.mjs    # 오늘의 문제가 겹치지 않는지 확인
 python3 e2e/popup-harness/build.py <빈 폴더>    # 팝업을 localhost에서 열어 보는 시험 페이지 만들기
+node e2e/release-test.mjs       # 확장을 새 크롬 프로필에 올려 핵심 흐름 확인(Chrome for Testing 필요)
+node e2e/shots.mjs server/public/shots    # 사이트와 README에 쓰는 화면 사진 다시 찍기
 mkdir -p dist && git archive --format=zip -o dist/namu-tagi-v$(node -p "require('./extension/manifest.json').version").zip HEAD:extension    # 웹스토어에 올릴 zip 만들기(커밋된 extension 폴더만 담음)
 ```
 

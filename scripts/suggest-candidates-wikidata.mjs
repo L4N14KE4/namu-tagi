@@ -5,7 +5,7 @@
 // 2) 항목의 '무엇의 한 종류인가'(P31)를 큰 갈래(사람, 국가·지역, 생물 ...)로 모아 분야를 정한다. 분류 이름으로 짐작하던 것보다 정확하다.
 // 3) 지금 풀(words.js)도 같은 방법으로 나눠 분포와 링크된 언어판 수를 견준다. 새 후보는 scripts/wikidata-candidates.tsv에 쓴다.
 //    (제목, 분야, 링크된 언어판 수, 주의, 항목 번호). 주의: 생존 인물, 성 관련 문서. 동음이의·목록·분류 항목은 뺀다.
-// 받은 응답은 scripts/wikidata-cache.json에 남겨 다시 돌릴 때 건너뛴다. 요청은 하나씩 차례로 보내고 사이에 쉰다.
+// 받은 응답은 scripts/data/wikidata-cache.json에 남겨 다시 돌릴 때 건너뛴다. 요청은 하나씩 차례로 보내고 사이에 쉰다.
 // ponytail: 분야는 항목의 P31을 큰 갈래의 하위 갈래(P279*)로 거슬러 올라가 정한다. 여러 갈래에 걸치면 아래 FIELDS의 앞선 것이 이긴다.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -15,8 +15,8 @@ const here = dirname(fileURLToPath(import.meta.url));
 const i = process.argv.indexOf('--min-sitelinks');
 const MIN = i < 0 ? 150 : Number(process.argv[i + 1]);
 const UA = 'namu-game-research/0.1 (hobby project; serial low-rate requests)';
-const CACHE = join(here, 'wikidata-cache.json');
-const OUT = join(here, 'wikidata-candidates.tsv');
+const CACHE = join(here, 'data', 'wikidata-cache.json');
+const OUT = join(here, 'data', 'wikidata-candidates.tsv');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const cache = existsSync(CACHE) ? JSON.parse(readFileSync(CACHE, 'utf8')) : { items: {}, pool: {}, roots: {} };
 const save = () => writeFileSync(CACHE, JSON.stringify(cache));

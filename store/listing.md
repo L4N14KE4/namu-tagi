@@ -7,6 +7,7 @@
 ## 1. 패키지
 
 - 업로드할 파일: `dist/namu-tagi-v0.1.0.zip` (GitHub 릴리스 v0.1.0의 첨부 파일과 같음)
+- 반드시 이미 만든 초안 항목(ID `fiadjnefijhjdngbdcaoahcdhkbnckfi`)에 올린다. 새 항목을 만들면 ID가 바뀌어 `content.js`의 `STORE_URL`, README, 랜딩, 도전장 설치 안내, 짧은 링크 서버의 `EXT` 목록이 모두 틀어진다.
 
 ---
 
@@ -17,17 +18,17 @@
 **이름, 요약** (manifest에서 자동으로 채워짐, 따로 입력하지 않음)
 
 ```text
-나무타기: 나무위키 파도타기 게임
+나무타기: 나무위키 위키레이싱 게임
 ```
 
 ```text
-시작 문서에서 목표 문서까지 본문 링크만 눌러 가는 나무위키 게임입니다. 오늘의 문제, 무작위 문제, 친구와의 대결을 즐겨 보세요. 나무위키와 관계없는 비공식 확장입니다.
+시작 문서에서 목표 문서까지 본문 링크만 눌러 가는 나무위키 위키레이싱 게임입니다. 오늘의 문제, 무작위 문제, 친구와의 대결을 즐겨 보세요. 나무위키와 관계없는 비공식 확장입니다.
 ```
 
 **설명** (Description)
 
 ```text
-나무위키 문서 사이를 링크만 눌러 건너가는 파도타기 게임입니다.
+나무위키 문서 사이를 링크만 눌러 건너가는 위키레이싱 게임입니다.
 시작 문서에서 목표 문서까지 본문 링크만 눌러서 찾아가 보세요.
 더 적은 단계, 더 짧은 시간으로 도착할수록 좋은 기록입니다.
 
@@ -72,8 +73,8 @@
 | 칸 | 파일 | 필수 |
 | --- | --- | --- |
 | 스토어 아이콘 128x128 | `extension/icons/icon-128.png` | 필수 |
-| 스크린샷 1280x800 (최대 5장, 이 순서대로) | `store/screenshot-1-play.png` 게임 중 진행 막대와 목표 미리보기<br>`store/screenshot-2-path.png` 지나온 경로 목록<br>`store/screenshot-3-result.png` 도착 카드<br>`store/screenshot-4-challenge.png` 도전장 승리와 폭죽<br>`store/screenshot-5-popup.png` 팝업(오늘의 문제, 직접 출제와 규칙, 기록) | 1장 이상 필수 |
-| 작은 프로모션 타일 440x280 | `store/promo-small-440x280.png` | 선택 |
+| 스크린샷 1280x800 (최대 5장, 이 순서대로) | `store/images/screenshot-1.png` 개요<br>`screenshot-2.png` 문제 고르기<br>`screenshot-3.png` 게임 방법<br>`screenshot-4.png` 규칙<br>`screenshot-5.png` 친구와 겨루기<br>원본은 Figma https://www.figma.com/design/tk9gM0HeeGVHzVgyRFOfqj (고치면 다시 내보내고 투명 채널을 뺀다) | 1장 이상 필수 |
+| 작은 프로모션 타일 440x280 | `store/images/promo-440x280.png` (원본은 같은 Figma 파일의 "작은 프로모션 타일 440x280", 부제는 텍스트 스타일 "프로모션/부제") | 선택 |
 | 마키 프로모션 타일 1400x560 | 없음 (추천 노출용, 비워 둠) | 선택 |
 | 프로모션 동영상 (YouTube) | 없음 | 선택 |
 
@@ -129,9 +130,9 @@ Stores game records, the player's nickname, rule settings, recently used target 
 **호스트 권한 (Host permission: https://namu.wiki/\*)**
 
 ```text
-Namutagi is a game that runs inside namu.wiki pages. The content script must load on every namu.wiki page (at document_start) to check each clicked link against the game rules, block shortcuts such as the search box, show the in-page progress bar and result card, and detect page changes. It also has to start automatically in tabs opened from the popup and from challenge links shared by friends, so activeTab alone is not enough. Access is limited to https://namu.wiki/*. Page data is not collected; the only data sent anywhere is the challenge sent to the developer's short link server when the user presses Share.
+Namutagi is a game that runs inside namu.wiki pages. The content script must load on every namu.wiki page (at document_start) to check each clicked link against the game rules, block shortcuts such as the search box, show the in-page progress bar and result card, and detect page changes. It also has to start automatically in tabs opened from the popup and from challenge links shared by friends, so activeTab alone is not enough. Access is limited to https://namu.wiki/*. Page data is not collected; the only data sent anywhere is the challenge sent to the developer's short link server when the user presses Share. Separately, the extension's own website (https://namutagi.com, listed in externally_connectable) can only ask whether the extension is installed, mark the welcome page as read, and open the popup when the user clicks its start button.
 
-게임이 나무위키 페이지 안에서 돌아가서, 모든 나무위키 페이지에 스크립트가 붙어야 링크 판정, 지름길 막기, 진행 막대와 결과 카드 표시, 문서 이동 감지를 할 수 있습니다. 팝업이 연 탭과 친구가 보낸 도전장 링크에서도 바로 시작돼야 해서 activeTab만으로는 부족합니다. 접근은 https://namu.wiki/* 한 곳으로 제한합니다. 페이지 정보는 수집하지 않으며, 밖으로 보내는 것은 사용자가 공유하기를 누를 때 개발자의 짧은 링크 서버로 보내는 도전장뿐입니다.
+게임이 나무위키 페이지 안에서 돌아가서, 모든 나무위키 페이지에 스크립트가 붙어야 링크 판정, 지름길 막기, 진행 막대와 결과 카드 표시, 문서 이동 감지를 할 수 있습니다. 팝업이 연 탭과 친구가 보낸 도전장 링크에서도 바로 시작돼야 해서 activeTab만으로는 부족합니다. 접근은 https://namu.wiki/* 한 곳으로 제한합니다. 페이지 정보는 수집하지 않으며, 밖으로 보내는 것은 사용자가 공유하기를 누를 때 개발자의 짧은 링크 서버로 보내는 도전장뿐입니다. 이와 별도로 확장의 웹사이트(https://namutagi.com, externally_connectable)는 확장이 설치돼 있는지 묻고, 환영 페이지를 읽었다고 알리고, 사용자가 시작 버튼을 누를 때 팝업을 여는 것만 할 수 있습니다.
 ```
 
 ### 원격 코드 (Remote code)
@@ -183,6 +184,7 @@ Namutagi is a game that runs inside namu.wiki pages. The content script must loa
 
 ```text
 No account or login is needed.
+On install, a welcome page (https://namutagi.com/welcome) opens in a new tab. Its "첫 판 시작하기" (Start your first game) button opens the extension popup.
 1. Install the extension, then open https://namu.wiki/w/사과 (or reload it if it was already open).
 2. Click the toolbar icon. In the "직접 출제" (Custom) tab, enter 사과 as the start article and 사과나무 as the target article, then click "게임 시작" (Start).
 3. A new tab opens and a countdown appears. After "시작!", click the link "사과나무" in the first line of the article body.

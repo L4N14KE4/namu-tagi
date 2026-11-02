@@ -1,4 +1,4 @@
-// 자동 생성: node scripts/build-hubs.mjs (2026-10-25). 직접 고치지 말고 scripts/hub-candidates.txt를 고친 뒤 다시 만든다.
+// 자동 생성: node scripts/build-hubs.mjs (2026-10-25). 직접 고치지 말고 scripts/data/hub-candidates.txt를 고친 뒤 다시 만든다.
 // 허브 문서(어디서나 링크되는 큰 문서) 정식 이름 446개. 역링크 2001~119407개. "허브 문서 금지" 규칙이 쓴다.
 var LR_HUBS = {
  "built": "2026-10-25",

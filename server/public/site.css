@@ -1,0 +1,78 @@
+/* namutagi.com 페이지 공통 모양(랜딩 /, 환영 /welcome, 개인정보 /privacy, 도전장과 없는 페이지 /:id). 페이지마다 다른 것만 그 페이지의 <style>에 둔다.
+   나무위키 문서(2026-10, 사과 문서)에서 잰 값을 그대로 쓴다: 본문 15px/1.5, 제목 36px, 소제목 27px(밑줄, 번호는 링크색),
+   목차 상자(details, "목차"는 18.75px), 표 칸 5px 10px, 점 목록, 각주 위 가로줄. 색은 밝은 화면 / 어두운 화면 둘 다 실측이고, 어느 쪽인지는 컴퓨터 설정을 따른다.
+   나무위키 화살표는 Ionicons(소제목)와 Font Awesome(목차) 글꼴이지만, 여기서는 Lucide chevron을 같은 크기로 잘라 쓴다(extension/vendor/LICENSE-lucide.txt). */
+
+/* Pretendard(OFL, fonts/LICENSE.txt). 굵기 둘, 500 이하는 Regular, 600 이상은 Bold로 나온다.
+   글자 조각 여러 개로 나누는 방식은 요청이 많아 Cloudflare 요청 제한(IP당 10초 10번)에 걸릴 수 있어서 파일 하나짜리 subset을 쓴다. */
+@font-face { font-family: Pretendard; font-weight: 400; font-display: swap; src: url("/fonts/Pretendard-Regular.subset.woff2") format("woff2"); }
+@font-face { font-family: Pretendard; font-weight: 700; font-display: swap; src: url("/fonts/Pretendard-Bold.subset.woff2") format("woff2"); }
+
+:root { --page: #f5f5f5; --bg: #fff; --text: #212529; --sub: rgba(33,37,41,.75); --box: #ccc; --rule: #ccc; --cell: #ddd; --fn: #777; --link: #0275d8; --pop: #fff; --pop-shadow: rgba(0,0,0,.5); --pop-arrow: #ddd;
+        --soft: #f5f5f5; --primary: #00a69c; --soft-border: rgba(0,0,0,.3); --bar: linear-gradient(to right, #00a69c, #00a69c, #28b472); }
+@media (prefers-color-scheme: dark) { :root { --page: #000; --bg: #1c1d1f; --text: #e0e0e0; --sub: rgba(224,224,224,.75); --box: #444; --rule: #383b40; --cell: #383b40; --fn: #383840; --pop: #383b40; --pop-shadow: rgba(255,255,255,.5); --pop-arrow: #ccc;
+        --link: #ec9f19; --soft: #26282b; --soft-border: rgba(255,255,255,.34); --bar: #2e3033; } }
+html { background: var(--page); }
+body { margin: 0; color: var(--text); font-family: Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+       font-size: 15px; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }
+[hidden] { display: none !important; }
+
+/* 막대 높이는 나무위키와 같은 56px(1024px 미만은 48px). 로고는 그림 속 글자 폭이 나무위키와 같게(116px, 720px 이하는 103px) */
+header { display: flex; align-items: center; height: 56px; background: var(--bar); }
+header div, article { box-sizing: border-box; width: min(897px, calc(100% - 32px)); margin-left: auto; margin-right: auto; }   /* 막대 안 로고와 문서 상자의 왼쪽 선이 어떤 폭에서도 같은 자리 */
+header img { display: block; height: 27.5px; margin-left: -1.8px; }   /* 로고 그림 자체의 왼쪽 여백(40/618.2 × 27.5px)만큼 당겨서 마크가 상자 선에 닿게 */
+article { margin-top: 16px; margin-bottom: 40px; padding: 24px; background: var(--bg); border: 1px solid var(--box); border-radius: 6px; }
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.title { margin: 0 0 24px; }
+h1 { margin: 0; font-size: 36px; line-height: 36px; font-weight: 700; }
+.sub { margin-top: 8px; font-size: 14.4px; line-height: 1.5; color: var(--sub); }
+h2 { margin: 32.4px 0 21.6px; padding-bottom: 5px; font-size: 27px; line-height: 40.5px; font-weight: 700; border-bottom: 1px solid var(--rule); cursor: pointer; }
+/* 소제목 접기 화살표: 나무위키는 21.6px 글자 칸(19.44×38.88)을 왼쪽에 띄우고 오른쪽 8px. 누르면 밑 내용을 접고 화살표가 오른쪽을 본다(site.js). */
+h2::before { content: ""; float: left; width: 19.44px; height: 38.88px; margin: 0 8px 0 3.2px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 19.44px no-repeat; }
+h2.folded::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E"); }
+p { margin: 0 0 22.5px; }
+.ref { font-size: 12px; line-height: 0; vertical-align: super; }
+code { padding: 0 3px; font-size: 90%; background: var(--soft); }
+
+details.toc { display: inline-block; margin: 0 0 22.5px 5px; padding: 12px 20px 12px 0; border: 1px solid var(--rule); }
+details.toc[open] { padding-bottom: 16px; }   /* 나무위키는 펼쳤을 때만 안쪽에 4px가 더 있다 */
+/* 목차 화살표: 높이 14px, 제목 줄 오른쪽 끝. 펼치면 아래, 접으면 왼쪽(나무위키와 같음). 접은 제목 줄 폭은 60px */
+details.toc summary { margin: 0 0 12px 14px; padding-right: 22.5px; font-size: 18.75px; cursor: pointer; list-style: none;
+                      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") 100% 50% / auto 14px no-repeat; }
+details.toc:not([open]) summary { margin-bottom: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m15 18-6-6 6-6'/%3E%3C/svg%3E"); }
+details.toc summary::-webkit-details-marker { display: none; }
+details.toc summary::before { content: "목차"; }
+details.toc div { padding-left: 20px; }
+details.toc span { display: block; }
+
+table { margin: 0 0 22.5px; width: 100%; border-collapse: collapse; }
+th, td { padding: 5px 10px; text-align: left; vertical-align: top; border: 1px solid var(--cell); }
+th { width: 1%; white-space: nowrap; background: var(--soft); }
+ul { margin: 6px 0 22.5px 22.5px; padding: 0 0 0 8px; list-style: outside disc; }
+ol { margin: 6px 0 22.5px 22.5px; padding: 0 0 0 8px; }
+li { margin: 6px 0; }
+
+.actions { display: flex; align-items: center; gap: 10px; margin: 0; }
+.btn { display: inline-block; flex: none; box-sizing: border-box; font: inherit; font-size: 16px; font-weight: 600; padding: 8px 20px; border: 1px solid var(--soft-border); border-radius: .3rem;
+       background: var(--soft); color: var(--text); text-align: center; text-decoration: none; cursor: pointer; }
+.btn:hover { filter: brightness(1.08); text-decoration: none; }
+.btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+/* 스크린샷(picture로 다크 모드면 어두운 그림) */
+figure { margin: 0; }
+figure img { display: block; width: 100%; height: auto; box-sizing: border-box; border: 1px solid var(--cell); }
+figcaption { margin-top: 6px; font-size: 14.4px; color: var(--sub); }
+
+/* 각주와 말풍선: 나무위키 popper(placement top)와 같은 값. 참조 위 가운데에 5px 띄우고 밑에 10×5 꼬리. 위에 자리가 없으면 아래로 */
+.fns { margin: 22.5px 0 0; padding: 7.5px 0 0; border-top: 1px solid var(--fn); }
+.fns span { display: block; line-height: 1.75; }
+.fns a { font-size: 15px; }
+.popper { position: absolute; z-index: 510; max-width: 50%; padding: 15px; border-radius: 3px; background: var(--pop); box-shadow: 0 0 2px var(--pop-shadow); }
+.popper::after { content: ""; position: absolute; top: 100%; left: var(--arrow); margin-left: -5px; border: 5px solid transparent; border-bottom: 0; border-top-color: var(--pop-arrow); }
+.popper.below::after { top: auto; bottom: 100%; border: 5px solid transparent; border-top: 0; border-bottom-color: var(--pop-arrow); }
+
+@media (max-width: 1023px) { header { height: 48px; } }
+@media (max-width: 720px) { header img { height: 24.4px; margin-left: -1.6px; } }
+@media (max-width: 520px) { article { padding: 16px; } th { white-space: normal; overflow-wrap: normal; } h1 { font-size: 30px; } .btn.primary { flex: 1; } }

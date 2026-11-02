@@ -5,52 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>나무타기/개인정보처리방침</title>
 <link rel="icon" href="og.png">
+<link rel="stylesheet" href="/site.css">
 <style>
-  /* namutagi.com/privacy. 모양은 welcome.html과 같다. 내용은 저장소의 PRIVACY.md와 같아야 한다(고치면 둘 다).
-     브라우저 언어가 한국어면 한국어, 아니면 영어를 보여 준다. ?lang=ko, ?lang=en으로 바꿀 수 있다. */
-  /* Pretendard(OFL, fonts/LICENSE.txt)를 직접 담았다. 굵기 둘, 500 이하는 Regular, 600 이상은 Bold로 나온다.
-     글자 조각 여러 개로 나누는 방식은 요청이 많아 Cloudflare 요청 제한(IP당 10초 10번)에 걸릴 수 있어서 파일 하나짜리 subset을 쓴다. */
-  @font-face { font-family: Pretendard; font-weight: 400; font-display: swap; src: url("fonts/Pretendard-Regular.subset.woff2") format("woff2"); }
-  @font-face { font-family: Pretendard; font-weight: 700; font-display: swap; src: url("fonts/Pretendard-Bold.subset.woff2") format("woff2"); }
-  :root { --page: #f5f5f5; --bg: #fff; --text: #212529; --sub: rgba(33,37,41,.75); --box: #ccc; --rule: #ccc; --cell: #ddd; --fn: #777; --link: #0275d8; --pop: #fff; --pop-shadow: rgba(0,0,0,.5); --pop-arrow: #ddd;
-          --soft: #f5f5f5; --primary: #00a69c; --soft-border: rgba(0,0,0,.3); --bar: linear-gradient(to right, #00a69c, #00a69c, #28b472); }
-  @media (prefers-color-scheme: dark) { :root { --page: #000; --bg: #1c1d1f; --text: #e0e0e0; --sub: rgba(224,224,224,.75); --box: #444; --rule: #383b40; --cell: #383b40; --fn: #383840; --pop: #383b40; --pop-shadow: rgba(255,255,255,.5); --pop-arrow: #ccc;
-          --link: #ec9f19; --soft: #26282b; --soft-border: rgba(255,255,255,.34); --bar: #2e3033; } }
-  html { background: var(--page); }
-  body { margin: 0; color: var(--text); font-family: Pretendard, -apple-system, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
-         font-size: 15px; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }
-  /* 막대 높이는 나무위키와 같은 56px(1024px 미만은 48px). 로고는 그림 속 글자 폭이 나무위키와 같게(116px, 720px 이하는 103px) */
-  header { display: flex; align-items: center; height: 56px; background: var(--bar); }
-  header div, article { box-sizing: border-box; width: min(897px, calc(100% - 32px)); margin-left: auto; margin-right: auto; }   /* 막대 안 로고와 문서 상자의 왼쪽 선이 어떤 폭에서도 같은 자리 */
-  header img { display: block; height: 27.5px; margin-left: -1.8px; }   /* 로고 그림 자체의 왼쪽 여백(40/618.2 × 27.5px)만큼 당겨서 마크가 상자 선에 닿게 */
-  article { margin-top: 16px; margin-bottom: 40px; padding: 24px; background: var(--bg); border: 1px solid var(--box); border-radius: 6px; }
-  a { color: var(--link); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .title { margin: 0 0 24px; }
-  h1 { margin: 0; font-size: 36px; line-height: 36px; font-weight: 700; }
-  .sub { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; font-size: 14.4px; line-height: 1.5; color: var(--sub); }
-  h2 { margin: 32.4px 0 21.6px; padding-bottom: 5px; font-size: 27px; line-height: 40.5px; font-weight: 700; border-bottom: 1px solid var(--rule); cursor: pointer; }
-  /* 소제목 접기 화살표: 나무위키는 21.6px 글자 칸(19.44×38.88)을 왼쪽에 띄우고 오른쪽 8px. 누르면 밑 내용을 접고 화살표가 오른쪽을 본다(welcome.js). */
-  h2::before { content: ""; float: left; width: 19.44px; height: 38.88px; margin: 0 8px 0 3.2px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 19.44px no-repeat; }
-  h2.folded::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E"); }
-  p { margin: 0 0 22.5px; }
-  details.toc { display: inline-block; margin: 0 0 22.5px 5px; padding: 12px 20px 12px 0; border: 1px solid var(--rule); }
-  details.toc[open] { padding-bottom: 16px; }   /* 나무위키는 펼쳤을 때만 안쪽에 4px가 더 있다 */
-  /* 목차 화살표: 높이 14px, 제목 줄 오른쪽 끝. 펼치면 아래, 접으면 왼쪽(나무위키와 같음). 접은 제목 줄 폭은 60px */
-  details.toc summary { margin: 0 0 12px 14px; padding-right: 22.5px; font-size: 18.75px; cursor: pointer; list-style: none;
-                        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") 100% 50% / auto 14px no-repeat; }
-  details.toc:not([open]) summary { margin-bottom: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 18 18' fill='none' stroke='%23666' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m15 18-6-6 6-6'/%3E%3C/svg%3E"); }
-  details.toc summary::-webkit-details-marker { display: none; }
-  details.toc summary::before { content: "목차"; }
+  /* namutagi.com/privacy. 내용은 저장소의 PRIVACY.md와 같아야 한다(고치면 둘 다). 언어 고르기는 site.js. 공통 모양은 site.css */
+  .sub { display: flex; justify-content: space-between; gap: 12px; }
   #en details.toc summary::before { content: "Contents"; }
-  details.toc div { padding-left: 20px; }
-  details.toc span { display: block; }
-  code { padding: 0 3px; font-size: 90%; background: var(--soft); }
-  ul { margin: 6px 0 22.5px 22.5px; padding: 0 0 0 8px; list-style: outside disc; }
-  li { margin: 6px 0; }
-  @media (max-width: 1023px) { header { height: 48px; } }
-  @media (max-width: 720px) { header img { height: 24.4px; margin-left: -1.6px; } }
-  @media (max-width: 520px) { article { padding: 16px; } h1 { font-size: 30px; } }
 </style>
 </head>
 <body>
@@ -62,7 +21,7 @@
     <div class="sub"><span>시행일: 2026-11-02</span><a href="?lang=en">English</a></div>
   </div>
 
-  <p>나무타기(이하 "확장")는 나무위키(namu.wiki)에서 즐기는 비공식 파도타기 게임 크롬 확장 프로그램입니다.<br>확장에는 계정이 없습니다. 공유하기로 도전장 링크를 만들 때만 아래에 적은 정보를 개발자의 짧은 링크 서버로 보내고, 그 밖의 정보는 보내지 않습니다.</p>
+  <p>나무타기(이하 "확장")는 나무위키(namu.wiki)에서 즐기는 비공식 위키레이싱 게임 크롬 확장 프로그램입니다.<br>확장에는 계정이 없습니다. 공유하기로 도전장 링크를 만들 때만 아래에 적은 정보를 개발자의 짧은 링크 서버로 보내고, 그 밖의 정보는 보내지 않습니다.</p>
 
   <details class="toc" id="toc-ko" open>
     <summary></summary>
@@ -213,16 +172,6 @@
   </div>
 </div>
 </article>
-<script>
-  const pick = new URLSearchParams(location.search).get('lang');
-  if (pick ? pick === 'en' : !/^ko\b/i.test(navigator.language)) {
-    document.getElementById('ko').hidden = true;
-    document.getElementById('en').hidden = false;
-    document.documentElement.lang = 'en';
-    document.title = 'Namutagi/Privacy Policy';
-  }
-  // 소제목을 누르면 나무위키처럼 그 밑 내용을 접고 편다. 번호 링크는 목차로 간다.
-  for (const h of document.querySelectorAll('h2')) h.onclick = e => { if (!e.target.closest('a')) h.nextElementSibling.hidden = h.classList.toggle('folded'); };
-</script>
+<script src="/site.js"></script>
 </body>
 </html>
