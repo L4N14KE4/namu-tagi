@@ -136,10 +136,10 @@ const page = (title, desc, main, script = '') => `<!doctype html><html lang="ko"
 <meta name="color-scheme" content="light dark"><title>${escHtml(title)}</title><link rel="icon" href="/og.png"><meta property="og:type" content="website"><meta property="og:site_name" content="나무타기">
 <meta property="og:title" content="${escHtml(title)}"><meta property="og:description" content="${escHtml(desc)}"><meta property="og:image" content="https://namutagi.com/og-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 <style>${STYLE}</style></head>
-<body><header><div><img src="/wordmark.svg" alt="나무타기"></div></header><article>${main}</article>${script}</body></html>`;
+<body><header><div><a href="/"><img src="/wordmark.svg" alt="나무타기"></a></div></header><article>${main}</article>${script}</body></html>`;
 
 const notFound = () => html(page('나무타기', '없는 페이지예요. 주소를 다시 확인해 주세요.', `<h1>나무타기</h1>
-<p>없는 페이지예요.<br>주소를 다시 확인해 주세요.</p><a class="btn" href="https://namu.wiki/">나무위키로 가기</a>`), 404); // 없는 도전장과 없는 주소를 가르지 않는다
+<p>없는 페이지예요.<br>주소를 다시 확인해 주세요.</p><a class="btn" href="/">홈으로 가기</a>`), 404); // 없는 도전장과 없는 주소를 가르지 않는다
 
 // 확장은 manifest의 externally_connectable로 namutagi.com의 'ping'에 답한다. 없으면 바로 실패한다(없는 ID, chrome.runtime 없음).
 // 폰과 크롬 계열이 아닌 브라우저(userAgentData.mobile이 false가 아님)는 설치할 수 없어서 PC 안내를 보여 준다.
@@ -200,7 +200,7 @@ const challengeMain = (c, to) => {
 };
 
 const show = async (id, env, ctx) => {
-  const key = new Request(`https://namutagi.com/${id}?page2`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
+  const key = new Request(`https://namutagi.com/${id}?page3`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
   const hit = await caches.default.match(key);
   if (hit) return hit;
   const row = await env.DB.prepare('SELECT * FROM challenges WHERE id = ?').bind(id).first();

@@ -81,8 +81,10 @@ try {
     const ping = await evaluate(s, `chrome.runtime.sendMessage(${JSON.stringify(extId)}, 'ping')`);
     check('페이지가 물으면 확장이 답함', ping === true, ping);
     await evaluate(s, SHORT ? `chrome.runtime.sendMessage(${JSON.stringify(extId)}, 'introSeen')` : `seen()`);
-    const opened = await evaluate(s, `chrome.runtime.sendMessage(${JSON.stringify(extId)}, 'openPopup')`);
-    await sleep(800);
+    // 실제 서버면 버튼을 직접 누른다. 사본은 확장 ID가 달라 버튼이 확장을 못 찾으므로 메시지를 직접 보낸다.
+    const opened = SHORT ? await evaluate(s, `chrome.runtime.sendMessage(${JSON.stringify(extId)}, 'openPopup')`)
+      : await evaluate(s, `document.getElementById('go').click(), true`);
+    await sleep(1500);
     const popupUp = (await targets()).some(t => t.url === `chrome-extension://${extId}/popup.html`);
     check('환영 페이지가 부탁하면 팝업이 열림', opened === true && popupUp, `답 ${opened}, 팝업 ${popupUp}`);
     for (const t of await targets()) if (t.url === `chrome-extension://${extId}/popup.html`) await send('Target.closeTarget', { targetId: t.targetId }).catch(() => {});
