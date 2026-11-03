@@ -4,14 +4,16 @@
 //   public/      /(랜딩 페이지, index.html), /welcome(설치 환영 페이지), /privacy, /shots/, /og.png, /wordmark.svg, /fonts/(wrangler.toml의 assets). 있는 파일은 Worker보다 먼저 나간다
 // 리다이렉트 주소는 저장한 값으로만 만들어서 아무 곳으로나 보내는 데 쓸 수 없다.
 const STORE_URL = 'https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi';
-// 확장의 콘텐츠 스크립트는 나무위키 페이지의 출처로 보낸다. 다른 사이트가 방문자 브라우저로 도전장을 찍어 내지 못하게 POST는 이 출처만 받는다.
-const ORIGIN = 'https://namu.wiki';
-const CORS = { 'Access-Control-Allow-Origin': ORIGIN, 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
+// 확장의 결과 카드(콘텐츠 스크립트)는 나무위키 페이지의 출처로, 팝업의 기록 화면은 확장 자신의 출처로 보낸다.
+// 다른 사이트가 방문자 브라우저로 도전장을 찍어 내지 못하게 POST는 이 출처들만 받는다. 확장 ID는 public/site.js의 EXT와 같다(웹스토어, 개발용 압축해제).
+const ORIGINS = ['https://namu.wiki', 'chrome-extension://fiadjnefijhjdngbdcaoahcdhkbnckfi', 'chrome-extension://bljboledcipggdpgboobagbhobhlgijb'];
+const cors = req => ({ 'Access-Control-Allow-Origin': ORIGINS.includes(req.headers.get('Origin')) ? req.headers.get('Origin') : ORIGINS[0],
+  'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type', Vary: 'Origin' });
 const RULES = ['nb', 'nt', 'nc', 'nf', 'nh', 'nr'];
 const DIFFS = ['easy', 'normal', 'hard', 'wild'];
 const ID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
-const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS } });
+const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json; charset=utf-8' } }); // CORS 머리는 fetch에서 붙인다
 const bad = reason => json({ error: reason }, 400);
 const html = (body, status = 200, cache = 'no-store') => new Response(body, { status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': cache } });
 // 도전장은 한 번 만들면 바뀌지 않아서 Cloudflare 가장자리에 1시간 캐시한다(삭제 요청은 1시간 뒤 반영).
@@ -22,7 +24,7 @@ const sha256 = async s => [...new Uint8Array(await crypto.subtle.digest('SHA-256
 const cut = s => (s.length > 30 ? s.slice(0, 30) + '…' : s); // 카드와 페이지의 문서 이름. 긴 글을 넣어 공지처럼 꾸미지 못하게 자른다
 const took = ms => { const cs = Math.floor(ms / 10), m = Math.floor(cs / 6000); return (m ? `${m}분 ` : '') + `${((cs % 6000) / 100).toFixed(2)}초`; };
 
-// 나무위키 도전장 링크(짧은 형식). extension/content.js의 challengeLink와 같은 형식이어야 한다.
+// 나무위키 도전장 링크(짧은 형식). extension/share.js의 challengeLink와 같은 형식이어야 한다.
 const RULE_CH = { nb: 'b', nt: 't', nc: 'c', nf: 'f', nh: 'h', nr: 'r' }, DIFF_CH = { easy: 'e', normal: 'n', hard: 'h', wild: 'w' };
 const esc = s => String(s).replace(/[%&=#+|\s]/g, c => (c === ' ' ? '+' : encodeURIComponent(c)));
 // \ 도 바꾼다: 브라우저는 주소 속 \ 를 / 로 읽어서 ..\member 같은 이름이 /w/ 밖으로 나간다.
@@ -40,7 +42,7 @@ const challengeLink = c => {
 // 글자 방향을 뒤집는 글자(U+202E 등)는 카드의 글을 다르게 보이게 꾸밀 수 있어 받지 않는다.
 const okDoc = s => typeof s === 'string' && s.length > 0 && s.length <= 255 && !/[\u0000-\u001f\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/.test(s)
   && !s.split(/[\\/]/).some(x => x === '.' || x === '..');
-// 닉네임 검사. extension/content.js의 nameProblem과 같은 규칙이어야 한다(확장이 먼저 알리고, 서버는 직접 보내는 요청을 막는다).
+// 닉네임 검사. extension/share.js의 nameProblem과 같은 규칙이어야 한다(확장이 먼저 알리고, 서버는 직접 보내는 요청을 막는다).
 // 보이지 않는 글자(폭 없는 공백, 한글 채움 글자 등)와 운영자로 오해할 이름을 막는다. 띄어쓰기·기호·전각을 빼고 비교한다.
 // ponytail: 낱말 목록이라 "운영쟈" 같은 변형은 못 막는다. 문제가 된 도전장은 D1에서 지운다.
 const INVISIBLE = /[\u0000-\u001f\u007f\u00ad\u034f\u061c\u115f\u1160\u17b4\u17b5\u180b-\u180f\u200b\u200c\u200e\u200f\u202a-\u202e\u2060-\u206f\u3164\ufeff\uffa0]/;
@@ -73,7 +75,7 @@ const ipKey = ip => {
 };
 
 const create = async (req, env) => {
-  if (req.headers.get('Origin') !== ORIGIN) return json({ error: 'origin' }, 403);
+  if (!ORIGINS.includes(req.headers.get('Origin'))) return json({ error: 'origin' }, 403);
   if (!(await env.LIMIT.limit({ key: ipKey(req.headers.get('CF-Connecting-IP') || '') })).success) return json({ error: 'slow' }, 429);
   if (Number(req.headers.get('Content-Length')) > 8192) return bad('size'); // 큰 본문은 읽기 전에 거절(길이 없이 오면 아래에서)
   const text = await req.text();
@@ -134,7 +136,7 @@ copy.onclick = async () => {
 };
 </script>`;
 
-// 규칙 글. extension/content.js의 ruleItems, DIFF와 같은 말을 쓴다.
+// 규칙 글. extension/share.js의 ruleItems, content.js의 DIFF와 같은 말을 쓴다.
 const DIFF_NAME = { easy: '쉬움', normal: '보통', hard: '어려움', wild: '🎲 랜덤' };
 const limitText = s => (s % 60 ? `${s}초` : `${s / 60}분`);
 const ruleItems = c => [c.mode === 'random' && DIFF_NAME[c.diff], c.rules.nb && '뒤로가기 금지', c.rules.nt && '틀 상자 링크 금지', c.rules.nc && '분류 링크 금지', c.rules.nf && '각주 링크 금지', c.rules.nh && '허브 문서 금지',
@@ -168,8 +170,8 @@ const show = async (id, env, ctx) => {
 export default {
   async fetch(req, env, ctx) {
     const { pathname } = new URL(req.url);
-    if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
-    if (pathname === '/c' && req.method === 'POST') return create(req, env);
+    if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(req) });
+    if (pathname === '/c' && req.method === 'POST') { const res = await create(req, env); for (const [k, v] of Object.entries(cors(req))) res.headers.set(k, v); return res; }
     if (req.method !== 'GET' && req.method !== 'HEAD') return new Response('Method Not Allowed', { status: 405 });
     const m = pathname.match(/^\/([0-9A-Za-z]{6})$/);
     return m ? show(m[1], env, ctx) : notFound();

@@ -77,24 +77,36 @@
   #records h3 { margin: 18px 0 4px; padding-bottom: 4px; font-size: 15px; border-bottom: 1px solid var(--border); }
   .best, .recent { list-style: none; margin: 0; padding: 0; }
   .best > li, .recent > li { display: grid; gap: 1px 8px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-  .best > li { grid-template-columns: 3.4em minmax(0, 1fr); }
+  .best > li { grid-template-columns: 3.4em minmax(0, 1fr) auto; }
   .recent > li { grid-template-columns: 2.4em minmax(0, 1fr) auto; }
   .best b { font-weight: 700; }
-  .best .path { grid-column: 2 / -1; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
-  .recent .sub { grid-column: 2 / -1; display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 12px; }
+  .best .sub, .recent .sub { grid-column: 2 / -1; display: flex; justify-content: flex-end; gap: 8px; color: var(--muted); font-size: 12px; }
   .linkbtn { padding: 0; border: 0; background: none; color: var(--link); font: inherit; font-size: 12px; cursor: pointer; }
-  .recent .sub .linkbtn { margin-left: auto; }
+  .sub .linkbtn { flex: none; }   /* 공유하기와 이동내역 보기는 오른쪽 끝에 모이고 설명(무작위 보통 등)만 왼쪽 */
+  .sub .meta { margin-right: auto; }
   .trail { margin: 4px 0 2px; padding-left: 20px; font-size: 13px; }
   .trail small { color: var(--muted); }
   .trail .dt { float: right; margin-left: 10px; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
-  .recent .trail { grid-column: 2 / -1; }
+  .best .trail, .recent .trail, .shareslot { grid-column: 2 / -1; }
+  /* 기록 화면의 공유 칸(share.js가 만든다). 결과 카드의 공유 칸을 팝업 폭에 맞게 줄였다 */
+  .shareslot { margin: 4px 0 2px; }
+  .share label { margin: 0 0 4px; font-size: 12px; font-weight: 500; }
+  .share .row input { padding: 5px 8px; font-size: 13px; }
+  .share .sharebox, .share textarea { box-sizing: border-box; width: 100%; max-height: 7.5em; margin-top: 6px; padding: 6px 8px; overflow: auto; font: inherit; font-size: 12px; line-height: 1.5;
+            white-space: pre-wrap; color: var(--text); background: var(--btn); border: 1px solid var(--border); border-radius: .3rem; }
+  .share textarea { height: 7.5em; resize: none; }
+  .share .lk { color: var(--muted); }
+  .share .muted { margin-top: 4px; }
   .daily .trail { margin-top: 6px; }
   .empty { margin: 0; padding: 28px 0; text-align: center; color: var(--text); font-size: 15px; line-height: 1.6; white-space: pre-line; }
   .recent .tag { font-weight: 700; }
   .recent .win { color: var(--primary); }
   .recent .lose { color: var(--err); }
-  .recent .what { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .recent .res { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .best .what, .recent .what { display: flex; min-width: 0; white-space: nowrap; }
+  .what > span { overflow: hidden; text-overflow: ellipsis; }
+  .what .arr { flex: none; padding: 0 .3em; }
+  .what .g { flex: none; max-width: 60%; }   /* 목표는 줄의 60%까지 그대로 두고 남은 자리를 시작이 쓴다 */
+  .best .res, .recent .res { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .recent .res.fail { color: var(--muted); }
   #records > .btn { margin-top: 16px; }
   .daily { background: var(--soft); border-radius: .3rem; padding: 10px 12px; line-height: 1.6; }
@@ -198,5 +210,6 @@
 <script src="words.js"></script>
 <script src="hubs.js"></script>
 <script src="intro.js"></script>
+<script src="share.js"></script>
 <script src="popup.js"></script>
 </html>

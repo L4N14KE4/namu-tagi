@@ -49,6 +49,7 @@
         "words.js",
         "hubs.js",
         "vendor/confetti.min.js",
+        "share.js",
         "content.js"
       ],
       "css": [

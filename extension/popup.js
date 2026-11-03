@@ -218,7 +218,7 @@ $('goRandom').onclick = async () => {
 // 그래서 (시작, 목표) 쌍은 같은 쌍도 뒤집힌 쌍도 ceil(N/2)-1바퀴(N=889면 약 1081년) 동안 다시 안 나온다. scripts/check-daily.mjs가 이를 확인한다.
 // ponytail: words.js를 다시 만들어 보통 구간이 바뀌면(문서를 더하거나, 역링크 수가 경계를 넘나들면) 그 뒤로 모든 날의 문제가 바뀐다(옛 판의 기록은 자기 시작·목표를 들고 있어 괜찮다). 친구와 같은 버전이어야 오늘 문제가 같다.
 const FIRST_DAY = Date.UTC(2026, 9, 25);
-const dayLabel = n => { const d = new Date(FIRST_DAY + (n - 1) * 86400e3); return `${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`; };
+const { dayLabel } = LR_SHARE;
 const dayNumber = () => Math.floor((Date.now() + 9 * 3600e3 - FIRST_DAY) / 86400e3) + 1;
 const seeded = a => () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 const shuffled = (list, seed) => { const a = [...list], rnd = seeded(seed); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -232,6 +232,20 @@ const dailyCombo = n => {
 const trailList = r => el('ol', { className: 'trail', hidden: true }, ...r.path.map((d, i) => el('li', {},
   ...(Number.isFinite(r.times?.[i]) && Number.isFinite(r.times?.[i + 1]) ? [el('span', { className: 'dt', textContent: dur(r.times[i + 1] - r.times[i]), title: '이 문서에 머문 시간' })] : []), d, ...(r.back?.[i] ? [el('small', { textContent: ' 뒤로/앞으로' })] : []))));
 const trailToggle = list => { const b = el('button', { type: 'button', className: 'linkbtn', textContent: '이동내역 보기', onclick: () => { list.hidden = !list.hidden; b.textContent = list.hidden ? '이동내역 보기' : '이동내역 접기'; } }); return b; };
+// 시작 → 목표 한 줄. 이름이 길면 시작과 목표를 따로 줄여서 목표가 늘 보인다(통째로 줄이면 긴 시작 문서에 목표가 가려진다). 전체 이름은 마우스를 올리면 보인다.
+const whatOf = r => el('span', { className: 'what', title: `${r.start} → ${r.goal}` },
+  el('span', { textContent: r.start }), el('span', { className: 'arr', textContent: '→' }), el('span', { className: 'g', textContent: r.goal }));
+// 끝낸 판을 기록 화면에서도 공유한다. 공유 칸은 결과 카드와 같다(share.js). 처음 누를 때 만든다. 단계별 시간이 없는 판은 도전장을 못 만들어 버튼을 숨긴다.
+const sharePart = r => {
+  const slot = el('div', { className: 'shareslot', hidden: true });
+  let made = null;
+  const b = el('button', { type: 'button', className: 'linkbtn', textContent: '공유하기', hidden: !(r.win && r.times?.length === r.path.length), onclick: async () => {
+    await (made ??= LR_SHARE.form(nick => ({ ...r, vs: { by: nick, steps: r.steps, ms: r.ms, path: r.path, times: r.times } })).then(f => slot.append(f)));
+    slot.hidden = !slot.hidden; b.textContent = slot.hidden ? '공유하기' : '공유 접기';
+    if (!slot.hidden) slot.querySelector('input').focus();
+  } });
+  return [b, slot];
+};
 const renderDaily = async () => {
   const n = dayNumber(), { start, goal } = dailyCombo(n);
   $('dailyNo').textContent = `${dayLabel(n)}의 문제`;
@@ -287,7 +301,6 @@ const renderRecords = async () => {
   for (const r of records) { if (!r.win) break; streak++; }
   for (const r of [...records].reverse()) { run = r.win ? run + 1 : 0; best = Math.max(best, run); }
   const bestByDiff = Object.keys(DIFF).map(d => [d, wins.filter(r => r.mode === 'random' && r.diff === d).reduce((b, r) => (!b || better(r, b) ? r : b), null)]);
-  const pathLine = r => el('span', { className: 'path', textContent: r.path.join(' → ') });
   let armed = false;
   const reset = el('button', { className: 'btn start', textContent: '기록 지우기',
     onclick: async () => {
@@ -300,18 +313,24 @@ const renderRecords = async () => {
       stat(records.length, '판'), stat(`${Math.round(wins.length / records.length * 100)}%`, '도착률'), stat(streak, '연속 도착'),
       stat(wins.length ? avg(r => r.steps).toFixed(1) : '-', '평균 단계'), stat(wins.length ? fmt(avg(r => r.ms)).slice(0, 5) : '-', '평균 시간'), stat(best, '최고 연속')),
     el('h3', { textContent: '무작위 최고 기록' }),
-    el('ul', { className: 'best' }, ...bestByDiff.map(([d, r]) => el('li', {}, el('b', { textContent: DIFF[d] }),
-      el('span', { textContent: r ? `${r.steps}단계, ${fmt(r.ms)}` : '아직 없어요' }), ...(r ? [pathLine(r)] : [])))),
+    // 최근 판과 같은 모양: 시작 → 목표와 기록을 한 줄에, 지나간 문서는 이동내역 보기로 편다(경로를 다 늘어놓으면 길 때 어지럽다).
+    el('ul', { className: 'best' }, ...bestByDiff.map(([d, r]) => {
+      if (!r) return el('li', {}, el('b', { textContent: DIFF[d] }), el('span', { textContent: '아직 없어요' }));
+      const trail = trailList(r), [share, slot] = sharePart(r);
+      return el('li', {}, el('b', { textContent: DIFF[d] }),
+        whatOf(r), el('span', { className: 'res', textContent: `${r.steps}단계 ${fmt(r.ms)}` }),
+        el('span', { className: 'sub' }, share, trailToggle(trail)), trail, slot);
+    })),
     el('h3', { textContent: '최근 판' }),
     el('ul', { className: 'recent' }, ...records.slice(0, 10).map(r => {
       const meta = [r.mode === 'random' && `무작위 ${DIFF[r.diff] || ''}`.trim(), r.mode === 'daily' && `${dayLabel(r.day)}의 문제`, r.vs && `${r.vs}님과 대결`].filter(Boolean).join(', ');
-      const trail = trailList(r), toggle = trailToggle(trail);
+      const trail = trailList(r), toggle = trailToggle(trail), [share, slot] = sharePart(r);
       return el('li', {},
         el('b', { className: 'tag ' + (r.win ? 'win' : 'lose'), textContent: r.win ? '도착' : '실패' }),
-        el('span', { className: 'what', textContent: `${r.start} → ${r.goal}`, title: `${r.start} → ${r.goal}` }),
+        whatOf(r),
         el('span', { className: 'res' + (r.win ? '' : ' fail'), textContent: r.win ? `${r.steps}단계 ${fmt(r.ms)}` : shortReason(r.reason), title: r.win ? '' : r.reason || '' }),
-        el('span', { className: 'sub' }, el('span', { textContent: meta }), toggle),
-        trail);
+        el('span', { className: 'sub' }, el('span', { className: 'meta', textContent: meta }), share, toggle),
+        trail, slot);
     })),
     reset);
 };

@@ -10,7 +10,7 @@ here = pathlib.Path(__file__).parent
 ext = here.parent.parent / 'extension'
 out = pathlib.Path(sys.argv[1])
 out.mkdir(parents=True, exist_ok=True)
-for f in ['popup.js', 'intro.js', 'words.js', 'hubs.js', 'wordmark.svg']:
+for f in ['popup.js', 'intro.js', 'share.js', 'words.js', 'hubs.js', 'wordmark.svg']:
     shutil.copy(ext / f, out / f)
 shutil.copytree(ext / 'fonts', out / 'fonts', dirs_exist_ok=True)
 html = (ext / 'popup.html').read_text(encoding='utf8')

@@ -17,12 +17,8 @@
   const encPath = name => name.split('/').map(encodeURIComponent).join('/');
   // 주소에서 . 과 .. 칸은 접힌다(/w/../member → /member). 해시로 온 목표가 이러면 숨은 미리보기 창이 /w/ 밖을 열게 되므로 받지 않는다.
   const dotSeg = name => name.split('/').some(x => x === '.' || x === '..');
-  // 닉네임 검사. server/src/index.js의 nameProblem과 같은 규칙이어야 한다(서버가 거절하면 공유가 말없이 긴 링크로 바뀌니 여기서 먼저 알린다).
-  // 보이지 않는 글자(폭 없는 공백, 한글 채움 글자 등)와 운영자로 오해할 이름을 막는다. 띄어쓰기·기호·전각을 빼고 비교한다.
-  const INVISIBLE = /[\u0000-\u001f\u007f\u00ad\u034f\u061c\u115f\u1160\u17b4\u17b5\u180b-\u180f\u200b\u200c\u200e\u200f\u202a-\u202e\u2060-\u206f\u3164\ufeff\uffa0]/;
-  const RESERVED = ['운영자', '운영진', '운영팀', '관리자', '관리팀', '개발자', '개발팀', '공식', '고객센터', '나무위키', '나무타기', 'namuwiki', 'namutagi', 'admin', 'official', 'staff', 'moderator'];
-  const nameProblem = s => INVISIBLE.test(s) ? '보이지 않는 글자는 이름에 쓸 수 없어요.' :
-    RESERVED.some(w => s.normalize('NFKC').toLowerCase().replace(/[\s\p{P}\p{S}]/gu, '').includes(w)) ? '운영자로 오해할 수 있는 이름은 쓸 수 없어요.' : '';
+  // 닉네임 검사, 규칙 글, 날짜 글, 도전장 짧은 형식은 공유와 같이 쓰므로 share.js에 있다(팝업의 기록 화면도 쓴다).
+  const { nameProblem, dayLabel, limitText, ruleItems, RULE_CH, DIFF_CH } = LR_SHARE;
   const byName = s => (nameProblem(s) ? '익명' : s.slice(0, 20)); // 손으로 만든 도전장 링크의 이름도 같은 규칙으로 거른다
   const currentDoc = (d = document) => { const c = d.querySelector('link[rel=canonical]'); return c ? docOf(c.getAttribute('href')) : null; };
 
@@ -155,9 +151,6 @@
   // ---- 게임 상태 ----
   const KEY = 'ng_state', CSS_KEY = 'ng_css';
   const DIFF = { easy: '쉬움', normal: '보통', hard: '어려움', wild: '🎲 랜덤' };
-  // 오늘의 문제는 회차 대신 날짜로 보여 준다(1회 = 2026-10-25, 한국 시간). 팝업의 FIRST_DAY와 같아야 한다.
-  const dayLabel = n => { const d = new Date(Date.UTC(2026, 9, 25) + (n - 1) * 86400e3); return `${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`; };
-  const limitText = s => (s % 60 ? `${s}초` : `${s / 60}분`);
   const load = () => { try { return JSON.parse(sessionStorage.getItem(KEY)); } catch { return null; } };
   const save = s => sessionStorage.setItem(KEY, JSON.stringify(s));
   const clear = () => { sessionStorage.removeItem(KEY); sessionStorage.removeItem(CSS_KEY); };
@@ -171,7 +164,7 @@
   //  nb nt nc nf nh nr =1       규칙: 뒤로가기·틀 상자 링크·분류 링크·각주 속 링크·허브 문서 금지, 같은 문서 재방문 금지
   //  tl=초 ms=단계              규칙: 제한 시간, 최대 단계
   //  by= s= t= p=…              도전장: 보낸 사람, 그 사람의 단계·시간(ms)·경로(문서마다 p 하나)
-  // 도전장 공유 링크는 짧은 형식 /w/<시작>#ng=<목표>&… 를 쓴다(아래 challengeLink, parseShort). 예전 ng-goal 링크도 그대로 열린다.
+  // 도전장 공유 링크는 짧은 형식 /w/<시작>#ng=<목표>&… 를 쓴다(share.js의 challengeLink, 아래 parseShort). 예전 ng-goal 링크도 그대로 열린다.
   let state = load();
   const fresh = (status, start, goal, extra = {}) => ({ start, goal, status, path: [], pending: null, mode: 'custom', diff: null, rs: false,
     day: null, rules: { nb: false, nt: false, nc: false, nf: false, nh: false, nr: false, tl: 0, ms: 0 }, vs: null, ...extra });
@@ -183,18 +176,7 @@
              tl: num(q.get('tl'), 99 * 60), ms: num(q.get('ms'), 99) },
     vs: q.get('by') ? { by: byName(q.get('by')), steps: num(q.get('s'), 999), ms: num(q.get('t'), 99 * 3600e3), path: q.getAll('p').slice(0, 60), times: (q.get('pt') || '').split(',').map(Number) } : null,
   });
-  // 도전장 짧은 형식. 한글은 그대로 두고 꼭 필요한 글자만 바꿔서 링크가 짧다(같은 판이 398자 → 84자). 짧은 링크 서버(server/src/index.js)도 같은 형식으로 보낸다.
-  //  ng=목표 d=회차(오늘의 문제) rd=난이도 글자(무작위) r=규칙 글자 tl= ms= b=보낸 사람
-  //  p=시작과 목표를 뺀 경로(|로 이음) t=문서마다 걸린 1/100초(36진수, .로 이음). 단계·전체 시간은 여기서 다시 센다.
-  const RULE_CH = { nb: 'b', nt: 't', nc: 'c', nf: 'f', nh: 'h', nr: 'r' }, DIFF_CH = { easy: 'e', normal: 'n', hard: 'h', wild: 'w' };
-  const esc = s => String(s).replace(/[%&=#+|\s]/g, c => (c === ' ' ? '+' : encodeURIComponent(c)));
-  const challengeLink = s => {
-    const v = s.vs, cs = v.times.map(t => Math.floor(t / 10)), flags = Object.keys(RULE_CH).filter(k => s.rules?.[k]).map(k => RULE_CH[k]).join('');
-    const kv = [['ng', esc(s.goal)], ...(s.mode === 'daily' && s.day ? [['d', s.day]] : []), ...(s.mode === 'random' && s.diff ? [['rd', DIFF_CH[s.diff]]] : []),
-      ...(flags ? [['r', flags]] : []), ...(s.rules?.tl ? [['tl', s.rules.tl]] : []), ...(s.rules?.ms ? [['ms', s.rules.ms]] : []),
-      ['b', esc(v.by)], ['p', v.path.slice(1, -1).map(esc).join('|')], ['t', cs.slice(1).map((c, i) => (c - cs[i]).toString(36)).join('.')]];
-    return `https://namu.wiki/w/${s.start.split('/').map(x => x.replace(/[%?#\s\\]/g, encodeURIComponent)).join('/')}#` + kv.map(([k, x]) => `${k}=${x}`).join('&');
-  };
+  // 도전장 짧은 형식(만드는 쪽은 share.js의 challengeLink, 형식 설명도 거기).
   // p는 |로 먼저 나눈 뒤 하나씩 푼다(이름 속 |는 %7C로 왔다). URLSearchParams로 먼저 풀면 섞인다.
   const parseShort = hash => {
     const kv = Object.fromEntries(hash.replace(/^#/, '').split('&').map(x => { const i = x.indexOf('='); return i < 0 ? [x, ''] : [x.slice(0, i), x.slice(i + 1)]; }));
@@ -733,9 +715,6 @@
   };
   const fail = msg => { state.status = 'invalid'; state.reason = msg; save(state); render(); }; // 시작 전: 기록하지 않는다
   const lose = reason => { state.status = 'invalid'; state.reason = reason; save(state); render(); record(); }; // 게임 중: 진 판으로 기록
-  // 이 판에 걸린 제한 조건을 글로. 도전장 수락 창, 결과 카드, 공유 문구가 같이 쓴다.
-  const ruleItems = r => [r.nb && '뒤로가기 금지', r.nt && '틀 상자 링크 금지', r.nc && '분류 링크 금지', r.nf && '각주 링크 금지', r.nh && '허브 문서 금지',
-    r.nr && '재방문 금지', r.ms && `${r.ms}단계 안에 도착`, r.tl && `제한 시간 ${limitText(r.tl)}`].filter(Boolean);
   // 조건 목록을 작은 라벨 줄로 보여 준다(결과 카드, 도전장 수락 창).
   const ruleChips = (label, items) => el('div', { className: 'rchips' }, el('i', { textContent: label }), ...items.map(t => el('span', { textContent: t })));
   // 도전장 링크: 바로 시작하지 않고 어디서 어디로 가는 판인지와 상대 기록을 보여 준 뒤, 수락해야 시작한다(시간도 그때부터 잰다).
@@ -976,8 +955,6 @@
     return `${Math.floor(s / 60)}분${s % 60 ? ` ${s % 60}초` : ''} 남음`;
   };
   const fmt = ms => { const cs = Math.floor(ms / 10), s = Math.floor(cs / 100); return `${pad(Math.floor(s / 60))}:${pad(s % 60)}.${pad(cs % 100)}`; };
-  // 공유 문구용 걸린 시간: "1분 23.45초", 1분 안이면 "23.45초"
-  const took = ms => { const cs = Math.floor(ms / 10), m = Math.floor(cs / 6000); return (m ? `${m}분 ` : '') + `${((cs % 6000) / 100).toFixed(2)}초`; };
   // 눌러서 볼 때까지 흐리게 가리는 덮개(상대 경로용)
   const button = (text, onclick, primary) => el('button', { className: 'btn' + (primary ? ' primary' : ''), textContent: text, onclick });
   const showCard = (title, body, actions, big) => {
@@ -989,76 +966,12 @@
     $('.overlay').classList.add('on');
   };
 
-  // 공유하기: 닉네임을 받아 결과 문구를 복사한다. 링크는 짧은 링크 서버(server/)가 준 주소, 서버에 닿지 못하면 짧은 형식(#ng=) 나무위키 링크.
-  // 웹스토어 주소. 가운데 'namutagi'는 웹스토어가 무시하는 이름 자리이고 뒤의 확장 ID로 찾아간다.
-  const STORE_URL = 'https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi';
-  const SHORT_BASE = 'https://namutagi.com';
-  // 도전장 링크에는 내 이름·단계·시간·경로를 담는다. 받은 사람은 진행 막대에서 내 기록을 보고, 끝나면 경로를 비교한다.
+  // 공유하기: 닉네임을 받아 결과 문구를 복사한다(share.js). 도전장 링크에는 내 이름·단계·시간·경로를 담는다. 받은 사람은 진행 막대에서 내 기록을 보고, 끝나면 경로를 비교한다.
   const challenge = nick => ({ ...state, rs: false, vs: { by: nick, steps: state.path.length - 1, ms: state.finishedAt, path: state.path.map(p => p.doc), times: state.path.map(p => p.t) } });
-  // 익명 ID: 브라우저마다 무작위 UUID 하나. chrome.storage.sync라 크롬 동기화를 켜면 다른 컴퓨터에서도 같다. 서버는 이 값의 해시만 저장한다(나중에 로그인과 연결할 때 증명용).
-  const playerId = async () => {
-    let { pid } = await chrome.storage.sync.get('pid');
-    if (!pid) { pid = crypto.randomUUID(); await chrome.storage.sync.set({ pid }); }
-    return pid;
-  };
-  // 짧은 링크 서버에 도전장을 맡기고 https://namutagi.com/<id>를 받는다. 3초 안에 못 받으면 null(긴 링크로 대신한다).
-  const shortLink = async me => {
-    try {
-      const body = JSON.stringify({ pid: await playerId(), start: me.start, goal: me.goal, mode: me.mode, diff: me.diff, day: me.day, rules: me.rules,
-        by: me.vs.by, path: me.vs.path, times: me.vs.times, ver: chrome.runtime.getManifest().version });
-      const r = await fetch(`${SHORT_BASE}/c`, { method: 'POST', body, signal: AbortSignal.timeout(3000) });
-      const { id } = r.ok ? await r.json() : {};
-      return id ? `${SHORT_BASE}/${id}` : null;
-    } catch { return null; }
-  };
-  const shareText = (nick, link) => {
-    const steps = state.path.length - 1;
-    const daily = state.mode === 'daily';
-    return (daily ? `나무타기 ${dayLabel(state.day)}의 문제\n` : '') +
-      `${nick}님이 ${state.start} 문서에서 ${state.goal} 문서로 ${took(state.finishedAt)} 만에 ${steps}단계로 이동했어요.\n` +
-      (ruleItems(state.rules).length ? `조건: ${ruleItems(state.rules).join(', ')}\n` : '') +
-      `같은 문제에 도전해 보세요 ⚔️\n${link}` +
-      (link.startsWith(SHORT_BASE) ? '' : `\n도전하려면 확장을 먼저 설치해야 해요.\n나무타기 확장 설치 👉\n${STORE_URL}`); // 짧은 링크는 열면 설치 안내가 나온다. 긴 링크(서버에 못 닿았을 때)는 나무위키로 바로 가서 안내할 곳이 없다
-  };
-  // 닉네임을 비워 두면 쓰는 자동 이름("명랑한 다람쥐"). 처음 한 번 만들어 저장해 두고, 직접 쓴 닉네임이 있으면 그것을 쓴다.
-  const NICK_ADJ = ['명랑한', '용감한', '느긋한', '씩씩한', '부지런한', '엉뚱한', '수줍은', '듬직한', '재빠른', '졸린', '배고픈', '호기심 많은',
-    '똑똑한', '푸근한', '당당한', '다정한', '날쌘', '반짝이는', '포근한', '느릿한', '상냥한', '의젓한', '활기찬'];
-  const NICK_ANIMAL = ['다람쥐', '고양이', '여우', '토끼', '펭귄', '수달', '판다', '코알라', '고슴도치', '햄스터', '부엉이', '돌고래', '거북이', '오리', '너구리',
-    '기린', '하마', '사슴', '곰', '호랑이', '늑대', '앵무새', '미어캣', '알파카', '카피바라', '두더지', '참새', '사자', '강아지', '개구리', '물개', '고래', '라마', '얼룩말'];
-  const randomNick = () => { const pick = a => a[Math.floor(Math.random() * a.length)]; return `${pick(NICK_ADJ)} ${pick(NICK_ANIMAL)}`; };
   const openShare = async () => {
     if ($('.share')) return $('.share input').focus();
-    let saved = '', auto = '';
-    try { // 확장이 새로고침돼 연결이 끊긴 경우는 catch로 빠진다
-      ({ nick: saved = '', autoNick: auto = '' } = await chrome.storage.local.get(['nick', 'autoNick']));
-      if (!auto) { auto = randomNick(); await chrome.storage.local.set({ autoNick: auto }); }
-    } catch { auto = auto || randomNick(); }
-    const input = el('input', { value: saved, placeholder: auto, maxLength: 20 });
-    const out = el('textarea', { readOnly: true, hidden: true }); // 자동 복사가 막혔을 때 직접 고르고 복사하는 칸
-    // 복사한 글 미리보기: 붙여 넣을 글 그대로 보여 준다. 링크만 작고 흐리게, 한글을 풀어서 보여 준다(%EC… 그대로면 상자를 다 차지한다).
-    const shown = el('div', { className: 'sharebox', hidden: true });
-    const readable = u => { try { return decodeURI(u); } catch { return u; } };
-    const note = el('div', { className: 'muted' });
-    let made = {};
-    const copy = async () => {
-      const typed = input.value.trim(), nick = typed || auto, why = nameProblem(nick);
-      if (why) { note.textContent = why; return input.focus(); }
-      if (typed) try { await chrome.storage.local.set({ nick: typed }); } catch {}
-      if (made.nick !== nick) { // 같은 이름으로 다시 누르면 받아 둔 링크를 다시 쓴다(서버에 같은 도전장을 또 만들지 않게)
-        note.textContent = '링크 만드는 중…';
-        const me = challenge(nick);
-        made = { nick, link: await shortLink(me) || challengeLink(me) };
-      }
-      out.value = shareText(nick, made.link);
-      shown.replaceChildren(...out.value.split(/(https?:\/\/\S+)/).map((part, i) => (i % 2 ? el('span', { className: 'lk', textContent: readable(part) }) : part)));
-      try { await navigator.clipboard.writeText(out.value); out.hidden = true; shown.hidden = false; note.textContent = '복사했어요.\n메신저에 붙여 넣으세요.'; }
-      catch { shown.hidden = true; out.hidden = false; out.select(); note.textContent = '자동 복사가 막혀 있어요.\n위 글을 복사해 주세요.'; }
-    };
-    input.onkeydown = e => { if (e.key === 'Enter' && !e.isComposing) copy(); };
-    $('.body').append(el('div', { className: 'share' },
-      el('label', { textContent: '닉네임 (비우면 이 이름을 써요)' }),
-      el('div', { className: 'row' }, input, button('복사하기', copy, true)), shown, out, note));
-    input.focus();
+    $('.body').append(await LR_SHARE.form(challenge));
+    $('.share input').focus();
   };
 
   // 한 줄 경로를 막대 폭에 맞춘다: 앞쪽 문서부터 숨기고 …를 붙인다. 지금 문서는 늘 보이고, 혼자서도 길면 …로 줄어든다.

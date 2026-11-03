@@ -17,8 +17,8 @@ const SHORT = process.env.SHORT_BASE;
 if (SHORT) { // 사본을 만들어 SHORT_BASE만 바꾼다
   const copy = fs.mkdtempSync(path.join(os.tmpdir(), 'namu-tagi-ext-'));
   fs.cpSync(ext, copy, { recursive: true });
-  const cj = path.join(copy, 'content.js'), src = fs.readFileSync(cj, 'utf8');
-  if (!src.includes("const SHORT_BASE = 'https://namutagi.com';")) { console.error('content.js에서 SHORT_BASE를 못 찾았어요'); process.exit(2); }
+  const cj = path.join(copy, 'share.js'), src = fs.readFileSync(cj, 'utf8');
+  if (!src.includes("const SHORT_BASE = 'https://namutagi.com';")) { console.error('share.js에서 SHORT_BASE를 못 찾았어요'); process.exit(2); }
   fs.writeFileSync(cj, src.replace("const SHORT_BASE = 'https://namutagi.com';", `const SHORT_BASE = '${SHORT}';`));
   const bj = path.join(copy, 'background.js'), mj = path.join(copy, 'manifest.json'), man = JSON.parse(fs.readFileSync(mj, 'utf8'));
   fs.writeFileSync(bj, fs.readFileSync(bj, 'utf8').replace("'https://namutagi.com/welcome'", `'${SHORT}/welcome'`));
