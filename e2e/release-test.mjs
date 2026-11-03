@@ -1,7 +1,7 @@
 // 릴리스 zip(또는 extension 폴더)을 Chrome for Testing 새 프로필에 압축해제 로드해 확인한다. 의존 패키지 없음(Node 22+ 내장 WebSocket으로 CDP).
-//   gh release download v0.1.0 -p '*.zip' -D <빈 폴더> && unzip <zip> -d <빈 폴더2>
+//   gh release download v0.2.0 -p '*.zip' -D <빈 폴더> && unzip <zip> -d <빈 폴더2>
 //   node e2e/release-test.mjs <빈 폴더2>        (폴더를 안 주면 저장소의 extension/)
-// 확인: 설치하면 환영 페이지와 manifest 버전, 우클릭 메뉴 4개, 권한, 팝업 직접 출제 입력(draft)과 초기화, 나무위키 사과 → 사과나무 한 판,
+// 확인: 설치하면 환영 페이지와 manifest 버전, 우클릭 메뉴 4개, 권한, 팝업 직접 출제 입력(draft)과 초기화, 규칙 모드 저장, 나무위키 사과 → 사과나무 한 판과 도착 카드,
 //       공유하기로 만든 도전장 링크를 열면 수락 창에 같은 이름, 경로, 시간이 뜨는지.
 // SHORT_BASE=http://localhost:8787 을 주면 확장 사본의 서버 주소를 바꿔 로컬 서버(server/, npx wrangler dev --local)로 시험한다.
 // 사본은 확장 ID가 달라 페이지가 확장을 못 찾으므로 도전장은 설치 안내가 뜨는지 보고 나무위키 링크를 직접 연다. 끝까지 보려면 배포 뒤 SHORT_BASE 없이 저장소의 extension/로 돌린다.
@@ -127,6 +127,12 @@ try {
   check('초기화가 입력을 비움', cleared === JSON.stringify(['', '']), cleared);
   const popFont = await evaluate(ps, `document.fonts.load('16px Pretendard').then(() => document.fonts.ready).then(() => [...document.fonts].some(f => f.family === 'Pretendard' && f.status === 'loaded'))`);
   check('팝업에 Pretendard', popFont === true, popFont);
+  // 규칙 모드: 하드와 추가 옵션 3분을 고르면 규칙이 저장된다(뒤 시험에 남지 않게 지운다)
+  await evaluate(ps, `document.querySelector('input[name="rmode"][value="hard"]').click(); document.querySelector('input[name="tl"][value="180"]').click()`);
+  await sleep(300);
+  const saved = await evaluate(sws, `chrome.storage.local.get('rules').then(({ rules: r }) => [r.nb, r.nt, r.nh, r.nc, r.nf, r.nr, r.tl, r.ms].join())`);
+  check('규칙 모드 하드와 3분이 저장됨', saved === 'true,true,true,false,false,false,180,0', saved);
+  await evaluate(sws, `chrome.storage.local.remove('rules')`);
   await send('Target.closeTarget', { targetId: popId });
 
   // 새 게임을 시작하면 다른 탭의 판이 끝난다. 이동 전이면 기록이 지워지고, 이동 뒤면 진 판으로 남는다.
@@ -170,6 +176,8 @@ try {
   check('사과나무에 도착해 끝남', done?.status === 'done', done ? JSON.stringify({ win: done.win, path: done.path }) : '');
   const card = await waitFor(() => evaluate(gs, `document.getElementById('ng-host')?.shadowRoot?.textContent.includes('도착') && 'ok'`), 5000);
   check('결과 카드에 "도착"', card);
+  const face = await evaluate(gs, `(() => { const r = document.getElementById('ng-host').shadowRoot; return JSON.stringify([r.querySelector('.route')?.textContent, !!r.querySelector('.bigt')?.textContent, r.querySelector('.rchips span')?.textContent]); })()`);
+  check('도착 카드에 문제 줄, 큰 시간, 규칙', face === JSON.stringify(['사과 → 사과나무', true, '뒤로가기 금지']), face);
 
   // 5. 공유하기 → 도전장 링크 → 새 탭에서 열면 수락 창(이름, 경로, 시간)
   const NICK = '시험 a|b&c+d';

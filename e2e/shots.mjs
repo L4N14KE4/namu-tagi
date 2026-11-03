@@ -1,7 +1,8 @@
 // 랜딩, 환영 페이지, README에 쓰는 화면 사진을 다시 찍는다. 의존 패키지 없음(Node 22+ 내장 WebSocket으로 CDP).
 //   node e2e/shots.mjs <폴더>          보통은 server/public/shots. 찍은 뒤 index.html, welcome.html의 사진 주소 ?v= 를 올린다.
+//   CROPS=<폴더> node e2e/shots.mjs …   밝은 화면의 팝업과 카드(결과, 도전장 수락, 승리)만 오려 PNG로도 저장한다(웹스토어 스크린샷용 Figma 그림).
 // Chrome for Testing 새 프로필에 extension/을 올려 나무위키에서 실제로 게임을 한다(사용자 크롬 기록에는 남지 않는다). 광고 주소는 막는다.
-// 게임 화면은 브라우저 1.25배 확대처럼(768x480을 2.5배) 찍고, 승리 화면만 결과 카드가 잘리지 않게 1.2배(800x500을 2.4배)로 찍는다. 결과는 모두 1920x1200.
+// 게임 화면은 브라우저 1.25배 확대처럼(768x480을 2.5배) 찍고, 결과와 승리 화면은 카드가 잘리지 않게 1120x700을 약 1.71배로 찍는다. 결과는 모두 1920x1200.
 // 팝업은 320px 폭을 2배로, 기록 화면은 아래 예시 기록으로 찍는다. 밝은 화면, 어두운 화면 둘 다.
 // 문제는 김치 → 아폴로 11호, 규칙 없음. 내 경로는 김치 → 러시아 → 소련 → 아폴로 계획 → 아폴로 11호(실제로 누름),
 // 도전장 상대(명랑한 다람쥐)는 김치 → 대한민국 → 미국 → 소련 → 아폴로 계획 → 아폴로 11호, 48.20초(예시). 나무위키 문서가 바뀌어 링크가 사라지면 경로를 고친다.
@@ -38,6 +39,17 @@ const shot = async (s, name) => {
   const { data } = await send('Page.captureScreenshot', { format: 'webp', quality: 82 }, s);
   fs.writeFileSync(path.join(OUT, `${name}.webp`), Buffer.from(data, 'base64'));
   console.log(name);
+};
+// 밝은 화면에서 쉐도 DOM 안의 카드 하나를 2배로 오려 PNG로 남긴다(CROPS가 있을 때만)
+const CROPS = process.env.CROPS;
+if (CROPS) fs.mkdirSync(CROPS, { recursive: true });
+const WIDE = 1920 / 1120; // 결과, 승리 화면의 배율(1120x700을 1920x1200으로)
+const crop = async (s, theme, name, sel, dpr) => {
+  if (!CROPS || theme !== 'light') return;
+  const r = await ev(s, `(() => { const b = document.getElementById('ng-host').shadowRoot.querySelector(${JSON.stringify(sel)}).getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height }; })()`);
+  const { data } = await send('Page.captureScreenshot', { format: 'png', clip: { ...r, scale: 2 / dpr }, captureBeyondViewport: true }, s); // 탭 배율과 곱해 2배
+  fs.writeFileSync(path.join(CROPS, `${name}.png`), Buffer.from(data, 'base64'));
+  console.log('crop', name);
 };
 const BLOCK = ['*doubleclick*', '*googlesyndication*', '*googletagservices*', '*adservice*', '*adsystem*', '*criteo*', '*taboola*', '*dable*', '*mobon*'];
 // 새 탭: 크기, 밝기, 확대 배율을 먼저 맞추고 연다. 포커스를 흉내 내 게임이 "떠났다"고 보지 않게 한다.
@@ -111,6 +123,7 @@ try {
     await send('Emulation.setDeviceMetricsOverride', { width: 320, height: Math.min(h, maxH || h), deviceScaleFactor: 2, mobile: false }, p.s);
     await sleep(200);
     await shot(p.s, `${name}-${theme}`);
+    if (CROPS && theme === 'light') { const { data } = await send('Page.captureScreenshot', { format: 'png' }, p.s); fs.writeFileSync(path.join(CROPS, `${name}.png`), Buffer.from(data, 'base64')); }
     await p.close();
   };
 
@@ -120,7 +133,9 @@ try {
     await ev(sws, `chrome.storage.local.remove('records')`);
     await popup('popup-today', theme, null);
     await popup('popup-custom', theme, { start: '김치', goal: GOAL });
-    await popup('popup-rules', theme, { start: '김치', goal: GOAL }, `document.getElementById('opts').open = true`);
+    // 규칙 칸: 하드를 고르고 추가 옵션을 펼쳐 3분을 고른 모양(저장된 규칙은 다음 사진 전에 기본으로 되돌린다)
+    await popup('popup-rules', theme, { start: '김치', goal: GOAL }, `document.querySelector('input[name="rmode"][value="hard"]').click(); document.getElementById('opts').open = true; document.querySelector('input[name="tl"][value="180"]').click()`);
+    await ev(sws, `chrome.storage.local.remove('rules')`);
     await ev(sws, `chrome.storage.local.set({ records: ${JSON.stringify(RECORDS)} })`);
     await popup('popup-records', theme, null, `document.getElementById('showRecords').click()`, 620);
 
@@ -139,8 +154,11 @@ try {
     await shot(a.s, `play-${theme}`);
     await ev(a.s, `${hud()}.querySelector('.crumb').click()`);
     await go(a.s, '아폴로 계획', 4000);
+    // 결과 카드는 길어서(카드 최대 높이는 화면의 80%) 1.25배 화면에 다 안 들어간다. 도착 직전에 넓힌다
+    await send('Emulation.setDeviceMetricsOverride', { width: 1120, height: 700, deviceScaleFactor: WIDE, mobile: false }, a.s);
     await go(a.s, GOAL, 1200);
     await shot(a.s, `result-${theme}`);
+    await crop(a.s, theme, 'card-result', '.card', WIDE);
     await a.close();
 
     // 도전장: 수락 창(1.25배)과 승리 화면(1.2배)
@@ -149,8 +167,9 @@ try {
     await waitFor(() => ev(b.s, `!!${accept}`));
     await sleep(1500);
     await shot(b.s, `invite-${theme}`);
+    await crop(b.s, theme, 'card-invite', '.card', 2.5);
     await b.close();
-    const c = await tab(INVITE, theme, 800, 500, 2.4);
+    const c = await tab(INVITE, theme, 1120, 700, WIDE); // 승리 카드는 두 경로를 나란히 보여 줘서 더 길다
     await waitFor(() => ev(c.s, `!!${accept}`));
     await ev(c.s, `${accept}.click()`);
     if (!await waitFor(async () => (await st(c.s))?.status === 'playing')) throw new Error('도전이 시작되지 않았어요');
@@ -160,6 +179,7 @@ try {
     await go(c.s, '아폴로 계획', 6000);
     await go(c.s, GOAL, 900);
     await shot(c.s, `win-${theme}`);
+    await crop(c.s, theme, 'card-win', '.card', WIDE);
     await c.close();
   }
 } catch (e) {

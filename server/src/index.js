@@ -104,6 +104,11 @@ const STYLE = `
   table { width: auto; }
   th { width: auto; }
   td span, .nb { white-space: nowrap; }   /* 규칙 하나, "게임이에요.[1]"은 끊지 않는다 */
+  /* 난이도와 모드는 게임 안(결과 카드, 수락 창)과 같은 색 칩. 밑의 설명은 받는 사람이 모드 이름만으로 모르는 것을 알려 준다 */
+  td .chip { display: inline-block; padding: 0 9px; border-radius: 10px; color: #fff; font-size: .9em; line-height: 1.7; }
+  .d-easy { background: #28b472; } .d-normal { background: #ec9f19; color: #1c1d1f !important; } .d-hard { background: #d64a58; } .d-wild { background: #8e5ce6; }
+  .m-basic { background: #00a69c; } .m-hard { background: #00756e; } .m-extreme { background: #004d47; }
+  td .note { display: block; margin-top: 4px; white-space: normal; font-size: .9em; opacity: .75; }
   @media (max-width: 520px) { .btn { display: block; width: 100%; } }
 `;
 const page = (title, desc, main, script = '') => `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -136,17 +141,29 @@ copy.onclick = async () => {
 };
 </script>`;
 
-// 규칙 글. extension/share.js의 ruleItems, content.js의 DIFF와 같은 말을 쓴다.
+// 규칙 글. extension/share.js의 MODES, modeOf, ruleItems, limitItems와 content.js의 DIFF와 같은 말을 쓴다.
+// 게임 안처럼 난이도(무작위)와 규칙(모드 이름과 추가 옵션)을 나눈다. 모드에 안 맞는 조합(옛 도전장, 손으로 만든 링크)만 규칙을 하나씩 적는다.
 const DIFF_NAME = { easy: '쉬움', normal: '보통', hard: '어려움', wild: '🎲 랜덤' };
+const FLAG_KEYS = ['nb', 'nt', 'nc', 'nf', 'nh', 'nr'];
+const MODES = { basic: { name: '기본', flags: [] }, hard: { name: '하드', flags: ['nb', 'nt', 'nh'], note: '뒤로가기, 틀 상자 링크, 허브 문서를 못 써요.' },
+  extreme: { name: '익스트림', flags: FLAG_KEYS, note: '뒤로가기, 틀 상자, 분류, 각주 링크를 못 써요. 허브 문서와 지나간 문서로도 못 가요.' } };
+const modeOf = r => Object.keys(MODES).find(m => FLAG_KEYS.every(k => !!r[k] === MODES[m].flags.includes(k))) || null;
 const limitText = s => (s % 60 ? `${s}초` : `${s / 60}분`);
-const ruleItems = c => [c.mode === 'random' && DIFF_NAME[c.diff], c.rules.nb && '뒤로가기 금지', c.rules.nt && '틀 상자 링크 금지', c.rules.nc && '분류 링크 금지', c.rules.nf && '각주 링크 금지', c.rules.nh && '허브 문서 금지',
-  c.rules.nr && '재방문 금지', c.rules.ms && `${c.rules.ms}단계 안에 도착`, c.rules.tl && `제한 시간 ${limitText(c.rules.tl)}`].filter(Boolean);
+const limitItems = r => [r.ms && `${r.ms}단계 안에 도착`, r.tl && `제한 시간 ${limitText(r.tl)}`].filter(Boolean);
+const ruleItems = r => [r.nb && '뒤로가기 금지', r.nt && '틀 상자 링크 금지', r.nc && '분류 링크 금지', r.nf && '각주 링크 금지', r.nh && '허브 문서 금지', r.nr && '재방문 금지', ...limitItems(r)].filter(Boolean);
+const list = items => items.map((t, i) => `<span>${escHtml(t)}${i < items.length - 1 ? ',' : ''}</span>`).join(' ');
+const ruleRows = c => {
+  const m = modeOf(c.rules), diff = c.mode === 'random' && DIFF_NAME[c.diff];
+  const rules = c.mode === 'daily' ? '' : m ? [`<span class="chip m-${m}">${MODES[m].name}</span>`, list(limitItems(c.rules))].filter(Boolean).join(' ') + (MODES[m].note ? `<span class="note">${MODES[m].note}</span>` : '')
+    : list(ruleItems(c.rules));
+  return (diff ? `<tr><th>난이도</th><td><span class="chip d-${c.diff}">${diff}</span></td></tr>` : '') + (rules ? `<tr><th>규칙</th><td>${rules}</td></tr>` : '');
+};
 
 const challengeMain = (c, to) => {
-  const by = escHtml(c.by), rules = ruleItems(c);
+  const by = escHtml(c.by);
   return `<h1>${by}님의 도전장</h1>
 <p><b>${escHtml(cut(c.start))}</b> 문서에서 <b>${escHtml(cut(c.goal))}</b> 문서로 이동하는 판이에요.</p>
-<table><tr><th>기록</th><td>${c.steps}단계, ${took(c.ms)}</td></tr>${rules.length ? `<tr><th>규칙</th><td>${rules.map((r, i) => `<span>${escHtml(r)}${i < rules.length - 1 ? ',' : ''}</span>`).join(' ')}</td></tr>` : ''}</table>
+<table><tr><th>기록</th><td>${c.steps}단계, ${took(c.ms)}</td></tr>${ruleRows(c)}</table>
 <div data-s="none" hidden><p>나무타기는 본문 링크만 눌러 목표 문서까지 가는 나무위키 <span class="nb">게임이에요.<a class="ref" href="#fn1">[1]</a></span><br>${by}님과 겨루려면 나무타기 확장이 필요해요.<br>설치하고 이 탭으로 돌아오면 바로 도전할 수 있어요.</p><a class="btn primary" href="${STORE_URL}" target="_blank" rel="noopener">설치하러 가기</a></div>
 <div data-s="phone" hidden><p>나무타기는 PC 크롬에서 하는 나무위키 <span class="nb">게임이에요.<a class="ref" href="#fn1">[1]</a></span><br>PC에서 이 링크를 열면 ${by}님과 겨룰 수 있어요.</p><button class="btn primary" id="copy">링크 복사</button></div>
 <div data-s="have" hidden><p>나무위키로 이동하는 중이에요…<br>넘어가지 않으면 <a id="to" href="${escHtml(to)}">여기</a>를 눌러 주세요.</p></div>
@@ -155,7 +172,7 @@ const challengeMain = (c, to) => {
 };
 
 const show = async (id, env, ctx) => {
-  const key = new Request(`https://namutagi.com/${id}?page4`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
+  const key = new Request(`https://namutagi.com/${id}?page5`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
   const hit = await caches.default.match(key);
   if (hit) return hit;
   const row = await env.DB.prepare('SELECT * FROM challenges WHERE id = ?').bind(id).first();

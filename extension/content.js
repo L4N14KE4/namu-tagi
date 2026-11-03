@@ -892,7 +892,7 @@
         .card.wide { min-width: min(400px, 90vw); max-width: min(520px, 90vw); } /* 두 경로를 나란히 */
         .card h2 { margin: 0 0 8px; font-size: 20px; font-weight: 700; white-space: pre-line; }
         .card h2.big { margin: 0 0 10px; font-size: 30px; line-height: 1.25; } /* 도착!·게임 종료 */
-        .card ol { margin: 8px 0; padding-left: 22px; }
+        .card ol { margin: 8px 0; padding-left: 22px; line-height: 1.5em; }   /* 줄 높이를 길이로 물려줘 작은 시간 글자(.dt)도 같은 줄 높이로 가운데에 선다. 숫자로 두면 시간 글자 줄이 짧아 위로 붙고, 크게 주면 두 경로 목록에서 시간 글자가 계단처럼 밀렸다 */
         .route { margin: -4px 0 8px; color: var(--muted); font-size: 15px; }   /* 무슨 문제였는지(캡처해 공유할 때도) */
         .result { display: flex; align-items: baseline; gap: 10px; margin: 0 0 4px; }
         .result .bigt { font-size: 40px; line-height: 1.1; font-weight: 700; font-variant-numeric: tabular-nums; }   /* 이번 판의 결과는 시간이라 가장 크게 */
@@ -903,7 +903,6 @@
         .tbar span.hl { box-shadow: 0 0 0 2px var(--primary); }
         .card li.tk .dt { color: color-mix(in srgb, var(--primary) var(--k), var(--muted)); }   /* 막대 칸과 같은 진하기 */
         .card li.mx .dt { font-weight: 700; }
-        .card li .dt { line-height: 1.8; }   /* 12.5px 글자를 줄 높이(15px × 1.5)에 맞춰 가운데로. 밝아진 줄 바탕 안에서 위로 붙어 보였다 */
         /* 밝아진 줄: 바탕이 글자 끝에서 딱 끊기지 않게 양옆으로 8px 같은 색 그림자를 붙여 넓히고 둥글게. 자리(번호 위치)는 그대로다. 겹쳐도 진해지지 않게 불투명 색 */
         .card li.hl { --hl: color-mix(in srgb, var(--primary) 14%, var(--card)); background: var(--hl); box-shadow: -8px 0 0 var(--hl), 8px 0 0 var(--hl); border-radius: 6px; }
         .rnote { margin: 6px 0 0; font-size: 13.5px; color: var(--muted); white-space: pre-line; }

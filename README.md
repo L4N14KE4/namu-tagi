@@ -25,7 +25,7 @@
 
 **게임 중**
 - 카운트다운이 끝나면 시간 측정 시작
-- 화면 위 진행 막대에 목표, 단계, 시간, 켜 둔 규칙 표시
+- 화면 위 진행 막대에 목표, 단계, 시간, 난이도와 규칙 모드 표시
 - 목표 문서 미리보기와 지나온 경로 보기
 - 검색창, 랜덤 버튼, 편집 링크처럼 게임을 건너뛰는 길은 숨기거나 막기
 - 문제가 마음에 들지 않으면 새 문제로 바꾸기, 같은 문제를 처음부터 다시하기
@@ -42,7 +42,7 @@
 <table>
   <tr>
     <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-today-dark.webp"><img src="server/public/shots/popup-today-light.webp" width="240" alt="팝업의 오늘의 문제 탭"></picture></td>
-    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-rules-dark.webp"><img src="server/public/shots/popup-rules-light.webp" width="240" alt="팝업의 직접 출제 탭과 규칙 옵션"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-rules-dark.webp"><img src="server/public/shots/popup-rules-light.webp" width="240" alt="팝업의 직접 출제 탭과 규칙 모드, 추가 옵션"></picture></td>
   </tr>
 </table>
 
@@ -50,6 +50,7 @@
 - 도착하면 내 기록과 경로가 담긴 링크를 복사해 친구에게 보내기
 - 링크를 받은 친구는 같은 문제, 같은 규칙으로 대결 (시간이 빠른 쪽이 승리, 같으면 단계가 적은 쪽)
 - 상대의 경로는 이겨야만 볼 수 있음
+- 지난 판도 기록 화면에서 도전장으로 보내기
 
 <table>
   <tr>
@@ -62,6 +63,7 @@
 - 도착률, 평균 단계와 시간, 연속 도착, 무작위 난이도별 최고 기록
 - 최근 판의 이동 경로와 문서마다 머문 시간
 - 규칙별로 나눠 보기
+- 도착 카드에 지난 최고 기록이나 평균과의 비교, 문서마다 머문 시간 막대
 - 내 기록을 깨거나 도전장에서 이기거나 오늘의 문제를 풀면 폭죽
 
 <table>
