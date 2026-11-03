@@ -239,9 +239,10 @@ const whatOf = r => el('span', { className: 'what', title: `${r.start} → ${r.g
 // 끝낸 판을 기록 화면에서도 공유한다. 공유 칸은 결과 카드와 같다(share.js). 처음 누를 때 만든다. 단계별 시간이 없는 판은 도전장을 못 만들어 버튼을 숨긴다.
 const sharePart = r => {
   const slot = el('div', { className: 'shareslot', hidden: true });
-  let made = null;
+  let made = false, making = false; // 칸을 만드는 동안 또 누르면 무시한다(안 그러면 열렸다가 바로 닫힌다)
   const b = el('button', { type: 'button', className: 'linkbtn', textContent: '공유하기', hidden: !(r.win && r.times?.length === r.path.length), onclick: async () => {
-    await (made ??= LR_SHARE.form(nick => ({ ...r, vs: { by: nick, steps: r.steps, ms: r.ms, path: r.path, times: r.times } })).then(f => slot.append(f)));
+    if (making) return;
+    if (!made) { making = true; slot.append(await LR_SHARE.form(nick => ({ ...r, vs: { by: nick, steps: r.steps, ms: r.ms, path: r.path, times: r.times } }))); made = true; making = false; }
     slot.hidden = !slot.hidden; b.textContent = slot.hidden ? '공유하기' : '공유 접기';
     if (!slot.hidden) slot.querySelector('input').focus();
   } });

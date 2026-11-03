@@ -171,7 +171,7 @@
   const num = (v, max) => { const n = Math.floor(Number(v)); return Number.isFinite(n) ? Math.min(max, Math.max(0, n)) : 0; }; // 주소 값은 0~max 정수로
   const parse = q => ({
     mode: ['random', 'daily'].includes(q.get('mode')) ? q.get('mode') : 'custom',
-    diff: DIFF[q.get('diff')] ? q.get('diff') : null, rs: q.get('rs') === '1', tries: Number(q.get('tries') || 0), day: Number(q.get('day')) || null,
+    diff: Object.hasOwn(DIFF, q.get('diff') || '') ? q.get('diff') : null, rs: q.get('rs') === '1', tries: Number(q.get('tries') || 0), day: Number(q.get('day')) || null,
     rules: { nb: q.get('nb') === '1', nt: q.get('nt') === '1', nc: q.get('nc') === '1', nf: q.get('nf') === '1', nh: q.get('nh') === '1', nr: q.get('nr') === '1',
              tl: num(q.get('tl'), 99 * 60), ms: num(q.get('ms'), 99) },
     vs: q.get('by') ? { by: byName(q.get('by')), steps: num(q.get('s'), 999), ms: num(q.get('t'), 99 * 3600e3), path: q.getAll('p').slice(0, 60), times: (q.get('pt') || '').split(',').map(Number) } : null,
@@ -195,6 +195,9 @@
   if (fromHash) {
     state = short ? fresh('starting', docOf(location.pathname) || '', short.goal, short) : fresh('starting', docOf(location.pathname) || '', params.get('ng-goal').trim(), parse(params));
     state.invite = !!state.vs && !state.rs; // 도전장 링크는 수락해야 시작한다(아래 invite). 새로고침·다시하기로는 다시 묻지 않는다.
+    // 손으로 만든 링크도 화면과 판정이 같게: 난이도는 무작위 판에만 두고, 오늘의 문제는 모두 같은 규칙(없음)으로 돌린다.
+    if (state.mode !== 'random') state.diff = null;
+    if (state.mode === 'daily') state.rules = fresh().rules;
   }
   if (fromHash) { save(state); history.replaceState(null, '', location.pathname + location.search); }
   // 시작 전(도전장 수락 창, 카운트다운)에 주소창이나 뒤로가기로 다른 문서를 열면 그 문서에서 판이 시작돼 버린다(목표 옆 문서에서 시작하는 꼼수).
@@ -558,7 +561,7 @@
   // 폭죽이 터지는 판은 큰 시간이 0에서 올라가 멈춘다(0.7초, 끝에서 느려짐). 숫자 폭은 tabular-nums라 흔들리지 않는다.
   const countUp = () => {
     const b = $ && $('.bigt'), end = state.finishedAt, t0 = performance.now();
-    if (!b) return;
+    if (!b || matchMedia('(prefers-reduced-motion: reduce)').matches) return; // 폭죽처럼 동작 줄이기 설정이면 움직이지 않는다
     const step = now => { const k = Math.min(1, (now - t0) / 700); b.textContent = fmt(end * (1 - (1 - k) ** 3)); if (k < 1) requestAnimationFrame(step); };
     requestAnimationFrame(step);
   };
@@ -596,7 +599,9 @@
   const record = async reason => {
     if (state.recorded || !state.startedAt) return;
     state.recorded = true; save(state);
-    const r = entry(reason), rest = await saveRecord(r);
+    const s = state, r = entry(reason), rest = await saveRecord(r);
+    // 저장하는 동안 닫거나(저장 상태가 지워짐) 다시 시작했으면(state가 새 판) 옛 판의 비교 결과를 쓰지 않는다. 안 그러면 닫은 판이 되살아나거나 새 판에 가짜 경신이 뜬다.
+    if (s !== state || !sessionStorage.getItem(KEY)) return;
     // 전에 이 문제를 깬 적이 있고 이번이 더 좋을 때만 기록 경신이다(첫 도착은 아니다).
     const prev = r.win && rest ? rest.filter(x => x.win && sameProblem(x, r)).reduce((b, x) => (!b || better(x, b) ? x : b), null) : null;
     if (prev && better(r, prev)) { state.best = { steps: prev.steps, ms: prev.ms }; save(state); }
@@ -609,7 +614,7 @@
     const same = r.mode === 'random' ? rest.filter(x => x.win && x.mode === 'random' && x.diff === r.diff && ruleKey(x) === ruleKey(r)) : [];
     if (same.length < 3) return '처음 깬 문제예요';
     const avg = same.reduce((a, x) => a + x.ms, 0) / same.length;
-    return `내 ${DIFF[r.diff].replace('🎲 ', '')} 평균(${fmt(avg)})보다 ${(Math.abs(avg - r.ms) / 1000).toFixed(1)}초 ${r.ms < avg ? '빨라요' : '느려요'}`;
+    return `내 ${(DIFF[r.diff] || '무작위').replace('🎲 ', '')} 평균(${fmt(avg)})보다 ${(Math.abs(avg - r.ms) / 1000).toFixed(1)}초 ${r.ms < avg ? '빨라요' : '느려요'}`;
   };
   // 다시하기·새 문제로 진행 중인 판을 버릴 때: 한 번도 이동하지 않았으면 기록을 지우고(시작 문서가 마음에 안 드는 경우), 이동했으면 진 판으로 남긴다.
   const abandon = async () => {
@@ -1009,10 +1014,12 @@
 
   // 공유하기: 닉네임을 받아 결과 문구를 복사한다(share.js). 도전장 링크에는 내 이름·단계·시간·경로를 담는다. 받은 사람은 진행 막대에서 내 기록을 보고, 끝나면 경로를 비교한다.
   const challenge = nick => ({ ...state, rs: false, vs: { by: nick, steps: state.path.length - 1, ms: state.finishedAt, path: state.path.map(p => p.doc), times: state.path.map(p => p.t) } });
+  let sharing = false; // 공유 칸을 만드는 동안(저장소 읽기) 또 누르면 칸이 둘 생기지 않게
   const openShare = async () => {
     if ($('.share')) return $('.share input').focus();
-    $('.body').append(await LR_SHARE.form(challenge));
-    $('.share input').focus();
+    if (sharing) return;
+    sharing = true;
+    try { $('.body').append(await LR_SHARE.form(challenge)); $('.share input').focus(); } finally { sharing = false; }
   };
 
   // 한 줄 경로를 막대 폭에 맞춘다: 앞쪽 문서부터 숨기고 …를 붙인다. 지금 문서는 늘 보이고, 혼자서도 길면 …로 줄어든다.

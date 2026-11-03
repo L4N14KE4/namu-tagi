@@ -44,8 +44,8 @@ const cleanup = () => {
   const where = !SHORT ? '--remote' : /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(SHORT) ? '--local' : null;
   const cmd = `DELETE FROM challenges WHERE by = '${NICK}' RETURNING id`;
   if (!where) return console.log(`정리: 이 서버의 시험 도전장은 직접 지워 주세요 (${cmd})`);
-  const r = spawnSync('npx', ['wrangler', 'd1', 'execute', 'namutagi', where, '--json', '--command', cmd], { cwd: path.join(here, '../server'), encoding: 'utf8' });
-  let ids = null; try { ids = JSON.parse(r.stdout)[0].results.map(x => x.id); } catch {}
+  const r = spawnSync('npx', ['--yes', 'wrangler', 'd1', 'execute', 'namutagi', where, '--json', '--command', cmd], { cwd: path.join(here, '../server'), encoding: 'utf8', timeout: 90000 }); // 네트워크가 막혀도 90초 뒤에는 끝난다
+  let ids = null; try { ids = JSON.parse(r.stdout.slice(r.stdout.indexOf('[')))[0].results.map(x => x.id); } catch {} // 앞에 안내 줄이 섞여도 JSON만 읽는다
   console.log(ids ? `정리: 시험 도전장 ${ids.length}개를 지웠어요 (${where.slice(2)} D1${ids.length ? ': ' + ids.join(', ') : ''})`
     : `정리 실패: cd server && npx wrangler d1 execute namutagi ${where} --command "${cmd}" 를 직접 돌려 주세요\n${(r.stderr || r.stdout || '').slice(-300)}`);
 };

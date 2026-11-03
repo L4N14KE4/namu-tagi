@@ -4,7 +4,7 @@ const LR_SHARE = (() => {
   const el = (tag, props = {}, ...kids) => { const e = Object.assign(document.createElement(tag), props); e.append(...kids); return e; };
   // 닉네임 검사. server/src/index.js의 nameProblem과 같은 규칙이어야 한다(서버가 거절하면 공유가 말없이 긴 링크로 바뀌니 여기서 먼저 알린다).
   // 보이지 않는 글자(폭 없는 공백, 한글 채움 글자 등)와 운영자로 오해할 이름을 막는다. 띄어쓰기·기호·전각을 빼고 비교한다.
-  const INVISIBLE = /[\u0000-\u001f\u007f­͏؜ᅟᅠ឴឵᠋-᠏​‌‎‏‪-‮⁠-⁯ㅤ﻿ﾠ]/;
+  const INVISIBLE = /[\u0000-\u001f\u007f\u00ad\u034f\u061c\u115f\u1160\u17b4\u17b5\u180b-\u180f\u200b\u200c\u200e\u200f\u202a-\u202e\u2060-\u206f\u3164\ufeff\uffa0]/; // 글자를 그대로 넣지 말고 \u 이스케이프로 둔다(보이지 않는 글자라 편집기가 지우거나 GitHub가 경고한다)
   const RESERVED = ['운영자', '운영진', '운영팀', '관리자', '관리팀', '개발자', '개발팀', '공식', '고객센터', '나무위키', '나무타기', 'namuwiki', 'namutagi', 'admin', 'official', 'staff', 'moderator'];
   const nameProblem = s => INVISIBLE.test(s) ? '보이지 않는 글자는 이름에 쓸 수 없어요.' :
     RESERVED.some(w => s.normalize('NFKC').toLowerCase().replace(/[\s\p{P}\p{S}]/gu, '').includes(w)) ? '운영자로 오해할 수 있는 이름은 쓸 수 없어요.' : '';
@@ -90,15 +90,16 @@ const LR_SHARE = (() => {
     const shown = el('div', { className: 'sharebox', hidden: true });
     const readable = u => { try { return decodeURI(u); } catch { return u; } };
     const note = el('div', { className: 'muted' });
-    let made = {};
+    let made = {}, busy = false; // busy: 링크를 받는 동안(최대 3초) 또 누르면 서버에 같은 도전장을 또 만들지 않게 무시한다
     const copy = async () => {
+      if (busy) return;
       const typed = input.value.trim(), nick = typed || auto, why = nameProblem(nick);
       if (why) { note.textContent = why; return input.focus(); }
       if (typed) try { await chrome.storage.local.set({ nick: typed }); } catch {}
       if (made.nick !== nick) { // 같은 이름으로 다시 누르면 받아 둔 링크를 다시 쓴다(서버에 같은 도전장을 또 만들지 않게)
-        note.textContent = '링크 만드는 중…';
+        note.textContent = '링크 만드는 중…'; busy = true;
         const me = make(nick);
-        made = { nick, me, link: await shortLink(me) || challengeLink(me) };
+        try { made = { nick, me, link: await shortLink(me) || challengeLink(me) }; } finally { busy = false; }
       }
       out.value = shareText(made.me, made.link);
       shown.replaceChildren(...out.value.split(/(https?:\/\/\S+)/).map((part, i) => (i % 2 ? el('span', { className: 'lk', textContent: readable(part) }) : part)));
