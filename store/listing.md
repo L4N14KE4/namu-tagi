@@ -141,7 +141,7 @@ Namutagi is an unofficial game and is not affiliated with NamuWiki or umanle S.R
 | 스토어 아이콘 (Store icon) 128x128 | `extension/icons/icon-128.png` | 필수 (Required) |
 | 스크린샷 (Screenshots) 1280x800, 최대 5장, 이 순서대로 | `store/images/screenshot-1.png` 개요 (Overview)<br>`screenshot-2.png` 문제 고르기 (Choose a puzzle)<br>`screenshot-3.png` 게임 방법 (How to play)<br>`screenshot-4.png` 규칙 (Rules)<br>`screenshot-5.png` 친구와 겨루기 (Challenge a friend)<br>원본은 Figma https://www.figma.com/design/tk9gM0HeeGVHzVgyRFOfqj (고치면 다시 내보내고 투명 채널을 뺀다) | 1장 이상 필수 (At least one) |
 | 작은 프로모션 타일 (Small promo tile) 440x280 | `store/images/promo-440x280.png` (원본은 같은 Figma 파일의 "작은 프로모션 타일 440x280", 부제는 텍스트 스타일 "프로모션/부제") | 선택 (Optional) |
-| 마키 프로모션 타일 (Marquee promo tile) 1400x560 | 없음 (추천 노출용, 비워 둠) | 선택 (Optional) |
+| 마키 프로모션 타일 (Marquee promo tile) 1400x560 | `store/images/marquee-1400x560.png` (원본은 같은 Figma 파일의 "마키 프로모션 타일 1400x560", 슬라이드 1을 복제해 다시 배치. 웹스토어가 추천 자리에 쓸 때 보인다) | 선택 (Optional) |
 | 프로모션 동영상 (YouTube video) | 없음 | 선택 (Optional) |
 
 ### 추가 입력란 (Additional fields)
