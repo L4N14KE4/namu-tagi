@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<title>규칙 모드 색 데모</title>
+<!-- 팝업 무작위 탭: 난이도 → 규칙 → 게임 시작(맨 아래) 순서와 모드 버튼 색 후보 셋. 밝은 줄, 어두운 줄. 확장 코드가 아니다. -->
+<style>
+  @font-face { font-family: Pretendard; font-weight: 400; src: url("../extension/fonts/Pretendard-Regular.subset.woff2") format("woff2"); }
+  @font-face { font-family: Pretendard; font-weight: 700; src: url("../extension/fonts/Pretendard-Bold.subset.woff2") format("woff2"); }
+  body { margin: 0; padding: 24px; background: #888; font-family: Pretendard, system-ui, sans-serif; word-break: keep-all; }
+  h1 { margin: 0 0 4px; font-size: 20px; color: #fff; }
+  .row { display: flex; gap: 24px; flex-wrap: wrap; margin: 16px 0 32px; }
+  .col h2 { margin: 0 0 8px; font-size: 15px; color: #fff; }
+  .col p.why { width: 320px; margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: #fff; }
+  .pop { --card: #fff; --text: #212529; --muted: #6c757d; --border: #dadada; --btn: #fff; --soft: #f5f5f5; --primary: #00a69c;
+         width: 320px; background: var(--card); color: var(--text); font-size: 14px; box-shadow: 0 4px 16px rgba(0,0,0,.25); }
+  .pop.dark { --card: #1c1d1f; --text: #e0e0e0; --muted: #9a9a9a; --border: #3e3e3e; --btn: #000; --soft: #26282b; }
+  header { background: linear-gradient(to right, #00a69c, #00a69c, #28b472); color: #fff; padding: 10px 12px; font-weight: 700; }
+  .pop.dark header { background: #2e3033; }
+  main { padding: 12px; }
+  .tabs { display: flex; border: 1px solid var(--border); border-radius: .3rem; overflow: hidden; margin-bottom: 12px; }
+  .tabs span { flex: 1; text-align: center; font-size: 13px; padding: 7px 0; background: var(--btn); }
+  .tabs span + span { border-left: 1px solid var(--border); }
+  .tabs .on { background: var(--primary); color: #fff; font-weight: 700; }
+  .desc { margin: 0 0 12px; font-size: 13px; line-height: 1.55; }
+  .seg { display: flex; gap: 6px; }
+  .seg span { --c: var(--primary); --ct: #fff; flex: 1; text-align: center; padding: 8px 0; border: 1px solid var(--border); border-radius: .3rem; }
+  .seg span.on { background: var(--c); border-color: var(--c); color: var(--ct); font-weight: 700; }
+  .pop:not(.A) .seg span[class^="m"]:not(.on) { color: var(--c); border-color: color-mix(in srgb, var(--c) 45%, var(--border)); } /* 안 고른 모드도 글자에 제 색 */
+  .seg .easy { --c: #28b472; } .seg .normal { --c: #ec9f19; --ct: #1c1d1f; } .seg .hard { --c: #d64a58; } .seg .wild { --c: #8e5ce6; }
+  .rules { margin-top: 12px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .rhead { padding: 9px 12px; background: var(--soft); font-weight: 700; }
+  .rbody { padding: 12px; border-top: 1px solid var(--border); }
+  .rbody .desc { margin: 12px 0 0; }
+  .opts { display: flex; padding: 9px 12px; border-top: 1px solid var(--border); font-weight: 700; }
+  .opts i { margin-left: auto; font-style: normal; font-size: 12px; font-weight: 400; color: var(--muted); }
+  .start { margin-top: 12px; padding: 9px; text-align: center; background: var(--primary); color: #fff; font-weight: 700; border-radius: .3rem; }
+  /* 색 후보 */
+  .A .m1, .A .m2, .A .m3 { --c: var(--primary); }
+  .B .m1 { --c: #00a69c; } .B .m2 { --c: #00756e; } .B .m3 { --c: #1f3a4d; }
+  .dark.B .m3 { --c: #4f7d99; }
+  .C .m1 { --c: #0275d8; } .C .m2 { --c: #3f4fb5; } .C .m3 { --c: #2b2d31; }
+  .dark.C .m1 { --c: #3d9cf0; } .dark.C .m2 { --c: #7480e0; } .dark.C .m3 { --c: #b8bcc4; --ct: #1c1d1f; }
+</style>
+<h1>규칙 모드 색 데모</h1>
+<p style="color:#fff;margin:0;font-size:14px">세 칸 모두 게임 시작을 맨 아래로 옮겼어요. 왼쪽은 밝은 화면, 오른쪽은 어두운 화면이에요. 모드는 하드를 고른 상태예요.</p>
+<div id="rows"></div>
+<script>
+const opts = [
+  ['A', '가. 지금처럼 초록 하나', '모드마다 색은 같고 고른 것만 초록이에요.<br>가장 차분하지만 셋의 세기 차이는 글자로만 보여요.'],
+  ['B', '나. 한 색 진하기 계단 (추천)', '초록 → 진한 청록 → 남색으로 갈수록 세 보여요.<br>난이도 색과 안 겹치고 색이 하나 계열이라 어수선하지 않아요.'],
+  ['C', '다. 파랑, 남색, 검정', '난이도 색과는 확실히 다르지만 새 색이 셋 늘어요.<br>어두운 화면에서는 검정이 안 보여 밝은 회색으로 바꿔야 해요.'],
+];
+const pop = (k, dark, m) => `<div class="pop ${k}${dark ? ' dark' : ''}"><header>나무타기</header><main>
+  <div class="tabs"><span>오늘의 문제</span><span>직접 출제</span><span class="on">무작위</span></div>
+  <p class="desc">난이도를 고르면 목표와 시작 문서가 정해져요.</p>
+  <div class="seg"><span class="easy">쉬움</span><span class="normal on">보통</span><span class="hard">어려움</span><span class="wild">🎲 랜덤</span></div>
+  <div class="rules"><div class="rhead">규칙</div><div class="rbody">
+    <div class="seg">${['기본', '하드', '익스트림'].map((t, i) => `<span class="m${i + 1}${i === m ? ' on' : ''}">${t}</span>`).join('')}</div>
+    <p class="desc">뒤로가기, 틀 상자 링크, 허브 문서를 못 써요.</p></div>
+    <div class="opts">추가 옵션<i>3분</i></div></div>
+  <div class="start">무작위 게임 시작</div></main></div>`;
+document.getElementById('rows').innerHTML = opts.map(([k, t, why]) =>
+  `<div class="col"><h2>${t}</h2><div class="row" style="margin:0">${pop(k, false, 1)}${pop(k, true, 1)}</div><p class="why" style="width:auto">${why}</p></div>`).join('<div style="height:24px"></div>');
+</script>
+</html>

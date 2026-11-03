@@ -11,9 +11,19 @@ const LR_SHARE = (() => {
   // 오늘의 문제는 회차 대신 날짜로 보여 준다(1회 = 2026-10-25, 한국 시간). 팝업의 FIRST_DAY와 같아야 한다.
   const dayLabel = n => { const d = new Date(Date.UTC(2026, 9, 25) + (n - 1) * 86400e3); return `${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`; };
   const limitText = s => (s % 60 ? `${s}초` : `${s / 60}분`);
-  // 이 판에 걸린 제한 조건을 글로. 도전장 수락 창, 결과 카드, 공유 문구가 같이 쓴다.
+  // 규칙을 하나씩 글로. 모드에 안 맞는 조합(손으로 만든 도전장, 옛 기록)일 때 쓴다.
   const ruleItems = (r = {}) => [r.nb && '뒤로가기 금지', r.nt && '틀 상자 링크 금지', r.nc && '분류 링크 금지', r.nf && '각주 링크 금지', r.nh && '허브 문서 금지',
     r.nr && '재방문 금지', r.ms && `${r.ms}단계 안에 도착`, r.tl && `제한 시간 ${limitText(r.tl)}`].filter(Boolean);
+  // 규칙 모드: 어떤 링크를 못 쓰는지의 묶음 셋. 팝업은 이 셋 중에 고르고, 제한 시간과 최대 단계는 추가 옵션으로 따로 고른다.
+  // 도전장 링크와 옛 기록은 아무 조합이나 들고 올 수 있어서 modeOf가 null이면 규칙을 하나씩 적는다.
+  const FLAG_KEYS = ['nb', 'nt', 'nc', 'nf', 'nh', 'nr'];
+  // note는 팝업의 모드 설명과 도전장 수락 창이 같이 쓴다(받는 사람은 모드 이름만으로는 무엇을 막는지 모른다).
+  const MODES = { basic: { name: '기본', flags: [], note: '본문 링크라면 무엇이든 눌러도 돼요.' },
+    hard: { name: '하드', flags: ['nb', 'nt', 'nh'], note: '뒤로가기, 틀 상자 링크, 허브 문서를 못 써요.' },
+    extreme: { name: '익스트림', flags: FLAG_KEYS, note: '뒤로가기, 틀 상자, 분류, 각주 링크를 못 써요.\n허브 문서와 지나간 문서로도 못 가요.' } };
+  const modeOf = (r = {}) => Object.keys(MODES).find(m => FLAG_KEYS.every(k => !!r[k] === MODES[m].flags.includes(k))) || null;
+  // 추가 옵션 글(제한 시간, 최대 단계). 결과 카드, 수락 창, 공유 글이 모드 이름 옆에 붙인다.
+  const limitItems = (r = {}) => [r.ms && `${r.ms}단계 안에 도착`, r.tl && `제한 시간 ${limitText(r.tl)}`].filter(Boolean);
   // 공유 문구용 걸린 시간: "1분 23.45초", 1분 안이면 "23.45초"
   const took = ms => { const cs = Math.floor(ms / 10), m = Math.floor(cs / 6000); return (m ? `${m}분 ` : '') + `${((cs % 6000) / 100).toFixed(2)}초`; };
 
@@ -51,11 +61,13 @@ const LR_SHARE = (() => {
       return id ? `${SHORT_BASE}/${id}` : null;
     } catch { return null; }
   };
+  // 공유 글의 규칙 줄: 모드 이름(기본은 빼고)과 추가 옵션, 모드에 안 맞으면 하나씩. 없으면 빈 글.
+  const rulesText = r => { const m = modeOf(r); return (m ? [m !== 'basic' && `${MODES[m].name} 모드`, ...limitItems(r)].filter(Boolean) : ruleItems(r)).join(', '); };
   const shareText = (me, link) => {
     const v = me.vs;
     return (me.mode === 'daily' ? `나무타기 ${dayLabel(me.day)}의 문제\n` : '') +
       `${v.by}님이 ${me.start} 문서에서 ${me.goal} 문서로 ${took(v.ms)} 만에 ${v.steps}단계로 이동했어요.\n` +
-      (ruleItems(me.rules).length ? `조건: ${ruleItems(me.rules).join(', ')}\n` : '') +
+      (rulesText(me.rules) ? `규칙: ${rulesText(me.rules)}\n` : '') +
       `같은 문제에 도전해 보세요 ⚔️\n${link}` +
       (link.startsWith(SHORT_BASE) ? '' : `\n도전하려면 확장을 먼저 설치해야 해요.\n나무타기 확장 설치 👉\n${STORE_URL}`); // 짧은 링크는 열면 설치 안내가 나온다. 긴 링크(서버에 못 닿았을 때)는 나무위키로 바로 가서 안내할 곳이 없다
   };
@@ -98,5 +110,5 @@ const LR_SHARE = (() => {
       el('label', { textContent: '닉네임 (비우면 이 이름을 써요)' }),
       el('div', { className: 'row' }, input, el('button', { className: 'btn primary', textContent: '복사하기', onclick: copy })), shown, out, note);
   };
-  return { nameProblem, dayLabel, limitText, ruleItems, RULE_CH, DIFF_CH, form };
+  return { nameProblem, dayLabel, limitText, ruleItems, limitItems, MODES, modeOf, RULE_CH, DIFF_CH, form };
 })();

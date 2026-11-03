@@ -120,7 +120,7 @@ try {
     await ev(sws, `chrome.storage.local.remove('records')`);
     await popup('popup-today', theme, null);
     await popup('popup-custom', theme, { start: '김치', goal: GOAL });
-    await popup('popup-rules', theme, { start: '김치', goal: GOAL }, `document.getElementById('rules').open = true`);
+    await popup('popup-rules', theme, { start: '김치', goal: GOAL }, `document.getElementById('opts').open = true`);
     await ev(sws, `chrome.storage.local.set({ records: ${JSON.stringify(RECORDS)} })`);
     await popup('popup-records', theme, null, `document.getElementById('showRecords').click()`, 620);
 

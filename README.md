@@ -33,10 +33,11 @@
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/countdown-dark.webp"><img src="server/public/shots/countdown-light.webp" width="480" alt="시작 전 카운트다운 화면"></picture></p>
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/play-dark.webp"><img src="server/public/shots/play-light.webp" alt="지나온 경로와 문서마다 머문 시간을 펼친 화면"></picture></p>
 
-**규칙 옵션**
-- 뒤로가기 금지, 틀 상자 링크 금지, 분류 링크 금지, 각주 링크 금지
-- 허브 문서 금지 (대한민국, 미국처럼 어디서나 닿는 문서는 지나갈 수 없음)
-- 같은 문서 재방문 금지, 제한 시간, 최대 단계
+**규칙**
+- 기본, 하드, 익스트림 중에서 고르기
+- 하드: 뒤로가기, 틀 상자 링크, 허브 문서(대한민국, 미국처럼 어디서나 닿는 문서) 금지
+- 익스트림: 하드에 분류 링크, 각주 링크, 같은 문서 재방문 금지를 더함
+- 추가 옵션: 제한 시간(1분, 3분, 5분, 10분), 최대 단계(3, 5, 7, 10단계)
 
 <table>
   <tr>

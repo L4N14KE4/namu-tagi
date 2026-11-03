@@ -12,7 +12,7 @@ var LR_INTRO = {
     .li li { margin: 2px 0; }
     .li table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
     .li th, .li td { padding: 6px 10px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
-    .li th { width: 7.5em; background: var(--soft); }
+    .li th { width: 5em; white-space: nowrap; background: var(--soft); }
     .li .li-note { margin: 18px 0 4px; color: var(--muted); font-size: 12px; }
   `,
   html: `
@@ -28,16 +28,12 @@ var LR_INTRO = {
         <li>도착하면 공유하기로 친구에게 도전장을 보내요.</li>
       </ul>
 
-      <h3><span class="n">2.</span>규칙 옵션</h3>
+      <h3><span class="n">2.</span>규칙</h3>
       <table>
-        <tr><th>뒤로가기 금지</th><td>뒤로가기를 막아요.<br>누르면 원래 문서로 되돌려져요.</td></tr>
-        <tr><th>틀 상자 링크 금지</th><td>접는 상자(틀) 안의 링크와 틀 문서는 누를 수 없어요.</td></tr>
-        <tr><th>분류 링크 금지</th><td>분류 줄과 분류 문서로는 이동할 수 없어요.</td></tr>
-        <tr><th>각주 링크 금지</th><td>각주 속 링크는 누를 수 없어요.</td></tr>
-        <tr><th>허브 문서 금지</th><td>대한민국, 미국처럼 어디서나 닿는 문서는 지나갈 수 없어요.</td></tr>
-        <tr><th>재방문 금지</th><td>한 번 지나간 문서에는 다시 갈 수 없어요.</td></tr>
-        <tr><th>제한 시간</th><td>분 단위로 정해요.<br>시간이 지나면 게임이 끝나요.</td></tr>
-        <tr><th>최대 단계</th><td>정한 단계 안에 도착해야 해요.</td></tr>
+        <tr><th>기본</th><td>금지하는 링크가 없어요.</td></tr>
+        <tr><th>하드</th><td>뒤로가기 금지<br>틀 상자 링크 금지<br>허브 문서(대한민국 등) 금지</td></tr>
+        <tr><th>익스트림</th><td>하드 규칙 전부<br>분류, 각주 링크 금지<br>지나간 문서 재방문 금지</td></tr>
+        <tr><th>추가 옵션</th><td>제한 시간, 최대 단계<br>넘기면 게임이 끝나요.</td></tr>
       </table>
 
       <h3><span class="n">3.</span>게임 중에는 쓸 수 없어요</h3>

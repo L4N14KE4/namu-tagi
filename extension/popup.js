@@ -36,6 +36,7 @@ const setMode = mode => {
   $('dailyPanel').hidden = mode !== 'daily';
   $('rules').hidden = mode === 'daily';
   $('pick').hidden = true;
+  if (mode !== 'daily') (mode === 'random' ? $('goRandom') : $('go')).before($('rules')); // 규칙 칸은 두 탭이 같이 쓴다. 고른 뒤 누르게 시작 버튼 바로 위로
   if (mode === 'daily') renderDaily();
 };
 for (const b of document.querySelectorAll('.tabs button')) b.onclick = () => setMode(b.dataset.mode);
@@ -45,21 +46,21 @@ const noteDiff = () => { $('diffNote').textContent = DIFF_NOTE[document.querySel
 for (const r of document.querySelectorAll('input[name="diff"]')) r.onchange = () => { store.set({ diff: r.value }); noteDiff(); };
 // ---- 규칙 ----
 // 직접 출제와 무작위에만 적용한다(오늘의 문제는 모두 같은 규칙). 마지막 선택을 기억한다.
-// 제한 시간은 분 단위로 입력받아 초로 저장한다. 비우거나 0이면 없음.
-const minutes = () => Math.min(99, Math.max(0, Math.floor(Number($('tlm').value) || 0)));
-const maxSteps = () => Math.min(99, Math.max(0, Math.floor(Number($('msn').value) || 0)));
+// 모드(기본, 하드, 익스트림, share.js의 MODES)와 추가 옵션(제한 시간, 최대 단계)을 몇 개 값 중에 고른다. 값이 적어야 같은 규칙 기록끼리 모인다.
+// 저장 모양은 예전 스위치 때와 같다(nb~nr, tl초, ms). 게임과 도전장 링크는 아무 조합이나 그대로 돈다.
+const picked = name => document.querySelector(`input[name="${name}"]:checked`).value;
 // 허브 문서 목록(접이식): 어떤 문서가 막히는지 미리 볼 수 있다. 목록은 hubs.js(역링크 많은 순).
 $('hubSum').textContent = `허브 문서 목록 보기 (${LR_HUBS.docs.length}개)`;
 $('hubList').textContent = LR_HUBS.docs.join(', ');
 const FLAGS = { nb: '뒤로 금지', nt: '틀 금지', nc: '분류 금지', nf: '각주 금지', nh: '허브 금지', nr: '재방문 금지' };
-const rules = () => ({ ...Object.fromEntries(Object.keys(FLAGS).map(k => [k, $(k).checked])), tl: minutes() * 60, ms: maxSteps() });
+const rules = () => ({ ...Object.fromEntries(Object.keys(FLAGS).map(k => [k, LR_SHARE.MODES[picked('rmode')].flags.includes(k)])), tl: Number(picked('tl')), ms: Number(picked('ms')) });
 const noteRules = () => {
   const r = rules();
-  const on = [...Object.keys(FLAGS).filter(k => r[k]).map(k => FLAGS[k]), r.tl && `${r.tl / 60}분`, r.ms && `${r.ms}단계`].filter(Boolean);
-  $('rulesNote').textContent = on.length > 3 ? `${on.length}개 적용` : on.join(', ') || '기본';
+  $('modeNote').textContent = LR_SHARE.MODES[picked('rmode')].note; // 설명은 도전장 수락 창과 같다(share.js)
+  $('hubs').hidden = !r.nh;
+  $('optsNote').textContent = [r.tl && `${r.tl / 60}분`, r.ms && `${r.ms}단계`].filter(Boolean).join(', ');
 };
-for (const id of ['tlm', 'msn']) $(id).addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 2); }); // 숫자만, 두 자리(최대 99)
-for (const id of [...Object.keys(FLAGS), 'tlm', 'msn']) $(id).addEventListener(['tlm', 'msn'].includes(id) ? 'input' : 'change', () => { store.set({ rules: rules() }); noteRules(); });
+for (const i of document.querySelectorAll('#rules input[type="radio"]')) i.onchange = () => { store.set({ rules: rules() }); noteRules(); };
 
 // ---- 나무위키 탭 연결 ----
 // 연결(port)이 살아 있는 동안 그 탭의 콘텐츠 스크립트가 자동완성과 목표 확인을 맡는다. 팝업이 닫히면 연결이 끊기고
@@ -278,9 +279,9 @@ const shortReason = r => !r ? '종료' : r.includes('그만') ? '그만둠' : r.
 const RULE_FLAGS = Object.keys(FLAGS);
 const ruleKeyOf = r => { const x = r.rules || {}; return RULE_FLAGS.map(k => (x[k] ? 1 : 0)).join('') + `/${x.tl || 0}/${x.ms || 0}`; };
 const ruleLabelOf = r => {
-  const x = r.rules || {};
-  const on = [...RULE_FLAGS.filter(k => x[k]).map(k => FLAGS[k]), x.tl && (x.tl % 60 ? `${x.tl}초 제한` : `${x.tl / 60}분 제한`), x.ms && `${x.ms}단계 제한`].filter(Boolean);
-  return on.join(', ') || '규칙 없음';
+  const x = r.rules || {}, m = LR_SHARE.modeOf(x); // 모드에 맞으면 모드 이름, 아니면(옛 기록, 도전장) 규칙을 하나씩
+  const on = [...(m ? [LR_SHARE.MODES[m].name] : RULE_FLAGS.filter(k => x[k]).map(k => FLAGS[k])), x.tl && (x.tl % 60 ? `${x.tl}초 제한` : `${x.tl / 60}분 제한`), x.ms && `${x.ms}단계 제한`].filter(Boolean);
+  return on.join(', ');
 };
 let recFilter = null; // 규칙 조합 키 또는 'all'. 처음엔 가장 최근에 한 판의 규칙 조합
 const renderRecords = async () => {
@@ -315,9 +316,10 @@ const renderRecords = async () => {
     el('h3', { textContent: '무작위 최고 기록' }),
     // 최근 판과 같은 모양: 시작 → 목표와 기록을 한 줄에, 지나간 문서는 이동내역 보기로 편다(경로를 다 늘어놓으면 길 때 어지럽다).
     el('ul', { className: 'best' }, ...bestByDiff.map(([d, r]) => {
-      if (!r) return el('li', {}, el('b', { textContent: DIFF[d] }), el('span', { textContent: '아직 없어요' }));
+      const name = el('b', { textContent: DIFF[d].replace('🎲 ', '') }); // 이름 칸에서는 주사위를 빼고 글자만
+      if (!r) return el('li', {}, name, el('span', { textContent: '아직 없어요' }));
       const trail = trailList(r), [share, slot] = sharePart(r);
-      return el('li', {}, el('b', { textContent: DIFF[d] }),
+      return el('li', {}, name,
         whatOf(r), el('span', { className: 'res', textContent: `${r.steps}단계 ${fmt(r.ms)}` }),
         el('span', { className: 'sub' }, share, trailToggle(trail)), trail, slot);
     })),
@@ -337,8 +339,9 @@ const renderRecords = async () => {
 
 // 처음 화면. 위의 함수와 값이 모두 정의된 뒤에 그린다.
 store.get(['introSeen', 'popupMode', 'diff', 'rules'], ({ introSeen, popupMode, diff, rules = {} }) => {
-  for (const k of Object.keys(FLAGS)) $(k).checked = !!rules[k];
-  $('tlm').value = rules.tl ? String(Math.min(99, Math.round(rules.tl / 60))) : ''; $('msn').value = rules.ms ? String(Math.min(99, rules.ms)) : ''; noteRules();
+  // 지난 선택을 되살린다. 모드에 안 맞는 옛 스위치 조합이나 고를 수 없는 값(예전 숫자 입력)이면 기본과 없음으로.
+  const pick = (name, v) => { (document.querySelector(`input[name="${name}"][value="${v}"]`) || document.querySelector(`input[name="${name}"]`)).checked = true; };
+  pick('rmode', LR_SHARE.modeOf(rules) || 'basic'); pick('tl', rules.tl || 0); pick('ms', rules.ms || 0); noteRules();
   setMode('daily'); // 처음 열면 오늘의 문제. 남은 입력(draft)이 있으면 아래에서 직접 출제로 바꾼다
   const radio = document.querySelector(`input[name="diff"][value="${diff}"]`);
   if (radio) radio.checked = true;
