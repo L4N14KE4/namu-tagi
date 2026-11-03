@@ -1,6 +1,6 @@
 # 나무타기 개인정보처리방침 / Privacy Policy
 
-시행일 / Effective date: 2026-11-02
+시행일 / Effective date: 2026-11-03
 
 [한국어](#한국어) | [English](#english)
 
@@ -13,9 +13,9 @@
 
 다음 정보는 사용자의 크롬 브라우저 안(`chrome.storage.local`)에만 저장됩니다. 공유하기 때 서버로 보내는 정보는 아래에 따로 적었습니다.
 
-- 게임 기록: 시작 문서, 목표 문서, 지나간 나무위키 문서 이름과 문서마다 걸린 시간, 단계, 결과, 켜 둔 규칙 (최근 200판)
+- 게임 기록: 시작 문서, 목표 문서, 지나간 나무위키 문서 이름과 문서마다 걸린 시간, 단계, 결과, 고른 규칙(모드와 추가 옵션) (최근 200판)
 - 닉네임: 공유하기에서 직접 입력한 이름, 또는 자동으로 만든 이름("명랑한 다람쥐" 등)
-- 설정: 규칙 옵션, 무작위 난이도, 경로 표시 여부, 설명을 봤는지 여부
+- 설정: 마지막에 고른 규칙 모드와 추가 옵션, 무작위 난이도, 경로 표시 여부, 설명을 봤는지 여부
 - 최근에 나온 목표 문서 이름(같은 문제가 반복되지 않게 하는 용도)
 - 목표 문서 미리보기: 목표 문서의 짧은 소개 글과 그림 주소
 
@@ -38,9 +38,9 @@
 
 ### 도전장 링크를 만들 때 서버로 보내는 정보
 
-**공유하기**를 누르면 짧은 도전장 링크(`https://namutagi.com/…`)를 만들기 위해 다음 정보를 개발자가 운영하는 서버로 보냅니다.
+결과 카드나 기록 화면에서 **공유하기**를 누르면 짧은 도전장 링크(`https://namutagi.com/…`)를 만들기 위해 다음 정보를 개발자가 운영하는 서버로 보냅니다.
 
-- 닉네임, 시작 문서, 목표 문서, 지나간 나무위키 문서 이름과 문서마다 도착한 시각, 단계, 걸린 시간, 켜 둔 규칙, 문제 종류(직접 출제, 무작위, 오늘의 문제), 확장 버전
+- 닉네임, 시작 문서, 목표 문서, 지나간 나무위키 문서 이름과 문서마다 도착한 시각, 단계, 걸린 시간, 고른 규칙(모드와 추가 옵션), 문제 종류(직접 출제, 무작위, 오늘의 문제), 확장 버전
 - 익명 ID: 브라우저마다 무작위로 만든 값입니다. 서버에는 원래 값으로 되돌릴 수 없게 바꾼 값(SHA-256 해시)만 저장합니다. 이름, 이메일 같은 계정 정보는 받지 않습니다.
 
 이 정보는 짧은 링크로 도전장을 열고 메신저 미리보기를 보여 주는 데 씁니다. 링크를 아는 사람은 누구나 그 도전장의 닉네임, 기록, 경로를 볼 수 있습니다.
@@ -78,9 +78,9 @@ The extension has no accounts. Only when you create a challenge link with Share 
 
 The following information is stored only in your Chrome browser (`chrome.storage.local`). What is sent to the server when you share is described separately below.
 
-- Game records: start article, target article, the names of the namu.wiki articles visited during a game with the time spent on each, steps, result, and enabled rules (the latest 200 games)
+- Game records: start article, target article, the names of the namu.wiki articles visited during a game with the time spent on each, steps, result, and chosen rules (mode and extra options) (the latest 200 games)
 - Nickname: a name you type when sharing, or an automatically generated one (such as "명랑한 다람쥐")
-- Settings: rule options, random difficulty, whether the path bar is shown, and whether the introduction has been seen
+- Settings: the last chosen rule mode and extra options, random difficulty, whether the path bar is shown, and whether the introduction has been seen
 - Recently used target article names (to avoid repeating the same puzzle)
 - Target article previews: a short summary and image address of the target article
 
@@ -103,9 +103,9 @@ Otherwise, it sends requests to the short link server (namutagi.com) when you cr
 
 ### Information sent to the server when you create a challenge link
 
-When you press **공유하기** (Share), the following information is sent to a server operated by the developer to create a short challenge link (`https://namutagi.com/…`).
+When you press **공유하기** (Share) on the result card or the records screen, the following information is sent to a server operated by the developer to create a short challenge link (`https://namutagi.com/…`).
 
-- Nickname, start article, target article, the names of the namu.wiki articles visited with the time you reached each, steps, total time, enabled rules, puzzle type (custom, random, daily), and the extension version
+- Nickname, start article, target article, the names of the namu.wiki articles visited with the time you reached each, steps, total time, chosen rules (mode and extra options), puzzle type (custom, random, daily), and the extension version
 - Anonymous ID: a random value created for each browser. The server stores only a one-way SHA-256 hash of it. No account information such as your name or email is collected.
 
 This information is used to open the challenge from the short link and to show a preview in messengers. Anyone who has the link can see the nickname, record, and path in that challenge.

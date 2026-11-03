@@ -283,19 +283,30 @@ const ruleLabelOf = r => {
   const on = [...(m ? [LR_SHARE.MODES[m].name] : RULE_FLAGS.filter(k => x[k]).map(k => FLAGS[k])), x.tl && (x.tl % 60 ? `${x.tl}초 제한` : `${x.tl / 60}분 제한`), x.ms && `${x.ms}단계 제한`].filter(Boolean);
   return on.join(', ');
 };
-let recFilter = null; // 규칙 조합 키 또는 'all'. 처음엔 가장 최근에 한 판의 규칙 조합
+// 기록은 모드(기본, 하드, 익스트림) 탭으로 나눠 본다. 같은 모드라도 추가 옵션이 다르면 기록을 비교할 수 없어서, 옵션 조합이 둘 이상이면
+// 고르는 칸을 띄운다(처음엔 그 모드에서 가장 최근에 한 판의 것, '전체'는 합쳐 보기). 모드에 안 맞는 옛 조합(스위치 시절 기록,
+// 손으로 만든 도전장)은 있을 때만 '기타' 탭에 모으고, 그 안에서는 규칙 조합마다 나눈다. 탭은 처음엔 가장 최근에 한 판의 모드.
+const modeKeyOf = r => LR_SHARE.modeOf(r.rules || {}) || 'other';
+const optKeyOf = r => (modeKeyOf(r) === 'other' ? ruleKeyOf(r) : `${r.rules?.tl || 0}/${r.rules?.ms || 0}`);
+const optLabelOf = r => (modeKeyOf(r) === 'other' ? ruleLabelOf(r)
+  : [r.rules?.tl && (r.rules.tl % 60 ? `${r.rules.tl}초 제한` : `${r.rules.tl / 60}분 제한`), r.rules?.ms && `${r.rules.ms}단계 제한`].filter(Boolean).join(', ') || '추가 옵션 없음');
+let recMode = null, recOpt = null; // 모드 키, 옵션 조합 키 또는 'all'
 const renderRecords = async () => {
   const { records: all = [] } = await store.get('records');
   const box = $('records');
   if (!all.length) return box.replaceChildren(el('p', { className: 'empty', textContent: '아직 끝낸 판이 없어요.\n한 판 해 보세요!' }));
+  const modes = [...Object.keys(LR_SHARE.MODES), ...(all.some(r => modeKeyOf(r) === 'other') ? ['other'] : [])];
+  if (!modes.includes(recMode)) recMode = modeKeyOf(all[0]);
+  const inMode = all.filter(r => modeKeyOf(r) === recMode);
   const groups = new Map();
-  for (const r of all) { const k = ruleKeyOf(r); if (!groups.has(k)) groups.set(k, { label: ruleLabelOf(r), n: 0 }); groups.get(k).n++; }
-  if (!recFilter || (recFilter !== 'all' && !groups.has(recFilter))) recFilter = ruleKeyOf(all[0]);
-  const records = recFilter === 'all' ? all : all.filter(r => ruleKeyOf(r) === recFilter);
-  const picker = groups.size < 2 ? [] : [el('label', { textContent: '규칙별로 보기' }),
-    el('select', { className: 'rulesel', onchange: e => { recFilter = e.target.value; renderRecords(); } },
-      ...[...groups].map(([k, g]) => el('option', { value: k, textContent: `${g.label} (${g.n}판)`, selected: k === recFilter })),
-      el('option', { value: 'all', textContent: `전체 (${all.length}판)`, selected: recFilter === 'all' }))];
+  for (const r of inMode) { const k = optKeyOf(r); if (!groups.has(k)) groups.set(k, { label: optLabelOf(r), n: 0 }); groups.get(k).n++; }
+  if (!recOpt || (recOpt !== 'all' && !groups.has(recOpt))) recOpt = inMode.length ? optKeyOf(inMode[0]) : 'all';
+  const records = recOpt === 'all' ? inMode : inMode.filter(r => optKeyOf(r) === recOpt);
+  const tabs = el('div', { className: 'seg rectabs' }, ...modes.map(m => el('label', { className: 'm-' + m },
+    el('input', { type: 'radio', name: 'recmode', checked: m === recMode, onchange: () => { recMode = m; recOpt = null; renderRecords(); } }), m === 'other' ? '기타' : LR_SHARE.MODES[m].name)));
+  const picker = groups.size < 2 ? [] : [el('select', { className: 'rulesel', title: '추가 옵션별로 보기', onchange: e => { recOpt = e.target.value; renderRecords(); } },
+    ...[...groups].map(([k, g]) => el('option', { value: k, textContent: `${g.label} (${g.n}판)`, selected: k === recOpt })),
+    el('option', { value: 'all', textContent: `전체 (${inMode.length}판)`, selected: recOpt === 'all' }))];
   const wins = records.filter(r => r.win);
   const avg = f => wins.length ? wins.reduce((s, r) => s + f(r), 0) / wins.length : 0;
   let streak = 0, best = 0, run = 0;
@@ -308,8 +319,9 @@ const renderRecords = async () => {
       if (!armed) { armed = true; reset.textContent = '한 번 더 누르면 모두 지워져요'; return; }
       await store.remove(['records', 'used']); renderRecords();
     } });
+  if (!records.length) return box.replaceChildren(tabs, el('p', { className: 'empty', textContent: `${LR_SHARE.MODES[recMode].name} 모드로 끝낸 판이 아직 없어요.` }), reset);
   box.replaceChildren(
-    ...picker,
+    tabs, ...picker,
     el('div', { className: 'grid' },
       stat(records.length, '판'), stat(`${Math.round(wins.length / records.length * 100)}%`, '도착률'), stat(streak, '연속 도착'),
       stat(wins.length ? avg(r => r.steps).toFixed(1) : '-', '평균 단계'), stat(wins.length ? fmt(avg(r => r.ms)).slice(0, 5) : '-', '평균 시간'), stat(best, '최고 연속')),

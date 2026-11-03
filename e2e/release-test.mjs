@@ -6,8 +6,9 @@
 // SHORT_BASE=http://localhost:8787 을 주면 확장 사본의 서버 주소를 바꿔 로컬 서버(server/, npx wrangler dev --local)로 시험한다.
 // 사본은 확장 ID가 달라 페이지가 확장을 못 찾으므로 도전장은 설치 안내가 뜨는지 보고 나무위키 링크를 직접 연다. 끝까지 보려면 배포 뒤 SHORT_BASE 없이 저장소의 extension/로 돌린다.
 // 새 임시 프로필이라 사용자 크롬 기록에는 판이 남지 않는다. 나무위키에 실제로 접속한다.
+// 공유하기로 서버에 만든 시험 도전장("시험 a|b&c+d")은 끝날 때 지운다(실제 서버는 원격 D1, 로컬 서버는 로컬 D1. 도전장 페이지는 가장자리 캐시에 1시간 남는다).
 // 정식 크롬 137+는 --load-extension을 무시해서 Chrome for Testing이 필요하다: CHROME 환경 변수, e2e/browsers, ~/.cache/puppeteer 순으로 찾는다(설치: npx @puppeteer/browsers install chrome@stable --path e2e/browsers).
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -37,6 +38,17 @@ const chrome = spawn(CFT, ['--headless=new', `--user-data-dir=${profile}`, `--lo
   `--remote-debugging-port=${PORT}`, '--no-first-run', ...(SHORT ? ['--disable-features=LocalNetworkAccessChecks,PrivateNetworkAccessRespectPreflightResults'] : []), '--no-default-browser-check', `--user-agent=${UA}`, '--window-size=1280,900', 'about:blank'], { stdio: 'ignore' });
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const results = [];
+const NICK = '시험 a|b&c+d'; // 공유하기로 만드는 시험 도전장의 이름. 끝나면 이 이름의 도전장을 지운다(cleanup)
+// 시험 도전장 지우기: 실제 서버(SHORT_BASE 없음)면 원격 D1, 로컬 서버면 로컬 D1에서 지운다. server/에서 wrangler에 로그인돼 있어야 한다.
+const cleanup = () => {
+  const where = !SHORT ? '--remote' : /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(SHORT) ? '--local' : null;
+  const cmd = `DELETE FROM challenges WHERE by = '${NICK}' RETURNING id`;
+  if (!where) return console.log(`정리: 이 서버의 시험 도전장은 직접 지워 주세요 (${cmd})`);
+  const r = spawnSync('npx', ['wrangler', 'd1', 'execute', 'namutagi', where, '--json', '--command', cmd], { cwd: path.join(here, '../server'), encoding: 'utf8' });
+  let ids = null; try { ids = JSON.parse(r.stdout)[0].results.map(x => x.id); } catch {}
+  console.log(ids ? `정리: 시험 도전장 ${ids.length}개를 지웠어요 (${where.slice(2)} D1${ids.length ? ': ' + ids.join(', ') : ''})`
+    : `정리 실패: cd server && npx wrangler d1 execute namutagi ${where} --command "${cmd}" 를 직접 돌려 주세요\n${(r.stderr || r.stdout || '').slice(-300)}`);
+};
 const check = (name, ok, detail = '') => { results.push({ name, ok: !!ok, detail }); console.log(ok ? 'PASS' : 'FAIL', name, detail); };
 
 let ws, id = 0;
@@ -180,7 +192,6 @@ try {
   check('도착 카드에 문제 줄, 큰 시간, 규칙', face === JSON.stringify(['사과 → 사과나무', true, '뒤로가기 금지']), face);
 
   // 5. 공유하기 → 도전장 링크 → 새 탭에서 열면 수락 창(이름, 경로, 시간)
-  const NICK = '시험 a|b&c+d';
   await evaluate(gs, `[...document.getElementById('ng-host').shadowRoot.querySelectorAll('button')].find(b => b.textContent === '공유하기').click()`);
   await waitFor(() => evaluate(gs, `!!document.getElementById('ng-host').shadowRoot.querySelector('.share input')`), 5000);
   await evaluate(gs, `(() => { const r = document.getElementById('ng-host').shadowRoot, i = r.querySelector('.share input'); i.value = ${JSON.stringify(NICK)};
@@ -210,6 +221,7 @@ try {
   chrome.kill();
   await sleep(1000); // 크롬이 프로필 쓰기를 마칠 때까지
   fs.rmSync(profile, { recursive: true, force: true });
+  cleanup();
   const failed = results.filter(r => !r.ok).length;
   console.log(`\n${results.length - failed}/${results.length} 통과`);
   process.exit(failed ? 1 : 0);
