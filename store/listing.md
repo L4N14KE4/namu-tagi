@@ -1,4 +1,4 @@
-# 크롬 웹스토어 등록 내용 (나무타기 v0.2.0)
+# 크롬 웹스토어 등록 내용 (나무타기 v0.3.0)
 
 대시보드 왼쪽 메뉴 순서대로 적었습니다. 칸마다 **English**와 **한국어**를 같이 적었고, 내용은 같습니다.
 
@@ -10,7 +10,7 @@
 
 ## 1. 패키지 (Package)
 
-- 업로드할 파일: `dist/namu-tagi-v0.2.0.zip` (GitHub 릴리스 v0.2.0의 첨부 파일과 같음). 0.1.0은 2026-11-03에 올렸다. 새 버전은 같은 항목의 패키지 화면에서 새 zip을 올린다(버전이 더 높아야 받아 준다).
+- 업로드할 파일: `dist/namu-tagi-v0.3.0.zip` (GitHub 릴리스 v0.3.0의 첨부 파일과 같음). 0.1.0은 2026-11-03에 올렸다. 새 버전은 같은 항목의 패키지 화면에서 새 zip을 올린다(버전이 더 높아야 받아 준다).
 - 반드시 이미 만든 초안 항목(ID `fiadjnefijhjdngbdcaoahcdhkbnckfi`)에 올린다. 새 항목을 만들면 ID가 바뀌어 `content.js`의 `STORE_URL`, README, 랜딩, 도전장 설치 안내, `server/public/site.js`의 확장 ID 목록이 모두 틀어진다.
 
 ---
@@ -49,7 +49,7 @@ English (확인용): A NamuWiki wiki racing game where you go from a start artic
 문제 고르기
 - 오늘의 문제: 하루에 하나, 모두에게 같은 문제가 나옵니다.
 - 직접 출제: 시작 문서와 목표 문서를 직접 정합니다. 비워 두면 무작위로 정해 줍니다.
-- 무작위: 쉬움, 보통, 어려움, 랜덤 중에서 난이도만 고르면 됩니다.
+- 무작위: 쉬움, 보통, 어려움, 랜덤 중에서 난이도를 고르고, 원하면 목표 분야(사람, 장소, 음식 등 48개, 여러 개 선택 가능)도 고릅니다. 시작은 나무위키 랜덤 문서입니다.
 
 게임 중
 - 카운트다운이 끝나면 시간이 흐르기 시작합니다.
@@ -93,7 +93,7 @@ The fewer steps and the shorter the time, the better your record.
 Choose a puzzle
 - Daily puzzle: one puzzle a day, the same for everyone.
 - Custom: choose the start and target articles yourself. Leave them blank to get random ones.
-- Random: just pick a difficulty: easy, normal, hard, or random.
+- Random: pick a difficulty (easy, normal, hard, or random) and, if you like, target fields (48 fields such as people, places, and food; multiple allowed). The start is a random namu.wiki article.
 
 During a game
 - The clock starts when the countdown ends.
@@ -214,7 +214,7 @@ Stores game records, the player's nickname, rule settings, which game is current
 한국어 (확인용)
 
 ```text
-게임 기록, 닉네임, 규칙 설정, 지금 진행 중인 게임(새 게임을 시작하면 이전 게임을 끝내기 위해), 최근에 나온 목표 문서, 목표 문서의 짧은 미리보기를 chrome.storage.local에 저장하며, 사용자의 기기 안에만 있습니다. 직접 출제 칸에 입력 중인 시작 문서와 목표 문서는 게임을 시작하거나 크롬을 끌 때까지 chrome.storage.session에 둡니다. 무작위 익명 ID는 chrome.storage.sync에 두고, 사용자가 공유할 때만 도전장과 함께 보냅니다(서버는 해시만 저장).
+게임 기록, 닉네임, 규칙 설정, 고른 목표 분야, 지금 진행 중인 게임(새 게임을 시작하면 이전 게임을 끝내기 위해), 최근에 나온 목표 문서, 목표 문서의 짧은 미리보기를 chrome.storage.local에 저장하며, 사용자의 기기 안에만 있습니다. 직접 출제 칸에 입력 중인 시작 문서와 목표 문서는 게임을 시작하거나 크롬을 끌 때까지 chrome.storage.session에 둡니다. 무작위 익명 ID는 chrome.storage.sync에 두고, 사용자가 공유할 때만 도전장과 함께 보냅니다(서버는 해시만 저장).
 ```
 
 **호스트 권한 (Host permission: https://namu.wiki/\*)**
@@ -243,7 +243,7 @@ Namutagi is a game that runs inside namu.wiki pages. The content script must loa
 
 | 항목 (Type) | 체크 | 이유 | Reason |
 | --- | --- | --- | --- |
-| 개인 식별 정보 (Personally identifiable information) | **체크** | 공유할 때 닉네임과 익명 ID(무작위 값의 해시)를 짧은 링크 서버로 보냄. 실명, 이메일은 받지 않음 | On Share, the nickname and anonymous ID (hash of a random value) are sent to the short link server. No real name or email |
+| 개인 식별 정보 (Personally identifiable information) | **체크** | 공유할 때 닉네임, 기록, 익명 ID(무작위 값의 해시)를 짧은 링크 서버로 보냄. 실명, 이메일은 받지 않음 | On Share, the nickname, the record, and the anonymous ID (hash of a random value) are sent to the short link server. No real name or email |
 | 건강 정보 (Health information) | 안 함 | | |
 | 금융 및 결제 정보 (Financial and payment information) | 안 함 | | |
 | 인증 정보 (Authentication information) | 안 함 | | |
