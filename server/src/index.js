@@ -32,7 +32,7 @@ const escPath = s => s.split('/').map(x => x.replace(/[%?#\s\\]/g, encodeURIComp
 const challengeLink = c => {
   const cs = c.times.map(t => Math.floor(t / 10)), flags = RULES.filter(k => c.rules[k]).map(k => RULE_CH[k]).join('');
   const kv = [['ng', esc(c.goal)], ...(c.mode === 'daily' && c.day ? [['d', c.day]] : []), ...(c.mode === 'random' && c.diff ? [['rd', DIFF_CH[c.diff]]] : []),
-    ...(flags ? [['r', flags]] : []), ...(c.rules.tl ? [['tl', c.rules.tl]] : []), ...(c.rules.ms ? [['ms', c.rules.ms]] : []),
+    ...(c.fd ? [['f', esc(c.fd)]] : []), ...(flags ? [['r', flags]] : []), ...(c.rules.tl ? [['tl', c.rules.tl]] : []), ...(c.rules.ms ? [['ms', c.rules.ms]] : []),
     ['b', esc(c.by)], ['p', c.path.slice(1, -1).map(esc).join('|')], ['t', cs.slice(1).map((v, i) => (v - cs[i]).toString(36)).join('.')]];
   return `https://namu.wiki/w/${escPath(c.start)}#` + kv.map(([k, v]) => `${k}=${v}`).join('&');
 };
@@ -56,6 +56,7 @@ const validate = b => {
   if (!['custom', 'random', 'daily'].includes(b.mode)) return 'mode';
   if (b.diff != null && !DIFFS.includes(b.diff)) return 'diff';
   if (b.day != null && !okInt(b.day, 100000)) return 'day';
+  if (b.fd != null && (typeof b.fd !== 'string' || !b.fd.trim() || b.fd.length > 20 || nameProblem(b.fd))) return 'fd'; // 목표 카드에 붙는 분야 이름
   const r = b.rules;
   if (!r || typeof r !== 'object' || Object.keys(r).some(k => ![...RULES, 'tl', 'ms'].includes(k)) || RULES.some(k => r[k] != null && typeof r[k] !== 'boolean')) return 'rules';
   if (!okInt(r.tl ?? 0, 99 * 60) || !okInt(r.ms ?? 0, 99)) return 'rules';
@@ -87,9 +88,9 @@ const create = async (req, env) => {
   const player = await sha256(b.pid);
   for (let i = 0; i < 5; i++) { // 겹치면 다른 id로 다시
     const id = newId();
-    const r = await env.DB.prepare('INSERT OR IGNORE INTO challenges (id, created_at, player, start, goal, mode, diff, day, rules, by, steps, ms, path, times, ver) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    const r = await env.DB.prepare('INSERT OR IGNORE INTO challenges (id, created_at, player, start, goal, mode, diff, day, rules, by, steps, ms, path, times, ver, fd) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
       .bind(id, Date.now(), player, b.start, b.goal, b.mode, b.diff ?? null, b.day ?? null, JSON.stringify(rules), b.by.trim(), b.path.length - 1, b.times.at(-1),
-        JSON.stringify(b.path), JSON.stringify(b.times), typeof b.ver === 'string' ? b.ver.slice(0, 20) : null).run();
+        JSON.stringify(b.path), JSON.stringify(b.times), typeof b.ver === 'string' ? b.ver.slice(0, 20) : null, b.fd?.trim() || null).run();
     if (r.meta.changes) return json({ id }); // 주소는 확장이 붙인다(SHORT_BASE + '/' + id)
   }
   return json({ error: 'id' }, 500);
@@ -108,6 +109,7 @@ const STYLE = `
   td .chip { display: inline-block; padding: 0 9px; border-radius: 10px; color: #fff; font-size: .9em; line-height: 1.7; }
   .d-easy { background: #28b472; } .d-normal { background: #ec9f19; color: #1c1d1f !important; } .d-hard { background: #d64a58; } .d-wild { background: #8e5ce6; }
   .m-basic { background: #00a69c; } .m-hard { background: #00756e; } .m-extreme { background: #004d47; }
+  .fd { display: inline-block; vertical-align: middle; position: relative; top: -1px; font-size: 12px; line-height: 1.5; opacity: .75; border: 1px solid currentColor; border-radius: 4px; padding: 0 6px; margin: 0 4px; white-space: nowrap; }   /* 목표 옆 분야(게임 안 수락 창과 같은 모양, 앞뒤 4px) */
   td .note { display: block; margin-top: 4px; white-space: normal; font-size: .9em; opacity: .75; }
   @media (max-width: 520px) { .btn { display: block; width: 100%; } }
 `;
@@ -162,7 +164,7 @@ const ruleRows = c => {
 const challengeMain = (c, to) => {
   const by = escHtml(c.by);
   return `<h1>${by}님의 도전장</h1>
-<p><b>${escHtml(cut(c.start))}</b> 문서에서 <b>${escHtml(cut(c.goal))}</b> 문서로 이동하는 판이에요.</p>
+<p><b>${escHtml(cut(c.start))}</b> 문서에서 <b>${escHtml(cut(c.goal))}</b>${c.fd ? `<span class="fd">${escHtml(c.fd)}</span>문서로 이동하는 판이에요.` : ' 문서로 이동하는 판이에요.'}</p>
 <table><tr><th>기록</th><td>${c.steps}단계, ${took(c.ms)}</td></tr>${ruleRows(c)}</table>
 <div data-s="none" hidden><p>나무타기는 본문 링크만 눌러 목표 문서까지 가는 나무위키 <span class="nb">게임이에요.<a class="ref" href="#fn1">[1]</a></span><br>${by}님과 겨루려면 나무타기 확장이 필요해요.<br>설치하고 이 탭으로 돌아오면 바로 도전할 수 있어요.</p><a class="btn primary" href="${STORE_URL}" target="_blank" rel="noopener">설치하러 가기</a></div>
 <div data-s="phone" hidden><p>나무타기는 PC 크롬에서 하는 나무위키 <span class="nb">게임이에요.<a class="ref" href="#fn1">[1]</a></span><br>PC에서 이 링크를 열면 ${by}님과 겨룰 수 있어요.</p><button class="btn primary" id="copy">링크 복사</button></div>
@@ -172,7 +174,7 @@ const challengeMain = (c, to) => {
 };
 
 const show = async (id, env, ctx) => {
-  const key = new Request(`https://namutagi.com/${id}?page5`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
+  const key = new Request(`https://namutagi.com/${id}?page7`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
   const hit = await caches.default.match(key);
   if (hit) return hit;
   const row = await env.DB.prepare('SELECT * FROM challenges WHERE id = ?').bind(id).first();

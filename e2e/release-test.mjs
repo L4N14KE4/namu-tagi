@@ -215,6 +215,38 @@ try {
     const btn = await waitFor(() => evaluate(is, `[...document.getElementById('ng-host')?.shadowRoot?.querySelectorAll('button') || []].some(b => b.textContent === '도전하기') && 'ok'`), 10000);
     check('수락 창에 도전하기 버튼', btn);
   }
+  // 4b. 분야: 팝업 무작위 탭에서 분야를 골라 시작하면 목표 카드에 분야가 붙고, 분야가 든 도전장은 수락 창에도 붙는다
+  await send('Target.closeTarget', { targetId: gameId }).catch(() => {}); // 5번에서 쓴 판은 이제 필요 없다
+  const { targetId: rpId } = await send('Target.createTarget', { url: `chrome-extension://${extId}/popup.html` });
+  const rps = await attach(rpId);
+  await waitFor(() => evaluate(rps, `document.querySelector('.tabs button[data-mode="random"]') && (document.querySelector('.tabs button[data-mode="random"]').click(), !document.getElementById('fieldBox').hidden)`), 8000);
+  await evaluate(rps, `[...document.querySelectorAll('#fG .chip')].find(b => b.textContent.startsWith('사람')).click(); [...document.querySelectorAll('#fF .chip')].find(b => b.textContent === '성우').click(); document.querySelector('input[name="diff"][value="hard"]').click()`);
+  const before = new Set((await targets()).map(t => t.targetId));
+  await evaluate(rps, `document.getElementById('goRandom').click()`);
+  const fg = await waitFor(async () => (await targets()).find(t => !before.has(t.targetId) && t.type === 'page' && t.url.startsWith('https://namu.wiki/')), 15000);
+  check('분야를 골라 시작하면 그 분야의 문서로 새 탭이 열림', fg && /fd=%EC%84%B1%EC%9A%B0/.test(fg.url) || (fg && decodeURIComponent(fg.url).includes('fd=성우')), fg?.url.slice(0, 120));
+  if (fg) {
+    const fs_ = await attach(fg.targetId);
+    const fst = await waitFor(async () => { const x = await evaluate(fs_, `JSON.parse(sessionStorage.getItem('ng_state') || 'null')`); return x?.status === 'playing' && x; }, 40000);
+    check('판 상태에 분야와 고른 분야가 남음', fst && fst.fd === '성우' && JSON.stringify(fst.fds) === '["성우"]', fst && JSON.stringify([fst.fd, fst.fds]));
+    const chip = await waitFor(() => evaluate(fs_, `(() => { const c = document.getElementById('ng-host').shadowRoot.querySelector('.pfd'); return c && !c.hidden && c.textContent; })()`), 20000);
+    check('목표 카드 제목 옆에 분야', chip === '성우', chip);
+    // 새 문제도 같은 분야 선택으로 목표를 새로 뽑고(시작은 나무위키 랜덤), 분야가 이어진다
+    const oldGoal = fst?.goal;
+    await evaluate(fs_, `document.getElementById('ng-host').shadowRoot.querySelector('.newq').click()`); // 3초 안에 한 번 더 눌러야 한다
+    await sleep(400);
+    await evaluate(fs_, `document.getElementById('ng-host').shadowRoot.querySelector('.newq').click()`);
+    const nq = await waitFor(async () => { const x = await evaluate(fs_, `JSON.parse(sessionStorage.getItem('ng_state') || 'null')`); return x && x.status === 'playing' && x.goal !== oldGoal && x; }, 45000);
+    check('새 문제가 같은 분야 선택으로 다시 뽑힘', nq && nq.fd === '성우' && JSON.stringify(nq.fds) === '["성우"]' && nq.diff === 'hard', nq && JSON.stringify([nq.goal, nq.fd, nq.fds, nq.diff]));
+    await send('Target.closeTarget', { targetId: fg.targetId }).catch(() => {});
+  }
+  await send('Target.closeTarget', { targetId: rpId }).catch(() => {});
+  const { targetId: ivId } = await send('Target.createTarget', { url: 'https://namu.wiki/w/%EC%82%AC%EA%B3%BC#ng=%EC%82%AC%EA%B3%BC%EB%82%98%EB%AC%B4&f=%EC%84%B1%EC%9A%B0&b=%EB%B6%84%EC%95%BC+%EC%8B%9C%ED%97%98&p=&t=2s' });
+  const ivs = await attach(ivId);
+  const ivChip = await waitFor(() => evaluate(ivs, `document.getElementById('ng-host')?.shadowRoot?.querySelector('.fdchip')?.textContent`), 30000);
+  check('도전장 수락 창에도 분야가 붙음', ivChip === '성우', ivChip);
+  await send('Target.closeTarget', { targetId: ivId }).catch(() => {});
+
 } catch (e) {
   check('오류 없이 끝남', false, e.message);
 } finally {

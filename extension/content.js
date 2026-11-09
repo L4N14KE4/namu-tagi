@@ -18,7 +18,7 @@
   // 주소에서 . 과 .. 칸은 접힌다(/w/../member → /member). 해시로 온 목표가 이러면 숨은 미리보기 창이 /w/ 밖을 열게 되므로 받지 않는다.
   const dotSeg = name => name.split('/').some(x => x === '.' || x === '..');
   // 닉네임 검사, 규칙 글, 날짜 글, 도전장 짧은 형식은 공유와 같이 쓰므로 share.js에 있다(팝업의 기록 화면도 쓴다).
-  const { nameProblem, dayLabel, limitText, ruleItems, limitItems, MODES, modeOf, RULE_CH, DIFF_CH } = LR_SHARE;
+  const { nameProblem, dayLabel, limitText, ruleItems, limitItems, MODES, modeOf, RULE_CH, DIFF_CH, fdName } = LR_SHARE;
   const byName = s => (nameProblem(s) ? '익명' : s.slice(0, 20)); // 손으로 만든 도전장 링크의 이름도 같은 규칙으로 거른다
   const currentDoc = (d = document) => { const c = d.querySelector('link[rel=canonical]'); return c ? docOf(c.getAttribute('href')) : null; };
 
@@ -167,11 +167,11 @@
   // 도전장 공유 링크는 짧은 형식 /w/<시작>#ng=<목표>&… 를 쓴다(share.js의 challengeLink, 아래 parseShort). 예전 ng-goal 링크도 그대로 열린다.
   let state = load();
   const fresh = (status, start, goal, extra = {}) => ({ start, goal, status, path: [], pending: null, mode: 'custom', diff: null, rs: false,
-    day: null, rules: { nb: false, nt: false, nc: false, nf: false, nh: false, nr: false, tl: 0, ms: 0 }, vs: null, ...extra });
+    day: null, fd: '', fds: [], rules: { nb: false, nt: false, nc: false, nf: false, nh: false, nr: false, tl: 0, ms: 0 }, vs: null, ...extra });
   const num = (v, max) => { const n = Math.floor(Number(v)); return Number.isFinite(n) ? Math.min(max, Math.max(0, n)) : 0; }; // 주소 값은 0~max 정수로
   const parse = q => ({
     mode: ['random', 'daily'].includes(q.get('mode')) ? q.get('mode') : 'custom',
-    diff: Object.hasOwn(DIFF, q.get('diff') || '') ? q.get('diff') : null, rs: q.get('rs') === '1', tries: Number(q.get('tries') || 0), day: Number(q.get('day')) || null,
+    diff: Object.hasOwn(DIFF, q.get('diff') || '') ? q.get('diff') : null, fd: fdName(q.get('fd')), fds: (q.get('fds') || '').split(',').map(fdName).filter(Boolean).slice(0, 48), rs: q.get('rs') === '1', tries: Number(q.get('tries') || 0), day: Number(q.get('day')) || null,
     rules: { nb: q.get('nb') === '1', nt: q.get('nt') === '1', nc: q.get('nc') === '1', nf: q.get('nf') === '1', nh: q.get('nh') === '1', nr: q.get('nr') === '1',
              tl: num(q.get('tl'), 99 * 60), ms: num(q.get('ms'), 99) },
     vs: q.get('by') ? { by: byName(q.get('by')), steps: num(q.get('s'), 999), ms: num(q.get('t'), 99 * 3600e3), path: q.getAll('p').slice(0, 60), times: (q.get('pt') || '').split(',').map(Number) } : null,
@@ -185,7 +185,7 @@
     const path = [start, ...(kv.p ? kv.p.split('|').map(dec) : []), goal].slice(0, 60);
     const times = (kv.t ? kv.t.split('.') : []).reduce((a, x) => [...a, a.at(-1) + (parseInt(x, 36) || 0) * 10], [0]).slice(0, path.length);
     const diff = Object.keys(DIFF_CH).find(k => DIFF_CH[k] === kv.rd) || null;
-    return { goal, mode: kv.d ? 'daily' : diff ? 'random' : 'custom', diff, rs: false, tries: 0, day: num(kv.d, 100000) || null,
+    return { goal, mode: kv.d ? 'daily' : diff ? 'random' : 'custom', diff, rs: false, tries: 0, day: num(kv.d, 100000) || null, fd: fdName(dec(kv.f)),
       rules: { ...Object.fromEntries(Object.entries(RULE_CH).map(([k, c]) => [k, flags.includes(c)])), tl: num(kv.tl, 99 * 60), ms: num(kv.ms, 99) },
       vs: kv.b ? { by: byName(dec(kv.b)), steps: path.length - 1, ms: Math.min(times.at(-1), 99 * 3600e3), path, times } : null };
   };
@@ -482,6 +482,8 @@
     if (s.diff) q.set('diff', s.diff);
     if (s.rs) q.set('rs', '1');
     if (s.day) q.set('day', s.day);
+    if (s.fd) q.set('fd', s.fd);
+    if (s.fds?.length) q.set('fds', s.fds.join(','));
     if (s.rules?.nb) q.set('nb', '1');
     if (s.rules?.nt) q.set('nt', '1');
     for (const k of ['nc', 'nf', 'nh', 'nr']) if (s.rules?.[k]) q.set(k, '1');
@@ -492,8 +494,20 @@
     return '#' + q;
   };
   // 새 문제(무작위 판): 시작·목표를 둘 다 새로 뽑아 처음부터. 시간·경로를 0으로 돌린다(버린 판의 기록은 abandon). 랜덤 난이도는 목표를 새 탭 로드가 뽑는다(ng-goal 빈 값).
+  // 무작위 판의 새 문제는 같은 분야 선택으로 목표만 문서 목록에서 새로 뽑고(share.js의 draw) 시작은 나무위키 랜덤 문서다.
+  const newFromFields = async () => {
+    try {
+      const { used = [] } = await chrome.storage.local.get('used');
+      const r = LR_SHARE.draw(await LR_SHARE.fieldsData(), state.fds, state.diff, used, LR_WORDS);
+      if (!r) return false;
+      await chrome.storage.local.set({ used: [...used, r.goal].slice(-2000) });
+      location.replace((r.start ? '/w/' + encPath(r.start) : '/random') + hashFor({ ...state, goal: r.goal, fd: r.fd, rs: true, day: null, vs: null }));
+      return true;
+    } catch { return false; } // 목록을 못 읽으면 예전처럼 목표만 목록에서, 시작은 무작위 문서로
+  };
   const newProblem = async () => {
     await abandon();
+    if (state.mode === 'random' && state.diff !== 'wild' && await newFromFields()) return;
     const goal = state.mode === 'custom' ? state.goal : state.diff === 'wild' ? '' : await pickGoal(state.diff, state.goal); // 직접 출제(시작 비움)는 목표를 두고 시작만 새로
     location.replace('/random' + hashFor({ ...state, goal, rs: true, day: null, vs: null }));
   };
@@ -517,6 +531,7 @@
     if (r.doc !== goal) { state.goal = r.doc; save(state); render(); }
     if (!r.preview?.text) return;
     $('.pgoal').textContent = r.doc;
+    $('.pfd').textContent = state.fd || ''; $('.pfd').hidden = !state.fd;
     $('.preview p').textContent = r.preview.text;
     $('.pimg').hidden = !r.preview.img;
     if (r.preview.img) $('.pimg img').src = r.preview.img;
@@ -584,7 +599,7 @@
     const win = state.status === 'done';
     return { id: state.id, at: Date.now(), mode: state.mode, diff: state.diff, start: state.start, goal: state.goal, win, steps: state.path.length - 1,
       ms: win ? state.finishedAt : state.finishedAt ?? elapsed(), path: state.path.map(p => p.doc), times: state.path.map(p => p.t), back: state.path.map(p => p.clicked === '<'),
-      reason: win ? null : reason || state.reason, day: state.day, rules: state.rules, vs: state.vs?.by || null };
+      reason: win ? null : reason || state.reason, day: state.day, fd: state.fd || undefined, rules: state.rules, vs: state.vs?.by || null };
   };
   // r을 이 판의 기록으로 넣는다(r이 없으면 지운다). 이 판의 다른 기록을 돌려준다. 쓰기는 한 줄로 세워 시작 때 넣는 기록이 결과를 덮지 않게 한다.
   let writing = Promise.resolve();
@@ -751,8 +766,8 @@
   const invite = () => {
     const v = state.vs, b = t => el('b', { textContent: t });
     showCard(`${v.by}님이 도전장을 보냈어요`, [
-      el('p', {}, b(state.start), ' 문서에서 ', b(state.goal), ' 문서로 이동하는 판이에요.'),
-      el('p', { className: 'verdict', textContent: `${v.by}님의 기록 ${v.steps}단계, ${fmt(v.ms)}` }),
+      el('p', {}, b(state.start), ' 문서에서 ', b(state.goal), ...(state.fd ? [el('span', { className: 'fdchip', textContent: state.fd }), '문서로 이동하는 판이에요.'] : [' 문서로 이동하는 판이에요.'])),
+      el('p', { className: 'verdict inv', textContent: `${v.by}님의 기록 ${v.steps}단계, ${fmt(v.ms)}` }),
       ...ruleRows(true)],
       [button('도전하기', () => { $('.overlay').classList.remove('on'); delete state.invite; save(state); begin(); }, true), button('취소', quit)]);
   };
@@ -828,12 +843,13 @@
         .verdict { font-weight: 700; margin: 4px 0 0; }
         .verdict2 { margin: 2px 0 0; color: var(--muted); }
         .verdict.best { color: var(--primary); }
+        .verdict.inv { font-size: 20px; margin: 10px 0 0; } /* 도전장 수락 창의 상대 기록: 제목과 같은 크기 */
         .rchips { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 10px 0 2px; }
         .rchips i { flex-basis: 100%; font-style: normal; color: var(--muted); font-size: 14px; margin-bottom: 2px; }
         .rchips span.d-easy { background: #28b472; } .rchips span.d-normal { background: #ec9f19; color: #1c1d1f; } .rchips span.d-hard { background: #d64a58; } .rchips span.d-wild { background: #8e5ce6; }
         .rchips span.m-basic { background: #00a69c; } .rchips span.m-hard { background: #00756e; } .rchips span.m-extreme { background: #004d47; }
         .rchips span:is([class^="d-"], [class^="m-"]) { color: #fff; border-color: transparent; } .rchips span.d-normal { color: #1c1d1f; } /* 팝업의 난이도, 모드 버튼 색 */
-        .rchips span { padding: 1px 9px; border-radius: 10px; background: var(--soft); border: 1px solid var(--border); font-size: 12.5px; line-height: 1.6; white-space: nowrap; }
+        .rchips span { padding: 1px 9px; border-radius: 10px; background: var(--soft); border: 1px solid var(--border); font-size: 12px; line-height: 1.6; white-space: nowrap; }
         .bar .time { font-variant-numeric: tabular-nums; min-width: 66px; text-align: center; }
         .bar .time.rem { min-width: 7.5em; text-align: center; } /* 남은 시간은 글자 수가 달라도 막대가 덜 흔들리게 폭을 잡는다 */
         .preview { display: flex; gap: 12px; align-items: stretch;
@@ -844,12 +860,15 @@
         .preview .pimg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
         .preview .ptxt { flex: 1; min-width: 0; }
         .preview p { margin: 2px 0 0; }
+        .ptitle { display: flex; align-items: center; flex-wrap: wrap; gap: 2px 4px; } /* 목표 이름과 분야 칩은 글자 크기가 달라 baseline 대신 세로 가운데로 맞춘다 */
+        .pfd, .fdchip { font-style: normal; font-weight: 400; font-size: 12px; line-height: 1.5; color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 0 6px; white-space: nowrap; } /* 목표 이름 옆 분야 */
+        .fdchip { display: inline-block; vertical-align: middle; position: relative; top: -1px; margin: 0 4px; } /* 글 사이에서는 앞뒤 간격을 4px로 같게(띄어쓰기 없이) */
         /* 이동내역: 목표 설명처럼 진행 막대와 같은 폭으로 펼친다. 이동할 때마다 갱신되고 길어지면 안에서 스크롤한다. */
         .trail { width: 0; min-width: 100%; box-sizing: border-box; max-height: 40vh; overflow: auto; background: var(--card); color: var(--text); border: 1px solid var(--border);
                  border-radius: 6px; padding: 8px 12px; font-size: 13px; line-height: 1.6; box-shadow: 0 4px 16px rgba(0,0,0,.3); }
         .trail ol { margin: 0; padding-left: 24px; }
         .trail small { color: var(--muted); }
-        .dt { float: right; margin-left: 12px; color: var(--muted); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+        .dt { float: right; margin-left: 12px; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
         /* 한 줄 경로: 최근 세 곳만 보이고(앞은 …) 눌러서 전체 목록을 펼친다. 폭은 진행 막대를 따른다. */
         .crumb { width: 0; min-width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 8px; padding: 5px 12px; cursor: pointer; font-size: 13px; line-height: 1.5;
                  background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,.25); }
@@ -910,7 +929,7 @@
         .card li.mx .dt { font-weight: 700; }
         /* 밝아진 줄: 바탕이 글자 끝에서 딱 끊기지 않게 양옆으로 8px 같은 색 그림자를 붙여 넓히고 둥글게. 자리(번호 위치)는 그대로다. 겹쳐도 진해지지 않게 불투명 색 */
         .card li.hl { --hl: color-mix(in srgb, var(--primary) 14%, var(--card)); background: var(--hl); box-shadow: -8px 0 0 var(--hl), 8px 0 0 var(--hl); border-radius: 6px; }
-        .rnote { margin: 6px 0 0; font-size: 13.5px; color: var(--muted); white-space: pre-line; }
+        .rnote { margin: 6px 0 0; font-size: 13px; color: var(--muted); white-space: pre-line; }
         .tnote { margin: 0; font-size: 13px; color: var(--muted); }
         .sec { margin: 16px 0 6px; font-size: 15px; font-weight: 700; }
         .card small, .muted { color: var(--muted); }
@@ -928,7 +947,7 @@
         .pick .btn { display: block; width: 100%; margin: 0 0 4px; text-align: left; }
         .pick summary { cursor: pointer; color: var(--muted); margin: 8px 0 6px; }
         .share { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
-        .share label { display: block; margin-bottom: 6px; font-size: 14px; }
+        .share label { display: block; margin-bottom: 6px; font-size: 13px; }
         /* 아래 버튼 줄(세 칸)과 칸을 맞춘다: 입력칸은 두 칸, 복사하기는 세 번째 칸 */
         .share .row { display: grid; grid-template-columns: repeat(3, minmax(92px, 1fr)); gap: 8px; }
         .share .row .btn { height: 39px; padding: 0; font-weight: 600; text-align: center; }
@@ -943,7 +962,7 @@
       </style>
       <div class="top"><div class="bar"><span class="chips"></span><span class="grp"><span class="lbl">목표</span><b class="goal"></b><button class="ctl icon info" title="목표 미리보기" hidden>${ICON_INFO}</button></span>
         <span>단계 <b class="steps">0</b></span><button class="ctl icon pathbtn" title="경로 보기/숨기기" hidden>${ICON_LIST}</button><b class="time">00:00.00</b><span class="vs" hidden></span><span class="acts"><button class="ctl newq" hidden>새 문제</button><button class="ctl retrybtn" hidden>다시하기</button><button class="ctl quit">그만두기</button></span></div>
-      <div class="preview" hidden><div class="pimg"><img alt=""></div><div class="ptxt"><b class="pgoal"></b><p></p></div><button class="pclose" title="닫기">×</button></div>
+      <div class="preview" hidden><div class="pimg"><img alt=""></div><div class="ptxt"><div class="ptitle"><b class="pgoal"></b><i class="pfd" hidden></i></div><p></p></div><button class="pclose" title="닫기">×</button></div>
         <div class="crumb" title="지나온 문서 전체 보기" hidden><span class="cl">경로</span><span class="cp"></span><span class="chev">▾</span></div>
         <div class="trail" hidden><ol start="0"></ol></div></div>
       <div class="cd"><div class="ab"></div><b></b></div>
@@ -985,7 +1004,7 @@
     await abandon();
     // 메모리의 state도 새 판으로 바꾼다. 안 그러면 페이지를 떠날 때 leave()가 옛 판(진행 중)에 떠난 시각을 적어 저장하면서 새 판을 덮어쓴다.
     // rs도 넘긴다. 빠뜨리면 직접 출제(시작 비움) 판의 '새 문제' 버튼이 다시하기 뒤에 사라진다.
-    save(state = fresh('starting', state.start, state.goal, { mode: state.mode, diff: state.diff, rs: state.rs, day: state.day, rules: state.rules, vs: state.vs }));
+    save(state = fresh('starting', state.start, state.goal, { mode: state.mode, diff: state.diff, rs: state.rs, day: state.day, fd: state.fd, fds: state.fds, rules: state.rules, vs: state.vs }));
     location.replace('/w/' + encPath(state.start));
   };
   let toastTimer;

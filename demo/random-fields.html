@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<title>무작위 분야 고르기 데모</title>
+<style>
+  @font-face { font-family: Pretendard; font-weight: 400; src: url("../extension/fonts/Pretendard-Regular.subset.woff2") format("woff2"); }
+  @font-face { font-family: Pretendard; font-weight: 700; src: url("../extension/fonts/Pretendard-Bold.subset.woff2") format("woff2"); }
+  :root { --bar: linear-gradient(to right, #00a69c, #00a69c, #28b472); --card: #fff; --text: #212529; --muted: #6c757d;
+          --border: #dadada; --btn: #fff; --btn-hover: #efefef; --primary: #00a69c; --link: #0275d8; --hl: #d4f0e3; --soft: #f5f5f5; --page: #e9ecef; }
+  :root[data-theme="dark"] { --bar: #2e3033; --card: #1c1d1f; --text: #e0e0e0; --muted: #9a9a9a; --border: #3e3e3e;
+          --btn: #000; --btn-hover: #1e1e1e; --hl: #325e4a; --soft: #26282b; --link: #ec9f19; --page: #0f1011; }
+  body { margin: 0; padding: 20px; background: var(--page); color: var(--text); font: 14px Pretendard, system-ui, sans-serif; word-break: keep-all; }
+  h2 { font-size: 14px; margin: 0 0 8px; }
+  .top { display: flex; gap: 8px; margin-bottom: 16px; align-items: center; }
+  .top button { font: inherit; padding: 4px 10px; border: 1px solid var(--border); background: var(--btn); color: var(--text); border-radius: .3rem; cursor: pointer; }
+  .wrap { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .pop { width: 320px; background: var(--card); box-shadow: 0 2px 12px rgba(0,0,0,.25); }
+  .pop header { background: var(--bar); color: #fff; padding: 10px 12px; font-weight: 700; }
+  .pop main { padding: 12px; }
+  .tabs { display: flex; border: 1px solid var(--border); border-radius: .3rem; overflow: hidden; margin-bottom: 12px; }
+  .tabs span { flex: 1; text-align: center; font-size: 13px; padding: 7px 0; background: var(--btn); }
+  .tabs span + span { border-left: 1px solid var(--border); }
+  .tabs span.on { background: var(--primary); color: #fff; font-weight: 600; }
+  .desc { font-size: 13px; line-height: 1.55; margin: 0 0 12px; }
+  .seg { display: flex; gap: 6px; }
+  .seg span { flex: 1; text-align: center; padding: 8px 0; border: 1px solid var(--border); border-radius: .3rem; background: var(--btn); }
+  .seg .on { background: #ec9f19; border-color: #ec9f19; color: #1c1d1f; font-weight: 700; }
+  .btn { font: inherit; font-size: 13px; padding: 6px 10px; color: var(--text); background: var(--btn); border: 1px solid var(--border); border-radius: .3rem; cursor: pointer; }
+  .btn:hover { background: var(--btn-hover); }
+  .primary, .primary:hover { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 600; }
+  .start { margin-top: 12px; width: 100%; padding: 9px; font-size: 14px; }
+  .fl { margin: 12px 0 4px; font-weight: 600; display: flex; justify-content: space-between; }
+  .fl small { font-weight: 400; color: var(--muted); }
+  .note { font-size: 13px; line-height: 1.55; margin: 8px 0 0; }
+  /* A: 칩 */
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font: inherit; font-size: 13px; padding: 4px 9px; color: var(--text); background: var(--btn); border: 1px solid var(--border); border-radius: .3rem; cursor: pointer; }
+  .chip:hover { background: var(--btn-hover); }
+  .chip.grp.on { border-color: var(--primary); color: var(--primary); font-weight: 700; }
+  .chip.grp b { font-weight: 700; color: var(--primary); margin-left: 3px; }
+  .chip.fld.on { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 600; }
+  /* 아무거나와 묶음 전체는 일반 칩과 다르게: 점선 테두리, 아무거나는 켜지면 분야 칩처럼 초록 배경에 흰 글자 */
+  .chip.any { border: 1px dashed var(--muted); font-weight: 600; }
+  .chip.any.on { background: var(--primary); border-color: var(--primary); border-style: solid; color: #fff; }
+  .chip.all { border-style: dashed; color: var(--muted); }
+  .chip.all.on { background: var(--primary); border-style: solid; color: #fff; }
+  .sep { width: 100%; height: 0; }
+  .sub { margin-top: 8px; padding: 8px; background: var(--soft); border-radius: .3rem; }
+  /* B: 선택 상자 둘 */
+  .sel { display: block; width: 100%; box-sizing: border-box; margin-bottom: 6px; padding: 7px 8px; font: inherit; color: var(--text); background: var(--btn); border: 1px solid var(--border); border-radius: .3rem; }
+  /* 목표 카드 */
+  .game { width: 320px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; box-shadow: 0 2px 12px rgba(0,0,0,.2); }
+  .game .t { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+  .game .t i { font-style: normal; font-weight: 400; font-size: 12px; color: var(--muted); border: 1px solid var(--border); border-radius: .3rem; padding: 1px 6px; }
+  .game .t i.b { color: var(--primary); border-color: var(--primary); }
+  .game p { margin: 6px 0 0; font-size: 13px; line-height: 1.55; }
+  .game .lab { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+</style>
+<div class="top"><b>무작위 탭 분야 고르기 (데모)</b><button id="th">밝게/어둡게</button></div>
+<div class="wrap">
+  <div><h2>A. 칩으로 고르기 (여러 개 선택)</h2>
+    <div class="pop"><header>나무타기</header><main>
+      <div class="tabs"><span>오늘의 문제</span><span>직접 출제</span><span class="on">무작위</span></div>
+      <p class="desc">난이도를 고르면 목표와 시작 문서가 정해져요.</p>
+      <div class="seg"><span>쉬움</span><span class="on">보통</span><span>어려움</span><span>🎲 랜덤</span></div>
+      <div class="fl">분야 <small id="aVal">아무거나</small></div>
+      <div class="chips" id="aG"></div>
+      <div class="sub" id="aSub"><div class="chips" id="aF"></div></div>
+      <p class="note" id="aNote"></p>
+      <button class="btn primary start">무작위 게임 시작</button>
+    </main></div>
+  </div>
+  <div><h2>B. 선택 상자 둘</h2>
+    <div class="pop"><header>나무타기</header><main>
+      <div class="tabs"><span>오늘의 문제</span><span>직접 출제</span><span class="on">무작위</span></div>
+      <p class="desc">난이도를 고르면 목표와 시작 문서가 정해져요.</p>
+      <div class="seg"><span>쉬움</span><span class="on">보통</span><span>어려움</span><span>🎲 랜덤</span></div>
+      <div class="fl">분야</div>
+      <select class="sel" id="bG"></select>
+      <select class="sel" id="bF" hidden></select>
+      <p class="note" id="bNote"></p>
+      <button class="btn primary start">무작위 게임 시작</button>
+    </main></div>
+  </div>
+  <div><h2>게임 중 목표 카드에 분야 표시</h2>
+    <div class="game"><div class="t">하야시바라 메구미 <i>성우</i></div>
+      <p>일본의 여성 성우.</p></div>
+    <div class="game" style="margin-top:16px"><div class="lab">도전장 수락 창</div>
+      <div class="t">철수님의 도전장</div>
+      <p>시작 <b>김치</b> → 목표 <b>하야시바라 메구미</b> <span style="font-size:12px;color:var(--muted);border:1px solid var(--border);border-radius:.3rem;padding:1px 6px">성우</span></p></div>
+    <p class="note" style="width:320px">제목 옆에 분야만 붙여요. 아무거나로 뽑아도, 도전장으로 공유받아 해도 붙어요(시작 문서에는 안 붙임).</p>
+  </div>
+</div>
+<script>
+const G = {
+  '사람': ['역사 인물','아이돌과 가수','배우','유튜버와 스트리머','스포츠 선수','성우','정치인과 정당'],
+  '장소': ['나라','세계의 도시','한국 지리','건축과 랜드마크'],
+  '자연': ['동물','반려동물','식물','우주와 날씨'],
+  '스포츠와 놀이': ['스포츠 종목','스포츠 팀과 리그','스포츠 대회','e스포츠와 프로게이머','놀이'],
+  '서브컬처': ['애니메이션과 만화','캐릭터','게임','히어로와 특촬','괴담과 도시전설'],
+  '작품': ['영화','드라마','방송과 예능','음악','문학과 미술','신화와 전설'],
+  '역사와 사회': ['한국사','세계사와 전쟁','미스터리와 사건 사고','군사와 무기','종교와 철학','언어와 문자','경제와 직업'],
+  '과학과 기술': ['물리와 수학','의학과 몸','IT와 전자기기','탈것과 교통'],
+  '생활과 문화': ['음식','기업과 브랜드','밈과 유행어','교육과 학교','패션과 뷰티','축제와 기념일'],
+};
+const $ = s => document.querySelector(s);
+const note = (g, f) => !g ? '모든 분야에서 골고루 나와요.' : !f ? `${g} 안의 분야에서 골고루 나와요.` : `${f} 분야에서 나와요.`;
+// A: 분야 칩은 여러 개 고를 수 있다(묶음을 넘나들어도 유지). 아무것도 안 고르면 아무거나.
+let ag = ''; const sel = new Set();
+const cnt = g => G[g].filter(f => sel.has(f)).length;
+function renderA() {
+  $('#aG').innerHTML = `<button type="button" class="chip any ${sel.size ? '' : 'on'}" data-any="1">아무거나</button><span class="sep"></span>` +
+    Object.keys(G).map(g => `<button type="button" class="chip grp ${g === ag ? 'on' : ''}" data-g="${g}">${g}${cnt(g) ? `<b>${cnt(g)}</b>` : ''}</button>`).join('');
+  $('#aSub').hidden = !ag;
+  const all = ag && G[ag].every(f => sel.has(f));
+  if (ag) $('#aF').innerHTML = `<button type="button" class="chip all ${all ? 'on' : ''}" data-all="1">${ag} 전체</button>` +
+    G[ag].map(f => `<button type="button" class="chip fld ${sel.has(f) ? 'on' : ''}" data-f="${f}">${f}</button>`).join('');
+  const l = [...sel];
+  $('#aVal').textContent = l.length ? (l.length <= 2 ? l.join(', ') : l.slice(0, 2).join(', ') + ` 외 ${l.length - 2}`) : '아무거나';
+  $('#aNote').textContent = !l.length ? '모든 분야에서 골고루 나와요.' : l.length === 1 ? `${l[0]} 분야에서 나와요.` : `고른 ${l.length}개 분야에서 골고루 나와요.`;
+}
+$('#aG').onclick = e => { const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.any) { sel.clear(); ag = ''; } else ag = ag === b.dataset.g ? '' : b.dataset.g; renderA(); };
+$('#aF').onclick = e => { const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.all) { const all = G[ag].every(f => sel.has(f)); G[ag].forEach(f => all ? sel.delete(f) : sel.add(f)); }
+  else sel.has(b.dataset.f) ? sel.delete(b.dataset.f) : sel.add(b.dataset.f);
+  renderA(); };
+renderA();
+// B
+function renderB() {
+  const g = $('#bG').value, f = $('#bF');
+  f.hidden = !g;
+  if (g) f.innerHTML = `<option value="">${g} 전체</option>` + G[g].map(x => `<option>${x}</option>`).join('');
+  $('#bNote').textContent = note(g, f.value);
+}
+$('#bG').innerHTML = '<option value="">아무거나</option>' + Object.keys(G).map(g => `<option>${g}</option>`).join('');
+$('#bG').onchange = () => { $('#bF').value = ''; renderB(); };
+$('#bF').onchange = renderB;
+renderB();
+// 테마
+const theme = new URLSearchParams(location.search).get('theme');
+if (theme) document.documentElement.dataset.theme = theme;
+$('#th').onclick = () => { const r = document.documentElement; r.dataset.theme = r.dataset.theme === 'dark' ? 'light' : 'dark'; };
+</script>

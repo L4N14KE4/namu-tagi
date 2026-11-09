@@ -10,7 +10,7 @@ var LR_INTRO = {
     .li p { margin: 0 0 6px; }
     .li ul { margin: 0; padding-left: 20px; }
     .li li { margin: 2px 0; }
-    .li table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .li table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .li th, .li td { padding: 6px 10px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
     .li th { width: 5em; white-space: nowrap; background: var(--soft); }
     .li .li-note { margin: 18px 0 4px; color: var(--muted); font-size: 12px; }

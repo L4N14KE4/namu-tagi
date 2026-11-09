@@ -42,8 +42,38 @@ const setMode = mode => {
 for (const b of document.querySelectorAll('.tabs button')) b.onclick = () => setMode(b.dataset.mode);
 const DIFF_NOTE = { easy: '들어오는 링크가 많은 문서가 목표예요.', normal: '들어오는 링크가 적당한 문서가 목표예요.', hard: '들어오는 링크가 적은 문서가 목표예요.',
   wild: '시작도 목표도 나무위키 랜덤 문서예요.\n도달할 수 없을 수도 있어요.' };
-const noteDiff = () => { $('diffNote').textContent = DIFF_NOTE[document.querySelector('input[name="diff"]:checked').value]; };
+const noteDiff = () => {
+  const d = document.querySelector('input[name="diff"]:checked').value;
+  $('diffNote').textContent = DIFF_NOTE[d];
+  $('fieldBox').hidden = d === 'wild' || !fdata; // 랜덤은 시작도 목표도 나무위키 랜덤 문서라 분야가 없다
+};
 for (const r of document.querySelectorAll('input[name="diff"]')) r.onchange = () => { store.set({ diff: r.value }); noteDiff(); };
+// ---- 무작위 분야 ----
+// fields.json(share.js의 fieldsData)의 묶음 칩을 누르면 분야 칩이 펼쳐진다. 분야는 여러 개 고를 수 있고(묶음을 넘나들어도 유지), 아무것도 안 고르면 아무거나. 고른 분야는 기억한다.
+// 뽑을 때는 고른 분야 중 하나를 균등하게 뽑고 그 분야에서 목표(도착)만 뽑는다(share.js의 draw). 시작은 예전처럼 나무위키 랜덤 문서.
+let fdata = null, fgrp = '';
+const fsel = new Set();
+const fieldsChanged = () => { store.set({ fields: [...fsel] }); renderFields(); };
+const renderFields = () => {
+  if (!fdata) return;
+  const count = g => g[1].filter(f => fsel.has(f)).length;
+  $('fG').replaceChildren(
+    el('button', { type: 'button', className: 'chip any' + (fsel.size ? '' : ' on'), textContent: '아무거나', onclick: () => { fsel.clear(); fgrp = ''; fieldsChanged(); } }),
+    ...fdata.groups.map(g => el('button', { type: 'button', className: 'chip grp' + (g[0] === fgrp ? ' on' : ''), onclick: () => { fgrp = fgrp === g[0] ? '' : g[0]; renderFields(); } },
+      g[0], ...(count(g) ? [el('b', { textContent: String(count(g)) })] : []))));
+  const g = fdata.groups.find(x => x[0] === fgrp);
+  $('fSub').hidden = !g;
+  if (g) {
+    const all = g[1].every(f => fsel.has(f));
+    $('fF').replaceChildren(
+      el('button', { type: 'button', className: 'chip all' + (all ? ' on' : ''), textContent: `${g[0]} 전체`, onclick: () => { g[1].forEach(f => (all ? fsel.delete(f) : fsel.add(f))); fieldsChanged(); } }),
+      ...g[1].map(f => el('button', { type: 'button', className: 'chip fld' + (fsel.has(f) ? ' on' : ''), textContent: f, onclick: () => { fsel.has(f) ? fsel.delete(f) : fsel.add(f); fieldsChanged(); } })));
+  }
+  const l = [...fsel];
+  $('fieldVal').textContent = l.length ? (l.length <= 2 ? l.join(', ') : `${l.slice(0, 2).join(', ')} 외 ${l.length - 2}`) : '아무거나';
+  // 분야는 도착(목표)만 정한다. 글에도 "목표가"로 밝힌다.
+  $('fieldNote').textContent = !l.length ? '목표가 모든 분야에서 골고루 나와요.' : l.length === 1 ? `목표가 ${l[0]} 분야에서 나와요.` : `목표가 고른 ${l.length}개 분야에서 골고루 나와요.`;
+};
 // ---- 규칙 ----
 // 직접 출제와 무작위에만 적용한다(오늘의 문제는 모두 같은 규칙). 마지막 선택을 기억한다.
 // 모드(기본, 하드, 익스트림, share.js의 MODES)와 추가 옵션(제한 시간, 최대 단계)을 몇 개 값 중에 고른다. 값이 적어야 같은 규칙 기록끼리 모인다.
@@ -208,7 +238,18 @@ $('f').addEventListener('submit', async e => {
 });
 $('goRandom').onclick = async () => {
   const diff = document.querySelector('input[name="diff"]:checked').value;
-  launch('', diff === 'wild' ? '' : await pickGoal(diff), { mode: 'random', diff }); // 랜덤은 목표도 새 탭이 /random으로 뽑는다
+  $('errRandom').textContent = '';
+  if (diff === 'wild') return launch('', '', { mode: 'random', diff }); // 랜덤은 시작도 목표도 새 탭이 /random으로 뽑는다
+  // 분야 목록에서 목표를 뽑는다(시작은 비워서 새 탭이 /random으로 뽑는다). 목록을 못 읽으면(그리고 분야를 고르지 않았으면) 예전처럼 words.js 목표와 무작위 시작.
+  let r = null;
+  try {
+    const { used = [] } = await store.get('used');
+    r = LR_SHARE.draw(fdata || await LR_SHARE.fieldsData(), [...fsel], diff, used, LR_WORDS);
+    if (r) await store.set({ used: [...used, r.goal].slice(-2000) });
+  } catch {}
+  if (r) return launch(r.start, r.goal, { mode: 'random', diff, rs: '1', ...(r.fd ? { fd: r.fd } : {}), ...(fsel.size ? { fds: [...fsel].join(',') } : {}) });
+  if (fsel.size) return void ($('errRandom').textContent = '고른 분야에서 문서를 못 뽑았어요.');
+  launch('', await pickGoal(diff), { mode: 'random', diff });
 };
 
 // ---- 오늘의 문제 ----
@@ -252,6 +293,7 @@ const renderDaily = async () => {
   const n = dayNumber(), { start, goal } = dailyCombo(n);
   $('dailyNo').textContent = `${dayLabel(n)}의 문제`;
   $('dailyCombo').textContent = `${start} → ${goal}`;
+  LR_SHARE.fieldsData().then(d => { const f = LR_SHARE.fieldOf(d, goal); if (f) $('dailyCombo').replaceChildren(`${start} → ${goal}`, el('span', { className: 'fchip', textContent: f })); }, () => {}); // 목표가 든 분야(없으면 안 붙임)
   const { records = [] } = await store.get('records');
   const wins = records.filter(r => r.mode === 'daily' && r.win);
   const today = wins.filter(r => r.day === n).reduce((b, r) => (!b || better(r, b) ? r : b), null);
@@ -265,7 +307,11 @@ const renderDaily = async () => {
   btn.hidden = !list; btn.textContent = '이동내역 보기'; $('dailyTrail').replaceChildren(...(list ? [...list.children] : [])); $('dailyTrail').hidden = true;
   btn.onclick = () => { $('dailyTrail').hidden = !$('dailyTrail').hidden; btn.textContent = $('dailyTrail').hidden ? '이동내역 보기' : '이동내역 접기'; };
 };
-$('goDaily').onclick = () => { const n = dayNumber(), { start, goal } = dailyCombo(n); launch(start, goal, { mode: 'daily', day: String(n) }); };
+$('goDaily').onclick = async () => {
+  const n = dayNumber(), { start, goal } = dailyCombo(n);
+  const fd = await LR_SHARE.fieldsData().then(d => LR_SHARE.fieldOf(d, goal), () => '');
+  launch(start, goal, { mode: 'daily', day: String(n), ...(fd ? { fd } : {}) });
+};
 
 // ---- 기록 ----
 // 콘텐츠 스크립트가 끝난 판마다 남긴 records(최근 200판)로 통계를 낸다. 최고 기록은 단계가 적을수록, 같으면 빠를수록 좋다.
@@ -351,7 +397,7 @@ const renderRecords = async () => {
 };
 
 // 처음 화면. 위의 함수와 값이 모두 정의된 뒤에 그린다.
-store.get(['introSeen', 'popupMode', 'diff', 'rules'], ({ introSeen, popupMode, diff, rules = {} }) => {
+store.get(['introSeen', 'popupMode', 'diff', 'rules', 'fields'], ({ introSeen, popupMode, diff, rules = {}, fields = [] }) => {
   // 지난 선택을 되살린다. 모드에 안 맞는 옛 스위치 조합이나 고를 수 없는 값(예전 숫자 입력)이면 기본과 없음으로.
   const pick = (name, v) => { (document.querySelector(`input[name="${name}"][value="${v}"]`) || document.querySelector(`input[name="${name}"]`)).checked = true; };
   pick('rmode', LR_SHARE.modeOf(rules) || 'basic'); pick('tl', rules.tl || 0); pick('ms', rules.ms || 0); noteRules();
@@ -359,6 +405,7 @@ store.get(['introSeen', 'popupMode', 'diff', 'rules'], ({ introSeen, popupMode, 
   const radio = document.querySelector(`input[name="diff"][value="${diff}"]`);
   if (radio) radio.checked = true;
   noteDiff();
+  LR_SHARE.fieldsData().then(d => { fdata = d; for (const f of fields) if (d.f[f]) fsel.add(f); renderFields(); noteDiff(); }, () => {}); // 분야 목록을 못 읽으면 분야 칸 없이 예전처럼
   if (!introSeen) setIntro(false);
   show(introSeen ? 'game' : 'intro');
   draft.get('draft', ({ draft: d }) => {

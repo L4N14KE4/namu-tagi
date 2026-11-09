@@ -20,7 +20,8 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "fonts/*.woff2"
+        "fonts/*.woff2",
+        "fields.json"
       ],
       "matches": [
         "https://namu.wiki/*"

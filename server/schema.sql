@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS challenges (
   ms INTEGER NOT NULL,
   path TEXT NOT NULL,           -- JSON 문서 이름 배열(시작~목표)
   times TEXT NOT NULL,          -- JSON 문서마다 도착한 시각(ms)
-  ver TEXT                      -- 확장 버전
+  ver TEXT,                     -- 확장 버전
+  fd TEXT                       -- 목표가 속한 분야(목표 카드에 붙는 글). 이미 만든 DB에는 ALTER TABLE로 칸을 더해야 한다(docs/DEVELOPMENT.md)
 );
 CREATE INDEX IF NOT EXISTS challenges_problem ON challenges (goal, start);
 CREATE INDEX IF NOT EXISTS challenges_daily ON challenges (mode, day);

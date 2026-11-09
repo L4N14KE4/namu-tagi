@@ -28,13 +28,13 @@ const LR_SHARE = (() => {
   const took = ms => { const cs = Math.floor(ms / 10), m = Math.floor(cs / 6000); return (m ? `${m}분 ` : '') + `${((cs % 6000) / 100).toFixed(2)}초`; };
 
   // 도전장 짧은 형식. 한글은 그대로 두고 꼭 필요한 글자만 바꿔서 링크가 짧다(같은 판이 398자 → 84자). 짧은 링크 서버(server/src/index.js)도 같은 형식으로 보낸다.
-  //  ng=목표 d=회차(오늘의 문제) rd=난이도 글자(무작위) r=규칙 글자 tl= ms= b=보낸 사람
+  //  ng=목표 d=회차(오늘의 문제) rd=난이도 글자(무작위) f=분야 이름(목표 카드에 붙는 글) r=규칙 글자 tl= ms= b=보낸 사람
   //  p=시작과 목표를 뺀 경로(|로 이음) t=문서마다 걸린 1/100초(36진수, .로 이음). 단계·전체 시간은 여기서 다시 센다. 푸는 쪽은 content.js의 parseShort.
   const RULE_CH = { nb: 'b', nt: 't', nc: 'c', nf: 'f', nh: 'h', nr: 'r' }, DIFF_CH = { easy: 'e', normal: 'n', hard: 'h', wild: 'w' };
   const esc = s => String(s).replace(/[%&=#+|\s]/g, c => (c === ' ' ? '+' : encodeURIComponent(c)));
   const challengeLink = s => {
     const v = s.vs, cs = v.times.map(t => Math.floor(t / 10)), flags = Object.keys(RULE_CH).filter(k => s.rules?.[k]).map(k => RULE_CH[k]).join('');
-    const kv = [['ng', esc(s.goal)], ...(s.mode === 'daily' && s.day ? [['d', s.day]] : []), ...(s.mode === 'random' && s.diff ? [['rd', DIFF_CH[s.diff]]] : []),
+    const kv = [['ng', esc(s.goal)], ...(s.mode === 'daily' && s.day ? [['d', s.day]] : []), ...(s.mode === 'random' && s.diff ? [['rd', DIFF_CH[s.diff]]] : []), ...(s.fd ? [['f', esc(s.fd)]] : []),
       ...(flags ? [['r', flags]] : []), ...(s.rules?.tl ? [['tl', s.rules.tl]] : []), ...(s.rules?.ms ? [['ms', s.rules.ms]] : []),
       ['b', esc(v.by)], ['p', v.path.slice(1, -1).map(esc).join('|')], ['t', cs.slice(1).map((c, i) => (c - cs[i]).toString(36)).join('.')]];
     return `https://namu.wiki/w/${s.start.split('/').map(x => x.replace(/[%?#\s\\]/g, encodeURIComponent)).join('/')}#` + kv.map(([k, x]) => `${k}=${x}`).join('&');
@@ -54,7 +54,7 @@ const LR_SHARE = (() => {
   // 결과 카드는 나무위키 출처로, 팝업은 확장 출처로 보낸다. 서버가 두 출처를 다 받는다.
   const shortLink = async me => {
     try {
-      const body = JSON.stringify({ pid: await playerId(), start: me.start, goal: me.goal, mode: me.mode, diff: me.diff, day: me.day, rules: me.rules,
+      const body = JSON.stringify({ pid: await playerId(), start: me.start, goal: me.goal, mode: me.mode, diff: me.diff, fd: me.fd || undefined, day: me.day, rules: me.rules,
         by: me.vs.by, path: me.vs.path, times: me.vs.times, ver: chrome.runtime.getManifest().version });
       const r = await fetch(`${SHORT_BASE}/c`, { method: 'POST', body, signal: AbortSignal.timeout(3000) });
       const { id } = r.ok ? await r.json() : {};
@@ -71,6 +71,40 @@ const LR_SHARE = (() => {
       `같은 문제에 도전해 보세요 ⚔️\n${link}` +
       (link.startsWith(SHORT_BASE) ? '' : `\n도전하려면 확장을 먼저 설치해야 해요.\n나무타기 확장 설치 👉\n${STORE_URL}`); // 짧은 링크는 열면 설치 안내가 나온다. 긴 링크(서버에 못 닿았을 때)는 나무위키로 바로 가서 안내할 곳이 없다
   };
+
+  // ---- 분야 ----
+  // fields.json(scripts/build-fields-json.mjs가 만듦)은 약 0.7MB라 필요할 때만 읽는다. 팝업은 확장 안의 파일을, 게임 탭은 web_accessible_resources로 연 파일을 읽는다.
+  let fieldsP;
+  const fieldsData = () => (fieldsP ||= fetch(chrome.runtime.getURL('fields.json')).then(r => r.json()).catch(e => { fieldsP = null; throw e; }));
+  const rnd = a => a[Math.floor(Math.random() * a.length)];
+  // 목표 풀: 쉬움이 얇은 분야(t)는 쉬움에 보통을 섞고, 그래도 모자라면 x(어려움 중 역링크 많은 문서)도 섞는다.
+  const goalPool = (x, diff) => (diff === 'easy' ? (x.t ? [...x.e, ...x.n, ...(x.x || [])] : x.e) : x[{ normal: 'n', hard: 'h' }[diff]]);
+  // 고른 분야(없으면 전부) 중 하나를 균등하게 뽑고, 그 분야에서 난이도에 맞는 목표와 시작 문서를 뽑는다. 최근에 나온 목표(used)는 피한다.
+  // 분야는 도착(목표)만 정한다. 시작은 호출하는 쪽이 나무위키 랜덤 문서로 뽑는다(start ''). 풀이 비면 null.
+  // 분야를 고르지 않았으면(아무거나) 어느 분야에도 없는 기존 목록(words) 문서도 "기타" 한 칸으로 끼워 넣는다. 이 문서가 뽑히면 fd는 ''이다.
+  const draw = (data, fds, diff, used = [], words) => {
+    const chosen = (fds || []).filter(f => data.f[f]), names = chosen.length ? chosen : Object.keys(data.f);
+    const rest = !chosen.length && words?.[diff] ? words[diff].filter(w => !used.includes(w) && !fieldOf(data, w)) : [];
+    if (rest.length && Math.random() < 1 / (names.length + 1)) return { fd: '', goal: rnd(rest), start: '' };
+    const ok = names.filter(f => goalPool(data.f[f], diff).some(w => !used.includes(w)));
+    const cand = ok.length ? ok : names.filter(f => goalPool(data.f[f], diff).length);
+    if (!cand.length) return null;
+    const fd = rnd(cand), x = data.f[fd], pool = goalPool(x, diff), left = pool.filter(w => !used.includes(w));
+    const goal = rnd(left.length ? left : pool);
+    return { fd, goal, start: '' };
+  };
+  // 문서가 속한 분야(오늘의 문제 표시용). 두 분야 이상에 들면 문서가 더 적은 분야를 쓴다(누가 계산해도 같은 결과). 없으면 ''.
+  let byTitle;
+  const fieldOf = (data, title) => {
+    if (!byTitle) {
+      byTitle = new Map();
+      const size = f => { const x = data.f[f]; return x.e.length + x.n.length + x.h.length; };
+      for (const f of Object.keys(data.f)) for (const t of ['e', 'n', 'h'].flatMap(k => data.f[f][k])) { const o = byTitle.get(t); if (!o || size(f) < size(o)) byTitle.set(t, f); }
+    }
+    return byTitle.get(title) || '';
+  };
+  // 주소나 도전장으로 들어온 분야 이름. 카드에 그대로 찍히니 길이를 줄이고 보이지 않는 글자와 운영자 같은 이름은 버린다.
+  const fdName = s => { s = String(s || '').trim().slice(0, 20); return !s || nameProblem(s) ? '' : s; };
   // 닉네임을 비워 두면 쓰는 자동 이름("명랑한 다람쥐"). 처음 한 번 만들어 저장해 두고, 직접 쓴 닉네임이 있으면 그것을 쓴다.
   const NICK_ADJ = ['명랑한', '용감한', '느긋한', '씩씩한', '부지런한', '엉뚱한', '수줍은', '듬직한', '재빠른', '졸린', '배고픈', '호기심 많은',
     '똑똑한', '푸근한', '당당한', '다정한', '날쌘', '반짝이는', '포근한', '느릿한', '상냥한', '의젓한', '활기찬'];
@@ -111,5 +145,5 @@ const LR_SHARE = (() => {
       el('label', { textContent: '닉네임 (비우면 이 이름을 써요)' }),
       el('div', { className: 'row' }, input, el('button', { className: 'btn primary', textContent: '복사하기', onclick: copy })), shown, out, note);
   };
-  return { nameProblem, dayLabel, limitText, ruleItems, limitItems, MODES, modeOf, RULE_CH, DIFF_CH, form };
+  return { nameProblem, dayLabel, limitText, ruleItems, limitItems, MODES, modeOf, RULE_CH, DIFF_CH, form, fieldsData, draw, fieldOf, fdName };
 })();
