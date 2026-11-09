@@ -166,7 +166,7 @@ const challengeMain = (c, to) => {
   return `<h1>${by}님의 도전장</h1>
 <p><b>${escHtml(cut(c.start))}</b> 문서에서 <b>${escHtml(cut(c.goal))}</b>${c.fd ? `<span class="fd">${escHtml(c.fd)}</span>문서로 이동하는 판이에요.` : ' 문서로 이동하는 판이에요.'}</p>
 <table><tr><th>기록</th><td>${c.steps}단계, ${took(c.ms)}</td></tr>${ruleRows(c)}</table>
-<div data-s="none" hidden><p>나무타기는 본문 링크만 눌러 목표 문서까지 가는 나무위키 <span class="nb">게임이에요.<a class="ref" href="#fn1">[1]</a></span><br>${by}님과 겨루려면 나무타기 확장이 필요해요.<br>설치하고 이 탭으로 돌아오면 바로 도전할 수 있어요.</p><a class="btn primary" href="${STORE_URL}" target="_blank" rel="noopener">설치하러 가기</a></div>
+<div data-s="none" hidden><p>나무타기는 본문 링크만 눌러 목표 문서까지 가는 나무위키 <span class="nb">게임이에요.<a class="ref" href="#fn1">[1]</a></span><br>${by}님과 겨루려면 나무타기 확장이 필요해요.<br>설치하고 이 탭으로 돌아오면 바로 도전할 수 있어요.<br>돌아와도 넘어가지 않으면 이 페이지를 새로고침해 주세요.</p><a class="btn primary" href="${STORE_URL}" target="_blank" rel="noopener">설치하러 가기</a></div>
 <div data-s="phone" hidden><p>나무타기는 PC 크롬에서 하는 나무위키 <span class="nb">게임이에요.<a class="ref" href="#fn1">[1]</a></span><br>PC에서 이 링크를 열면 ${by}님과 겨룰 수 있어요.</p><button class="btn primary" id="copy">링크 복사</button></div>
 <div data-s="have" hidden><p>나무위키로 이동하는 중이에요…<br>넘어가지 않으면 <a id="to" href="${escHtml(to)}">여기</a>를 눌러 주세요.</p></div>
 <noscript><p><a href="${escHtml(to)}">나무위키에서 도전하기</a></p></noscript>
@@ -174,7 +174,7 @@ const challengeMain = (c, to) => {
 };
 
 const show = async (id, env, ctx) => {
-  const key = new Request(`https://namutagi.com/${id}?page7`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
+  const key = new Request(`https://namutagi.com/${id}?page8`); // 페이지 모양을 바꾸면 이름을 바꿔 옛 캐시를 버린다
   const hit = await caches.default.match(key);
   if (hit) return hit;
   const row = await env.DB.prepare('SELECT * FROM challenges WHERE id = ?').bind(id).first();
