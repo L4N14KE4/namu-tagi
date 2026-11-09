@@ -17,8 +17,8 @@
   figure { margin: 0 0 22.5px; }
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22.5px; }
   .two figure { margin: 0; }
-  .pops { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 22.5px; }
-  .pops figure { margin: 0; width: 280px; max-width: 100%; }
+  .pops { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; margin-bottom: 22.5px; }
+  .pops figure { margin: 0; flex: 1 1 200px; max-width: 280px; } /* 너비가 되면 세 개가 한 줄, 모자라면 줄바꿈 */
   figure > figcaption:first-child { margin: 0 0 6px; } /* 짧은 이름 캡션은 그림 위에 둔다 */
   .lead { font-size: 17px; }
   @media (max-width: 720px) { .two { grid-template-columns: 1fr; } }
