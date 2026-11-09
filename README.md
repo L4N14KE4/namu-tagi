@@ -43,6 +43,7 @@
   <tr>
     <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-today-dark.webp"><img src="server/public/shots/popup-today-light.webp" width="240" alt="팝업의 오늘의 문제 탭"></picture></td>
     <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-rules-dark.webp"><img src="server/public/shots/popup-rules-light.webp" width="240" alt="팝업의 직접 출제 탭과 규칙 모드, 추가 옵션"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-random-dark.webp"><img src="server/public/shots/popup-random-light.webp" width="240" alt="팝업의 무작위 탭과 목표 분야"></picture></td>
   </tr>
 </table>
 

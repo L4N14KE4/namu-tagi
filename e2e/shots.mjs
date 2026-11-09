@@ -141,6 +141,18 @@ try {
     // 규칙 칸: 하드를 고르고 추가 옵션을 펼쳐 3분을 고른 모양(저장된 규칙은 다음 사진 전에 기본으로 되돌린다)
     await popup('popup-rules', theme, { start: '김치', goal: GOAL }, `document.querySelector('input[name="rmode"][value="hard"]').click(); document.getElementById('opts').open = true; document.querySelector('input[name="tl"][value="180"]').click()`);
     await ev(sws, `chrome.storage.local.remove('rules')`);
+    // 무작위 탭: 목표 분야를 펼쳐 생활과 문화 묶음의 음식과 밈과 유행어를 고른 모양(고른 분야는 저장되니 사진 뒤에 지운다)
+    await popup('popup-random', theme, null, `(async () => {
+      const sleep = ms => new Promise(r => setTimeout(r, ms));
+      document.querySelector('.tabs button[data-mode="random"]').click();
+      for (let i = 0; i < 50 && document.getElementById('fieldBox').hidden; i++) await sleep(100);
+      document.getElementById('fieldOpts').open = true;
+      const chip = t => [...document.querySelectorAll('.chip')].find(c => c.textContent.startsWith(t));
+      chip('생활과 문화').click(); await sleep(100);
+      chip('음식').click(); await sleep(100);
+      chip('밈과 유행어').click(); await sleep(100);
+    })()`);
+    await ev(sws, `chrome.storage.local.remove('fields')`);
     await ev(sws, `chrome.storage.local.set({ records: ${JSON.stringify(RECORDS)} })`);
     await popup('popup-records', theme, null, `document.getElementById('showRecords').click()`, 620);
 
