@@ -1,5 +1,6 @@
 // 랜딩, 환영 페이지, README에 쓰는 화면 사진을 다시 찍는다. 의존 패키지 없음(Node 22+ 내장 WebSocket으로 CDP).
 //   node e2e/shots.mjs <폴더>          보통은 server/public/shots. 찍은 뒤 index.html, welcome.html의 사진 주소 ?v= 를 올린다.
+//   ONLY=popups node e2e/shots.mjs …   팝업 사진만 다시 찍는다(나무위키에 안 감).
 //   CROPS=<폴더> node e2e/shots.mjs …   밝은 화면의 팝업과 카드(결과, 도전장 수락, 승리)만 오려 PNG로도 저장한다(웹스토어 스크린샷용 Figma 그림).
 // Chrome for Testing 새 프로필에 extension/을 올려 나무위키에서 실제로 게임을 한다(사용자 크롬 기록에는 남지 않는다). 광고 주소는 막는다.
 // 게임 화면은 브라우저 1.25배 확대처럼(768x480을 2.5배) 찍고, 결과와 승리 화면은 카드가 잘리지 않게 1120x700을 약 1.71배로 찍는다. 결과는 모두 1920x1200.
@@ -53,7 +54,7 @@ const crop = async (s, theme, name, sel, dpr) => {
 };
 const BLOCK = ['*doubleclick*', '*googlesyndication*', '*googletagservices*', '*adservice*', '*adsystem*', '*criteo*', '*taboola*', '*dable*', '*mobon*'];
 // 새 탭: 크기, 밝기, 확대 배율을 먼저 맞추고 연다. 포커스를 흉내 내 게임이 "떠났다"고 보지 않게 한다.
-const tab = async (url, theme, w, h, scale) => {
+const tab = async (url, theme, w, h, scale, shiftDays = 0) => {
   const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
   const { sessionId: s } = await send('Target.attachToTarget', { targetId, flatten: true });
   await send('Page.enable', {}, s);
@@ -62,6 +63,8 @@ const tab = async (url, theme, w, h, scale) => {
   await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: scale, mobile: false }, s);
   await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: theme }] }, s);
   await send('Emulation.setFocusEmulationEnabled', { enabled: true }, s);
+  // 오늘의 문제가 사진에 어울리지 않는 날이면 며칠 뒤 날짜로 보이게 시계를 민다
+  if (shiftDays) await send('Page.addScriptToEvaluateOnNewDocument', { source: `(() => { const D = Date, ms = ${shiftDays} * 864e5; globalThis.Date = class extends D { constructor(...a) { a.length ? super(...a) : super(D.now() + ms); } static now() { return D.now() + ms; } }; })()` }, s);
   await send('Page.navigate', { url }, s);
   return { targetId, s, close: () => send('Target.closeTarget', { targetId }) };
 };
@@ -74,6 +77,8 @@ const go = async (s, doc, wait) => {
   await sleep(wait);
 };
 const hud = s => `document.getElementById('ng-host').shadowRoot`;
+// 사진에 쓸 오늘의 문제: 그날 문제가 사진에 어울리지 않으면 TODAY_SHIFT일 뒤 문제로 찍는다(2026-11-09의 문제는 살인죄 → 마왕이라 11-23의 피규어 → 피처폰으로 찍었다). 풀이 바뀌면 다시 고른다.
+const TODAY_SHIFT = 14;
 const q = encodeURIComponent, GOAL = '아폴로 11호';
 const GAME = `https://namu.wiki/w/${q('김치')}#ng-goal=${q(GOAL)}&mode=custom`;
 const VS = ['김치', '대한민국', '미국', '소련', '아폴로 계획', GOAL];
@@ -110,9 +115,9 @@ try {
   });
   const extId = new URL(sw.t.url).host, sws = sw.sessionId;
   await ev(sws, `chrome.storage.local.set({ introSeen: true })`);
-  const popup = async (name, theme, draft, prep, maxH) => {
+  const popup = async (name, theme, draft, prep, maxH, shiftDays) => {
     await ev(sws, draft ? `chrome.storage.session.set({ draft: ${JSON.stringify(draft)} })` : `chrome.storage.session.remove('draft')`);
-    const p = await tab(`chrome-extension://${extId}/popup.html`, theme, 320, 900, 2);
+    const p = await tab(`chrome-extension://${extId}/popup.html`, theme, 320, 900, 2, shiftDays);
     await sleep(800);
     await ev(p.s, `document.fonts.ready`);
     // 나무위키 탭에서 연 팝업이 아니라서 뜨는 안내는 실제 팝업에 없으니 지운다
@@ -131,7 +136,7 @@ try {
     // 팝업: 오늘의 문제, 직접 출제(접은 것, 규칙 펼친 것), 기록
     // 오늘의 문제는 아직 안 푼 모양으로, 기록 화면은 예시 기록으로(앞 판의 실제 기록이 섞이지 않게 덮어쓴다)
     await ev(sws, `chrome.storage.local.remove('records')`);
-    await popup('popup-today', theme, null);
+    await popup('popup-today', theme, null, null, null, TODAY_SHIFT);
     await popup('popup-custom', theme, { start: '김치', goal: GOAL });
     // 규칙 칸: 하드를 고르고 추가 옵션을 펼쳐 3분을 고른 모양(저장된 규칙은 다음 사진 전에 기본으로 되돌린다)
     await popup('popup-rules', theme, { start: '김치', goal: GOAL }, `document.querySelector('input[name="rmode"][value="hard"]').click(); document.getElementById('opts').open = true; document.querySelector('input[name="tl"][value="180"]').click()`);
@@ -139,6 +144,7 @@ try {
     await ev(sws, `chrome.storage.local.set({ records: ${JSON.stringify(RECORDS)} })`);
     await popup('popup-records', theme, null, `document.getElementById('showRecords').click()`, 620);
 
+    if (process.env.ONLY === 'popups') continue; // 팝업만 다시 찍을 때
     // 혼자 하는 판: 카운트다운, 시작(목표 설명), 경로를 펼친 화면(play), 도착 결과
     const a = await tab(GAME, theme, 768, 480, 2.5);
     await waitFor(() => ev(a.s, `!!${hud()}?.querySelector('.cd.on')`));
