@@ -208,7 +208,7 @@ Adds "Start from this article" and "Set this article as the target" to the right
 English (붙여 넣기)
 
 ```text
-Stores game records, the player's nickname, rule settings, which game is currently running (so that starting a new game ends the previous one), recently used target articles, and short previews of target articles in chrome.storage.local, only on the user's device. The start and target articles being entered in the custom game form are kept in chrome.storage.session until the game starts or Chrome is closed. A random anonymous ID is kept in chrome.storage.sync and sent (hashed on the server) only with a challenge when the user shares.
+Stores game records, the player's nickname, rule settings, the chosen target fields, which game is currently running (so that starting a new game ends the previous one), recently used target articles, and short previews of target articles in chrome.storage.local, only on the user's device. The start and target articles being entered in the custom game form are kept in chrome.storage.session until the game starts or Chrome is closed. A random anonymous ID is kept in chrome.storage.sync and sent (hashed on the server) only with a challenge when the user shares.
 ```
 
 한국어 (확인용)
