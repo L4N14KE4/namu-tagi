@@ -127,7 +127,7 @@ try {
     const h = await ev(p.s, `Math.ceil(document.documentElement.getBoundingClientRect().height)`);
     await send('Emulation.setDeviceMetricsOverride', { width: 320, height: Math.min(h, maxH || h), deviceScaleFactor: 2, mobile: false }, p.s);
     await sleep(200);
-    await shot(p.s, `${name}-${theme}`);
+    if (!name.startsWith('fig-')) await shot(p.s, `${name}-${theme}`); // fig-로 시작하면 Figma용 오린 그림만 남긴다
     if (CROPS && theme === 'light') { const { data } = await send('Page.captureScreenshot', { format: 'png' }, p.s); fs.writeFileSync(path.join(CROPS, `${name}.png`), Buffer.from(data, 'base64')); }
     await p.close();
   };
@@ -153,6 +153,22 @@ try {
       chip('밈과 유행어').click(); await sleep(100);
     })()`);
     await ev(sws, `chrome.storage.local.remove('fields')`);
+    // Figma 슬라이드 4용: 무작위 탭에서 분야를 고르고 접은 채(요약에 분야가 보임) 하드와 3분을 고른 모양
+    await popup('fig-random-rules', theme, null, `(async () => {
+      const sleep = ms => new Promise(r => setTimeout(r, ms));
+      document.querySelector('.tabs button[data-mode="random"]').click();
+      for (let i = 0; i < 50 && document.getElementById('fieldBox').hidden; i++) await sleep(100);
+      document.getElementById('fieldOpts').open = true;
+      const chip = t => [...document.querySelectorAll('.chip')].find(c => c.textContent.startsWith(t));
+      chip('생활과 문화').click(); await sleep(100);
+      chip('음식').click(); await sleep(100);
+      chip('밈과 유행어').click(); await sleep(100);
+      document.getElementById('fieldOpts').open = false;
+      document.querySelector('input[name="rmode"][value="hard"]').click();
+      document.getElementById('opts').open = true;
+      document.querySelector('input[name="tl"][value="180"]').click();
+    })()`);
+    await ev(sws, `chrome.storage.local.remove(['fields', 'rules'])`);
     await ev(sws, `chrome.storage.local.set({ records: ${JSON.stringify(RECORDS)} })`);
     await popup('popup-records', theme, null, `document.getElementById('showRecords').click()`, 620);
 

@@ -1,0 +1,175 @@
+<!doctype html><meta charset="utf-8"><base href="../"><title>README 미리보기</title>
+<meta name="color-scheme" content="light dark">
+<style>body{font:16px/1.6 -apple-system,Pretendard,sans-serif;max-width:860px;margin:24px auto;padding:0 16px}h1,h2{border-bottom:1px solid #8884;padding-bottom:.3em}
+table{border-collapse:collapse}td{padding:6px;vertical-align:top}img{max-width:100%}code{background:#8882;padding:2px 5px;border-radius:4px}pre{background:#8882;padding:12px;overflow:auto}</style>
+<p style="color:#888;font-size:12px">GitHub 모양과 비슷하게 그린 미리보기(2026-11-09)</p>
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="design/wordmark-dark.svg">
+    <img src="design/wordmark-light.svg" alt="나무타기" height="48">
+  </picture>
+</h1>
+
+<p><b>나무타기</b>는 나무위키에서 즐기는 위키레이싱 게임입니다.</p>
+<p>시작 문서에서 목표 문서까지 본문 링크만 눌러서 찾아가 보세요.</p>
+<p>더 적은 단계, 더 짧은 시간으로 도착할수록 좋은 기록입니다.</p>
+
+<p>> [!IMPORTANT]</p>
+<p>> 이 확장은 나무위키나 umanle S.R.L.이 만들거나 배포한 것이 <b>아닙니다</b>.</p>
+<p>> 개인이 만든 비공식 게임이며, 판매하거나 수익을 얻지 않습니다.</p>
+
+<h2>기능</h2>
+
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/start-dark.webp"><img src="server/public/shots/start-light.webp" alt="게임 중 화면. 위쪽 진행 막대에 목표, 단계, 시간이 보이고 그 아래에 목표 문서 미리보기가 있다"></picture></p>
+
+<p><b>문제 고르기</b></p>
+<ul>
+<li>오늘의 문제: 하루에 하나, 모두에게 같은 문제 (규칙은 기본으로 고정)</li>
+<li>직접 출제: 시작 문서와 목표 문서를 직접 정하기, 비워 두면 무작위로 정하기</li>
+<li>무작위: 난이도(쉬움, 보통, 어려움, 랜덤)와 목표 분야(사람, 장소, 음식 등 48개, 여러 개 선택 가능)를 고르면 목표를 정하기, 시작은 나무위키 랜덤 문서. 목표 문서 옆에 분야가 표시됩니다</li>
+<li>나무위키 검색창과 같은 문서 이름 추천, 동음이의어 문서는 뜻을 골라서 시작</li>
+</ul>
+
+<p><b>게임 중</b></p>
+<ul>
+<li>카운트다운이 끝나면 시간 측정 시작</li>
+<li>화면 위 진행 막대에 목표, 단계, 시간, 난이도와 규칙 모드 표시</li>
+<li>목표 문서 미리보기와 지나온 경로 보기</li>
+<li>검색창, 랜덤 버튼, 편집 링크처럼 게임을 건너뛰는 길은 숨기거나 막기</li>
+<li>문제가 마음에 들지 않으면 새 문제로 바꾸기, 같은 문제를 처음부터 다시하기</li>
+</ul>
+
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/countdown-dark.webp"><img src="server/public/shots/countdown-light.webp" width="480" alt="시작 전 카운트다운 화면"></picture></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/play-dark.webp"><img src="server/public/shots/play-light.webp" alt="지나온 경로와 문서마다 머문 시간을 펼친 화면"></picture></p>
+
+<p><b>규칙</b></p>
+<ul>
+<li>기본, 하드, 익스트림 중에서 고르기</li>
+<li>하드: 뒤로가기, 틀 상자 링크, 허브 문서(대한민국, 미국처럼 어디서나 닿는 문서) 금지</li>
+<li>익스트림: 하드에 분류 링크, 각주 링크, 같은 문서 재방문 금지를 더함</li>
+<li>추가 옵션: 제한 시간(1분, 3분, 5분, 10분), 최대 단계(3, 5, 7, 10단계)</li>
+</ul>
+
+<table>
+  <tr>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-today-dark.webp"><img src="server/public/shots/popup-today-light.webp" width="240" alt="팝업의 오늘의 문제 탭"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-rules-dark.webp"><img src="server/public/shots/popup-rules-light.webp" width="240" alt="팝업의 직접 출제 탭과 규칙 모드, 추가 옵션"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-random-dark.webp"><img src="server/public/shots/popup-random-light.webp" width="240" alt="팝업의 무작위 탭과 목표 분야"></picture></td>
+  </tr>
+</table>
+
+<p><b>도전장</b></p>
+<ul>
+<li>도착하면 내 기록과 경로가 담긴 링크를 복사해 친구에게 보내기</li>
+<li>링크를 받은 친구는 같은 문제, 같은 규칙으로 대결 (시간이 빠른 쪽이 승리, 같으면 단계가 적은 쪽)</li>
+<li>상대의 경로는 이겨야만 볼 수 있음</li>
+<li>지난 판도 기록 화면에서 도전장으로 보내기</li>
+</ul>
+
+<table>
+  <tr>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/invite-dark.webp"><img src="server/public/shots/invite-light.webp" width="400" alt="도전장 링크를 열면 뜨는 수락 창"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/win-dark.webp"><img src="server/public/shots/win-light.webp" width="400" alt="도전장에서 이겼을 때의 결과 카드와 폭죽"></picture></td>
+  </tr>
+</table>
+
+<p><b>기록</b></p>
+<ul>
+<li>도착률, 평균 단계와 시간, 연속 도착, 무작위 난이도별 최고 기록</li>
+<li>최근 판의 이동 경로와 문서마다 머문 시간</li>
+<li>규칙 모드(기본, 하드, 익스트림)별 탭으로 나눠 보기, 추가 옵션이 다르면 따로</li>
+<li>도착 카드에 지난 최고 기록이나 평균과의 비교, 문서마다 머문 시간 막대</li>
+<li>내 기록을 깨거나 도전장에서 이기거나 오늘의 문제를 풀면 폭죽</li>
+</ul>
+
+<table>
+  <tr>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/result-dark.webp"><img src="server/public/shots/result-light.webp" width="400" alt="목표에 도착했을 때의 결과 카드"></picture></td>
+    <td valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="server/public/shots/popup-records-dark.webp"><img src="server/public/shots/popup-records-light.webp" width="240" alt="팝업의 기록 화면(예시 기록)"></picture></td>
+  </tr>
+</table>
+
+<h2>게임 규칙</h2>
+
+<p><b>단계 세는 법</b></p>
+<ul>
+<li>링크를 눌러 다른 문서로 가면 1단계입니다. 뒤로가기와 앞으로가기도 1단계로 셉니다(하드와 익스트림에서는 뒤로가기가 막힙니다).</li>
+<li>목차와 각주로 이동하는 것은 세지 않습니다.</li>
+<li>새로고침해도 게임은 그대로 이어집니다.</li>
+</ul>
+
+<p><b>게임 중에 쓸 수 없는 것</b></p>
+<ul>
+<li>검색창, 랜덤 버튼, 실시간 검색어, 최근 변경</li>
+<li>편집, 토론, 역사 링크</li>
+<li>외부 링크, 없는 문서, 파일이나 사용자 같은 다른 이름공간 문서</li>
+<li>새 탭으로 열기, 찾기(Ctrl+F), 나무위키 단축키 A, E, D</li>
+</ul>
+
+<p><b>이러면 집니다</b></p>
+<ul>
+<li>다른 탭이나 창으로 가면 경고가 뜨고, 한 번 더 가면 실격입니다.</li>
+<li>30초 넘게 게임 화면을 떠나 있으면 바로 집니다.</li>
+<li>개발자 도구를 열거나, 주소창에 직접 입력해서 다른 문서로 가면 집니다.</li>
+</ul>
+
+<p>제한 시간이 없는 판에서 5분 동안 아무 입력이 없으면 "아직 하고 계세요?" 창이 뜨고, 그때부터 시계가 멈춥니다.</p>
+
+<h2>설치</h2>
+
+<p><a href="https://chromewebstore.google.com/detail/namutagi/fiadjnefijhjdngbdcaoahcdhkbnckfi">크롬 웹스토어</a>에서 설치할 수 있습니다(심사를 마치면 열립니다).</p>
+
+<p>직접 설치하려면 다음 순서를 따라 주세요.</p>
+
+<p>1. <a href="../../releases">Releases</a>에서 최신 <code>namu-tagi-v*.zip</code>을 내려받아 압축을 풉니다.</p>
+<p>2. 크롬에서 <code>chrome://extensions</code>를 열고 오른쪽 위 <b>개발자 모드</b>를 켭니다.</p>
+<p>3. <b>압축해제된 확장 프로그램을 로드합니다</b>를 누르고 압축을 푼 폴더를 선택합니다.</p>
+
+<p>> [!TIP]</p>
+<p>> 설치하기 전에 열어 둔 나무위키 탭은 새로고침해야 나무타기가 동작합니다.</p>
+<p>> 주소창 오른쪽의 퍼즐 조각 아이콘에서 나무타기를 고정해 두면 언제든 바로 열 수 있습니다.</p>
+
+<h2>개발</h2>
+
+<p>빌드 과정 없이 <code>extension</code> 폴더를 그대로 불러오면 됩니다.</p>
+
+<pre>
+node scripts/build-words.mjs    # 무작위 단어 목록(extension/words.js) 다시 만들기, 나무위키를 1초 간격으로 조사
+node scripts/build-hubs.mjs     # 허브 문서 목록(extension/hubs.js) 다시 만들기
+node scripts/check-daily.mjs    # 오늘의 문제가 겹치지 않는지 확인
+python3 e2e/popup-harness/build.py &lt;빈 폴더&gt;    # 팝업을 localhost에서 열어 보는 시험 페이지 만들기
+node e2e/release-test.mjs       # 확장을 새 크롬 프로필에 올려 핵심 흐름 확인(Chrome for Testing 필요)
+node e2e/shots.mjs server/public/shots    # 사이트와 README에 쓰는 화면 사진 다시 찍기
+mkdir -p dist &amp;&amp; git archive --format=zip -o dist/namu-tagi-v$(node -p &quot;require(&#x27;./extension/manifest.json&#x27;).version&quot;).zip HEAD:extension    # 웹스토어에 올릴 zip 만들기(커밋된 extension 폴더만 담음)
+</pre>
+
+<h2>개인정보</h2>
+
+<p>자세한 내용은 <a href="https://namutagi.com/privacy">개인정보처리방침</a>을 확인해 주세요.</p>
+
+<ul>
+<li>기록, 닉네임, 규칙 설정은 브라우저 안(<code>chrome.storage.local</code>)에만 저장됩니다. 확장을 지우면 함께 지워집니다.</li>
+<li>공유하기로 도전장 링크를 만들 때만 닉네임, 문제, 경로, 기록, 익명 ID를 짧은 링크 서버(namutagi.com)로 보냅니다. 그 밖의 사용자 정보나 이용 기록은 수집하거나 보내지 않습니다.</li>
+<li>나무위키(namu.wiki) 페이지에서만 동작하고, 네트워크 요청은 나무위키와 짧은 링크 서버(namutagi.com, 설치할 때 열리는 환영 페이지 포함)로만 보냅니다.</li>
+<li>도전장 링크를 아는 사람은 그 안의 닉네임, 기록, 경로를 볼 수 있습니다. 링크는 직접 공유할 때만 다른 사람에게 전해집니다.</li>
+<li>권한은 <code>activeTab</code>(팝업을 연 탭이 나무위키인지 확인하고 문서 이름을 추천), <code>contextMenus</code>(나무위키 우클릭 메뉴), <code>storage</code>(기록 저장) 세 가지뿐입니다.</li>
+</ul>
+
+<h2>면책사항</h2>
+
+<ul>
+<li>이 소프트웨어는 "있는 그대로" 제공되며, 어떠한 보증도 하지 않습니다.</li>
+<li>나무위키가 업데이트되면 일부 기능이 예고 없이 동작하지 않을 수 있습니다.</li>
+<li>나무위키와 관련 명칭, 로고의 권리는 umanle S.R.L.에 있으며, 이 프로젝트는 그 회사와 관계가 없습니다.</li>
+</ul>
+
+<h2>라이선스</h2>
+
+<p><a href="LICENSE">MIT License</a></p>
+
+<p>함께 포함된 외부 라이브러리는 각자의 라이선스를 따릅니다. 전문은 <code>extension/vendor/</code>에 있습니다.</p>
+
+<p>| 라이브러리 | 용도 | 라이선스 |</p>
+<p>| --- | --- | --- |</p>
+<p>| <a href="https://github.com/catdad/canvas-confetti">canvas-confetti</a> 1.9.4 | 폭죽 효과 | ISC |</p>
+<p>| <a href="https://lucide.dev">Lucide</a> | 진행 막대 아이콘 | ISC (일부 Feather, MIT) |</p>
